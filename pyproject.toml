@@ -1,0 +1,11 @@
+[project]
+name = "idico-sales"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10.12"
+dependencies = [
+    "fastmcp>=2.12.5",
+    "jaydebeapi>=1.2.3",
+    "pandas>=2.3.3",
+]
