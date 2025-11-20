@@ -1,14 +1,15 @@
-FROM --platform=linux/amd64 python:3.12-slim
+FROM python:3.12-slim
 
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-       openjdk-17-jdk-headless \
+       default-jdk-headless \
        curl ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
-ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+# JAVA_HOME usando el "default-java" de Debian
+ENV JAVA_HOME=/usr/lib/jvm/default-java
 ENV PATH="${JAVA_HOME}/bin:${PATH}"
 
 # Instalar uv
@@ -17,16 +18,12 @@ ENV PATH="/root/.local/bin:${PATH}"
 
 WORKDIR /app
 
-# Copiar solo los archivos de dependencias primero
 COPY pyproject.toml uv.lock* ./
-
-# Resolver e instalar dependencias (crea .venv dentro del proyecto)
 RUN uv sync
 
-# Copiar el código de la app
 COPY . .
 
 EXPOSE 8000
 
-# Lanzar la app usando el entorno que maneja uv
 CMD ["uv", "run", "main.py"]
+

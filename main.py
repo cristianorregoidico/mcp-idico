@@ -1,5 +1,6 @@
+import os
 from typing import Dict, List, Optional, Any
-from mcp.server.fastmcp import FastMCP
+from fastmcp import FastMCP
 from utils.date import get_month_start_and_today
 from connections.netsuite import NetSuiteConnection
 from connections.netsuite_querys import get_quotes_by_inside, get_sales_orders_by_inside, get_bookings_by_period, get_items_quoted_by_customer, get_opportunities_by_inside, get_bookings_by_customer
@@ -8,7 +9,7 @@ from analitycs.data_transformations import tuple_to_dataframe, summarize_booking
 app = FastMCP("idico-sales")
 
 
-@app.tool()
+@app.tool
 def list_quotes(initial_date: Optional[str] = None, final_date: Optional[str] = None, inside_sales: Optional[str] = None) -> Dict[str, Any]:
     """Fetch summarized Inside Sales quotes for a given date range.
 
@@ -39,7 +40,7 @@ def list_quotes(initial_date: Optional[str] = None, final_date: Optional[str] = 
 
     return results
 
-@app.tool()
+@app.tool
 def list_sales_orders(initial_date: Optional[str] = None, final_date: Optional[str] = None, inside_sales: Optional[str] = None) -> Dict[str, Any]:
     """Return summarized Inside Sales bookings (sales orders) for the selected period.
 
@@ -70,7 +71,7 @@ def list_sales_orders(initial_date: Optional[str] = None, final_date: Optional[s
 
     return results
 
-@app.tool()
+@app.tool
 def bookings_by_period(initial_date: Optional[str] = None, final_date: Optional[str] = None) -> Dict[str, Any]:
     """Summarize bookings and gross margin by period, subsidiary, and entity for a date range.
 
@@ -98,7 +99,7 @@ def bookings_by_period(initial_date: Optional[str] = None, final_date: Optional[
 
     return summary
 
-@app.tool()
+@app.tool
 def bookings_by_customer_and_period(initial_date: Optional[str] = None, final_date: Optional[str] = None, customer_name: Optional[str] = None) -> Dict[str, Any]:
     """Summarize bookings per period for a specific customer within a date range.
 
@@ -129,7 +130,7 @@ def bookings_by_customer_and_period(initial_date: Optional[str] = None, final_da
 
     return summary
 
-@app.tool()
+@app.tool
 def items_quoted_by_customer_and_period(initial_date: Optional[str] = None, final_date: Optional[str] = None, customer_name: Optional[str] = "", inside_sales: Optional[str] = "") -> Dict[str, Any]:
     """Summarize items quoted to a specific customer for the selected date range.
 
@@ -165,6 +166,6 @@ def items_quoted_by_customer_and_period(initial_date: Optional[str] = None, fina
 if __name__ == "__main__":
     import asyncio
     try:
-        app.run(transport="sse")
+        app.run(transport="sse", host="0.0.0.0", port=8000)
     except asyncio.CancelledError:
         pass
