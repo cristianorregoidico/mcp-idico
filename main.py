@@ -174,6 +174,11 @@ def items_quoted_by_customer(initial_date: Optional[str] = None, final_date: Opt
 if __name__ == "__main__":
     import asyncio
     try:
-        app.run(transport="sse", host="0.0.0.0", port=8000)
+        app.run(
+            transport="streamable-http",
+            host="0.0.0.0",
+            port=8000,
+            path="/mcp",  # endpoint HTTP del servidor MCP
+        )
     except asyncio.CancelledError:
         pass
