@@ -5,13 +5,11 @@ from utils.date import get_month_start_and_today
 from connections.netsuite import NetSuiteConnection
 from connections.netsuite_querys import get_quotes_by_inside, get_sales_orders_by_inside, get_bookings_by_period, get_items_quoted_by_customer, get_opportunities_by_inside, get_bookings_by_customer
 from analitycs.data_transformations import tuple_to_dataframe, summarize_bookings_data, summarize_customer_bookings, summarize_is_bookings, summarize_is_quotes, summarize_items_quoted
-from utils.error_handling import safe_tool
 
 app = FastMCP("idico-sales")
 
 
 @app.tool
-@safe_tool
 def quotes_by_inside_sales(initial_date: Optional[str] = None, final_date: Optional[str] = None, inside_sales: Optional[str] = None) -> Dict[str, Any]:
     """Fetch summarized Inside Sales quotes for a given date range. 
     If no Inside Sales rep is specified, all quotes are included.
@@ -45,7 +43,6 @@ def quotes_by_inside_sales(initial_date: Optional[str] = None, final_date: Optio
     return results
 
 @app.tool
-@safe_tool
 def sales_by_inside_sales(initial_date: Optional[str] = None, final_date: Optional[str] = None, inside_sales: Optional[str] = None) -> Dict[str, Any]:
     """Return summarized Inside Sales bookings (sales orders) for the selected period.
     If no Inside Sales rep is specified, all orders are included.
@@ -79,7 +76,6 @@ def sales_by_inside_sales(initial_date: Optional[str] = None, final_date: Option
     return results
 
 @app.tool
-@safe_tool
 def bookings_by_period(initial_date: Optional[str] = None, final_date: Optional[str] = None) -> Dict[str, Any]:
     """Summarize bookings and gross margin by period, subsidiary, and entity for a date range.
 
@@ -108,7 +104,6 @@ def bookings_by_period(initial_date: Optional[str] = None, final_date: Optional[
     return summary
 
 @app.tool
-@safe_tool
 def customer_bookings_by_period(initial_date: Optional[str] = None, final_date: Optional[str] = None, customer_name: Optional[str] = None) -> Dict[str, Any]:
     """Summarize bookings per period for a specific customer within a date range.
 
@@ -140,7 +135,6 @@ def customer_bookings_by_period(initial_date: Optional[str] = None, final_date: 
     return summary
 
 @app.tool
-@safe_tool
 def items_quoted_by_customer(initial_date: Optional[str] = None, final_date: Optional[str] = None, customer_name: Optional[str] = "", inside_sales: Optional[str] = "") -> Dict[str, Any]:
     """Summarize items quoted to a specific customer for the selected date range.
 
