@@ -486,8 +486,8 @@ def summarize_items_quoted(df: pd.DataFrame) -> Dict[str, Any]:
                     }
                     for _, row in g.iterrows()
                 ]
-            },
-            include_groups=False)
+            }),
+            include_groups=False
         )
         .to_dict("records")
     )
