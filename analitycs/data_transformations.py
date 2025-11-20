@@ -506,6 +506,7 @@ def summarize_items_quoted(df: pd.DataFrame) -> Dict[str, Any]:
             vendors_list=("selected_vendor", lambda x: sorted({v for v in x if pd.notna(v)})),
         )
         .sort_values(["num_product_groups", "num_brands", "num_vendors"], ascending=False)
+        .head(10)
         .to_dict("records")
     )
 
