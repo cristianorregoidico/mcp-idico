@@ -95,7 +95,7 @@ def bookings_insights(initial_date: Optional[str] = None, final_date: Optional[s
     if customer_name:
         customer_name = customer_name.upper()
 
-    sql = get_bookings_data({start_q_date}, {final_q_date}, customer_name)
+    sql = get_bookings_data(start_q_date, final_q_date, customer_name)
     print("sql", sql)
     conn = NetSuiteConnection()
     with conn.managed() as ns:
