@@ -93,7 +93,7 @@ SELECT
 FROM transaction t
 INNER JOIN CustomerSubsidiaryRelationship csr ON csr.entity = t.entity AND csr.isprimarysub = 'T'
 INNER JOIN transactionStatus ts ON ts.id = t.status AND ts.trantype = 'SalesOrd'
-WHERE TO_CHAR(t.trandate, 'YYYY-MM-DD') BETWEEN {initial_date} AND {final_date}
+WHERE TO_CHAR(t.trandate, 'YYYY-MM-DD') BETWEEN '{initial_date}' AND '{final_date}'
   AND csr.subsidiary IN (5, 4, 3)
   AND t.type IN ('SalesOrd')
   AND ts.id NOT IN ('C', 'H', 'A', 'Y')
@@ -107,25 +107,28 @@ GROUP BY
 ORDER BY
      TO_CHAR(t.trandate, 'YYYY-MM') ASC;
     """
-def get_bookings_by_customer(initial_date: str, final_date: str, customer_name: str) -> str:
+def get_bookings_data(initial_date: str, final_date: str, customer_name: str) -> str:
     return f"""
     SELECT
-	t.tranid,
+	t.tranid AS so_number,
 	ts.name AS status,
 	TO_CHAR(t.trandate, 'YYYY-MM-DD') AS date,
     TO_CHAR(t.trandate, 'YYYY-MM') AS period,
     BUILTIN.DF(csr.subsidiary) AS subsidiary,
     BUILTIN.DF(t.currency) AS currency,
-    BUILTIN.DF(t.entity) AS entity,
-    t.entity AS entity_id,
+    BUILTIN.DF(t.entity) AS customer,
+     BUILTIN.DF(ea.country) AS customer_country,
     BUILTIN.DF(t.employee) AS sales_rep,
     t.foreigntotal * t.exchangerate AS gross_usd,
     (t.foreigntotal - NVL(t.taxtotal, 0)) * t.exchangerate AS net_usd,
+    BUILTIN.DF(t.terms) AS terms,
     t.custbody_items_gross_profit_amount_usd AS gross_margin,
     t.custbody_items_g_profit_pc_vrq_cost AS gross_margin_pct
 FROM transaction t
 INNER JOIN CustomerSubsidiaryRelationship csr ON csr.entity = t.entity AND csr.isprimarysub = 'T'
 INNER JOIN transactionStatus ts ON ts.id = t.status AND ts.trantype = 'SalesOrd'
+LEFT JOIN entityAddressBook eab ON eab.entity = t.entity AND eab.defaultbilling = 'T'
+LEFT JOIN EntityAddress ea ON ea.nkey = eab.addressbookaddress
 WHERE TO_CHAR(t.trandate, 'YYYY-MM-DD') BETWEEN '{initial_date}' AND '{final_date}'
   AND csr.subsidiary IN (5, 4, 3)
   AND t.type  IN ('SalesOrd')
@@ -133,7 +136,11 @@ WHERE TO_CHAR(t.trandate, 'YYYY-MM-DD') BETWEEN '{initial_date}' AND '{final_dat
   AND t.entity NOT IN (37839, 3085, 213418,2414)
   AND t.employee <> 104334
   AND t.custbody7 = 'F'
-  AND BUILTIN.DF(t.entity) LIKE '%' || '{customer_name}' || '%'
+  AND (
+        '{customer_name}' IS NULL
+        OR '{customer_name}' = ''
+        OR BUILTIN.DF(t.entity) LIKE '%' || '{customer_name}' || '%'
+    )
 ORDER BY
      TO_CHAR(t.trandate, 'YYYY-MM') ASC;
     """

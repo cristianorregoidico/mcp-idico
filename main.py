@@ -3,8 +3,9 @@ from typing import Dict, List, Optional, Any
 from fastmcp import FastMCP
 from utils.date import get_month_start_and_today
 from connections.netsuite import NetSuiteConnection
-from connections.netsuite_querys import get_quotes_by_inside, get_sales_orders_by_inside, get_bookings_by_period, get_items_quoted_by_customer, get_opportunities_by_inside, get_bookings_by_customer
+from connections.netsuite_querys import get_quotes_by_inside, get_sales_orders_by_inside, get_bookings_by_period, get_items_quoted_by_customer, get_opportunities_by_inside, get_bookings_data
 from analitycs.data_transformations import tuple_to_dataframe, summarize_bookings_data, summarize_customer_bookings, summarize_is_bookings, summarize_is_quotes, summarize_items_quoted
+from analitycs.sales import finance_summary
 
 app = FastMCP("idico-sales")
 
@@ -76,12 +77,13 @@ def sales_by_inside_sales(initial_date: Optional[str] = None, final_date: Option
     return results
 
 @app.tool
-def bookings_by_period(initial_date: Optional[str] = None, final_date: Optional[str] = None) -> Dict[str, Any]:
+def bookings_insights(initial_date: Optional[str] = None, final_date: Optional[str] = None, customer_name: Optional[str] = "") -> Dict[str, Any]:
     """Summarize bookings and gross margin by period, subsidiary, and entity for a date range.
 
     Args:
         initial_date: ISO-8601 string indicating the start date; defaults to the first day of the current month.
         final_date: ISO-8601 string indicating the end date; defaults to today's date.
+        customer_name: Optional Customer name to filter by (case-insensitive).
 
     Returns:
         Dict[str, Any]: General totals, KPI by period and subsidiary, top customers by gross amount, and margin bucket summary by customer. (Also note that the underlying query filters to specific subsidiaries and excludes certain entities/employees.)
@@ -90,47 +92,17 @@ def bookings_by_period(initial_date: Optional[str] = None, final_date: Optional[
     start_of_month, today_date = get_month_start_and_today()
     start_q_date = initial_date or start_of_month
     final_q_date = final_date or today_date
+    if customer_name:
+        customer_name = customer_name.upper()
 
-
-    sql = get_bookings_by_period(f"'{start_q_date}'", f"'{final_q_date}'")
+    sql = get_bookings_data({start_q_date}, {final_q_date}, customer_name)
     print("sql", sql)
     conn = NetSuiteConnection()
     with conn.managed() as ns:
         columns, rows = ns.execute_query(sql)
 
     df = tuple_to_dataframe(columns, rows)
-    summary = summarize_bookings_data(df)
-
-    return summary
-
-@app.tool
-def customer_bookings_by_period(initial_date: Optional[str] = None, final_date: Optional[str] = None, customer_name: Optional[str] = None) -> Dict[str, Any]:
-    """Summarize bookings per period for a specific customer within a date range.
-
-    Args:
-        initial_date: ISO-8601 string indicating the start date; defaults to the first day of the current month.
-        final_date: ISO-8601 string indicating the end date; defaults to today's date.
-        customer_name: Customer name to filter by (required, case-insensitive).
-
-    Returns:
-        Dict[str, Any]: General totals (gross/net/margin, weighted GM%), timeline by period, status breakdown with order lists, and outliers (top orders and negative-margin orders).
-    """
-
-     # Resolve default dates
-    start_of_month, today_date = get_month_start_and_today()
-    start_q_date = initial_date or start_of_month
-    final_q_date = final_date or today_date
-    if not customer_name:
-        return {"error": "customer_name is required"}
-    sql = get_bookings_by_customer(f"{start_q_date}", f"{final_q_date}", customer_name.upper())
-    print("sql", sql)
-
-    conn = NetSuiteConnection()
-    with conn.managed() as ns:
-        columns, rows = ns.execute_query(sql)
-    
-    df = tuple_to_dataframe(columns, rows)
-    summary = summarize_customer_bookings(df)
+    summary = finance_summary(df)
 
     return summary
 
