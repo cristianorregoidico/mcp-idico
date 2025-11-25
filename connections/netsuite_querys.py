@@ -184,19 +184,26 @@ WHERE
     )
 	AND TO_CHAR(t.trandate, 'YYYY-MM-DD') BETWEEN '{initial_date}' AND '{final_date}';
     """
-def get_opportunities_by_inside(initial_date: str, final_date: str, sales_rep: str) -> str:
+def get_opportunities_by_inside(initial_date: str, final_date: str, inside_sales: str) -> str:
     return f"""
 SELECT 
-op.id,
-op.tranid AS op_number,
-TO_CHAR(op.trandate, 'YYYY-MM-DD') AS tran_date,
-BUILTIN.DF(op.entity) AS customer,
-BUILTIN.DF(csr.subsidiary) AS subsidiary,
-BUILTIN.DF(op.status) AS status,
-BUILTIN.DF(op.employee) AS inside_sales
+	op.id,
+	op.tranid AS op_number,
+	TO_CHAR(op.trandate, 'YYYY-MM-DD') AS tran_date,
+	TO_CHAR(op.expectedclosedate, 'YYYY-MM-DD') AS expected_close_date,
+	BUILTIN.DF(op.entity) AS customer,
+	BUILTIN.DF(csr.subsidiary) AS subsidiary,
+	ts.name AS status,
+	e.firstname || ' ' || e.lastname AS inside_sales
 FROM TRANSACTION op
 INNER JOIN CustomerSubsidiaryRelationship csr ON csr.entity = op.entity AND csr.isprimarysub = 'T'
+INNER JOIN employee e ON e.id = op.employee
+INNER JOIN transactionStatus ts ON ts.id = op.status AND ts.trantype = 'Opprtnty'
 WHERE op.TYPE = 'Opprtnty'
-AND BUILTIN.DF(op.employee) LIKE '%{sales_rep}%'
+AND (
+    '{inside_sales}' IS NULL
+    OR '{inside_sales}' = ''
+    OR (e.firstname || ' ' || e.lastname) LIKE '%' || '{inside_sales}' || '%'
+)
 AND TO_CHAR(op.trandate, 'YYYY-MM-DD') BETWEEN '{initial_date}' AND '{final_date}';
     """

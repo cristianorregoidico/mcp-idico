@@ -3,24 +3,24 @@ from typing import Dict, List, Optional, Any
 from connections.netsuite import NetSuiteConnection
 from connections.netsuite_querys import get_quotes_by_inside, get_sales_orders_by_inside, get_bookings_by_period, get_items_quoted_by_customer, get_opportunities_by_inside,get_bookings_data
 from analitycs.data_transformations import tuple_to_dataframe, summarize_bookings_data, summarize_is_bookings, summarize_is_quotes, summarize_items_quoted
-from analitycs.sales import finance_summary
+from analitycs.sales import finance_summary, opportunity_summary
 from utils.json_df import save_result_to_json, load_dataset_from_json
-sql = get_bookings_data("2025-11-24", "2025-11-24", "")
+sql = get_opportunities_by_inside("2025-11-17", "2025-11-21", "")
 print("sql",sql)
 conn = NetSuiteConnection()
 with conn.managed() as ns:
     columns, rows = ns.execute_query(sql)
-print("columns",columns)
-print("rows",rows)
-# df = tuple_to_dataframe(columns, rows)
-# summary = finance_summary(df)
-# print("summary",summary)
+# print("columns",columns)
+# print("rows",rows)
+df = tuple_to_dataframe(columns, rows)
+summary = opportunity_summary(df)
+print("summary",summary)
 # Map rows (tuples) to dicts using column names
-dataset_reference = save_result_to_json(columns, rows, "Full Bookings Dataset", name="bookings_data")
+# dataset_reference = save_result_to_json(columns, rows, "Full Bookings Dataset", name="bookings_data")
 #print("dataset_reference",dataset_reference)
 
-df_from_json, description = load_dataset_from_json(dataset_reference)
-print("df_from_json",df_from_json)
+# df_from_json, description = load_dataset_from_json(dataset_reference)
+# print("df_from_json",df_from_json)
 results: List[Dict[str, Any]] = []
 for row in rows:
     if columns:
