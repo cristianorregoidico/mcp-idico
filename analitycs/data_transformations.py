@@ -260,7 +260,8 @@ def summarize_is_bookings(df: pd.DataFrame) -> Dict[str, Any]:
         "general_summary": general_summary,
         "kpi_by_inside": kpi_by_inside,
         "status_by_inside": status_distribution_by_is,
-        "top_customers": top5_insides_by_customer
+        "top_customers": top5_insides_by_customer,
+        "full_data_reference": None  # Placeholder for full data reference
     }
 
 def summarize_is_quotes(df: pd.DataFrame) -> Dict[str, Any]:
@@ -362,7 +363,8 @@ def summarize_is_quotes(df: pd.DataFrame) -> Dict[str, Any]:
         "general_summary": general_summary,
         "kpi_by_inside": kpi_by_inside,
         "status_summary_by_inside": status_summary_by_inside,
-        "incoterms_by_inside": incoterms_payload
+        "incoterms_by_inside": incoterms_payload,
+        "full_data_reference": None
     }
 
 def general_summary_is_q_so(df: pd.DataFrame) -> Dict[str, Any]:
@@ -529,5 +531,6 @@ def summarize_items_quoted(df: pd.DataFrame) -> Dict[str, Any]:
         "brand_summary": brand_summary,
         "inside_sales_summary": inside_sales_summary,
         "customer_brand": customer_brand,
-        "top_items_summary": top_items_summary
+        "top_items_summary": top_items_summary,
+        "full_data_reference": None
     }

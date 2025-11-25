@@ -6,6 +6,7 @@ from connections.netsuite import NetSuiteConnection
 from connections.netsuite_querys import get_quotes_by_inside, get_sales_orders_by_inside, get_bookings_by_period, get_items_quoted_by_customer, get_opportunities_by_inside, get_bookings_data
 from analitycs.data_transformations import tuple_to_dataframe, summarize_bookings_data, summarize_customer_bookings, summarize_is_bookings, summarize_is_quotes, summarize_items_quoted
 from analitycs.sales import finance_summary
+from utils.json_df import load_dataset_from_json, save_result_to_json
 
 app = FastMCP("idico-sales")
 
@@ -38,8 +39,11 @@ def quotes_by_inside_sales(initial_date: Optional[str] = None, final_date: Optio
     with conn.managed() as ns:
         columns, rows = ns.execute_query(sql)
 
+    dataset_reference = save_result_to_json(columns, rows, f"Quotes by Inside Sales dataset between {initial_date} and {final_date}", name="quotes_by_is")
+
     df = tuple_to_dataframe(columns, rows)
     results = summarize_is_quotes(df)
+    results["full_data_reference"] = dataset_reference
 
     return results
 
@@ -71,8 +75,11 @@ def sales_by_inside_sales(initial_date: Optional[str] = None, final_date: Option
     with conn.managed() as ns:
         columns, rows = ns.execute_query(sql)
 
+    dataset_reference = save_result_to_json(columns, rows, f"Sales Orders by Inside Sales dataset between {initial_date} and {final_date}", name="sales_by_is")
+
     df = tuple_to_dataframe(columns, rows)
     results = summarize_is_bookings(df)
+    results["full_data_reference"] = dataset_reference
 
     return results
 
@@ -100,9 +107,12 @@ def bookings_insights(initial_date: Optional[str] = None, final_date: Optional[s
     conn = NetSuiteConnection()
     with conn.managed() as ns:
         columns, rows = ns.execute_query(sql)
+    
+    dataset_reference = save_result_to_json(columns, rows, f"Bookings dataset between {initial_date} and {final_date}", name="bookings_data")
 
     df = tuple_to_dataframe(columns, rows)
     summary = finance_summary(df)
+    summary["full_data_reference"] = dataset_reference
 
     return summary
 
@@ -135,12 +145,26 @@ def items_quoted_by_customer(initial_date: Optional[str] = None, final_date: Opt
     with conn.managed() as ns:
         columns, rows = ns.execute_query(sql)
 
+    dataset_reference = save_result_to_json(columns, rows, f"List of quoted items dataset between {initial_date} and {final_date}", name="quoted_items")
     df = tuple_to_dataframe(columns, rows)
     results = summarize_items_quoted(df)
-    print("Returning results")
+    results["full_data_reference"] = dataset_reference
 
     return results
 
+@app.tool
+def get_dataset(data_set_reference: str) -> Dict[str, Any]:
+    """Retrieve a dataset previously saved as JSON.
+
+    Args:
+        data_set_reference: The filename or identifier of the saved dataset.
+    Returns:
+        Dict[str, Any]: The dataset loaded from JSON.
+    """
+    
+
+    dataset = load_dataset_from_json(data_set_reference)
+    return dataset
 
 
 if __name__ == "__main__":
