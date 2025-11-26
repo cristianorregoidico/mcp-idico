@@ -204,7 +204,7 @@ def opportunity_insights(initial_date: Optional[str] = None, final_date: Optiona
 
 @app.tool
 def inside_sales_performance(initial_date: Optional[str] = None, final_date: Optional[str] = None) -> Dict[str, Any]:
-    """Analyze Inside Sales performance for the selected period (Response time, hitrate, scorecard).
+    """Analyze Inside Sales performance for the selected period (Response time, hitrate).
     If no dates are provided, defaults to today's date.
 
     Args:
