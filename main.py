@@ -3,9 +3,9 @@ from typing import Dict, List, Optional, Any
 from fastmcp import FastMCP
 from utils.date import get_month_start_and_today
 from connections.netsuite import NetSuiteConnection
-from connections.netsuite_querys import get_quotes_by_inside, get_sales_orders_by_inside, get_bookings_by_period, get_items_quoted_by_customer, get_opportunities_by_inside, get_bookings_data
+from connections.netsuite_querys import get_quotes_by_inside, get_sales_orders_by_inside, get_bookings_by_period, get_items_quoted_by_customer, get_opportunities_data, get_bookings_data, get_op_so_data
 from analitycs.data_transformations import tuple_to_dataframe, summarize_bookings_data, summarize_customer_bookings, summarize_is_bookings, summarize_is_quotes, summarize_items_quoted
-from analitycs.sales import finance_summary
+from analitycs.sales import finance_summary, opportunity_summary, analyze_inside_sales
 from utils.json_df import load_dataset_from_json, save_result_to_json
 
 app = FastMCP("idico-sales")
@@ -166,6 +166,74 @@ def get_dataset(data_set_reference: str) -> Dict[str, Any]:
     dataset = load_dataset_from_json(data_set_reference)
     return dataset
 
+@app.tool
+def opportunity_insights(initial_date: Optional[str] = None, final_date: Optional[str] = None, inside_sales: Optional[str] = "") -> Dict[str, Any]:
+    """Return summarized KPIs for opportunities for the selected period.
+    If no Inside Sales rep is specified, all opportunities are included.
+    If no dates are provided, defaults to today's date.
+
+    Args:
+        initial_date: ISO-8601 string indicating the start date; defaults to today's date.
+        final_date: ISO-8601 string indicating the end date; defaults to today's date.
+        inside_sales: Name or identifier of the Inside Sales rep to filter by (case-insensitive).
+
+    Returns:
+        Dict[str, Any]: KPIs per Inside Sales (total amount, order count, avg ticket), status breakdown with sales order lists, top customers per Inside Sales, and general totals plus period and timeline summaries.
+    """
+    
+    # Resolve default dates
+    start_of_month, today_date = get_month_start_and_today()
+    start_q_date = initial_date or today_date
+    final_q_date = final_date or today_date
+
+    inside_sales = "" if not inside_sales else inside_sales.upper()
+    
+    sql = get_opportunities_data(start_q_date, final_q_date, inside_sales)
+    print("sql", sql)
+    conn = NetSuiteConnection()
+    with conn.managed() as ns:
+        columns, rows = ns.execute_query(sql)
+    
+    dataset_reference = save_result_to_json(columns, rows, f"Opportunities by Inside Sales dataset between {initial_date} and {final_date}", name="opportunity_by_is")
+
+    df = tuple_to_dataframe(columns, rows)
+    results = opportunity_summary(df)
+    results["full_data_reference"] = dataset_reference
+
+    return results
+
+@app.tool
+def inside_sales_performance(initial_date: Optional[str] = None, final_date: Optional[str] = None) -> Dict[str, Any]:
+    """Analyze Inside Sales performance for the selected period (Response time, hitrate, scorecard).
+    If no dates are provided, defaults to today's date.
+
+    Args:
+        initial_date: ISO-8601 string indicating the start date; defaults to today's date.
+        final_date: ISO-8601 string indicating the end date; defaults to today's date.
+
+    Returns:
+        Dict[str, Any]: Inside Sales performance (Response time, hitrate, scorecard).
+    """
+    
+    # Resolve default dates
+    start_of_month, today_date = get_month_start_and_today()
+    start_q_date = initial_date or today_date
+    final_q_date = final_date or today_date
+
+    
+    sql = get_op_so_data(start_q_date, final_q_date)
+    print("sql", sql)
+    conn = NetSuiteConnection()
+    with conn.managed() as ns:
+        columns, rows = ns.execute_query(sql)
+    
+    dataset_reference = save_result_to_json(columns, rows, f"Inside Sales Performance dataset between {initial_date} and {final_date}", name="op_to_so")
+
+    df = tuple_to_dataframe(columns, rows)
+    results = analyze_inside_sales(df)
+    results["full_data_reference"] = dataset_reference
+
+    return results
 
 if __name__ == "__main__":
     import asyncio
