@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import json
+from typing import Dict, Any
 
 def finance_summary(df: pd.DataFrame) -> dict:
     """
@@ -681,3 +682,273 @@ def analyze_inside_sales(df: pd.DataFrame) -> dict:
 
     return result
 
+def summarize_sold_items(df: pd.DataFrame) -> Dict[str, Any]:
+    """
+    Espera un DataFrame con al menos las columnas:
+    ['customer', 'quote', 'status', 'date', 'inside_sales',
+     'item', 'item_description', 'brand', 'product_group',
+     'selected_vendor', 'qty', 'unit_price', 'unit_cost',
+     'gross_margin_pct']
+
+    Retorna un dict con el shape:
+
+    {
+      "general_summary": {},
+      "top_items": {
+        "by_volume": [],
+        "by_amount": [],
+        "by_margin_amount": [],
+        "by_margin_pct": []
+      },
+      "problematic_items": [],
+      "vendor_summary": [],
+      "distribution": {
+        "by_brand": [],
+        "by_product_group": []
+      }
+    }
+    """
+
+    df = df.copy()
+
+    # ---------------------------
+    # 0) Tipos y columnas base
+    # ---------------------------
+    if "date" in df.columns:
+        df["date"] = pd.to_datetime(df["date"], errors="coerce")
+
+    # Ventas de línea
+    df["line_sales"] = df["qty"] * df["unit_price"]
+
+    # Costo de línea: prioridad unit_cost, luego gross_margin_pct
+    has_unit_cost = df["unit_cost"].notna() if "unit_cost" in df.columns else False
+
+    df["line_cost_from_unit"] = np.where(
+        has_unit_cost,
+        df["qty"] * df["unit_cost"],
+        np.nan
+    )
+
+    df["line_cost_from_margin_pct"] = np.where(
+        (~has_unit_cost) & df["gross_margin_pct"].notna(),
+        df["line_sales"] * (1 - df["gross_margin_pct"]),
+        np.nan
+    )
+
+    df["line_cost"] = df["line_cost_from_unit"].fillna(df["line_cost_from_margin_pct"])
+    df["line_gm"] = df["line_sales"] - df["line_cost"]
+    df["line_gm"] = df["line_gm"].fillna(0.0)
+    df["line_sales"] = df["line_sales"].fillna(0.0)
+
+    # ---------------------------
+    # 1) GENERAL SUMMARY
+    # ---------------------------
+    total_qty = float(df["qty"].sum())
+    total_sales = float(df["line_sales"].sum())
+    total_gm = float(df["line_gm"].sum())
+
+    if total_sales > 0:
+        avg_gm_pct = total_gm / total_sales
+    else:
+        avg_gm_pct = 0.0
+
+    unique_customers = int(df["customer"].nunique())
+    num_orders = int(df["quote"].nunique())
+
+    general_summary = {
+        "total_quantity": round(total_qty, 4),
+        "total_sales": round(total_sales, 4),
+        "total_gross_margin": round(total_gm, 4),
+        "average_gross_margin_pct": round(avg_gm_pct, 6),
+        "unique_customers": unique_customers,
+        "number_of_orders": num_orders
+    }
+
+    # ---------------------------
+    # 2) RESUMEN POR ITEM
+    # ---------------------------
+    item_group_cols = ["item", "item_description", "brand", "product_group"]
+    item_group = df.groupby(item_group_cols, dropna=False).agg(
+        total_qty=("qty", "sum"),
+        total_sales=("line_sales", "sum"),
+        total_gm=("line_gm", "sum"),
+        avg_gm_pct_raw=("gross_margin_pct", "mean"),
+        num_customers=("customer", "nunique"),
+        num_orders=("quote", "nunique")
+    ).reset_index()
+
+    # Margen % ponderado por ventas
+    item_group["avg_gm_pct_weighted"] = np.where(
+        item_group["total_sales"] > 0,
+        item_group["total_gm"] / item_group["total_sales"],
+        np.nan
+    )
+
+    # Usamos primero weighted, si no, el promedio simple
+    item_group["avg_gm_pct"] = (
+        item_group["avg_gm_pct_weighted"]
+        .fillna(item_group["avg_gm_pct_raw"])
+        .fillna(0.0)
+    )
+
+    # Helper para convertir a lista de dicts con redondeos
+    def df_to_records_rounded(df_local, round_map=None, top: int = None):
+        if top is not None:
+            df_local = df_local.head(top)
+        records = df_local.to_dict(orient="records")
+        if round_map:
+            for r in records:
+                for col, nd in round_map.items():
+                    if col in r and isinstance(r[col], (int, float, np.floating)):
+                        r[col] = round(float(r[col]), nd)
+        return records
+
+    round_item_map = {
+        "total_qty": 4,
+        "total_sales": 4,
+        "total_gm": 4,
+        "avg_gm_pct": 6
+    }
+
+    TOP_ITEMS_N = 5
+    TOP_VENDORS_N = 10
+    TOP_BRAND_N = 5
+    TOP_PG_N = 5
+
+    # ---------------------------
+    # 3) TOP ITEMS (top 5 siempre)
+    # ---------------------------
+    # por volumen
+    top_items_by_volume = item_group.sort_values(
+        "total_qty", ascending=False
+    )
+    top_items_by_volume = df_to_records_rounded(
+        top_items_by_volume, round_item_map, top=TOP_ITEMS_N
+    )
+
+    # por importe
+    top_items_by_amount = item_group.sort_values(
+        "total_sales", ascending=False
+    )
+    top_items_by_amount = df_to_records_rounded(
+        top_items_by_amount, round_item_map, top=TOP_ITEMS_N
+    )
+
+    # por margen en $
+    top_items_by_margin_amount = item_group.sort_values(
+        "total_gm", ascending=False
+    )
+    top_items_by_margin_amount = df_to_records_rounded(
+        top_items_by_margin_amount, round_item_map, top=TOP_ITEMS_N
+    )
+
+    # por margen %
+    filtered_for_pct = item_group[item_group["total_sales"] > 0].copy()
+    top_items_by_margin_pct = filtered_for_pct.sort_values(
+        "avg_gm_pct", ascending=False
+    )
+    top_items_by_margin_pct = df_to_records_rounded(
+        top_items_by_margin_pct, round_item_map, top=TOP_ITEMS_N
+    )
+
+    top_items = {
+        "by_volume": top_items_by_volume,
+        "by_amount": top_items_by_amount,
+        "by_margin_amount": top_items_by_margin_amount,
+        "by_margin_pct": top_items_by_margin_pct
+    }
+
+    # ---------------------------
+    # 4) PROBLEMATIC ITEMS (< 15% GM%, ordenado ascendente)
+    # ---------------------------
+    problematic_items_df = item_group[
+        (item_group["avg_gm_pct"] < 0.15) & (item_group["total_sales"] > 0)
+    ].sort_values("avg_gm_pct", ascending=True)
+
+    problematic_items = df_to_records_rounded(
+        problematic_items_df, round_item_map
+    )
+
+    # ---------------------------
+    # 5) VENDOR SUMMARY (Top 10 por total_gm desc)
+    # ---------------------------
+    vendor_summary = []
+    if "selected_vendor" in df.columns:
+        vendor_group = df.groupby("selected_vendor", dropna=False).agg(
+            total_items=("item", "nunique"),
+            total_lines=("item", "size"),
+            total_sales=("line_sales", "sum"),
+            total_gm=("line_gm", "sum"),
+            avg_gm_pct=("gross_margin_pct", "mean")
+        ).reset_index()
+
+        vendor_group = vendor_group.sort_values("total_gm", ascending=False)
+
+        vendor_round_map = {
+            "total_sales": 4,
+            "total_gm": 4,
+            "avg_gm_pct": 6
+        }
+
+        vendor_summary = df_to_records_rounded(
+            vendor_group, vendor_round_map, top=TOP_VENDORS_N
+        )
+
+    # ---------------------------
+    # 6) DISTRIBUTION (brand / product_group)
+    #    Top 5 por avg_gm_pct desc en cada caso
+    # ---------------------------
+    brand_distribution = []
+    product_group_distribution = []
+
+    dist_round_map = {
+        "total_sales": 4,
+        "total_gm": 4,
+        "avg_gm_pct": 6
+    }
+
+    if "brand" in df.columns:
+        brand_group = df.groupby("brand", dropna=False).agg(
+            total_items=("item", "nunique"),
+            total_lines=("item", "size"),
+            total_sales=("line_sales", "sum"),
+            total_gm=("line_gm", "sum"),
+            avg_gm_pct=("gross_margin_pct", "mean")
+        ).reset_index()
+
+        brand_group = brand_group.sort_values("avg_gm_pct", ascending=False)
+
+        brand_distribution = df_to_records_rounded(
+            brand_group, dist_round_map, top=TOP_BRAND_N
+        )
+
+    if "product_group" in df.columns:
+        pg_group = df.groupby("product_group", dropna=False).agg(
+            total_items=("item", "nunique"),
+            total_lines=("item", "size"),
+            total_sales=("line_sales", "sum"),
+            total_gm=("line_gm", "sum"),
+            avg_gm_pct=("gross_margin_pct", "mean")
+        ).reset_index()
+
+        pg_group = pg_group.sort_values("avg_gm_pct", ascending=False)
+
+        product_group_distribution = df_to_records_rounded(
+            pg_group, dist_round_map, top=TOP_PG_N
+        )
+
+    # ---------------------------
+    # 7) OUTPUT FINAL
+    # ---------------------------
+    output = {
+        "general_summary": general_summary,
+        "top_items": top_items,
+        "problematic_items": problematic_items,
+        "vendor_summary": vendor_summary,
+        "distribution": {
+            "by_brand": brand_distribution,
+            "by_product_group": product_group_distribution
+        }
+    }
+
+    return output

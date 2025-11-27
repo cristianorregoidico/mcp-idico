@@ -3,9 +3,9 @@ from typing import Dict, List, Optional, Any
 from fastmcp import FastMCP
 from utils.date import get_month_start_and_today
 from connections.netsuite import NetSuiteConnection
-from connections.netsuite_querys import get_quotes_by_inside, get_sales_orders_by_inside, get_bookings_by_period, get_items_quoted_by_customer, get_opportunities_data, get_bookings_data, get_op_so_data
+from connections.netsuite_querys import get_quotes_by_inside, get_sales_orders_by_inside, get_bookings_by_period, get_items_quoted_by_customer, get_opportunities_data, get_bookings_data, get_op_so_data, get_sold_items_by_period
 from analitycs.data_transformations import tuple_to_dataframe, summarize_bookings_data, summarize_customer_bookings, summarize_is_bookings, summarize_is_quotes, summarize_items_quoted
-from analitycs.sales import finance_summary, opportunity_summary, analyze_inside_sales
+from analitycs.sales import finance_summary, opportunity_summary, analyze_inside_sales, summarize_sold_items
 from utils.json_df import load_dataset_from_json, save_result_to_json
 
 app = FastMCP("idico-sales")
@@ -151,6 +151,41 @@ def items_quoted_by_customer(initial_date: Optional[str] = None, final_date: Opt
     results["full_data_reference"] = dataset_reference
 
     return results
+
+@app.tool
+def sold_items_insights(initial_date: Optional[str] = None, final_date: Optional[str] = None, customer_name: Optional[str] = "", inside_sales: Optional[str] = "") -> Dict[str, Any]:
+    """Summarize sold items (sales order lines) for a date range with margin/vendor insights.
+
+    Args:
+        initial_date: ISO-8601 start date; defaults to first day of current month.
+        final_date: ISO-8601 end date; defaults to today.
+        customer_name: Optional customer filter (case-insensitive).
+        inside_sales: Optional Inside Sales filter (case-insensitive).
+
+    Returns:
+        Dict[str, Any]: General KPIs, top items by volume/amount/margin, problematic items (<20% GM%), vendor + brand breakdown, and brand/product group distribution.
+    """
+    start_of_month, today_date = get_month_start_and_today()
+    start_q_date = initial_date or start_of_month
+    final_q_date = final_date or today_date
+
+    if customer_name:
+        customer_name = customer_name.upper()
+    if inside_sales:
+        inside_sales = inside_sales.upper()
+
+    sql = get_sold_items_by_period(start_q_date, final_q_date, customer_name, inside_sales)
+    print("sql", sql)
+    conn = NetSuiteConnection()
+    with conn.managed() as ns:
+        columns, rows = ns.execute_query(sql)
+
+    dataset_reference = save_result_to_json(columns, rows, f"Sold items dataset between {initial_date} and {final_date}", name="sold_items_by_period")
+    df = tuple_to_dataframe(columns, rows)
+    summary = summarize_sold_items(df)
+    summary["full_data_reference"] = dataset_reference
+
+    return summary
 
 @app.tool
 def get_dataset(data_set_reference: str) -> Dict[str, Any]:

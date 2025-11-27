@@ -1,11 +1,11 @@
 import pandas as pd
 from typing import Dict, List, Optional, Any
 from connections.netsuite import NetSuiteConnection
-from connections.netsuite_querys import get_quotes_by_inside, get_sales_orders_by_inside, get_bookings_by_period, get_items_quoted_by_customer,get_bookings_data, get_op_so_data
+from connections.netsuite_querys import get_quotes_by_inside, get_sales_orders_by_inside, get_bookings_by_period, get_items_quoted_by_customer,get_bookings_data, get_op_so_data, get_sold_items_by_period
 from analitycs.data_transformations import tuple_to_dataframe, summarize_bookings_data, summarize_is_bookings, summarize_is_quotes, summarize_items_quoted
-from analitycs.sales import finance_summary, opportunity_summary, analyze_inside_sales
+from analitycs.sales import finance_summary, opportunity_summary, analyze_inside_sales, summarize_sold_items
 from utils.json_df import save_result_to_json, load_dataset_from_json
-sql = get_op_so_data("2025-11-01", "2025-11-26")
+sql = get_sold_items_by_period("2025-11-01", "2025-11-26", "", "RHONAL VELASCO")
 print("sql",sql)
 conn = NetSuiteConnection()
 with conn.managed() as ns:
@@ -13,10 +13,10 @@ with conn.managed() as ns:
 # print("columns",columns)
 # print("rows",rows)
 df = tuple_to_dataframe(columns, rows)
-summary = analyze_inside_sales(df)
+summary = summarize_sold_items(df)
 print("summary",summary)
 # Map rows (tuples) to dicts using column names
-dataset_reference = save_result_to_json(columns, rows, "Full Bookings Dataset", name="bookings_data")
+# dataset_reference = save_result_to_json(columns, rows, "Full Bookings Dataset", name="bookings_data")
 #print("dataset_reference",dataset_reference)
 
 # df_from_json, description = load_dataset_from_json(dataset_reference)
