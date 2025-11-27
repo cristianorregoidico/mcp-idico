@@ -13,7 +13,9 @@ SELECT
         WHEN b.custbody_evol_incoterms IS NOT NULL THEN BUILTIN.DF(b.custbody_evol_incoterms)
         ELSE BUILTIN.DF(b.custbody_inc) || ' ' || BUILTIN.DF(b.custbody_city)
     END AS IncoTerms,
-    SUM(a.creditforeignamount*b.EXCHANGERATE) AS Amount
+    SUM(a.creditforeignamount*b.EXCHANGERATE) AS Amount,
+    b.custbodygross_profit_amt_fr_vc AS GrossMargin,
+    b.custbody_gross_profit_percent_final_vc AS GrossMarginPct
 FROM transactionline a
 LEFT JOIN transaction b ON a.TRANSACTION = b.ID
 INNER JOIN employee e ON e.id = b.employee
@@ -40,7 +42,9 @@ GROUP BY
         WHEN b.custbody_evol_incoterms IS NOT NULL THEN BUILTIN.DF(b.custbody_evol_incoterms)
         ELSE BUILTIN.DF(b.custbody_inc) || ' ' || BUILTIN.DF(b.custbody_city)
     END,
-    BUILTIN.DF(a.SUBSIDIARY);
+    BUILTIN.DF(a.SUBSIDIARY),
+    b.custbodygross_profit_amt_fr_vc,
+    b.custbody_gross_profit_percent_final_vc;
 """
 
 def get_sales_orders_by_inside(initial_date: str, final_date: str, inside_sales: str) -> str:
@@ -107,6 +111,7 @@ GROUP BY
 ORDER BY
      TO_CHAR(t.trandate, 'YYYY-MM') ASC;
     """
+
 def get_bookings_data(initial_date: str, final_date: str, customer_name: str) -> str:
     return f"""
     SELECT
@@ -184,19 +189,58 @@ WHERE
     )
 	AND TO_CHAR(t.trandate, 'YYYY-MM-DD') BETWEEN '{initial_date}' AND '{final_date}';
     """
-def get_opportunities_by_inside(initial_date: str, final_date: str, sales_rep: str) -> str:
+
+def get_opportunities_data(initial_date: str, final_date: str, inside_sales: str) -> str:
     return f"""
 SELECT 
-op.id,
-op.tranid AS op_number,
-TO_CHAR(op.trandate, 'YYYY-MM-DD') AS tran_date,
-BUILTIN.DF(op.entity) AS customer,
-BUILTIN.DF(csr.subsidiary) AS subsidiary,
-BUILTIN.DF(op.status) AS status,
-BUILTIN.DF(op.employee) AS inside_sales
+	op.id,
+	op.tranid AS op_number,
+	TO_CHAR(op.trandate, 'YYYY-MM-DD') AS tran_date,
+	TO_CHAR(op.expectedclosedate, 'YYYY-MM-DD') AS expected_close_date,
+	BUILTIN.DF(op.entity) AS customer,
+	BUILTIN.DF(csr.subsidiary) AS subsidiary,
+	ts.name AS status,
+	e.firstname || ' ' || e.lastname AS inside_sales
 FROM TRANSACTION op
 INNER JOIN CustomerSubsidiaryRelationship csr ON csr.entity = op.entity AND csr.isprimarysub = 'T'
+INNER JOIN employee e ON e.id = op.employee
+INNER JOIN transactionStatus ts ON ts.id = op.status AND ts.trantype = 'Opprtnty'
 WHERE op.TYPE = 'Opprtnty'
-AND BUILTIN.DF(op.employee) LIKE '%{sales_rep}%'
-AND TO_CHAR(op.trandate, 'YYYY-MM-DD') BETWEEN '{initial_date}' AND '{final_date}';
+AND (
+    '{inside_sales}' IS NULL
+    OR '{inside_sales}' = ''
+    OR (e.firstname || ' ' || e.lastname) LIKE '%' || '{inside_sales}' || '%'
+)
+AND TO_CHAR(op.trandate, 'YYYY-MM-DD') BETWEEN '{initial_date}' AND '{final_date}'
+AND (op.winlossreason <> 21 OR op.winlossreason IS NULL);
+    """
+
+def get_op_so_data(initial_date: str, final_date: str) -> str:
+    return f"""
+SELECT
+	op.tranid AS op_number,
+	TO_CHAR(op.trandate, 'YYYY-MM-DD') as op_date,
+	ops.name AS op_status,
+	e.firstname || ' ' || e.lastname AS inside_sales,
+	BUILTIN.DF(op.entity) AS customer,
+	q.tranid AS q_number,
+	TO_CHAR(q.trandate, 'YYYY-MM-DD') as q_date,
+	qs.name AS q_status,
+	(q.foreigntotal - NVL(q.taxtotal, 0)) * q.exchangerate AS q_amount,
+	so.tranid AS so_number,
+	TO_CHAR(so.trandate, 'YYYY-MM-DD') as so_date,
+	sos.name AS so_status,
+	(so.foreigntotal - NVL(so.taxtotal, 0)) * so.exchangerate AS so_amount
+FROM transaction op
+INNER JOIN transactionStatus ops ON ops.id = op.status AND ops.trantype = 'Opprtnty'
+INNER JOIN employee e ON e.id = op.employee
+LEFT JOIN NextTransactionLink ntl ON ntl.previousdoc = op.id AND ntl.linktype = 'OppEst'
+LEFT JOIN transaction q ON q.id = ntl.nextdoc AND q.type = 'Estimate'
+LEFT JOIN transactionStatus qs ON qs.id = q.status AND qs.trantype = 'Estimate'
+LEFT JOIN NextTransactionLink q_to_so ON q_to_so.previousdoc = q.id AND q_to_so.linktype = 'EstInvc'
+LEFT JOIN transaction so ON so.id = q_to_so.nextdoc AND so.type = 'SalesOrd'
+LEFT JOIN transactionStatus sos ON sos.id = so.status AND sos.trantype = 'SalesOrd'
+WHERE op.type = 'Opprtnty' 
+AND TO_CHAR(op.trandate, 'YYYY-MM-DD') BETWEEN '{initial_date}' AND '{final_date}'
+AND (op.winlossreason <> 21 OR op.winlossreason IS NULL);
     """

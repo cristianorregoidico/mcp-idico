@@ -244,3 +244,440 @@ def finance_summary(df: pd.DataFrame) -> dict:
     }
 
     return output
+
+def opportunity_summary(df: pd.DataFrame) -> dict:
+    """
+    df: DataFrame con columnas:
+        ['id','op_number','tran_date','expected_close_date',
+         'customer','subsidiary','status','inside_sales']
+    """
+
+    # Asegurar tipo fecha
+    df["tran_date"] = pd.to_datetime(df["tran_date"], errors="coerce")
+    df_valid = df.dropna(subset=["tran_date"])
+
+    # -----------------------------
+    # 1) PERIODO
+    # -----------------------------
+    start_ts = df_valid["tran_date"].min()
+    end_ts   = df_valid["tran_date"].max()
+
+    start_date_obj = start_ts.date()
+    end_date_obj   = end_ts.date()
+
+    start_date = start_date_obj.isoformat()
+    end_date   = end_date_obj.isoformat()
+
+    today = pd.Timestamp.today().date()
+
+    # ¿Misma semana ISO?
+    start_iso = start_date_obj.isocalendar()
+    end_iso   = end_date_obj.isocalendar()
+    same_week = (start_iso.year == end_iso.year) and (start_iso.week == end_iso.week)
+
+    # -----------------------------
+    # 2) PERFORMANCE DE OPORTUNIDADES
+    #    (siempre calculamos todo, pero mostramos según regla)
+    # -----------------------------
+
+    # --- Por día ---
+    daily_counts = (
+        df_valid
+        .groupby(["inside_sales", df_valid["tran_date"].dt.date])
+        .size()
+        .reset_index(name="count")
+    )
+    daily_counts.columns = ["inside_sales", "date", "count"]
+    daily_counts["date"] = daily_counts["date"].astype(str)
+    low_daily_all = daily_counts[daily_counts["count"] < 4]
+
+    # --- Por semana ---
+    weekly_counts = (
+        df_valid
+        .groupby(["inside_sales", df_valid["tran_date"].dt.to_period("W")])
+        .size()
+        .reset_index(name="count")
+    )
+    weekly_counts.columns = ["inside_sales", "week", "count"]
+    weekly_counts["week"] = weekly_counts["week"].astype(str)
+    low_weekly_all = weekly_counts[weekly_counts["count"] < 15]
+
+    # --- Por mes ---
+    monthly_counts = (
+        df_valid
+        .groupby(["inside_sales", df_valid["tran_date"].dt.to_period("M")])
+        .size()
+        .reset_index(name="count")
+    )
+    monthly_counts.columns = ["inside_sales", "month", "count"]
+    monthly_counts["month"] = monthly_counts["month"].astype(str)
+    low_monthly_all = monthly_counts[monthly_counts["count"] < 50]
+
+    # -----------------------------
+    # 3) REGLA DE QUÉ MOSTRAR
+    # -----------------------------
+    # Caso 1: mismo día y es hoy -> solo daily
+    if (start_date_obj == end_date_obj) and (start_date_obj == today):
+        low_daily   = low_daily_all
+        low_weekly  = pd.DataFrame(columns=["inside_sales", "week", "count"])
+        low_monthly = pd.DataFrame(columns=["inside_sales", "month", "count"])
+
+    # Caso 2: fechas distintas pero misma semana -> solo weekly
+    elif (start_date_obj != end_date_obj) and same_week:
+        low_daily   = pd.DataFrame(columns=["inside_sales", "date", "count"])
+        low_weekly  = low_weekly_all
+        low_monthly = pd.DataFrame(columns=["inside_sales", "month", "count"])
+
+    # Caso 3: resto -> trabajar por mes (mismo mes o meses distintos)
+    else:
+        low_daily   = pd.DataFrame(columns=["inside_sales", "date", "count"])
+        low_weekly  = pd.DataFrame(columns=["inside_sales", "week", "count"])
+        low_monthly = low_monthly_all
+        # Aquí, si hay varios meses, saldrán como:
+        # month: "2025-10", "2025-11", etc.
+
+    low_performance_indicators = {
+        "daily":   low_daily.to_dict(orient="records"),
+        "weekly":  low_weekly.to_dict(orient="records"),
+        "monthly": low_monthly.to_dict(orient="records"),
+    }
+
+     # Distribución por cliente
+    dist_customer = (
+        df.groupby("customer").size()
+        .reset_index(name="count")
+        .sort_values("count", ascending=False)
+        .to_dict(orient="records")
+    )
+
+    # Distribución por inside
+    dist_inside = (
+        df.groupby("inside_sales").size()
+        .reset_index(name="count")
+        .sort_values("count", ascending=False)
+        .to_dict(orient="records")
+    )
+
+    # Distribución por estado
+    dist_status = (
+        df.groupby("status").size()
+        .reset_index(name="count")
+        .sort_values("count", ascending=False)
+        .to_dict(orient="records")
+    )
+
+    # Oportunidades con 2+ días sin cotización
+    df_valid = df.copy()
+    df_valid["tran_date"] = pd.to_datetime(df_valid["tran_date"], errors="coerce")
+
+    today = pd.Timestamp.today().normalize()
+    df_valid["days_open"] = (today - df_valid["tran_date"]).dt.days
+
+    overdue = df_valid[
+        (df_valid["status"] == "In Progress") &
+        (df_valid["days_open"] >= 2)
+    ].copy()
+
+    overdue["tran_date"] = overdue["tran_date"].dt.date.astype(str)
+
+    overdue_list = overdue.head(10).to_dict(orient="records")
+    
+    total_opportunities = len(df_valid)
+    total_customers = df_valid["customer"].nunique()
+
+    customer_counts = (
+        df_valid.groupby("customer")
+        .size()
+        .reset_index(name="count")
+        .sort_values("count", ascending=False)
+    )
+
+    customer_counts["participation_pct"] = (
+        customer_counts["count"] / total_opportunities * 100
+    ).round(2)
+    customer_participation_top10 = customer_counts.head(10).to_dict(orient="records")
+    summary = {
+        "total_opportunities": total_opportunities,
+        "total_unique_customers": total_customers,
+        "customer_participation": customer_participation_top10
+    }
+    # -----------------------------
+    # 8) ARMAR JSON FINAL
+    # -----------------------------
+    output = {
+            "period": {
+                "start_date": start_date,
+                "end_date": end_date,
+            },
+            "summary": summary,
+            "distribution": {
+                "inside_sales": dist_inside,
+                "status": dist_status
+            },
+            "overdue_in_progress": overdue_list,
+            "low_performance_indicators": low_performance_indicators,
+            "full_data_reference": "dataset_reference"
+    }
+
+    return output
+
+def analyze_inside_sales(df: pd.DataFrame) -> dict:
+    """
+    Analiza desempeño de Inside Sales a partir de un dataset con columnas:
+    ['op_number', 'op_date', 'op_status', 'inside_sales', 'customer',
+     'q_number', 'q_date', 'q_status', 'q_amount',
+     'so_number', 'so_date', 'so_status', 'so_amount']
+    
+    Retorna un dict (JSON-serializable) con:
+        - summary: métricas globales (sin texto natural)
+        - response_time: métricas de tiempo de respuesta Oportunidad → Quote
+        - hitrates: KPIs de conversión O→Q (volumen) y Q→SO (volumen y monto)
+        - scorecard_inside_sales: ranking por Inside Sales
+    """
+
+    df = df.copy()
+
+    # ------------------------------
+    # Normalización de tipos de datos (solo uso interno)
+    # ------------------------------
+    date_cols = ["op_date", "q_date", "so_date"]
+    for col in date_cols:
+        if col in df.columns:
+            df[col] = pd.to_datetime(df[col], errors="coerce")
+
+    # Asegurar que montos sean numéricos
+    for col in ["q_amount", "so_amount"]:
+        if col in df.columns:
+            df[col] = pd.to_numeric(df[col], errors="coerce")
+
+    # ------------------------------
+    # 1. MÉTRICAS GLOBALES (summary numérico)
+    # ------------------------------
+    total_opps = int(len(df))
+    total_quotes = int(df["q_number"].notna().sum())
+    total_sos = int(df["so_number"].notna().sum())
+
+    # Hitrate Oportunidad → Quote (volumen)
+    if total_opps > 0:
+        hitrate_o_q_vol = total_quotes / total_opps
+    else:
+        hitrate_o_q_vol = np.nan
+
+    # Hitrate Quote → SO (volumen)
+    total_quotes_for_hitrate = total_quotes
+    quotes_with_so = int(df[df["q_number"].notna() & df["so_number"].notna()].shape[0])
+
+    if total_quotes_for_hitrate > 0:
+        hitrate_q_so_vol = quotes_with_so / total_quotes_for_hitrate
+    else:
+        hitrate_q_so_vol = np.nan
+
+    # Hitrate Quote → SO (monto)
+    total_q_amount = df.loc[df["q_number"].notna(), "q_amount"].sum(min_count=1)
+    converted_so_amount = df.loc[
+        df["q_number"].notna() & df["so_number"].notna(), "so_amount"
+    ].sum(min_count=1)
+
+    if pd.notna(total_q_amount) and total_q_amount > 0:
+        hitrate_q_so_amt = converted_so_amount / total_q_amount
+    else:
+        hitrate_q_so_amt = np.nan
+
+    def _to_float_or_none(x):
+        return float(x) if pd.notna(x) else None
+
+    summary = {
+        "total_opportunities": total_opps,
+        "total_quotes": total_quotes,
+        "total_sales_orders": total_sos,
+        "hitrate_opportunity_to_quote_volume": _to_float_or_none(hitrate_o_q_vol),
+        "hitrate_quote_to_so_volume": _to_float_or_none(hitrate_q_so_vol),
+        "hitrate_quote_to_so_amount": _to_float_or_none(hitrate_q_so_amt),
+    }
+
+    # ------------------------------
+    # 2. TIEMPO DE RESPUESTA OPORTUNIDAD → QUOTE
+    # ------------------------------
+    mask_resp = df["op_date"].notna() & df["q_date"].notna()
+    df_resp = df.loc[mask_resp].copy()
+
+    if not df_resp.empty:
+        df_resp["response_time_days"] = (
+            df_resp["q_date"] - df_resp["op_date"]
+        ).dt.total_seconds() / 86400.0
+
+        overall_response_time = {
+            "count": int(df_resp.shape[0]),
+            "avg_days": _to_float_or_none(df_resp["response_time_days"].mean()),
+            "median_days": _to_float_or_none(df_resp["response_time_days"].median()),
+            "p90_days": _to_float_or_none(df_resp["response_time_days"].quantile(0.9)),
+        }
+
+        by_is = (
+            df_resp.groupby("inside_sales")["response_time_days"]
+            .agg(["count", "mean", "median"])
+            .reset_index()
+        )
+        by_is = by_is.rename(columns={"mean": "avg_days", "median": "median_days"})
+
+        response_time_by_inside = []
+        for _, row in by_is.iterrows():
+            response_time_by_inside.append(
+                {
+                    "inside_sales": row["inside_sales"],
+                    "count": int(row["count"]),
+                    "avg_days": _to_float_or_none(row["avg_days"]),
+                    "median_days": _to_float_or_none(row["median_days"]),
+                }
+            )
+
+        response_time = {
+            "overall": overall_response_time,
+            "by_inside_sales": response_time_by_inside,
+        }
+    else:
+        response_time = {
+            "overall": None,
+            "by_inside_sales": [],
+        }
+
+    # ------------------------------
+    # 3. HITRATES DETALLADOS
+    # ------------------------------
+    hitrates = {
+        "opportunity_to_quote": {
+            "volume": {
+                "total_opportunities": total_opps,
+                "with_quote": total_quotes,
+                "hitrate": _to_float_or_none(hitrate_o_q_vol),
+            }
+        },
+        "quote_to_sales_order": {
+            "volume": {
+                "total_quotes": total_quotes_for_hitrate,
+                "with_sales_order": quotes_with_so,
+                "hitrate": _to_float_or_none(hitrate_q_so_vol),
+            },
+            "amount": {
+                "total_quote_amount": _to_float_or_none(total_q_amount),
+                "converted_so_amount": _to_float_or_none(converted_so_amount),
+                "hitrate": _to_float_or_none(hitrate_q_so_amt),
+            },
+        },
+    }
+
+    # ------------------------------
+    # 4. SCORECARD / RANKING POR INSIDE SALES
+    # ------------------------------
+    def n_notna(series):
+        return int(series.notna().sum())
+
+    base = (
+        df.groupby("inside_sales")
+        .agg(
+            total_opportunities=("op_number", "count"),
+            total_quotes=("q_number", n_notna),
+            total_sos=("so_number", n_notna),
+            total_q_amount=("q_amount", "sum"),
+            total_so_amount=("so_amount", "sum"),
+        )
+        .reset_index()
+    )
+
+    # Hitrates por Inside Sales
+    base["hitrate_op_q_volume"] = np.where(
+        base["total_opportunities"] > 0,
+        base["total_quotes"] / base["total_opportunities"],
+        np.nan,
+    )
+
+    base["hitrate_q_so_volume"] = np.where(
+        base["total_quotes"] > 0,
+        base["total_sos"] / base["total_quotes"],
+        np.nan,
+    )
+
+    base["hitrate_q_so_amount"] = np.where(
+        base["total_q_amount"] > 0,
+        base["total_so_amount"] / base["total_q_amount"],
+        np.nan,
+    )
+
+    # Tiempos de respuesta por Inside Sales
+    if not df_resp.empty:
+        rt_by_is = (
+            df_resp.groupby("inside_sales")["response_time_days"]
+            .mean()
+            .rename("avg_response_time_days")
+            .reset_index()
+        )
+    else:
+        rt_by_is = pd.DataFrame(columns=["inside_sales", "avg_response_time_days"])
+
+    base = base.merge(rt_by_is, on="inside_sales", how="left")
+
+    # Normalización para score
+    def min_max_norm(series):
+        s = series.astype(float)
+        if s.notna().sum() == 0:
+            return pd.Series([np.nan] * len(s), index=s.index)
+        min_v = s.min()
+        max_v = s.max()
+        if pd.isna(min_v) or pd.isna(max_v) or min_v == max_v:
+            return pd.Series([1.0] * len(s), index=s.index)
+        return (s - min_v) / (max_v - min_v)
+
+    base["norm_hitrate_op_q_volume"] = min_max_norm(base["hitrate_op_q_volume"])
+    base["norm_hitrate_q_so_volume"] = min_max_norm(base["hitrate_q_so_volume"])
+    base["norm_hitrate_q_so_amount"] = min_max_norm(base["hitrate_q_so_amount"])
+
+    base["norm_response_time"] = min_max_norm(base["avg_response_time_days"])
+    if base["norm_response_time"].notna().any():
+        base["norm_response_time_inv"] = 1 - base["norm_response_time"]
+    else:
+        base["norm_response_time_inv"] = np.nan
+
+    # Pesos del score
+    w_op_q = 0.2
+    w_vol = 0.3
+    w_amt = 0.4
+    w_rt = 0.1
+
+    base["score"] = (
+        w_op_q * base["norm_hitrate_op_q_volume"].fillna(0)
+        + w_vol * base["norm_hitrate_q_so_volume"].fillna(0)
+        + w_amt * base["norm_hitrate_q_so_amount"].fillna(0)
+        + w_rt * base["norm_response_time_inv"].fillna(0)
+    ) * 100.0
+
+    base_sorted = base.sort_values("score", ascending=False)
+
+    scorecard_list = []
+    for _, row in base_sorted.iterrows():
+        scorecard_list.append(
+            {
+                "inside_sales": row["inside_sales"],
+                "total_opportunities": int(row["total_opportunities"]),
+                "total_quotes": int(row["total_quotes"]),
+                "total_sos": int(row["total_sos"]),
+                "total_q_amount": _to_float_or_none(row["total_q_amount"]),
+                "total_so_amount": _to_float_or_none(row["total_so_amount"]),
+                "hitrate_op_q_volume": _to_float_or_none(row["hitrate_op_q_volume"]),
+                "hitrate_q_so_volume": _to_float_or_none(row["hitrate_q_so_volume"]),
+                "hitrate_q_so_amount": _to_float_or_none(row["hitrate_q_so_amount"]),
+                "avg_response_time_days": _to_float_or_none(
+                    row["avg_response_time_days"]
+                ),
+                "score": _to_float_or_none(row["score"]),
+            }
+        )
+
+    result = {
+        "summary": summary,
+        "response_time": response_time,
+        "hitrates": hitrates,
+        "full_data_reference": "dataset_reference"
+    }
+
+    return result
+

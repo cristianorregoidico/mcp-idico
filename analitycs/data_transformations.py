@@ -1,5 +1,6 @@
 import pandas as pd
 from typing import Dict, List, Optional, Any
+import numpy as np
 
 def tuple_to_dataframe(columns: List[str], rows: List[tuple]) -> pd.DataFrame:
     """Convert query result tuples to a pandas DataFrame."""
@@ -267,6 +268,16 @@ def summarize_is_bookings(df: pd.DataFrame) -> Dict[str, Any]:
 def summarize_is_quotes(df: pd.DataFrame) -> Dict[str, Any]:
     """Generate summaries from the IS quotes DataFrame."""
     # 01. KPI by Inside Sale
+    df = df.copy()
+
+    # Asegurar tipos numéricos para evitar problemas
+    df["Amount"] = pd.to_numeric(df["Amount"], errors="coerce")
+    if "GrossMargin" in df.columns:
+        df["GrossMargin"] = pd.to_numeric(df["GrossMargin"], errors="coerce")
+    if "GrossMarginPct" in df.columns:
+        df["GrossMarginPct"] = pd.to_numeric(df["GrossMarginPct"], errors="coerce")
+
+    # 01. KPI by Inside Sale
     kpi_by_inside = (
         df.groupby("InsideSale", as_index=False)
         .agg(
@@ -296,21 +307,32 @@ def summarize_is_quotes(df: pd.DataFrame) -> Dict[str, Any]:
         )
     )
 
+    # Cálculo robusto de winrate (corrigiendo closed_amount)
+    df_win = df.copy()
+    df_win["is_closed"] = df_win["Status"].eq("Closed")
+    df_win["closed_amount"] = np.where(df_win["is_closed"], df_win["Amount"], 0.0)
+
     winrate = (
-        df.assign(
-            is_closed=df["Status"].eq("Closed")
-        )
-        .groupby("InsideSale", as_index=False)
+        df_win.groupby("InsideSale", as_index=False)
         .agg(
             total_quotes=("QuoteNumber", "nunique"),
             total_amount=("Amount", "sum"),
             closed_quotes=("is_closed", "sum"),
-            closed_amount=("Amount", lambda x: x[df["Status"].eq("Closed")].sum())
+            closed_amount=("closed_amount", "sum"),
         )
     )
 
-    winrate["win_rate_quotes"] = winrate["closed_quotes"] / winrate["total_quotes"]
-    winrate["win_rate_amount"] = winrate["closed_amount"] / winrate["total_amount"]
+    # Evitar división por cero
+    winrate["win_rate_quotes"] = np.where(
+        winrate["total_quotes"] > 0,
+        winrate["closed_quotes"] / winrate["total_quotes"],
+        np.nan,
+    )
+    winrate["win_rate_amount"] = np.where(
+        winrate["total_amount"] > 0,
+        winrate["closed_amount"] / winrate["total_amount"],
+        np.nan,
+    )
 
     status_summary_by_inside = []
 
@@ -328,7 +350,7 @@ def summarize_is_quotes(df: pd.DataFrame) -> Dict[str, Any]:
             "status_summary": status_summary
         })
 
-    # Incoterms distribution
+    # 03. Incoterms distribution
     incoterms_by_inside = (
         df.groupby(["InsideSale", "IncoTerms"], as_index=False)
         .agg(
@@ -357,6 +379,39 @@ def summarize_is_quotes(df: pd.DataFrame) -> Dict[str, Any]:
             ],
         })
 
+    # 04. NUEVO: Inside Sales con total cotizado < 30000 USD
+    totals_by_inside = (
+        df.groupby("InsideSale", as_index=False)
+        .agg(total_amount=("Amount", "sum"))
+    )
+
+    under_30000 = totals_by_inside[totals_by_inside["total_amount"] < 30000]
+
+    inside_sales_under_30000 = [
+        {
+            "inside_sale": row["InsideSale"],
+            "total_amount": float(row["total_amount"]),
+        }
+        for _, row in under_30000.iterrows()
+    ]
+
+    # 05. NUEVO: Cotizaciones con margen < 15%
+    quotes_under_15pct_margin = []
+    if "GrossMarginPct" in df.columns:
+        low_margin_df = df[df["GrossMarginPct"] < 0.15].copy()
+
+        for _, row in low_margin_df.iterrows():
+            quotes_under_15pct_margin.append({
+                "quote_number": row["QuoteNumber"],
+                "inside_sale": row["InsideSale"],
+                "customer": row["Customer"],
+                "amount": float(row["Amount"]) if pd.notna(row["Amount"]) else None,
+                "gross_margin": float(row["GrossMargin"]) if "GrossMargin" in df.columns and pd.notna(row["GrossMargin"]) else None,
+                "gross_margin_pct": float(row["GrossMarginPct"]) if pd.notna(row["GrossMarginPct"]) else None,
+                "status": row["Status"],
+            })
+
+    # General summary (tu función existente)
     general_summary = general_summary_is_q_so(df)
 
     return {
@@ -364,7 +419,9 @@ def summarize_is_quotes(df: pd.DataFrame) -> Dict[str, Any]:
         "kpi_by_inside": kpi_by_inside,
         "status_summary_by_inside": status_summary_by_inside,
         "incoterms_by_inside": incoterms_payload,
-        "full_data_reference": None
+        "inside_sales_under_30000": inside_sales_under_30000,
+        "quotes_under_15pct_margin": quotes_under_15pct_margin,
+        "full_data_reference": None,
     }
 
 def general_summary_is_q_so(df: pd.DataFrame) -> Dict[str, Any]:
