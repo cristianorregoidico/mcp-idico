@@ -57,6 +57,10 @@ SELECT
     a.TRANID AS SO,
     BUILTIN.DF(a.ENTITY) AS Customer,
     BUILTIN.DF(b.Subsidiary) AS Subsidiary,
+    CASE 
+        WHEN a.custbody_evol_incoterms IS NOT NULL THEN BUILTIN.DF(a.custbody_evol_incoterms)
+        ELSE BUILTIN.DF(a.custbody_inc) || ' ' || BUILTIN.DF(a.custbody_city)
+    END AS IncoTerms,
     SUM(b.creditforeignamount*a.EXCHANGERATE) AS Amount
 FROM transaction a
 LEFT JOIN transactionline b ON a.ID = b.TRANSACTION
@@ -79,7 +83,11 @@ GROUP BY
     e.firstname || ' ' || e.lastname,
     a.TRANID,
     BUILTIN.DF(a.ENTITY),
-    BUILTIN.DF(b.SUBSIDIARY);
+    BUILTIN.DF(b.SUBSIDIARY),
+    CASE 
+        WHEN a.custbody_evol_incoterms IS NOT NULL THEN BUILTIN.DF(a.custbody_evol_incoterms)
+        ELSE BUILTIN.DF(a.custbody_inc) || ' ' || BUILTIN.DF(a.custbody_city)
+    END;
     """
     
 def get_bookings_by_period(initial_date: str, final_date: str) -> str:
@@ -122,7 +130,11 @@ def get_bookings_data(initial_date: str, final_date: str, customer_name: str) ->
     BUILTIN.DF(csr.subsidiary) AS subsidiary,
     BUILTIN.DF(t.currency) AS currency,
     BUILTIN.DF(t.entity) AS customer,
-     BUILTIN.DF(ea.country) AS customer_country,
+    BUILTIN.DF(ea.country) AS customer_country,
+    CASE 
+        WHEN t.custbody_evol_incoterms IS NOT NULL THEN BUILTIN.DF(t.custbody_evol_incoterms)
+        ELSE BUILTIN.DF(t.custbody_inc) || ' ' || BUILTIN.DF(t.custbody_city)
+    END AS incoterms,
     BUILTIN.DF(t.employee) AS sales_rep,
     t.foreigntotal * t.exchangerate AS gross_usd,
     (t.foreigntotal - NVL(t.taxtotal, 0)) * t.exchangerate AS net_usd,

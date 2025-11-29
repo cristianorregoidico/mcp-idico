@@ -3,6 +3,9 @@ import numpy as np
 import json
 from typing import Dict, Any
 
+import pandas as pd
+import numpy as np
+
 def finance_summary(df: pd.DataFrame) -> dict:
     """
     df: DataFrame con columnas al menos:
@@ -103,7 +106,6 @@ def finance_summary(df: pd.DataFrame) -> dict:
                 for _, row in bucket_agg.iterrows()
             ]
 
-
     # -----------------------------
     # 4) TERMS
     # -----------------------------
@@ -152,6 +154,9 @@ def finance_summary(df: pd.DataFrame) -> dict:
         if total_bookings > 0 else 0.0
     )
 
+    # -----------------------------
+    # 6) KPI POR SUBSIDIARY
+    # -----------------------------
     kpi_by_subsidiary = []
     if {"subsidiary", "period"}.issubset(df.columns):
         grp = df.groupby(["period", "subsidiary"])
@@ -187,7 +192,46 @@ def finance_summary(df: pd.DataFrame) -> dict:
             })
 
     # -----------------------------
-    # 7) DATA SAMPLE (primer y último registro)
+    # 7) INCOTERMS POR CLIENTE
+    # -----------------------------
+    incoterms_block = {"by_customer": []}
+    if "incoterms" in df.columns:
+        df_inc = df.copy()
+        df_inc["incoterm_clean"] = df_inc["incoterms"].fillna("None")
+
+        # Agrupar por cliente + incoterm
+        inc_grp = (
+            df_inc
+            .groupby(["customer", "incoterm_clean"], dropna=False)
+            .agg(
+                order_count=("so_number", "nunique"),
+                amount=("net_usd", "sum")
+            )
+            .reset_index()
+        )
+
+        # Armar estructura por cliente
+        by_customer = []
+        for customer, sub in inc_grp.groupby("customer"):
+            details = [
+                {
+                    "incoterm": row["incoterm_clean"],
+                    "order_count": int(row["order_count"]),
+                    "amount": float(row["amount"])
+                }
+                for _, row in sub.iterrows()
+            ]
+
+            by_customer.append({
+                "customer": customer,
+                "incoterms_count": len(sub),
+                "incoterms_detail": details
+            })
+
+        incoterms_block["by_customer"] = by_customer
+
+    # -----------------------------
+    # 8) DATA SAMPLE (primer y último registro)
     # -----------------------------
     data_sample = []
     if order_count > 0:
@@ -206,7 +250,7 @@ def finance_summary(df: pd.DataFrame) -> dict:
         data_sample = [first_row.to_dict(), last_row.to_dict()]
 
     # -----------------------------
-    # 8) ARMAR JSON FINAL
+    # 9) ARMAR JSON FINAL
     # -----------------------------
     output = {
         "finance_summary": {
@@ -238,13 +282,15 @@ def finance_summary(df: pd.DataFrame) -> dict:
                 "top_clients_share_amount": top_clients_share_amount,
                 "top_clients_share_pct": top_clients_share_pct
             },
-            "kpi_by_subsidiary": kpi_by_subsidiary
+            "kpi_by_subsidiary": kpi_by_subsidiary,
+            "incoterms": incoterms_block
         },
         "data_sample": data_sample,
         "full_data_reference": "full_data_reference"
     }
 
     return output
+
 
 def opportunity_summary(df: pd.DataFrame) -> dict:
     """

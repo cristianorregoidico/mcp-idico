@@ -5,15 +5,15 @@ from connections.netsuite_querys import get_quotes_by_inside, get_sales_orders_b
 from analitycs.data_transformations import tuple_to_dataframe, summarize_bookings_data, summarize_is_bookings, summarize_is_quotes, summarize_items_quoted
 from analitycs.sales import finance_summary, opportunity_summary, analyze_inside_sales, summarize_sold_items
 from utils.json_df import save_result_to_json, load_dataset_from_json
-sql = get_sold_items_by_period("2025-11-01", "2025-11-26", "", "RHONAL VELASCO")
+sql = get_bookings_data("2025-11-01", "2025-11-26", "")
 print("sql",sql)
 conn = NetSuiteConnection()
 with conn.managed() as ns:
     columns, rows = ns.execute_query(sql)
-# print("columns",columns)
-# print("rows",rows)
+print("columns",columns)
+print("rows",rows)
 df = tuple_to_dataframe(columns, rows)
-summary = summarize_sold_items(df)
+summary = finance_summary(df)
 print("summary",summary)
 # Map rows (tuples) to dicts using column names
 # dataset_reference = save_result_to_json(columns, rows, "Full Bookings Dataset", name="bookings_data")
