@@ -57,6 +57,10 @@ SELECT
     a.TRANID AS SO,
     BUILTIN.DF(a.ENTITY) AS Customer,
     BUILTIN.DF(b.Subsidiary) AS Subsidiary,
+    CASE 
+        WHEN a.custbody_evol_incoterms IS NOT NULL THEN BUILTIN.DF(a.custbody_evol_incoterms)
+        ELSE BUILTIN.DF(a.custbody_inc) || ' ' || BUILTIN.DF(a.custbody_city)
+    END AS IncoTerms,
     SUM(b.creditforeignamount*a.EXCHANGERATE) AS Amount
 FROM transaction a
 LEFT JOIN transactionline b ON a.ID = b.TRANSACTION
@@ -79,7 +83,11 @@ GROUP BY
     e.firstname || ' ' || e.lastname,
     a.TRANID,
     BUILTIN.DF(a.ENTITY),
-    BUILTIN.DF(b.SUBSIDIARY);
+    BUILTIN.DF(b.SUBSIDIARY),
+    CASE 
+        WHEN a.custbody_evol_incoterms IS NOT NULL THEN BUILTIN.DF(a.custbody_evol_incoterms)
+        ELSE BUILTIN.DF(a.custbody_inc) || ' ' || BUILTIN.DF(a.custbody_city)
+    END;
     """
     
 def get_bookings_by_period(initial_date: str, final_date: str) -> str:
@@ -122,7 +130,11 @@ def get_bookings_data(initial_date: str, final_date: str, customer_name: str) ->
     BUILTIN.DF(csr.subsidiary) AS subsidiary,
     BUILTIN.DF(t.currency) AS currency,
     BUILTIN.DF(t.entity) AS customer,
-     BUILTIN.DF(ea.country) AS customer_country,
+    BUILTIN.DF(ea.country) AS customer_country,
+    CASE 
+        WHEN t.custbody_evol_incoterms IS NOT NULL THEN BUILTIN.DF(t.custbody_evol_incoterms)
+        ELSE BUILTIN.DF(t.custbody_inc) || ' ' || BUILTIN.DF(t.custbody_city)
+    END AS incoterms,
     BUILTIN.DF(t.employee) AS sales_rep,
     t.foreigntotal * t.exchangerate AS gross_usd,
     (t.foreigntotal - NVL(t.taxtotal, 0)) * t.exchangerate AS net_usd,
@@ -243,4 +255,49 @@ LEFT JOIN transactionStatus sos ON sos.id = so.status AND sos.trantype = 'SalesO
 WHERE op.type = 'Opprtnty' 
 AND TO_CHAR(op.trandate, 'YYYY-MM-DD') BETWEEN '{initial_date}' AND '{final_date}'
 AND (op.winlossreason <> 21 OR op.winlossreason IS NULL);
+    """
+
+def get_sold_items_by_period(initial_date: str, final_date: str, customer_name: str, inside_sales: str) -> str:
+    return f"""
+SELECT 
+	BUILTIN.DF(t.entity) AS customer,
+	t.tranid AS quote,
+	ts.name AS status,
+	TO_CHAR(t.trandate, 'YYYY-MM-DD') AS date,
+    e.firstname || ' ' || e.lastname AS inside_sales,
+	BUILTIN.DF(tl.item) AS item,
+	SUBSTR(i.purchasedescription, 1, 60) AS item_description,
+    CASE 
+        WHEN i.custitem13 IS NULL THEN 'NO DEFINED'
+        ELSE BUILTIN.DF(i.custitem13)
+    END AS brand,
+	CASE 
+		WHEN i.class IS NULL THEN 'NO DEFINED'
+		ELSE BUILTIN.DF(i.class)
+	END AS product_group,
+    tl.custcol_evol_selected_vendors AS selected_vendor,
+	-tl.quantity AS qty,
+	tl.rate AS unit_price,
+	tl.custcol_evol_vrq_cost AS unit_cost,
+	tl.costestimatebase AS estimated_line_cost,
+	tl.custcol_gm_percertange AS gross_margin_pct 
+FROM transaction t 
+INNER JOIN Customer c ON c.id = t.entity
+INNER JOIN transactionLine tl ON tl.transaction = t.id AND tl.itemtype = 'InvtPart'
+INNER JOIN item i ON i.id = tl.item
+INNER JOIN employee e ON e.id = t.employee
+INNER JOIN transactionStatus ts ON ts.id = t.status AND ts.trantype = 'SalesOrd'
+WHERE 
+	t.type = 'SalesOrd'
+	AND (
+        '{customer_name}' IS NULL
+        OR '{customer_name}'= ''
+        OR BUILTIN.DF(t.entity) LIKE '%' || '{customer_name}' || '%'
+    )
+    AND (
+        '{inside_sales}' IS NULL
+        OR '{inside_sales}' = ''
+        OR (e.firstname || ' ' || e.lastname) LIKE '%' || '{inside_sales}' || '%'
+    )
+	AND TO_CHAR(t.trandate, 'YYYY-MM-DD') BETWEEN '{initial_date}' AND '{final_date}';
     """
