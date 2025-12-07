@@ -57,7 +57,12 @@ def save_result_to_json(
     }
 
     with open("data/"+filename, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
+        class DateEncoder(json.JSONEncoder):
+            def default(self, obj):
+                if isinstance(obj, (datetime.date, datetime.datetime)):
+                    return obj.isoformat()
+                return json.JSONEncoder.default(self, obj)
+        json.dump(data, f, cls=DateEncoder, ensure_ascii=False, indent=2)
     
     return filename
 

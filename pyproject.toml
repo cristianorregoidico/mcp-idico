@@ -10,4 +10,5 @@ dependencies = [
     "jaydebeapi>=1.2.3",
     "mcp[cli]>=1.16.0",
     "pandas>=2.3.3",
+    "psycopg[binary]>=3.3.2",
 ]
