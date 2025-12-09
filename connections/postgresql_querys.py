@@ -20,3 +20,23 @@ gh.status_envio AS status
 FROM ods.applications.guia_helga gh
 WHERE gh.status_envio <> 'GUIA ENTREGADA';
     """
+    
+def get_ob_time_delivery(initial_date: str, final_date: str, so_number: str = None) -> str:
+    """
+    Devuelve una consulta SQL para obtener el tiempo de entrega de las órdenes de compra en PostgreSQL.
+    """
+    if so_number:
+        return f"""
+        SELECT *
+        FROM ods.analytics.tableau_otd otd
+        WHERE otd.so_doc_number = '{so_number}';
+        """
+    
+      
+    return f"""
+    SELECT 
+    * 
+    FROM ods.analytics.tableau_otd otd
+    WHERE to_date(otd.if_create_date, 'YYYY/MM/DD')
+        BETWEEN DATE '{initial_date}' AND DATE '{final_date}';
+    """
