@@ -1,6 +1,6 @@
 from typing import Any, Dict, Optional, List
 from connections.postgresql import execute_pg_query, execute_pg_query_dev
-from connections.postgresql_querys import pending_guides_query, get_ob_time_delivery
+from connections.postgresql_querys import pending_guides_query, get_ob_time_delivery, get_scorecard_by_is_month, get_scorecard_by_is_daily, get_scorecard_by_is_year
 from utils.json_df import save_result_to_json
 from utils.date import get_month_start_and_today
 from analitycs.operations import on_time_delivery_summary
@@ -57,8 +57,38 @@ def get_otd_indicators(initial_date: Optional[str] = None, final_date: Optional[
         results["so_details"] = so_details
     
     return results
+
+def get_scorecard_by_is() -> Dict[str, Any]:
+    """Retrieve the scorecard metrics by Inside Sales Daily, Monthly and Yearly.
+
+    Args:
+        No args needed
+    Returns:
+        Dict[str, Any]: Scorecard by IS.
+    """
+    sql_monthly = get_scorecard_by_is_month()
+    columns_monthly, rows_monthly = execute_pg_query_dev(sql_monthly)
+    df_monthly = tuple_to_dataframe(columns_monthly, rows_monthly)
+    monthly_data = df_monthly.to_dict(orient="records")
+    
+    sql_daily = get_scorecard_by_is_daily()
+    columns_daily, rows_daily = execute_pg_query_dev(sql_daily)
+    df_daily = tuple_to_dataframe(columns_daily, rows_daily)
+    daily_data = df_daily.to_dict(orient="records")
+    
+    sql_yearly = get_scorecard_by_is_year()
+    columns_yearly, rows_yearly = execute_pg_query_dev(sql_yearly)
+    df_yearly = tuple_to_dataframe(columns_yearly, rows_yearly)
+    yearly_data = df_yearly.to_dict(orient="records")
+    
+    return {
+        "monthly_scorecard": monthly_data,
+        "daily_scorecard": daily_data,
+        "yearly_scorecard": yearly_data
+    }
     
 POSTGRES_TOOLS: List = [
     helga_guides,
     get_otd_indicators,
+    get_scorecard_by_is
 ]
