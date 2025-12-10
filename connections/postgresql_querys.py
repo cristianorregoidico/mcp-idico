@@ -40,3 +40,27 @@ def get_ob_time_delivery(initial_date: str, final_date: str, so_number: str = No
     WHERE to_date(otd.if_create_date, 'YYYY/MM/DD')
         BETWEEN DATE '{initial_date}' AND DATE '{final_date}';
     """
+    
+def get_scorecard_by_is_month() -> str:
+    """
+    Devuelve una consulta SQL para obtener el scorecard por IS en PostgreSQL.
+    """
+    return """
+    SELECT * FROM ods.analytics.tableau_scorecard_by_inside_mensual;
+    """
+    
+def get_scorecard_by_is_daily() -> str:
+    """
+    Devuelve una consulta SQL para obtener el scorecard por IS en PostgreSQL.
+    """
+    return """
+    SELECT * FROM ods.analytics.tableau_scorecard_by_inside_diario;
+    """
+    
+def get_scorecard_by_is_year() -> str:
+    """
+    Devuelve una consulta SQL para obtener el scorecard por IS en PostgreSQL.
+    """
+    return """
+    SELECT * FROM ods.analytics.tableau_scorecard_by_inside_anual;
+    """
