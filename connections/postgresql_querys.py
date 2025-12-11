@@ -64,3 +64,11 @@ def get_scorecard_by_is_year() -> str:
     return """
     SELECT * FROM ods.analytics.tableau_scorecard_by_inside_anual;
     """
+
+def get_customer_imports_data(customer_name: str) -> str:
+    """
+    Devuelve una consulta SQL para obtener las importaciones de un cliente específico en PostgreSQL.
+    """
+    return f"""
+    SELECT * FROM ods.analytics.datasur WHERE importador LIKE '%{customer_name}%';
+    """

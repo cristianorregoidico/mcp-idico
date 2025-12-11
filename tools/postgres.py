@@ -1,9 +1,9 @@
 from typing import Any, Dict, Optional, List
 from connections.postgresql import execute_pg_query, execute_pg_query_dev
-from connections.postgresql_querys import pending_guides_query, get_ob_time_delivery, get_scorecard_by_is_month, get_scorecard_by_is_daily, get_scorecard_by_is_year
+from connections.postgresql_querys import pending_guides_query, get_ob_time_delivery, get_scorecard_by_is_month, get_scorecard_by_is_daily, get_scorecard_by_is_year, get_customer_imports_data
 from utils.json_df import save_result_to_json
 from utils.date import get_month_start_and_today
-from analitycs.operations import on_time_delivery_summary
+from analitycs.operations import on_time_delivery_summary, build_imports_summary
 from analitycs.data_transformations import tuple_to_dataframe
 
 
@@ -86,9 +86,27 @@ def get_scorecard_by_is() -> Dict[str, Any]:
         "daily_scorecard": daily_data,
         "yearly_scorecard": yearly_data
     }
+
+def get_customer_imports(customer_name: str) -> Dict[str, Any]:
+    """Retrieve the imports summary for a given customer.
+
+    Args:
+        customer_name (str): Name of the customer.
+    Returns:
+        Dict[str, Any]: Imports summary.
+    """
+    sql = get_customer_imports_data(customer_name)
+    columns, rows = execute_pg_query_dev(sql)
+    
+    df = tuple_to_dataframe(columns, rows)
+    
+    summary = build_imports_summary(df)
+    
+    return summary
     
 POSTGRES_TOOLS: List = [
     helga_guides,
     get_otd_indicators,
-    get_scorecard_by_is
+    get_scorecard_by_is,
+    get_customer_imports
 ]

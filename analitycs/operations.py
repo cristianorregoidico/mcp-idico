@@ -146,3 +146,155 @@ def on_time_delivery_summary(df: pd.DataFrame) -> Dict[str, Any]:
     }
 
     return output
+  
+def build_imports_summary(df: pd.DataFrame) -> Dict[str, Any]:
+    """
+    df: DataFrame con columnas:
+    ['dia', 'mes', 'ano', 'importador', 'partida_arancelaria',
+     'descripcion_arancelaria', 'producto', 'pais_de_origen',
+     'pais_de_adquisicion', 'via_de_transporte', 'transportador',
+     'proveedor', 'unidad_de_medida', 'amount_us_cif', 'peso_neto',
+     'cantidad', 'amount_us_fob', 'pais', 'marca', 'incoterm']
+    """
+
+    df = df.copy()
+
+    # Asegurar numéricos
+    for col in ["amount_us_fob", "amount_us_cif"]:
+        df[col] = pd.to_numeric(df[col], errors="coerce").fillna(0.0)
+
+    # --------------------------
+    # RESUMEN GENERAL
+    # --------------------------
+    total_fob = float(df["amount_us_fob"].sum())
+    total_cif = float(df["amount_us_cif"].sum())
+    unique_brands = int(df["marca"].nunique(dropna=True))
+    unique_vendors = int(df["proveedor"].nunique(dropna=True))
+    years = sorted([int(y) for y in df["ano"].dropna().unique().tolist()])
+
+    # amounts por año
+    year_agg = (
+        df.groupby("ano")[["amount_us_fob", "amount_us_cif"]]
+        .sum()
+        .reset_index()
+    )
+
+    amounts_by_year = {
+        int(row["ano"]): {
+            "amount_us_fob": float(row["amount_us_fob"]),
+            "amount_us_cif": float(row["amount_us_cif"])
+        }
+        for _, row in year_agg.iterrows()
+    }
+
+    summary = {
+        "years": years,
+        "amounts_by_year": amounts_by_year,
+        "total_amount_us_fob": total_fob,
+        "total_amount_us_cif": total_cif,
+        "unique_brands": unique_brands,
+        "unique_vendors": unique_vendors,
+        "total_records": int(len(df))
+    }
+
+    # Helper para convertir a lista de dicts con sumatorias
+    def brand_distribution_for_year(df_year: pd.DataFrame, top_n: int = 15):
+        if "marca" not in df_year.columns:
+            return []
+        grp = (
+            df_year.groupby("marca", dropna=False)[["amount_us_fob", "amount_us_cif"]]
+            .sum()
+            .reset_index()
+        )
+        # Ordenar por monto total (FOB + CIF) desc
+        grp["total_amount"] = grp["amount_us_fob"] + grp["amount_us_cif"]
+        grp = grp.sort_values("total_amount", ascending=False).head(top_n)
+
+        records = []
+        for _, row in grp.iterrows():
+            records.append({
+                "brand": None if pd.isna(row["marca"]) else str(row["marca"]),
+                "amount_us_fob": float(row["amount_us_fob"]),
+                "amount_us_cif": float(row["amount_us_cif"])
+            })
+        return records
+
+    def arancel_distribution_for_year(df_year: pd.DataFrame, top_n: int = 15):
+        if "descripcion_arancelaria" not in df_year.columns:
+            return []
+        grp = (
+            df_year.groupby("descripcion_arancelaria", dropna=False)[["amount_us_fob", "amount_us_cif"]]
+            .sum()
+            .reset_index()
+        )
+        grp["total_amount"] = grp["amount_us_fob"] + grp["amount_us_cif"]
+        grp = grp.sort_values("total_amount", ascending=False).head(top_n)
+
+        records = []
+        for _, row in grp.iterrows():
+            records.append({
+                "descripcion_arancelaria": None if pd.isna(row["descripcion_arancelaria"]) else str(row["descripcion_arancelaria"]),
+                "amount_us_fob": float(row["amount_us_fob"]),
+                "amount_us_cif": float(row["amount_us_cif"])
+            })
+        return records
+
+    def incoterm_distribution_for_year(df_year: pd.DataFrame):
+        if "incoterm" not in df_year.columns:
+            return []
+        grp = (
+            df_year.groupby("incoterm", dropna=False)[["amount_us_fob", "amount_us_cif"]]
+            .sum()
+            .reset_index()
+        )
+
+        records = []
+        for _, row in grp.iterrows():
+            records.append({
+                "incoterm": None if pd.isna(row["incoterm"]) else str(row["incoterm"]),
+                "amount_us_fob": float(row["amount_us_fob"]),
+                "amount_us_cif": float(row["amount_us_cif"])
+            })
+        return records
+
+    def vendor_distribution_for_year(df_year: pd.DataFrame, top_n: int = 15):
+      if "proveedor" not in df_year.columns:
+          return []
+      grp = (
+          df_year.groupby("proveedor", dropna=False)[["amount_us_fob", "amount_us_cif"]]
+          .sum()
+          .reset_index()
+      )
+      grp["total_amount"] = grp["amount_us_fob"] + grp["amount_us_cif"]
+      grp = grp.sort_values("total_amount", ascending=False).head(top_n)
+
+      records = []
+      for _, row in grp.iterrows():
+          proveedor = None if pd.isna(row["proveedor"]) else str(row["proveedor"])
+          records.append({
+              "proveedor": proveedor,
+              "amount_us_fob": float(row["amount_us_fob"]),
+              "amount_us_cif": float(row["amount_us_cif"])
+          })
+      return records
+
+
+    # --------------------------
+    # BLOQUES POR AÑO
+    # --------------------------
+    output: Dict[str, Any] = {
+        "summary": summary
+    }
+
+    for year in years:
+        df_year = df[df["ano"] == year].copy()
+
+        year_key = f"year_{year}"
+        output[year_key] = {
+            "brand_distribution": brand_distribution_for_year(df_year),
+            "arancel_distribution": arancel_distribution_for_year(df_year),
+            "incoterm_distribution": incoterm_distribution_for_year(df_year),
+            "vendor_distribution": vendor_distribution_for_year(df_year),
+        }
+
+    return output
