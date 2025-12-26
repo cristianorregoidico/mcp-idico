@@ -1,9 +1,25 @@
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "8000:8000"
-    env_file:
-      - .env
+  sales:
+    build: .
+    command: uv run -m servers.sales
+    expose: ["8000"]
+    env_file: .env
+
+  ops:
+    build: .
+    command: uv run -m servers.operations
+    expose: ["8040"]
+    env_file: .env
+
+  performance:
+    build: .
+    command: uv run -m servers.performance
+    expose: ["8020"]
+    env_file: .env
+
+  nginx:
+    image: nginx:1.25
+    depends_on: [sales, ops, performance]
+    ports: ["80:80"]        # y 443 si usas TLS
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
