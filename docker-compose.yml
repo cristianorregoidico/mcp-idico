@@ -1,18 +1,18 @@
 services:
   sales:
-    build: .
+    image: idico-mcp:multi-server
     command: uv run -m servers.sales
     expose: ["8000"]
     env_file: .env
 
   ops:
-    build: .
+    image: idico-mcp:multi-server
     command: uv run -m servers.operations
     expose: ["8040"]
     env_file: .env
 
   performance:
-    build: .
+    image: idico-mcp:multi-server
     command: uv run -m servers.performance
     expose: ["8020"]
     env_file: .env
