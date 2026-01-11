@@ -1,6 +1,7 @@
 import json
 from typing import List, Tuple, Any, Optional
 import datetime
+import pandas as pd
 
 
 def save_result_to_json(
@@ -55,6 +56,14 @@ def save_result_to_json(
         "columns": filtered_columns,
         "rows": filtered_rows,
     }
+    
+    dataset_preview = {
+        "description": description,
+        "data_preview": {
+            "columns": filtered_columns,
+            "rows": filtered_rows[:5],  # Solo las primeras 5 filas
+        }
+    }
 
     with open("data/"+filename, "w", encoding="utf-8") as f:
         class DateEncoder(json.JSONEncoder):
@@ -64,11 +73,10 @@ def save_result_to_json(
                 return json.JSONEncoder.default(self, obj)
         json.dump(data, f, cls=DateEncoder, ensure_ascii=False, indent=2)
     
-    return filename
+    dataset_preview["filename"] = filename
+    print("Dataset preview saved to JSON:", json.dumps(dataset_preview, indent=2, ensure_ascii=False))
+    return dataset_preview
 
-import json
-import pandas as pd
-from typing import Tuple
 
 
 def load_dataset_from_json(filename: str) -> Tuple[pd.DataFrame, str]:
@@ -95,3 +103,4 @@ def load_dataset_from_json(filename: str) -> Tuple[pd.DataFrame, str]:
     #df = pd.DataFrame(rows, columns=columns)
     
     return data
+  
