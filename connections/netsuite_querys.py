@@ -1,4 +1,4 @@
-def get_quotes_by_inside(initial_date: str, final_date: str, inside_sales: str) -> str:
+def get_quotes_by_inside(initial_date: str, final_date: str, inside_sales: str, customer_name: str) -> str:
     return f"""
 
 SELECT 
@@ -26,6 +26,11 @@ WHERE
     AND BUILTIN.DF(b.STATUS) <> 'Quote : Voided'
     AND BUILTIN.DF(b.custbody_evol_idico_services_campo) NOT IN ('ACORD', 'SIEVO')
     AND a.itemtype='InvtPart'
+    AND (
+        '{customer_name}' IS NULL
+        OR '{customer_name}' = ''
+        OR BUILTIN.DF(b.ENTITY) LIKE '%' || '{customer_name}' || '%'
+    )
     AND (
         '{inside_sales}' IS NULL
         OR '{inside_sales}' = ''
@@ -120,7 +125,7 @@ ORDER BY
      TO_CHAR(t.trandate, 'YYYY-MM') ASC;
     """
 
-def get_bookings_data(initial_date: str, final_date: str, customer_name: str) -> str:
+def get_bookings_data(initial_date: str, final_date: str, customer_name: str, inside_sales: str) -> str:
     return f"""
     SELECT
 	t.tranid AS so_number,
@@ -146,6 +151,7 @@ INNER JOIN CustomerSubsidiaryRelationship csr ON csr.entity = t.entity AND csr.i
 INNER JOIN transactionStatus ts ON ts.id = t.status AND ts.trantype = 'SalesOrd'
 LEFT JOIN entityAddressBook eab ON eab.entity = t.entity AND eab.defaultbilling = 'T'
 LEFT JOIN EntityAddress ea ON ea.nkey = eab.addressbookaddress
+INNER JOIN employee e ON e.id = t.employee
 WHERE TO_CHAR(t.trandate, 'YYYY-MM-DD') BETWEEN '{initial_date}' AND '{final_date}'
   AND csr.subsidiary IN (5, 4, 3)
   AND t.type  IN ('SalesOrd')
@@ -157,6 +163,11 @@ WHERE TO_CHAR(t.trandate, 'YYYY-MM-DD') BETWEEN '{initial_date}' AND '{final_dat
         '{customer_name}' IS NULL
         OR '{customer_name}' = ''
         OR BUILTIN.DF(t.entity) LIKE '%' || '{customer_name}' || '%'
+    )
+  AND (
+        '{inside_sales}' IS NULL
+        OR '{inside_sales}' = ''
+        OR e.firstname || ' ' || e.lastname LIKE '%' || '{inside_sales}' || '%'
     )
 ORDER BY
      TO_CHAR(t.trandate, 'YYYY-MM') ASC;

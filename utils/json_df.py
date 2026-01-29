@@ -104,3 +104,13 @@ def load_dataset_from_json(filename: str) -> Tuple[pd.DataFrame, str]:
     
     return data
   
+def save_df_to_excel(df: pd.DataFrame, name: str = "dataset") -> str:
+    """
+    Guarda un DataFrame de pandas en un archivo Excel y devuelve el nombre del archivo.
+    """
+    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    filename = f"{timestamp}_{name}.xlsx"
+    filepath = "data/" + filename
+    df.to_excel(filepath, index=False)
+    print(f"DataFrame saved to Excel: {filepath}")
+    return filename

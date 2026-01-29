@@ -1,22 +1,25 @@
 from typing import Any, Dict, Optional, List
 from connections.postgresql import execute_pg_query, execute_pg_query_dev
-from connections.postgresql_querys import pending_guides_query, get_ob_time_delivery, get_scorecard_by_is_month, get_scorecard_by_is_daily, get_scorecard_by_is_year, get_customer_imports_data
+from connections.postgresql_querys import get_helga_guides_query, get_on_time_delivery, get_customer_imports_data
 from utils.json_df import save_result_to_json
 from utils.date import get_month_start_and_today
 from analitycs.operations import on_time_delivery_summary, build_imports_summary
 from analitycs.data_transformations import tuple_to_dataframe
 
-
-def helga_guides() -> Dict[str, Any]:
-    """Retrieve the helga guides pending to be delivery.
+def get_helga_guides(po: Optional[str] = None, status: Optional[str] = None, service: Optional[str] = None) -> Dict[str, Any]:
+    """Retrieve helga guides based on po, status and service filters.
+    
+    Use this tool when user asks for status, po or service information about helga guides.
 
     Args:
-        No args needed
+        po: Optional[str] - Purchase Order number to filter by.
+        status: Optional[str] - Status to filter by.
+        service: Optional[str] - Service to filter by.
     Returns:
         Dict[str, Any]: Collection of helga guides.
     """
     
-    sql = pending_guides_query()
+    sql = get_helga_guides_query(po=po, status=status, service=service)
     columns, rows = execute_pg_query(sql)
     
     dataset_reference = save_result_to_json(columns, rows, f"List of guides pending for delivery", name="guides_oneding_delivery")
@@ -28,9 +31,11 @@ def helga_guides() -> Dict[str, Any]:
         "results": results,
         "full_data_reference": dataset_reference
     }
-
+    
 def get_otd_indicators(initial_date: Optional[str] = None, final_date: Optional[str] = None, so_number: Optional[str] = None) -> Dict[str, Any]:
     """Retrieve the on time delivery indicators by period.
+    
+    Use this tool when user asks for on time delivery indicators by period or sales order number.
 
     Args:
         initial_date (str): Initial date in format 'YYYY-MM-DD'.
@@ -43,7 +48,7 @@ def get_otd_indicators(initial_date: Optional[str] = None, final_date: Optional[
     start_q_date = initial_date or start_of_month
     final_q_date = final_date or today_date
     
-    sql = get_ob_time_delivery(start_q_date, final_q_date, so_number)
+    sql = get_on_time_delivery(start_q_date, final_q_date, so_number)
     columns, rows = execute_pg_query_dev(sql)
     
     dataset_reference = save_result_to_json(columns, rows, "The full items delivery by period", name="otd_data")
@@ -58,37 +63,11 @@ def get_otd_indicators(initial_date: Optional[str] = None, final_date: Optional[
     
     return results
 
-def get_scorecard_by_is() -> Dict[str, Any]:
-    """Retrieve the scorecard metrics by Inside Sales Daily, Monthly and Yearly.
-
-    Args:
-        No args needed
-    Returns:
-        Dict[str, Any]: Scorecard by IS.
-    """
-    sql_monthly = get_scorecard_by_is_month()
-    columns_monthly, rows_monthly = execute_pg_query_dev(sql_monthly)
-    df_monthly = tuple_to_dataframe(columns_monthly, rows_monthly)
-    monthly_data = df_monthly.to_dict(orient="records")
     
-    sql_daily = get_scorecard_by_is_daily()
-    columns_daily, rows_daily = execute_pg_query_dev(sql_daily)
-    df_daily = tuple_to_dataframe(columns_daily, rows_daily)
-    daily_data = df_daily.to_dict(orient="records")
-    
-    sql_yearly = get_scorecard_by_is_year()
-    columns_yearly, rows_yearly = execute_pg_query_dev(sql_yearly)
-    df_yearly = tuple_to_dataframe(columns_yearly, rows_yearly)
-    yearly_data = df_yearly.to_dict(orient="records")
-    
-    return {
-        "monthly_scorecard": monthly_data,
-        "daily_scorecard": daily_data,
-        "yearly_scorecard": yearly_data
-    }
-
 def get_customer_imports(customer_name: str) -> Dict[str, Any]:
     """Retrieve the imports summary for a given customer.
+    
+    Use this tool when user asks for imports summary for a specific customer.
 
     Args:
         customer_name (str): Name of the customer.
@@ -103,10 +82,9 @@ def get_customer_imports(customer_name: str) -> Dict[str, Any]:
     summary = build_imports_summary(df)
     
     return summary
-    
-POSTGRES_TOOLS: List = [
-    helga_guides,
+
+OPS_TOOLS: List = [
+    get_helga_guides,
     get_otd_indicators,
-    get_scorecard_by_is,
     get_customer_imports
 ]

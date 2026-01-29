@@ -1,19 +1,22 @@
-import os
 from typing import Dict, List, Optional, Any
 from utils.date import get_month_start_and_today
-from utils.json_df import load_dataset_from_json, save_result_to_json
+from utils.json_df import save_result_to_json, save_df_to_excel
 from connections.netsuite import NetSuiteConnection
-from connections.netsuite_querys import get_quotes_by_inside, get_sales_orders_by_inside, get_bookings_data, get_items_quoted_by_customer, get_opportunities_data, get_sold_items_by_period, get_op_so_data
-from analitycs.data_transformations import tuple_to_dataframe, summarize_is_bookings, summarize_is_quotes, summarize_items_quoted
-from analitycs.sales import finance_summary, opportunity_summary, analyze_inside_sales, summarize_sold_items
+from connections.netsuite_querys import get_quotes_by_inside, get_bookings_data, get_items_quoted_by_customer, get_opportunities_data, get_sold_items_by_period
+from analitycs.data_transformations import tuple_to_dataframe
+from analitycs.sales import finance_summary, opportunity_summary, summarize_sold_items, summarize_is_quotes, summarize_items_quoted
 
-def quotes_overview(initial_date: Optional[str] = None, final_date: Optional[str] = None, inside_sales: Optional[str] = None) -> Dict[str, Any]:
-    """Summarize quotes for a date range showing IS, customer, amount, margin, incoterms, etc.
+
+def get_quotes(initial_date: Optional[str] = None, final_date: Optional[str] = None, inside_sales: Optional[str] = None, customer_name: Optional[str] = "") -> Dict[str, Any]:
+    """Retrieve summarized KPIs for quotes for the provided period.
+    
+    Use this tool when user asks for quotes, quotes by customer or quotes by Inside Sales.
 
     Args:
         initial_date: Start date; defaults to today.
         final_date: End date; defaults to today.
         inside_sales: Inside Sales rep to filter; optional.
+        customer_name: Customer name to filter; optional.
 
     Returns:
         Dict[str, Any]: KPIs per Inside Sales, status mix, win rate, incoterms, totals, period/timeline summaries plus dataset reference.
@@ -24,62 +27,36 @@ def quotes_overview(initial_date: Optional[str] = None, final_date: Optional[str
     final_q_date = final_date or today_date
     
     inside_sales = "" if not inside_sales else inside_sales.upper()
+    customer_name = customer_name.upper() if customer_name else ""
 
-    sql = get_quotes_by_inside(f"{start_q_date}", f"{final_q_date}", inside_sales)
+    sql = get_quotes_by_inside(f"{start_q_date}", f"{final_q_date}", inside_sales, customer_name)
     print("sql", sql)
     # Use the connection as a context manager for safe cleanup
     conn = NetSuiteConnection()
     with conn.managed() as ns:
         columns, rows = ns.execute_query(sql)
 
-    dataset_reference = save_result_to_json(columns, rows, f"Quotes by Inside Sales dataset between {initial_date} and {final_date}", name="quotes_by_is")
+    dataset_reference = save_result_to_json(columns, rows, f"Quotes by Inside Sales dataset between {initial_date} and {final_date}", name="get_quotes")
 
     df = tuple_to_dataframe(columns, rows)
+    excel_file = save_df_to_excel(df, name="get_quotes")
     results = summarize_is_quotes(df)
     results["full_data_reference"] = dataset_reference
+    results["excel_file"] = excel_file
 
     return results
 
-def salesorders_overview(initial_date: Optional[str] = None, final_date: Optional[str] = None, inside_sales: Optional[str] = None) -> Dict[str, Any]:
-    """Summarize sales orders for a date range showing IS, customer, amount, margin, incoterms, etc.
 
-    Args:
-        initial_date: Start date; defaults to today.
-        final_date: End date; defaults to today.
-        inside_sales: Inside Sales rep to filter; optional.
-
-    Returns:
-        Dict[str, Any]: KPIs per Inside Sales, status mix, top customers, totals, period/timeline summaries plus dataset reference.
-    """
+def get_bookings(initial_date: Optional[str] = None, final_date: Optional[str] = None, customer_name: Optional[str] = "", inside_sales: Optional[str] = "") -> Dict[str, Any]:
+    """Retrieve summarized KPIs for bookings for the provided period, inside sales or customer.
     
-    # Resolve default dates
-    start_of_month, today_date = get_month_start_and_today()
-    start_q_date = initial_date or today_date
-    final_q_date = final_date or today_date
-
-    inside_sales = "" if not inside_sales else inside_sales.upper()
-    
-    sql = get_sales_orders_by_inside(start_q_date, final_q_date, inside_sales)
-    print("sql", sql)
-    conn = NetSuiteConnection()
-    with conn.managed() as ns:
-        columns, rows = ns.execute_query(sql)
-
-    dataset_reference = save_result_to_json(columns, rows, f"Sales Orders by Inside Sales dataset between {initial_date} and {final_date}", name="sales_by_is")
-
-    df = tuple_to_dataframe(columns, rows)
-    results = summarize_is_bookings(df)
-    results["full_data_reference"] = dataset_reference
-
-    return results
-
-def bookings_ovreview(initial_date: Optional[str] = None, final_date: Optional[str] = None, customer_name: Optional[str] = "") -> Dict[str, Any]:
-    """Summarize bookings for a provided range showing gross margin by period, subsidiary, and customer.
+    Use this tool when user asks for bookings, bookings by customer or bookings by Inside Sales.
 
     Args:
         initial_date: Start date; defaults to first day of month.
         final_date: End date; defaults to today.
         customer_name: Optional customer filter; case-insensitive.
+        inside_sales: Optional Inside Sales filter; case-insensitive.
 
     Returns:
         Dict[str, Any]: Totals, KPI by period/subsidiary, top customers, margin buckets plus dataset reference.
@@ -90,8 +67,10 @@ def bookings_ovreview(initial_date: Optional[str] = None, final_date: Optional[s
     final_q_date = final_date or today_date
     if customer_name:
         customer_name = customer_name.upper()
+    if inside_sales:
+        inside_sales = inside_sales.upper()
 
-    sql = get_bookings_data(start_q_date, final_q_date, customer_name)
+    sql = get_bookings_data(start_q_date, final_q_date, customer_name, inside_sales)
     print("sql", sql)
     conn = NetSuiteConnection()
     with conn.managed() as ns:
@@ -105,8 +84,10 @@ def bookings_ovreview(initial_date: Optional[str] = None, final_date: Optional[s
 
     return summary
 
-def quoted_items_overview(initial_date: Optional[str] = None, final_date: Optional[str] = None, customer_name: Optional[str] = "", inside_sales: Optional[str] = "") -> Dict[str, Any]:
-    """List items quoted by customer or Inside Sales for a date range.
+def get_quoted_items(initial_date: Optional[str] = None, final_date: Optional[str] = None, customer_name: Optional[str] = "", inside_sales: Optional[str] = "") -> Dict[str, Any]:
+    """Retrieve summarized KPIs for quoted items for the provided period.
+    
+    Use this tool when user asks for quoted items, quoted items by customer or quoted items by Inside Sales.
 
     Args:
         initial_date: Start date; defaults to month start.
@@ -140,8 +121,10 @@ def quoted_items_overview(initial_date: Optional[str] = None, final_date: Option
 
     return results
 
-def sold_items_overview(initial_date: Optional[str] = None, final_date: Optional[str] = None, customer_name: Optional[str] = "", inside_sales: Optional[str] = "") -> Dict[str, Any]:
-    """List sold items with margin/vendor breakdown for a date range.
+def get_sold_items(initial_date: Optional[str] = None, final_date: Optional[str] = None, customer_name: Optional[str] = "", inside_sales: Optional[str] = "") -> Dict[str, Any]:
+    """Retrieve summarized KPIs for sold items for the provided period.
+    
+    Use this tool when user asks for sold items, sold items by customer or sold items by Inside Sales.
 
     Args:
         initial_date: Start date; defaults to month start.
@@ -174,8 +157,10 @@ def sold_items_overview(initial_date: Optional[str] = None, final_date: Optional
 
     return summary
 
-def opportunity_insights(initial_date: Optional[str] = None, final_date: Optional[str] = None, inside_sales: Optional[str] = "") -> Dict[str, Any]:
-    """Return summarized KPIs for opportunities for the provided period.
+def get_opportunities(initial_date: Optional[str] = None, final_date: Optional[str] = None, inside_sales: Optional[str] = "") -> Dict[str, Any]:
+    """Retrieve summarized KPIs for opportunities for the provided period and Inside Sales.
+    
+    Use this tool when user asks for opportunities or opportunities by Inside Sales.
 
     Args:
         initial_date: ISO-8601 string indicating the start date; defaults to today's date.
@@ -207,44 +192,12 @@ def opportunity_insights(initial_date: Optional[str] = None, final_date: Optiona
 
     return results
 
-def inside_sales_performance(initial_date: Optional[str] = None, final_date: Optional[str] = None) -> Dict[str, Any]:
-    """Analyze Inside Sales performance for the selected period (Response time, hitrate).
-    If no dates are provided, defaults to today's date.
 
-    Args:
-        initial_date: ISO-8601 string indicating the start date; defaults to today's date.
-        final_date: ISO-8601 string indicating the end date; defaults to today's date.
 
-    Returns:
-        Dict[str, Any]: Inside Sales performance (Response time, hitrate, scorecard).
-    """
-    
-    # Resolve default dates
-    start_of_month, today_date = get_month_start_and_today()
-    start_q_date = initial_date or today_date
-    final_q_date = final_date or today_date
-
-    
-    sql = get_op_so_data(start_q_date, final_q_date)
-    print("sql", sql)
-    conn = NetSuiteConnection()
-    with conn.managed() as ns:
-        columns, rows = ns.execute_query(sql)
-    
-    dataset_reference = save_result_to_json(columns, rows, f"Inside Sales Performance dataset between {initial_date} and {final_date}", name="op_to_so")
-
-    df = tuple_to_dataframe(columns, rows)
-    results = analyze_inside_sales(df)
-    results["full_data_reference"] = dataset_reference
-
-    return results
-
-NETSUITE_TOOLS: List = [
-    quotes_overview,
-    salesorders_overview,
-    bookings_ovreview,
-    quoted_items_overview,
-    sold_items_overview,
-    opportunity_insights,
-    inside_sales_performance
+SALES_TOOLS: List = [
+    get_quotes,
+    get_bookings,
+    get_quoted_items,
+    get_sold_items,
+    get_opportunities
 ]

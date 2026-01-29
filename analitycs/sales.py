@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-import json
 from typing import Dict, Any
 
 def finance_summary(df: pd.DataFrame) -> dict:
@@ -288,7 +287,6 @@ def finance_summary(df: pd.DataFrame) -> dict:
 
     return output
 
-
 def opportunity_summary(df: pd.DataFrame) -> dict:
     """
     df: DataFrame con columnas:
@@ -464,266 +462,6 @@ def opportunity_summary(df: pd.DataFrame) -> dict:
     }
 
     return output
-
-def analyze_inside_sales(df: pd.DataFrame) -> dict:
-    """
-    Analiza desempeño de Inside Sales a partir de un dataset con columnas:
-    ['op_number', 'op_date', 'op_status', 'inside_sales', 'customer',
-     'q_number', 'q_date', 'q_status', 'q_amount',
-     'so_number', 'so_date', 'so_status', 'so_amount']
-    
-    Retorna un dict (JSON-serializable) con:
-        - summary: métricas globales (sin texto natural)
-        - response_time: métricas de tiempo de respuesta Oportunidad → Quote
-        - hitrates: KPIs de conversión O→Q (volumen) y Q→SO (volumen y monto)
-        - scorecard_inside_sales: ranking por Inside Sales
-    """
-
-    df = df.copy()
-
-    # ------------------------------
-    # Normalización de tipos de datos (solo uso interno)
-    # ------------------------------
-    date_cols = ["op_date", "q_date", "so_date"]
-    for col in date_cols:
-        if col in df.columns:
-            df[col] = pd.to_datetime(df[col], errors="coerce")
-
-    # Asegurar que montos sean numéricos
-    for col in ["q_amount", "so_amount"]:
-        if col in df.columns:
-            df[col] = pd.to_numeric(df[col], errors="coerce")
-
-    # ------------------------------
-    # 1. MÉTRICAS GLOBALES (summary numérico)
-    # ------------------------------
-    total_opps = int(len(df))
-    total_quotes = int(df["q_number"].notna().sum())
-    total_sos = int(df["so_number"].notna().sum())
-
-    # Hitrate Oportunidad → Quote (volumen)
-    if total_opps > 0:
-        hitrate_o_q_vol = total_quotes / total_opps
-    else:
-        hitrate_o_q_vol = np.nan
-
-    # Hitrate Quote → SO (volumen)
-    total_quotes_for_hitrate = total_quotes
-    quotes_with_so = int(df[df["q_number"].notna() & df["so_number"].notna()].shape[0])
-
-    if total_quotes_for_hitrate > 0:
-        hitrate_q_so_vol = quotes_with_so / total_quotes_for_hitrate
-    else:
-        hitrate_q_so_vol = np.nan
-
-    # Hitrate Quote → SO (monto)
-    total_q_amount = df.loc[df["q_number"].notna(), "q_amount"].sum(min_count=1)
-    converted_so_amount = df.loc[
-        df["q_number"].notna() & df["so_number"].notna(), "so_amount"
-    ].sum(min_count=1)
-
-    if pd.notna(total_q_amount) and total_q_amount > 0:
-        hitrate_q_so_amt = converted_so_amount / total_q_amount
-    else:
-        hitrate_q_so_amt = np.nan
-
-    def _to_float_or_none(x):
-        return float(x) if pd.notna(x) else None
-
-    summary = {
-        "total_opportunities": total_opps,
-        "total_quotes": total_quotes,
-        "total_sales_orders": total_sos,
-        "hitrate_opportunity_to_quote_volume": _to_float_or_none(hitrate_o_q_vol),
-        "hitrate_quote_to_so_volume": _to_float_or_none(hitrate_q_so_vol),
-        "hitrate_quote_to_so_amount": _to_float_or_none(hitrate_q_so_amt),
-    }
-
-    # ------------------------------
-    # 2. TIEMPO DE RESPUESTA OPORTUNIDAD → QUOTE
-    # ------------------------------
-    mask_resp = df["op_date"].notna() & df["q_date"].notna()
-    df_resp = df.loc[mask_resp].copy()
-
-    if not df_resp.empty:
-        df_resp["response_time_days"] = (
-            df_resp["q_date"] - df_resp["op_date"]
-        ).dt.total_seconds() / 86400.0
-
-        overall_response_time = {
-            "count": int(df_resp.shape[0]),
-            "avg_days": _to_float_or_none(df_resp["response_time_days"].mean()),
-            "median_days": _to_float_or_none(df_resp["response_time_days"].median()),
-            "p90_days": _to_float_or_none(df_resp["response_time_days"].quantile(0.9)),
-        }
-
-        by_is = (
-            df_resp.groupby("inside_sales")["response_time_days"]
-            .agg(["count", "mean", "median"])
-            .reset_index()
-        )
-        by_is = by_is.rename(columns={"mean": "avg_days", "median": "median_days"})
-
-        response_time_by_inside = []
-        for _, row in by_is.iterrows():
-            response_time_by_inside.append(
-                {
-                    "inside_sales": row["inside_sales"],
-                    "count": int(row["count"]),
-                    "avg_days": _to_float_or_none(row["avg_days"]),
-                    "median_days": _to_float_or_none(row["median_days"]),
-                }
-            )
-
-        response_time = {
-            "overall": overall_response_time,
-            "by_inside_sales": response_time_by_inside,
-        }
-    else:
-        response_time = {
-            "overall": None,
-            "by_inside_sales": [],
-        }
-
-    # ------------------------------
-    # 3. HITRATES DETALLADOS
-    # ------------------------------
-    hitrates = {
-        "opportunity_to_quote": {
-            "volume": {
-                "total_opportunities": total_opps,
-                "with_quote": total_quotes,
-                "hitrate": _to_float_or_none(hitrate_o_q_vol),
-            }
-        },
-        "quote_to_sales_order": {
-            "volume": {
-                "total_quotes": total_quotes_for_hitrate,
-                "with_sales_order": quotes_with_so,
-                "hitrate": _to_float_or_none(hitrate_q_so_vol),
-            },
-            "amount": {
-                "total_quote_amount": _to_float_or_none(total_q_amount),
-                "converted_so_amount": _to_float_or_none(converted_so_amount),
-                "hitrate": _to_float_or_none(hitrate_q_so_amt),
-            },
-        },
-    }
-
-    # ------------------------------
-    # 4. SCORECARD / RANKING POR INSIDE SALES
-    # ------------------------------
-    def n_notna(series):
-        return int(series.notna().sum())
-
-    base = (
-        df.groupby("inside_sales")
-        .agg(
-            total_opportunities=("op_number", "count"),
-            total_quotes=("q_number", n_notna),
-            total_sos=("so_number", n_notna),
-            total_q_amount=("q_amount", "sum"),
-            total_so_amount=("so_amount", "sum"),
-        )
-        .reset_index()
-    )
-
-    # Hitrates por Inside Sales
-    base["hitrate_op_q_volume"] = np.where(
-        base["total_opportunities"] > 0,
-        base["total_quotes"] / base["total_opportunities"],
-        np.nan,
-    )
-
-    base["hitrate_q_so_volume"] = np.where(
-        base["total_quotes"] > 0,
-        base["total_sos"] / base["total_quotes"],
-        np.nan,
-    )
-
-    base["hitrate_q_so_amount"] = np.where(
-        base["total_q_amount"] > 0,
-        base["total_so_amount"] / base["total_q_amount"],
-        np.nan,
-    )
-
-    # Tiempos de respuesta por Inside Sales
-    if not df_resp.empty:
-        rt_by_is = (
-            df_resp.groupby("inside_sales")["response_time_days"]
-            .mean()
-            .rename("avg_response_time_days")
-            .reset_index()
-        )
-    else:
-        rt_by_is = pd.DataFrame(columns=["inside_sales", "avg_response_time_days"])
-
-    base = base.merge(rt_by_is, on="inside_sales", how="left")
-
-    # Normalización para score
-    def min_max_norm(series):
-        s = series.astype(float)
-        if s.notna().sum() == 0:
-            return pd.Series([np.nan] * len(s), index=s.index)
-        min_v = s.min()
-        max_v = s.max()
-        if pd.isna(min_v) or pd.isna(max_v) or min_v == max_v:
-            return pd.Series([1.0] * len(s), index=s.index)
-        return (s - min_v) / (max_v - min_v)
-
-    base["norm_hitrate_op_q_volume"] = min_max_norm(base["hitrate_op_q_volume"])
-    base["norm_hitrate_q_so_volume"] = min_max_norm(base["hitrate_q_so_volume"])
-    base["norm_hitrate_q_so_amount"] = min_max_norm(base["hitrate_q_so_amount"])
-
-    base["norm_response_time"] = min_max_norm(base["avg_response_time_days"])
-    if base["norm_response_time"].notna().any():
-        base["norm_response_time_inv"] = 1 - base["norm_response_time"]
-    else:
-        base["norm_response_time_inv"] = np.nan
-
-    # Pesos del score
-    w_op_q = 0.2
-    w_vol = 0.3
-    w_amt = 0.4
-    w_rt = 0.1
-
-    base["score"] = (
-        w_op_q * base["norm_hitrate_op_q_volume"].fillna(0)
-        + w_vol * base["norm_hitrate_q_so_volume"].fillna(0)
-        + w_amt * base["norm_hitrate_q_so_amount"].fillna(0)
-        + w_rt * base["norm_response_time_inv"].fillna(0)
-    ) * 100.0
-
-    base_sorted = base.sort_values("score", ascending=False)
-
-    scorecard_list = []
-    for _, row in base_sorted.iterrows():
-        scorecard_list.append(
-            {
-                "inside_sales": row["inside_sales"],
-                "total_opportunities": int(row["total_opportunities"]),
-                "total_quotes": int(row["total_quotes"]),
-                "total_sos": int(row["total_sos"]),
-                "total_q_amount": _to_float_or_none(row["total_q_amount"]),
-                "total_so_amount": _to_float_or_none(row["total_so_amount"]),
-                "hitrate_op_q_volume": _to_float_or_none(row["hitrate_op_q_volume"]),
-                "hitrate_q_so_volume": _to_float_or_none(row["hitrate_q_so_volume"]),
-                "hitrate_q_so_amount": _to_float_or_none(row["hitrate_q_so_amount"]),
-                "avg_response_time_days": _to_float_or_none(
-                    row["avg_response_time_days"]
-                ),
-                "score": _to_float_or_none(row["score"]),
-            }
-        )
-
-    result = {
-        "summary": summary,
-        "response_time": response_time,
-        "hitrates": hitrates,
-        "full_data_reference": "dataset_reference"
-    }
-
-    return result
 
 def summarize_sold_items(df: pd.DataFrame) -> Dict[str, Any]:
     """
@@ -995,3 +733,443 @@ def summarize_sold_items(df: pd.DataFrame) -> Dict[str, Any]:
     }
 
     return output
+
+def general_summary_is_q_so(df: pd.DataFrame) -> Dict[str, Any]:
+    """Generate a general summary from IS quotes or sales orders DataFrame."""
+    df["CreateDate"] = pd.to_datetime(df["CreateDate"])
+    general_total = {
+        "total_amount": float(df["Amount"].sum()),
+        "total_transactions": int(df["QuoteNumber"].nunique() if "QuoteNumber" in df else df["SO"].nunique()),
+        "total_customers": int(df["Customer"].nunique()),
+        "start_date": str(df["CreateDate"].min().date()),
+        "end_date": str(df["CreateDate"].max().date()),
+    }
+    
+    df["period"] = df["CreateDate"].dt.to_period("M").astype(str)
+
+    period_summary = (
+        df.groupby("period", as_index=False)
+        .agg(
+            total_amount=("Amount", "sum"),
+            total_transactions=("QuoteNumber", "nunique") if "QuoteNumber" in df else ("SO", "nunique"),
+            total_customers=("Customer", "nunique"),
+        )
+    )
+
+    period_summary["avg_ticket"] = (
+        period_summary["total_amount"] / period_summary["total_transactions"]
+    )
+
+    customers_by_period = (
+        df.groupby("period", as_index=False)
+        .agg(
+            customers=("Customer", "nunique"),
+        )
+    )
+    customer_summary = {
+        "total_unique_customers": df["Customer"].nunique(),
+        "customers_by_period": customers_by_period.to_dict(orient="records")
+    }
+
+    timeline_general = (
+        df.groupby("CreateDate", as_index=False)
+        .agg(
+            total_amount=("Amount", "sum"),
+            total_transactions=("QuoteNumber", "nunique") if "QuoteNumber" in df else ("SO", "nunique")
+        )
+    )
+
+    timeline_general["CreateDate"] = timeline_general["CreateDate"].dt.strftime("%Y-%m-%d")
+
+    general_summary = {
+        "general_total": general_total,
+        "period_summary": period_summary.to_dict(orient="records"),
+        "customer_summary": customer_summary,
+        "timeline_general": timeline_general.to_dict(orient="records"),
+    }
+    return general_summary
+
+def summarize_is_bookings(df: pd.DataFrame) -> Dict[str, Any]:
+    """Generate summaries from the IS bookings DataFrame."""
+
+    # 01. KPI by Inside Sale
+    kpi_by_inside = (
+        df.groupby("InsideSale", as_index=False)
+        .agg(
+            total_amount=("Amount", "sum"),
+            num_orders=("SO", "nunique"),
+        )
+    )
+
+    kpi_by_inside["avg_ticket"] = (
+        kpi_by_inside["total_amount"] / kpi_by_inside["num_orders"]
+    )
+
+    kpi_by_inside["rank_by_amount"] = (
+        kpi_by_inside["total_amount"].rank(method="dense", ascending=False).astype(int)
+    )
+
+    kpi_by_inside = kpi_by_inside.sort_values("rank_by_amount").to_dict("records")
+
+    # 02. Status by Inside Sale
+    status_by_inside = (
+        df.groupby(["InsideSale", "Status"], as_index=False)
+        .agg(
+            num_orders=("SO", "nunique"),
+            total_amount=("Amount", "sum"),
+            so_list=("SO", lambda x: list(x)),  # lista de SO por inside+status
+        )
+    )
+    status_distribution_by_is = []
+
+    for inside, group in status_by_inside.groupby("InsideSale"):
+        status_summary = {}
+        for _, row in group.iterrows():
+            status = row["Status"]
+            status_summary[status] = {
+                "num_orders": int(row["num_orders"]),
+                "total_amount": float(row["total_amount"]),
+                "so_list": list(row["so_list"]),
+            }
+
+        status_distribution_by_is.append({
+            "inside_sale": inside,
+            "status_summary": status_summary,
+        })
+
+    # 03. Top Customers by amount
+    top_customers_raw = (
+        df.groupby(["InsideSale", "Customer"], as_index=False)
+        .agg(
+            numero_ordenes=("SO", "nunique"),
+            amount=("Amount", "sum")
+        )
+    )
+    top_customers_raw = top_customers_raw.sort_values(
+        ["InsideSale", "amount"], ascending=[True, False]
+    )
+    TOP_N_CUSTOMERS = 3
+    top5_customers_per_inside = (
+        top_customers_raw
+        .groupby("InsideSale")
+        .head(TOP_N_CUSTOMERS)
+    )
+    inside_top5_amount = (
+        top5_customers_per_inside
+        .groupby("InsideSale", as_index=False)
+        .agg(
+            top5_total_amount=("amount", "sum")
+        )
+    )
+    TOP_N_INSIDES = 5
+
+    top5_insides_by_top5_amount = (
+        inside_top5_amount
+        .sort_values("top5_total_amount", ascending=False)
+        .head(TOP_N_INSIDES)
+    )
+
+    insides_keep = top5_insides_by_top5_amount["InsideSale"]
+    top5_customers_top5_insides = top5_customers_per_inside[
+        top5_customers_per_inside["InsideSale"].isin(insides_keep)
+    ]
+    result = []
+
+    for inside, group in top5_customers_top5_insides.groupby("InsideSale"):
+        total_top5_amount = float(group["amount"].sum())
+        result.append({
+            "inside_sale": inside,
+            "top5_total_amount": total_top5_amount,
+            "top_customers": [
+                {
+                    "customer": row["Customer"],
+                    "numero_ordenes": int(row["numero_ordenes"]),
+                    "amount": float(row["amount"]),
+                }
+                for _, row in group.iterrows()
+            ],
+        })
+    top5_insides_by_customer = sorted(result, key=lambda x: x["top5_total_amount"], reverse=True)
+    
+    general_summary = general_summary_is_q_so(df)
+
+    return {
+        "general_summary": general_summary,
+        "kpi_by_inside": kpi_by_inside,
+        "status_by_inside": status_distribution_by_is,
+        "top_customers": top5_insides_by_customer,
+        "full_data_reference": None  # Placeholder for full data reference
+    }
+    
+def summarize_is_quotes(df: pd.DataFrame) -> Dict[str, Any]:
+    """Generate summaries from the IS quotes DataFrame."""
+    # 01. KPI by Inside Sale
+    df = df.copy()
+
+    # Asegurar tipos numéricos para evitar problemas
+    df["Amount"] = pd.to_numeric(df["Amount"], errors="coerce")
+    if "GrossMargin" in df.columns:
+        df["GrossMargin"] = pd.to_numeric(df["GrossMargin"], errors="coerce")
+    if "GrossMarginPct" in df.columns:
+        df["GrossMarginPct"] = pd.to_numeric(df["GrossMarginPct"], errors="coerce")
+
+    # 01. KPI by Inside Sale
+    kpi_by_inside = (
+        df.groupby("InsideSale", as_index=False)
+        .agg(
+            total_amount=("Amount", "sum"),
+            num_quotes=("QuoteNumber", "nunique"),
+        )
+    )
+
+    kpi_by_inside["avg_quote_amount"] = (
+        kpi_by_inside["total_amount"] / kpi_by_inside["num_quotes"]
+    )
+
+    kpi_by_inside["rank_by_amount"] = (
+        kpi_by_inside["total_amount"].rank(method="dense", ascending=False).astype(int)
+    )
+
+    kpi_by_inside = kpi_by_inside.sort_values("rank_by_amount").to_dict("records")
+    
+
+    # 02. Funnel + Win Rate by Inside Sale
+    status_by_inside = (
+        df.groupby(["InsideSale", "Status"], as_index=False)
+        .agg(
+            num_quotes=("QuoteNumber", "nunique"),
+            total_amount=("Amount", "sum"),
+            quote_list=("QuoteNumber", lambda x: list(x)),  # lista de quotes por status
+        )
+    )
+
+    # Cálculo robusto de winrate (corrigiendo closed_amount)
+    df_win = df.copy()
+    df_win["is_closed"] = df_win["Status"].eq("Closed")
+    df_win["closed_amount"] = np.where(df_win["is_closed"], df_win["Amount"], 0.0)
+
+    winrate = (
+        df_win.groupby("InsideSale", as_index=False)
+        .agg(
+            total_quotes=("QuoteNumber", "nunique"),
+            total_amount=("Amount", "sum"),
+            closed_quotes=("is_closed", "sum"),
+            closed_amount=("closed_amount", "sum"),
+        )
+    )
+
+    # Evitar división por cero
+    winrate["win_rate_quotes"] = np.where(
+        winrate["total_quotes"] > 0,
+        winrate["closed_quotes"] / winrate["total_quotes"],
+        np.nan,
+    )
+    winrate["win_rate_amount"] = np.where(
+        winrate["total_amount"] > 0,
+        winrate["closed_amount"] / winrate["total_amount"],
+        np.nan,
+    )
+
+    status_summary_by_inside = []
+
+    for inside, group in status_by_inside.groupby("InsideSale"):
+        status_summary = {}
+        for _, row in group.iterrows():
+            status = row["Status"]
+            status_summary[status] = {
+                "num_quotes": int(row["num_quotes"]),
+                "total_amount": float(row["total_amount"]),
+                "quote_list": list(row["quote_list"]),
+            }
+        status_summary_by_inside.append({
+            "inside_sale": inside,
+            "status_summary": status_summary
+        })
+
+    # 03. Incoterms distribution
+    incoterms_by_inside = (
+        df.groupby(["InsideSale", "IncoTerms"], as_index=False)
+        .agg(
+            num_quotes=("QuoteNumber", "nunique"),
+            total_amount=("Amount", "sum")
+        )
+    )
+    incoterms_by_inside["amount_share_inside"] = (
+        incoterms_by_inside
+        .groupby("InsideSale")["total_amount"]
+        .transform(lambda x: x / x.sum())
+    )
+    incoterms_payload = []
+
+    for inside, group in incoterms_by_inside.groupby("InsideSale"):
+        incoterms_payload.append({
+            "inside_sale": inside,
+            "incoterms": [
+                {
+                    "incoterm": row["IncoTerms"],
+                    "num_quotes": int(row["num_quotes"]),
+                    "total_amount": float(row["total_amount"]),
+                    "amount_share_inside": float(row["amount_share_inside"]),
+                }
+                for _, row in group.iterrows()
+            ],
+        })
+
+    # 04. NUEVO: Inside Sales con total cotizado < 30000 USD
+    totals_by_inside = (
+        df.groupby("InsideSale", as_index=False)
+        .agg(total_amount=("Amount", "sum"))
+    )
+
+    under_30000 = totals_by_inside[totals_by_inside["total_amount"] < 30000]
+
+    inside_sales_under_30000 = [
+        {
+            "inside_sale": row["InsideSale"],
+            "total_amount": float(row["total_amount"]),
+        }
+        for _, row in under_30000.iterrows()
+    ]
+
+    # 05. NUEVO: Cotizaciones con margen < 15%
+    quotes_under_15pct_margin = []
+    if "GrossMarginPct" in df.columns:
+        low_margin_df = df[df["GrossMarginPct"] < 0.15].copy()
+
+        for _, row in low_margin_df.iterrows():
+            quotes_under_15pct_margin.append({
+                "quote_number": row["QuoteNumber"],
+                "inside_sale": row["InsideSale"],
+                "customer": row["Customer"],
+                "amount": float(row["Amount"]) if pd.notna(row["Amount"]) else None,
+                "gross_margin": float(row["GrossMargin"]) if "GrossMargin" in df.columns and pd.notna(row["GrossMargin"]) else None,
+                "gross_margin_pct": float(row["GrossMarginPct"]) if pd.notna(row["GrossMarginPct"]) else None,
+                "status": row["Status"],
+            })
+
+    # General summary (tu función existente)
+    general_summary = general_summary_is_q_so(df)
+
+    return {
+        "general_summary": general_summary,
+        "kpi_by_inside": kpi_by_inside,
+        "status_summary_by_inside": status_summary_by_inside,
+        "incoterms_by_inside": incoterms_payload,
+        "inside_sales_under_30000": inside_sales_under_30000,
+        "quotes_under_15pct_margin": quotes_under_15pct_margin,
+        "full_data_reference": None,
+    }
+    
+def summarize_items_quoted(df: pd.DataFrame) -> Dict[str, Any]:
+    """Generate summaries from the items quoted DataFrame."""
+    # Add calculated column for line value
+    df["line_value"] = df["qty"] * df["unit_price"]
+    # 01. More Used Vendor Summary
+    vendor_summary = (
+        df.groupby("selected_vendor", dropna=False, as_index=False)
+        .agg(
+            num_quotes=("quote", "nunique"),
+            num_lines=("item", "count"),
+            total_qty=("qty", "sum"),
+            num_customers=("customer", "nunique"),
+            num_brands=("brand", "nunique"),
+            num_product_groups=("product_group", "nunique"),
+            total_value=("line_value", "sum"),  # opcional
+            quotes_list=("quote", lambda x: sorted(x.unique())),
+            brands_list=("brand", lambda x: sorted(x.dropna().unique())),
+        )
+        .sort_values(["num_quotes", "num_lines"], ascending=False)
+        .to_dict("records")
+    )
+
+    # 02. More demanded Brand Summary
+    brand_summary = (
+        df.groupby("brand", dropna=False, as_index=False)
+        .agg(
+            num_quotes=("quote", "nunique"),
+            num_lines=("item", "count"),
+            total_qty=("qty", "sum"),
+            num_customers=("customer", "nunique"),
+            num_vendors=("selected_vendor", "nunique"),
+            total_value=("line_value", "sum"),
+            quotes_list=("quote", lambda x: sorted(x.unique())),
+        )
+        .sort_values(["num_lines", "total_qty"], ascending=False)
+        .to_dict("records")
+    )
+
+    # 03. Customer By brand
+    customer_brand_df = (
+        df.groupby(["customer", "brand"], dropna=False, as_index=False)
+        .agg(
+            num_quotes=("quote", "nunique"),
+            num_lines=("item", "count"),
+            total_qty=("qty", "sum"),
+            num_vendors=("selected_vendor", "nunique"),
+            total_value=("line_value", "sum"),
+        )
+    )
+    customer_brand = (
+        customer_brand_df
+        .sort_values(["customer", "total_qty"], ascending=[True, False])
+        .groupby("customer", as_index=False)
+        .apply(
+            lambda g: pd.Series({
+                "brands": [
+                    {
+                        "brand": row["brand"],
+                        "num_quotes": int(row["num_quotes"]),
+                        "num_lines": int(row["num_lines"]),
+                        "total_qty": float(row["total_qty"]),
+                        "num_vendors": int(row["num_vendors"]),
+                        "total_value": float(row["total_value"]),
+                    }
+                    for _, row in g.iterrows()
+                ]
+            }),
+            include_groups=False
+        )
+        .to_dict("records")
+    )
+
+    # 04. Summary by Inside Sales 
+    inside_sales_summary = (
+        df.groupby("inside_sales", dropna=False, as_index=False)
+        .agg(
+            num_product_groups=("product_group", "nunique"),
+            product_groups_list=("product_group", lambda x: sorted({pg for pg in x if pd.notna(pg)})),
+
+            num_brands=("brand", "nunique"),
+            brands_list=("brand", lambda x: sorted({b for b in x if pd.notna(b)})),
+
+            num_vendors=("selected_vendor", "nunique"),
+            vendors_list=("selected_vendor", lambda x: sorted({v for v in x if pd.notna(v)})),
+        )
+        .sort_values(["num_product_groups", "num_brands", "num_vendors"], ascending=False)
+        .head(10)
+        .to_dict("records")
+    )
+
+    # 05. Top items quoted
+    top_items_summary = (
+        df.groupby(["item", "brand", "product_group"], dropna=False, as_index=False)
+        .agg(
+            num_lines=("quote", "count"),       # cuántas veces fue cotizado
+            total_qty=("qty", "sum"),
+            avg_price=("unit_price", "mean"),
+            total_value=("line_value", "sum"),
+        )
+        .sort_values("total_value", ascending=False)
+        .head(10)
+        .to_dict("records")
+    )
+    
+    return {
+        "vendor_summary": vendor_summary,
+        "brand_summary": brand_summary,
+        "inside_sales_summary": inside_sales_summary,
+        "customer_brand": customer_brand,
+        "top_items_summary": top_items_summary,
+        "full_data_reference": None
+    }
+    
