@@ -13,19 +13,24 @@ DEFAULT_ANNOTATIONS = {
     "openWorldHint": False,    # ✅ no “mundo abierto” (si es SQL predefinido, no debería ser open world)
 }
 
+def tool_register(fn):
+    app.tool(
+        enabled=True,
+        annotations=DEFAULT_ANNOTATIONS,
+    )(fn)
+    
 for tool_sales in SALES_TOOLS:
-    app.tool(tool_sales, enabled=True, annotations=DEFAULT_ANNOTATIONS)
+    tool_register(tool_sales)
 
 for tool_files in FILES_TOOLS:
-    app.tool(tool_files, enabled=True, annotations=DEFAULT_ANNOTATIONS)
+    tool_register(tool_files)
     
 for tool_performance in PERFORMANCE_TOOLS:
-    app.tool(tool_performance, enabled=True, annotations=DEFAULT_ANNOTATIONS)
+    tool_register(tool_performance)
     
 for tool_ops in OPS_TOOLS:
-    app.tool(tool_ops , enabled=True, annotations=DEFAULT_ANNOTATIONS)
+    tool_register(tool_ops)
     
-
 
 
 
