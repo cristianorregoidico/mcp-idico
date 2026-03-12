@@ -131,7 +131,7 @@ def finance_summary(df: pd.DataFrame) -> dict:
     # -----------------------------
     # 5) TOP CLIENTES & CONCENTRACIÓN
     # -----------------------------
-    top_n = 3
+    top_n = 10
     top_clients_series = (
         df.groupby("customer")["net_usd"]
         .sum()
@@ -1031,13 +1031,13 @@ def summarize_is_quotes(df: pd.DataFrame) -> Dict[str, Any]:
         for _, row in under_30000.iterrows()
     ]
 
-    # 05. NUEVO: Cotizaciones con margen < 15%
-    quotes_under_15pct_margin = []
+    # 05. NUEVO: Cotizaciones con margen < 20%
+    quotes_under_20pct_margin = []
     if "GrossMarginPct" in df.columns:
-        low_margin_df = df[df["GrossMarginPct"] < 0.15].copy()
+        low_margin_df = df[df["GrossMarginPct"] < 0.20].copy()
 
         for _, row in low_margin_df.iterrows():
-            quotes_under_15pct_margin.append({
+            quotes_under_20pct_margin.append({
                 "quote_number": row["QuoteNumber"],
                 "inside_sale": row["InsideSale"],
                 "customer": row["Customer"],
@@ -1045,6 +1045,62 @@ def summarize_is_quotes(df: pd.DataFrame) -> Dict[str, Any]:
                 "gross_margin": float(row["GrossMargin"]) if "GrossMargin" in df.columns and pd.notna(row["GrossMargin"]) else None,
                 "gross_margin_pct": float(row["GrossMarginPct"]) if pd.notna(row["GrossMarginPct"]) else None,
                 "status": row["Status"],
+            })
+
+    # 06. NUEVO: Agrupación por Subsidiary con distribución por InsideSale
+    subsidiary_distribution = []
+    if {"Subsidiary", "InsideSale", "QuoteNumber", "Amount"}.issubset(df.columns):
+        subsidiary_base = (
+            df.groupby("Subsidiary", as_index=False)
+            .agg(
+                total_amount=("Amount", "sum"),
+                num_quotes=("QuoteNumber", "nunique"),
+            )
+        )
+
+        inside_by_subsidiary = (
+            df.groupby(["Subsidiary", "InsideSale"], as_index=False)
+            .agg(
+                total_amount=("Amount", "sum"),
+                num_quotes=("QuoteNumber", "nunique"),
+            )
+        )
+
+        for _, sub_row in subsidiary_base.iterrows():
+            subsidiary = sub_row["Subsidiary"]
+            sub_total_amount = float(sub_row["total_amount"])
+            sub_num_quotes = int(sub_row["num_quotes"])
+
+            sub_inside = inside_by_subsidiary[
+                inside_by_subsidiary["Subsidiary"] == subsidiary
+            ].copy()
+            sub_inside = sub_inside.sort_values("total_amount", ascending=False)
+
+            inside_distribution = []
+            for _, inside_row in sub_inside.iterrows():
+                inside_total_amount = float(inside_row["total_amount"])
+                inside_num_quotes = int(inside_row["num_quotes"])
+                inside_distribution.append({
+                    "inside_sale": inside_row["InsideSale"],
+                    "total_amount": inside_total_amount,
+                    "num_quotes": inside_num_quotes,
+                    "amount_share_subsidiary": (
+                        inside_total_amount / sub_total_amount
+                        if sub_total_amount > 0
+                        else 0.0
+                    ),
+                    "quotes_share_subsidiary": (
+                        inside_num_quotes / sub_num_quotes
+                        if sub_num_quotes > 0
+                        else 0.0
+                    ),
+                })
+
+            subsidiary_distribution.append({
+                "subsidiary": subsidiary,
+                "total_amount": sub_total_amount,
+                "num_quotes": sub_num_quotes,
+                "inside_sale_distribution": inside_distribution,
             })
 
     # General summary (tu función existente)
@@ -1056,7 +1112,8 @@ def summarize_is_quotes(df: pd.DataFrame) -> Dict[str, Any]:
         "status_summary_by_inside": status_summary_by_inside,
         "incoterms_by_inside": incoterms_payload,
         "inside_sales_under_30000": inside_sales_under_30000,
-        "quotes_under_15pct_margin": quotes_under_15pct_margin,
+        "quotes_under_20pct_margin": quotes_under_20pct_margin,
+        "subsidiary_distribution": subsidiary_distribution,
         "full_data_reference": None,
     }
     
@@ -1173,3 +1230,62 @@ def summarize_items_quoted(df: pd.DataFrame) -> Dict[str, Any]:
         "full_data_reference": None
     }
     
+def analize_hr_desviado(df_cus_brand: pd.DataFrame, df_country_brand: pd.DataFrame) -> Dict[str, Any]:
+    """
+    Divide el dataframe por año y ordena cada subset por probabilidad descendente.
+    
+    Returns:
+        df_2025, df_2024
+    """
+    
+    df_customer_2025 = (
+        df_cus_brand[df_cus_brand["year"] == 2025]
+        .sort_values(by="probabilidad", ascending=False)
+        .reset_index(drop=True)
+        .to_dict(orient="records")
+    )
+    
+    df_customer_2024 = (
+        df_cus_brand[df_cus_brand["year"] == 2024]
+        .sort_values(by="probabilidad", ascending=False)
+        .reset_index(drop=True)
+        .to_dict(orient="records")
+    )
+    
+    df_country_2025 = (
+        df_country_brand[df_country_brand["year"] == 2025]
+        .sort_values(by="probabilidad", ascending=False)
+        .reset_index(drop=True)
+        .to_dict(orient="records")
+    )
+    
+    df_country_2024 = (
+        df_country_brand[df_country_brand["year"] == 2024]
+        .sort_values(by="probabilidad", ascending=False)
+        .reset_index(drop=True)
+        .to_dict(orient="records")
+    )
+    result = {
+        "vendors_by_customer_brand": {
+            "current": {
+                "label": "Based on current real time data",
+                "data": df_customer_2025 if len(df_customer_2025) > 0 else "No recent data available this client" 
+            },
+            "old": {
+                "label": "Based on data before to 2025",
+                "data": df_customer_2024 if len(df_customer_2024) > 0 else "No historical data available this client"
+            }
+        },
+        "vendors_by_country_brand": {
+            "current": {
+                "label": "Based on current real time data",
+                "data": df_country_2025 if len(df_country_2025) > 0 else "No recent data available this country"
+            },
+            "old": {
+                "label": "Based on data before to 2025",
+                "data": df_country_2024 if len(df_country_2024) > 0 else "No historical data available this country"
+            }
+        }
+    }
+
+    return result

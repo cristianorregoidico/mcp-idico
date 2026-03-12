@@ -4,7 +4,9 @@ from utils.json_df import save_result_to_json, save_df_to_excel
 from connections.netsuite import NetSuiteConnection
 from connections.netsuite_querys import get_quotes_by_inside, get_bookings_data, get_items_quoted_by_customer, get_opportunities_data, get_sold_items_by_period
 from analitycs.data_transformations import tuple_to_dataframe
-from analitycs.sales import finance_summary, opportunity_summary, summarize_sold_items, summarize_is_quotes, summarize_items_quoted
+from analitycs.sales import finance_summary, opportunity_summary, summarize_sold_items, summarize_is_quotes, summarize_items_quoted, analize_hr_desviado
+from connections.postgresql_querys import get_vendors_customer_brand, get_customer_country, get_vendors_country_brand
+from connections.postgresql import execute_pg_query_dev
 
 
 def get_quotes(initial_date: Optional[str] = None, final_date: Optional[str] = None, inside_sales: Optional[str] = None, customer_name: Optional[str] = "") -> Dict[str, Any]:
@@ -50,7 +52,7 @@ def get_quotes(initial_date: Optional[str] = None, final_date: Optional[str] = N
 def get_bookings(initial_date: Optional[str] = None, final_date: Optional[str] = None, customer_name: Optional[str] = "", inside_sales: Optional[str] = "") -> Dict[str, Any]:
     """Retrieve summarized KPIs for bookings for the provided period, inside sales or customer.
     
-    Use this tool when user asks for bookings, bookings by customer or bookings by Inside Sales.
+    Use this tool when user asks for bookings, bookings by customer, bookings by Inside Sales or sales in general.
 
     Args:
         initial_date: Start date; defaults to first day of month.
@@ -192,6 +194,46 @@ def get_opportunities(initial_date: Optional[str] = None, final_date: Optional[s
 
     return results
 
+def get_vendors_to_quote(customer_name: str, brand: str) -> Dict[str, Any]:
+    """Retrieve a list of vendors to quote for a given customer and brand.
+    
+    Use this tool when user asks for vendors to quote for a specific customer and brand.
+
+    Args:
+        customer_name: Name of the customer (case-insensitive).
+        brand: Brand name to filter by (case-insensitive).
+    Returns:
+        Dict[str, Any]: List of vendors that should be quoted for the specified customer and brand, along with any relevant details to assist in the quoting process.
+    """
+    if not customer_name or not brand:
+        raise ValueError("Both customer_name and brand must be provided.")
+    customer_name = customer_name.upper()
+    brand = brand.upper()
+    
+    # Define the SQL for data with customer and brand
+    sql_cus_brand = get_vendors_customer_brand(customer_name, brand)
+    print("sql", sql_cus_brand)
+    columns_cus_brand, rows_cus_brand = execute_pg_query_dev(sql_cus_brand)
+    df_cus_brand = tuple_to_dataframe(columns_cus_brand, rows_cus_brand)
+    
+    # Get the customer's country to further filter vendors by brand and country
+    sql_country = get_customer_country(customer_name)
+    print("sql_country", sql_country)
+    columns_country, rows_country = execute_pg_query_dev(sql_country)
+    country = rows_country[0][0] if rows_country else ''
+    
+    # Define the SQL for data with country and brand
+    sql_country_brand = get_vendors_country_brand(country, brand)
+    print("sql_country_brand", sql_country_brand)
+    columns_country_brand, rows_country_brand = execute_pg_query_dev(sql_country_brand)
+    df_country_brand = tuple_to_dataframe(columns_country_brand, rows_country_brand)
+    
+    return analize_hr_desviado(df_cus_brand, df_country_brand)
+    
+    
+
+    
+
 
 
 SALES_TOOLS: List = [
@@ -199,5 +241,6 @@ SALES_TOOLS: List = [
     get_bookings,
     get_quoted_items,
     get_sold_items,
-    get_opportunities
+    get_opportunities,
+    get_vendors_to_quote
 ]

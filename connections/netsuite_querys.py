@@ -132,7 +132,10 @@ def get_bookings_data(initial_date: str, final_date: str, customer_name: str, in
 	ts.name AS status,
 	TO_CHAR(t.trandate, 'YYYY-MM-DD') AS date,
     TO_CHAR(t.trandate, 'YYYY-MM') AS period,
-    BUILTIN.DF(csr.subsidiary) AS subsidiary,
+    CASE 
+    	WHEN csr.subsidiary = 5 AND t.custbody_transaccion_chile = 'T' THEN 'IDICO Chile'
+    	ELSE BUILTIN.DF(csr.subsidiary)
+    END AS subsidiary,
     BUILTIN.DF(t.currency) AS currency,
     BUILTIN.DF(t.entity) AS customer,
     BUILTIN.DF(ea.country) AS customer_country,
@@ -156,8 +159,8 @@ WHERE TO_CHAR(t.trandate, 'YYYY-MM-DD') BETWEEN '{initial_date}' AND '{final_dat
   AND csr.subsidiary IN (5, 4, 3)
   AND t.type  IN ('SalesOrd')
   AND ts.id NOT IN ('C', 'H', 'A', 'Y')
-  AND t.entity NOT IN (37839, 3085, 213418,2414)
-  AND t.employee <> 104334
+  AND t.entity NOT IN (37839, 3085, 213418,2414, 355535, 1066, 401658, 101528, 144291, 183866, 185705, 186223)
+  --AND t.employee <> 104334
   AND t.custbody7 = 'F'
   AND (
         '{customer_name}' IS NULL

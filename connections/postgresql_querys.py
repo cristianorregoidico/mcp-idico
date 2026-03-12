@@ -97,3 +97,43 @@ def get_customer_imports_data(customer_name: str) -> str:
     return f"""
     SELECT * FROM ods.analytics.datasur WHERE importador LIKE '%{customer_name}%';
     """
+def get_vendors_customer_brand(customer_name: str, brand: str) -> str:
+    """
+    Devuelve una consulta SQL para obtener la tasa de acierto de desvío para un cliente y marca específicos en PostgreSQL.
+    """
+    return f"""
+    SELECT * FROM ods.analytics.hr_cus_brand_consolidado 
+    WHERE customer_name LIKE '%' || UPPER('{customer_name}') || '%'
+    AND brand LIKE '%' || UPPER('{brand}') || '%'
+    AND probabilidad > 0
+    ORDER BY 
+    customer_name ASC,
+    brand ASC,
+    probabilidad DESC,
+    count_so DESC;
+    """
+    
+def get_vendors_country_brand(country: str, brand: str) -> str:
+    """
+    Devuelve una consulta SQL para obtener la tasa de acierto de desvío para un país y marca específicos en PostgreSQL.
+    """
+    return f"""
+    SELECT * FROM ods.analytics.hr_country_brand_consolidado
+    WHERE country LIKE '%' || UPPER('{country}') || '%'
+    AND brand LIKE '%' || UPPER('{brand}') || '%'
+    ORDER BY 
+        country ASC,
+        brand ASC,
+        probabilidad DESC,
+        count_so DESC;
+    """
+
+def get_customer_country(customer_name: str) -> str:
+    """
+    Devuelve una consulta SQL para obtener el país de un cliente específico en PostgreSQL.
+    """
+    return f"""
+    SELECT country FROM ods.analytics.hr_cus_brand_consolidado
+    WHERE customer_name LIKE '%' || UPPER('{customer_name}') || '%'
+    LIMIT 1;
+    """
