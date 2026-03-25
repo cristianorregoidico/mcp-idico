@@ -1,5 +1,6 @@
 from typing import Any, Dict, List
 from utils.json_df import load_dataset_from_json
+from utils.envelope import build_tool_response
 from pathlib import Path
 from fastmcp.utilities.types import File
 
@@ -47,5 +48,5 @@ def get_excel_file(file_name: str) -> File:
 
 FILES_TOOLS: List = [
     get_dataset,
-    get_excel_file
+    # get_excel_file
 ]

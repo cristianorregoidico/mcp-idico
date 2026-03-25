@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
-from typing import Dict, Any
+from typing import Dict, Any, List, Optional
+from utils.envelope import build_tool_response
 
 def finance_summary(df: pd.DataFrame) -> dict:
     """
@@ -243,46 +244,42 @@ def finance_summary(df: pd.DataFrame) -> dict:
                 elif isinstance(val, pd.Timestamp):
                     row[col] = val.date().isoformat()
 
-        data_sample = [first_row.to_dict(), last_row.to_dict()]
 
     # -----------------------------
     # 9) ARMAR JSON FINAL
     # -----------------------------
     output = {
-        "finance_summary": {
-            "period": {
-                "start_date": start_date,
-                "end_date": end_date
-            },
-            "bookings": {
-                "total_bookings": total_bookings,
-                "order_count": order_count,
-                "average_booking": average_booking,
-                "bookings_by_country": bookings_by_country,
-                "bookings_by_sales_rep": bookings_by_sales_rep
-            },
-            "gross_margin": {
-                "gross_profit_total": gross_profit_total,
-                "average_gm_pct": average_gm_pct,
-                "weighted_gm_pct": weighted_gm_pct,
-                "margin_buckets": margin_bucket_summary
-            },
-            "terms": {
-                "distribution_count": terms_counts,
-                "distribution_pct": terms_pct,
-                "bookings_by_terms": bookings_by_terms
-            },
-            "top_clients": top_clients,
-            "concentration": {
-                "top_n": top_n,
-                "top_clients_share_amount": top_clients_share_amount,
-                "top_clients_share_pct": top_clients_share_pct
-            },
-            "kpi_by_subsidiary": kpi_by_subsidiary,
-            "incoterms": incoterms_block
+        "period": {
+            "start_date": start_date,
+            "end_date": end_date
         },
-        "data_sample": data_sample,
-        "full_data_reference": "full_data_reference"
+        "bookings": {
+            "total_bookings": total_bookings,
+            "order_count": order_count,
+            "average_booking": average_booking,
+            "bookings_by_country": bookings_by_country,
+            "bookings_by_sales_rep": bookings_by_sales_rep
+        },
+        "gross_margin": {
+            "gross_profit_total": gross_profit_total,
+            "average_gm_pct": average_gm_pct,
+            "weighted_gm_pct": weighted_gm_pct,
+            "margin_buckets": margin_bucket_summary
+        },
+        "terms": {
+            "distribution_count": terms_counts,
+            "distribution_pct": terms_pct,
+            "bookings_by_terms": bookings_by_terms
+        },
+        "top_clients": top_clients,
+        "concentration": {
+            "top_n": top_n,
+            "top_clients_share_amount": top_clients_share_amount,
+            "top_clients_share_pct": top_clients_share_pct
+        },
+        "kpi_by_subsidiary": kpi_by_subsidiary,
+        "incoterms": incoterms_block,
+        "full_data_reference": "dataset_reference"
     }
 
     return output
@@ -451,7 +448,7 @@ def opportunity_summary(df: pd.DataFrame) -> dict:
                 "start_date": start_date,
                 "end_date": end_date,
             },
-            "summary": summary,
+            "overview": summary,
             "distribution": {
                 "inside_sales": dist_inside,
                 "status": dist_status
@@ -703,6 +700,23 @@ def summarize_sold_items(df: pd.DataFrame) -> Dict[str, Any]:
             brand_group, dist_round_map, top=TOP_BRAND_N
         )
 
+    top_brands_by_count = []
+    if "brand" in df.columns:
+        brand_count_group = (
+            df.groupby("brand", dropna=False, as_index=False)
+            .agg(
+                appearance_count=("brand", "size"),
+                unique_items=("item", "nunique"),
+                unique_orders=("quote", "nunique"),
+            )
+            .sort_values(["appearance_count", "unique_orders"], ascending=False)
+        )
+
+        top_brands_by_count = df_to_records_rounded(
+            brand_count_group,
+            top=TOP_BRAND_N,
+        )
+
     if "product_group" in df.columns:
         pg_group = df.groupby("product_group", dropna=False).agg(
             total_items=("item", "nunique"),
@@ -722,14 +736,15 @@ def summarize_sold_items(df: pd.DataFrame) -> Dict[str, Any]:
     # 7) OUTPUT FINAL
     # ---------------------------
     output = {
-        "general_summary": general_summary,
+        "overview": general_summary,
         "top_items": top_items,
         "problematic_items": problematic_items,
         "vendor_summary": vendor_summary,
         "distribution": {
             "by_brand": brand_distribution,
             "by_product_group": product_group_distribution
-        }
+        },
+        "top_brands_by_count": top_brands_by_count,
     }
 
     return output
@@ -789,117 +804,6 @@ def general_summary_is_q_so(df: pd.DataFrame) -> Dict[str, Any]:
     }
     return general_summary
 
-def summarize_is_bookings(df: pd.DataFrame) -> Dict[str, Any]:
-    """Generate summaries from the IS bookings DataFrame."""
-
-    # 01. KPI by Inside Sale
-    kpi_by_inside = (
-        df.groupby("InsideSale", as_index=False)
-        .agg(
-            total_amount=("Amount", "sum"),
-            num_orders=("SO", "nunique"),
-        )
-    )
-
-    kpi_by_inside["avg_ticket"] = (
-        kpi_by_inside["total_amount"] / kpi_by_inside["num_orders"]
-    )
-
-    kpi_by_inside["rank_by_amount"] = (
-        kpi_by_inside["total_amount"].rank(method="dense", ascending=False).astype(int)
-    )
-
-    kpi_by_inside = kpi_by_inside.sort_values("rank_by_amount").to_dict("records")
-
-    # 02. Status by Inside Sale
-    status_by_inside = (
-        df.groupby(["InsideSale", "Status"], as_index=False)
-        .agg(
-            num_orders=("SO", "nunique"),
-            total_amount=("Amount", "sum"),
-            so_list=("SO", lambda x: list(x)),  # lista de SO por inside+status
-        )
-    )
-    status_distribution_by_is = []
-
-    for inside, group in status_by_inside.groupby("InsideSale"):
-        status_summary = {}
-        for _, row in group.iterrows():
-            status = row["Status"]
-            status_summary[status] = {
-                "num_orders": int(row["num_orders"]),
-                "total_amount": float(row["total_amount"]),
-                "so_list": list(row["so_list"]),
-            }
-
-        status_distribution_by_is.append({
-            "inside_sale": inside,
-            "status_summary": status_summary,
-        })
-
-    # 03. Top Customers by amount
-    top_customers_raw = (
-        df.groupby(["InsideSale", "Customer"], as_index=False)
-        .agg(
-            numero_ordenes=("SO", "nunique"),
-            amount=("Amount", "sum")
-        )
-    )
-    top_customers_raw = top_customers_raw.sort_values(
-        ["InsideSale", "amount"], ascending=[True, False]
-    )
-    TOP_N_CUSTOMERS = 3
-    top5_customers_per_inside = (
-        top_customers_raw
-        .groupby("InsideSale")
-        .head(TOP_N_CUSTOMERS)
-    )
-    inside_top5_amount = (
-        top5_customers_per_inside
-        .groupby("InsideSale", as_index=False)
-        .agg(
-            top5_total_amount=("amount", "sum")
-        )
-    )
-    TOP_N_INSIDES = 5
-
-    top5_insides_by_top5_amount = (
-        inside_top5_amount
-        .sort_values("top5_total_amount", ascending=False)
-        .head(TOP_N_INSIDES)
-    )
-
-    insides_keep = top5_insides_by_top5_amount["InsideSale"]
-    top5_customers_top5_insides = top5_customers_per_inside[
-        top5_customers_per_inside["InsideSale"].isin(insides_keep)
-    ]
-    result = []
-
-    for inside, group in top5_customers_top5_insides.groupby("InsideSale"):
-        total_top5_amount = float(group["amount"].sum())
-        result.append({
-            "inside_sale": inside,
-            "top5_total_amount": total_top5_amount,
-            "top_customers": [
-                {
-                    "customer": row["Customer"],
-                    "numero_ordenes": int(row["numero_ordenes"]),
-                    "amount": float(row["amount"]),
-                }
-                for _, row in group.iterrows()
-            ],
-        })
-    top5_insides_by_customer = sorted(result, key=lambda x: x["top5_total_amount"], reverse=True)
-    
-    general_summary = general_summary_is_q_so(df)
-
-    return {
-        "general_summary": general_summary,
-        "kpi_by_inside": kpi_by_inside,
-        "status_by_inside": status_distribution_by_is,
-        "top_customers": top5_insides_by_customer,
-        "full_data_reference": None  # Placeholder for full data reference
-    }
     
 def summarize_is_quotes(df: pd.DataFrame) -> Dict[str, Any]:
     """Generate summaries from the IS quotes DataFrame."""
@@ -1107,7 +1011,7 @@ def summarize_is_quotes(df: pd.DataFrame) -> Dict[str, Any]:
     general_summary = general_summary_is_q_so(df)
 
     return {
-        "general_summary": general_summary,
+        "overview": general_summary,
         "kpi_by_inside": kpi_by_inside,
         "status_summary_by_inside": status_summary_by_inside,
         "incoterms_by_inside": incoterms_payload,
@@ -1152,6 +1056,18 @@ def summarize_items_quoted(df: pd.DataFrame) -> Dict[str, Any]:
             quotes_list=("quote", lambda x: sorted(x.unique())),
         )
         .sort_values(["num_lines", "total_qty"], ascending=False)
+        .to_dict("records")
+    )
+
+    top_brands_by_count = (
+        df.groupby("brand", dropna=False, as_index=False)
+        .agg(
+            appearance_count=("brand", "size"),
+            unique_quotes=("quote", "nunique"),
+            unique_customers=("customer", "nunique"),
+        )
+        .sort_values(["appearance_count", "unique_quotes"], ascending=False)
+        .head(10)
         .to_dict("records")
     )
 
@@ -1224,6 +1140,7 @@ def summarize_items_quoted(df: pd.DataFrame) -> Dict[str, Any]:
     return {
         "vendor_summary": vendor_summary,
         "brand_summary": brand_summary,
+        "top_brands_by_count": top_brands_by_count,
         "inside_sales_summary": inside_sales_summary,
         "customer_brand": customer_brand,
         "top_items_summary": top_items_summary,

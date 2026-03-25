@@ -1,10 +1,19 @@
+from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Any
 from utils.date import get_month_start_and_today
 from utils.json_df import save_result_to_json, save_df_to_excel
+from utils.envelope import build_tool_response
 from connections.netsuite import NetSuiteConnection
 from connections.netsuite_querys import get_quotes_by_inside, get_bookings_data, get_items_quoted_by_customer, get_opportunities_data, get_sold_items_by_period
 from analitycs.data_transformations import tuple_to_dataframe
-from analitycs.sales import finance_summary, opportunity_summary, summarize_sold_items, summarize_is_quotes, summarize_items_quoted, analize_hr_desviado
+from analitycs.sales import (
+    finance_summary,
+    opportunity_summary,
+    summarize_sold_items,
+    summarize_is_quotes,
+    summarize_items_quoted,
+    analize_hr_desviado
+)
 from connections.postgresql_querys import get_vendors_customer_brand, get_customer_country, get_vendors_country_brand
 from connections.postgresql import execute_pg_query_dev
 
@@ -25,7 +34,7 @@ def get_quotes(initial_date: Optional[str] = None, final_date: Optional[str] = N
     """
     # Resolve default dates
     start_of_month, today_date = get_month_start_and_today()
-    start_q_date = initial_date or today_date
+    start_q_date = initial_date or start_of_month
     final_q_date = final_date or today_date
     
     inside_sales = "" if not inside_sales else inside_sales.upper()
@@ -41,12 +50,25 @@ def get_quotes(initial_date: Optional[str] = None, final_date: Optional[str] = N
     dataset_reference = save_result_to_json(columns, rows, f"Quotes by Inside Sales dataset between {initial_date} and {final_date}", name="get_quotes")
 
     df = tuple_to_dataframe(columns, rows)
-    excel_file = save_df_to_excel(df, name="get_quotes")
+    # excel_file = save_df_to_excel(df, name="get_quotes")
     results = summarize_is_quotes(df)
-    results["full_data_reference"] = dataset_reference
-    results["excel_file"] = excel_file
+    results.pop("full_data_reference", None)
 
-    return results
+    return build_tool_response(
+        tool_name="get_quotes",
+        summary=results,
+        filters={
+            "initial_date": start_q_date,
+            "final_date": final_q_date,
+            "inside_sales": inside_sales or None,
+            "customer_name": customer_name or None,
+        },
+        source_systems=["netsuite"],
+        columns=columns,
+        rows=rows,
+        dataset_reference=dataset_reference,
+        # excel_file=excel_file,
+    )
 
 
 def get_bookings(initial_date: Optional[str] = None, final_date: Optional[str] = None, customer_name: Optional[str] = "", inside_sales: Optional[str] = "") -> Dict[str, Any]:
@@ -82,9 +104,22 @@ def get_bookings(initial_date: Optional[str] = None, final_date: Optional[str] =
 
     df = tuple_to_dataframe(columns, rows)
     summary = finance_summary(df)
-    summary["full_data_reference"] = dataset_reference
+    summary.pop("full_data_reference", None)
 
-    return summary
+    return build_tool_response(
+        tool_name="get_bookings",
+        summary=summary,
+        filters={
+            "initial_date": start_q_date,
+            "final_date": final_q_date,
+            "customer_name": customer_name or None,
+            "inside_sales": inside_sales or None,
+        },
+        source_systems=["netsuite"],
+        columns=columns,
+        rows=rows,
+        dataset_reference=dataset_reference,
+    )
 
 def get_quoted_items(initial_date: Optional[str] = None, final_date: Optional[str] = None, customer_name: Optional[str] = "", inside_sales: Optional[str] = "") -> Dict[str, Any]:
     """Retrieve summarized KPIs for quoted items for the provided period.
@@ -119,9 +154,22 @@ def get_quoted_items(initial_date: Optional[str] = None, final_date: Optional[st
     dataset_reference = save_result_to_json(columns, rows, f"List of quoted items dataset between {initial_date} and {final_date}", name="quoted_items")
     df = tuple_to_dataframe(columns, rows)
     results = summarize_items_quoted(df)
-    results["full_data_reference"] = dataset_reference
+    results.pop("full_data_reference", None)
 
-    return results
+    return build_tool_response(
+        tool_name="get_quoted_items",
+        summary=results,
+        filters={
+            "initial_date": start_q_date,
+            "final_date": final_q_date,
+            "customer_name": customer_name or None,
+            "inside_sales": inside_sales or None,
+        },
+        source_systems=["netsuite"],
+        columns=columns,
+        rows=rows,
+        dataset_reference=dataset_reference,
+    )
 
 def get_sold_items(initial_date: Optional[str] = None, final_date: Optional[str] = None, customer_name: Optional[str] = "", inside_sales: Optional[str] = "") -> Dict[str, Any]:
     """Retrieve summarized KPIs for sold items for the provided period.
@@ -155,9 +203,22 @@ def get_sold_items(initial_date: Optional[str] = None, final_date: Optional[str]
     dataset_reference = save_result_to_json(columns, rows, f"Sold items dataset between {initial_date} and {final_date}", name="sold_items_by_period")
     df = tuple_to_dataframe(columns, rows)
     summary = summarize_sold_items(df)
-    summary["full_data_reference"] = dataset_reference
+    summary.pop("full_data_reference", None)
 
-    return summary
+    return build_tool_response(
+        tool_name="get_sold_items",
+        summary=summary,
+        filters={
+            "initial_date": start_q_date,
+            "final_date": final_q_date,
+            "customer_name": customer_name or None,
+            "inside_sales": inside_sales or None,
+        },
+        source_systems=["netsuite"],
+        columns=columns,
+        rows=rows,
+        dataset_reference=dataset_reference,
+    )
 
 def get_opportunities(initial_date: Optional[str] = None, final_date: Optional[str] = None, inside_sales: Optional[str] = "") -> Dict[str, Any]:
     """Retrieve summarized KPIs for opportunities for the provided period and Inside Sales.
@@ -175,7 +236,7 @@ def get_opportunities(initial_date: Optional[str] = None, final_date: Optional[s
     
     # Resolve default dates
     start_of_month, today_date = get_month_start_and_today()
-    start_q_date = initial_date or today_date
+    start_q_date = initial_date or start_of_month
     final_q_date = final_date or today_date
 
     inside_sales = "" if not inside_sales else inside_sales.upper()
@@ -190,9 +251,21 @@ def get_opportunities(initial_date: Optional[str] = None, final_date: Optional[s
 
     df = tuple_to_dataframe(columns, rows)
     results = opportunity_summary(df)
-    results["full_data_reference"] = dataset_reference
+    results.pop("full_data_reference", None)
 
-    return results
+    return build_tool_response(
+        tool_name="get_opportunities",
+        summary=results,
+        filters={
+            "initial_date": start_q_date,
+            "final_date": final_q_date,
+            "inside_sales": inside_sales or None,
+        },
+        source_systems=["netsuite"],
+        columns=columns,
+        rows=rows,
+        dataset_reference=dataset_reference,
+    )
 
 def get_vendors_to_quote(customer_name: str, brand: str) -> Dict[str, Any]:
     """Retrieve a list of vendors to quote for a given customer and brand.
@@ -227,8 +300,31 @@ def get_vendors_to_quote(customer_name: str, brand: str) -> Dict[str, Any]:
     print("sql_country_brand", sql_country_brand)
     columns_country_brand, rows_country_brand = execute_pg_query_dev(sql_country_brand)
     df_country_brand = tuple_to_dataframe(columns_country_brand, rows_country_brand)
-    
-    return analize_hr_desviado(df_cus_brand, df_country_brand)
+
+    summary = analize_hr_desviado(df_cus_brand, df_country_brand)
+
+    return build_tool_response(
+        tool_name="get_vendors_to_quote",
+        summary=summary,
+        filters={
+            "customer_name": customer_name,
+            "brand": brand,
+            "customer_country": country or None,
+        },
+        source_systems=["postgresql"],
+        columns=columns_cus_brand,
+        rows=rows_cus_brand,
+        details={
+            "customer_brand_matches": {
+                "row_count": len(rows_cus_brand),
+                "columns": columns_cus_brand,
+            },
+            "country_brand_matches": {
+                "row_count": len(rows_country_brand),
+                "columns": columns_country_brand,
+            },
+        },
+    )
     
     
 
@@ -242,5 +338,5 @@ SALES_TOOLS: List = [
     get_quoted_items,
     get_sold_items,
     get_opportunities,
-    get_vendors_to_quote
+    get_vendors_to_quote,
 ]

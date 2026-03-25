@@ -2,6 +2,7 @@ from typing import Any, Dict, Optional, List
 from connections.postgresql import execute_pg_query, execute_pg_query_dev
 from connections.postgresql_querys import get_helga_guides_query, get_on_time_delivery, get_customer_imports_data
 from utils.json_df import save_result_to_json
+from utils.envelope import build_tool_response
 from utils.date import get_month_start_and_today
 from analitycs.operations import on_time_delivery_summary, build_imports_summary
 from analitycs.data_transformations import tuple_to_dataframe
@@ -27,10 +28,24 @@ def get_helga_guides(po: Optional[str] = None, status: Optional[str] = None, ser
     df = tuple_to_dataframe(columns, rows)
     results = df.to_dict(orient="records")
     print("results",results)
-    return {
-        "results": results,
-        "full_data_reference": dataset_reference
-    }
+    return build_tool_response(
+        tool_name="get_helga_guides",
+        summary={
+            "result_count": len(results),
+        },
+        filters={
+            "po": po,
+            "status": status,
+            "service": service,
+        },
+        source_systems=["postgresql"],
+        columns=columns,
+        rows=rows,
+        dataset_reference=dataset_reference,
+        details={
+            "results": results,
+        },
+    )
     
 def get_otd_indicators(initial_date: Optional[str] = None, final_date: Optional[str] = None, so_number: Optional[str] = None) -> Dict[str, Any]:
     """Retrieve the on time delivery indicators by period.
@@ -56,12 +71,23 @@ def get_otd_indicators(initial_date: Optional[str] = None, final_date: Optional[
     df = tuple_to_dataframe(columns, rows)
     
     results = on_time_delivery_summary(df)
-    results["full_data_reference"] = dataset_reference
     if so_number:
         so_details = df.to_dict(orient="records")
         results["so_details"] = so_details
-    
-    return results
+
+    return build_tool_response(
+        tool_name="get_otd_indicators",
+        summary=results,
+        filters={
+            "initial_date": start_q_date,
+            "final_date": final_q_date,
+            "so_number": so_number,
+        },
+        source_systems=["postgresql"],
+        columns=columns,
+        rows=rows,
+        dataset_reference=dataset_reference,
+    )
 
     
 def get_customer_imports(customer_name: str) -> Dict[str, Any]:
@@ -80,8 +106,17 @@ def get_customer_imports(customer_name: str) -> Dict[str, Any]:
     df = tuple_to_dataframe(columns, rows)
     
     summary = build_imports_summary(df)
-    
-    return summary
+
+    return build_tool_response(
+        tool_name="get_customer_imports",
+        summary=summary,
+        filters={
+            "customer_name": customer_name,
+        },
+        source_systems=["postgresql"],
+        columns=columns,
+        rows=rows,
+    )
 
 OPS_TOOLS: List = [
     get_helga_guides,
