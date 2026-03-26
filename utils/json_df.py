@@ -65,16 +65,17 @@ def save_result_to_json(
         }
     }
 
+    class DateEncoder(json.JSONEncoder):
+        def default(self, obj):
+            if isinstance(obj, (datetime.date, datetime.datetime)):
+                return obj.isoformat()
+            return json.JSONEncoder.default(self, obj)
+
     with open("data/"+filename, "w", encoding="utf-8") as f:
-        class DateEncoder(json.JSONEncoder):
-            def default(self, obj):
-                if isinstance(obj, (datetime.date, datetime.datetime)):
-                    return obj.isoformat()
-                return json.JSONEncoder.default(self, obj)
         json.dump(data, f, cls=DateEncoder, ensure_ascii=False, indent=2)
     
     dataset_preview["filename"] = filename
-    print("Dataset preview saved to JSON:", json.dumps(dataset_preview, indent=2, ensure_ascii=False))
+    # print("Dataset preview saved to JSON:", json.dumps(dataset_preview, cls=DateEncoder, indent=2, ensure_ascii=False))
     return dataset_preview
 
 
