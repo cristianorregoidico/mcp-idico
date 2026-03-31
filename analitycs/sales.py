@@ -7,7 +7,7 @@ def finance_summary(df: pd.DataFrame) -> dict:
     """
     df: DataFrame con columnas al menos:
         ['so_number','date','customer','customer_country','sales_rep',
-         'gross_usd','net_usd','terms','gross_margin','gross_margin_pct']
+         'gross_usd','net_usd','terms','gross_margin','gross_margin_pct', 'freight_usd', 'items_usd']
     """
 
     # Asegurar tipos
@@ -58,7 +58,7 @@ def finance_summary(df: pd.DataFrame) -> dict:
         average_gm_pct = 0.0
 
     if "gross_usd" in df and df["gross_usd"].sum() != 0:
-        weighted_gm_pct = float(df["gross_margin"].sum() / df["gross_usd"].sum())
+        weighted_gm_pct = float(df["gross_margin"].sum() / (df["freight_usd"].sum() + df["items_usd"].sum()))
     else:
         weighted_gm_pct = 0.0
 
@@ -1206,3 +1206,327 @@ def analize_hr_desviado(df_cus_brand: pd.DataFrame, df_country_brand: pd.DataFra
     }
 
     return result
+
+
+def sold_brands_recurrence_metrics(df: pd.DataFrame, top_n: int = 10) -> dict:
+    """
+    Analiza recurrencia de marcas, priorizando frecuencia de aparición.
+    
+    Parámetros
+    ----------
+    df : pd.DataFrame
+        DataFrame con al menos estas columnas:
+        ['quote', 'brand', 'item', 'customer', 'qty', 'unit_price', 'unit_cost']
+    top_n : int, default 10
+        Número de marcas a devolver en rankings principales.
+    
+    Retorna
+    -------
+    dict con:
+        - brand_recurrence: tabla principal enfocada en recurrencia
+        - top_recurrent_brands: top marcas por recurrencia
+        - brand_amount_ranking: sección secundaria, marcas por monto
+        - summary_kpis: KPIs generales
+    """
+    
+    data = df.copy()
+
+    # Normalización básica
+    data["brand"] = data["brand"].astype(str).str.strip()
+    data["quote"] = data["quote"].astype(str).str.strip()
+    data["item"] = data["item"].astype(str).str.strip()
+    data["customer"] = data["customer"].astype(str).str.strip()
+
+    numeric_cols = ["qty", "unit_price", "unit_cost"]
+    for col in numeric_cols:
+        data[col] = pd.to_numeric(data[col], errors="coerce").fillna(0)
+
+    # Métricas monetarias
+    data["revenue"] = data["qty"] * data["unit_price"]
+    data["cost"] = data["qty"] * data["unit_cost"]
+    data["gross_profit"] = data["revenue"] - data["cost"]
+
+    total_lines = len(data)
+    total_quotes = data["quote"].nunique()
+    total_revenue = data["revenue"].sum()
+
+    # Tabla principal: recurrencia de marcas
+    brand_recurrence = (
+        data.groupby("brand", dropna=False)
+        .agg(
+            recurrence_lines=("brand", "size"),       # veces que aparece
+            quotes_count=("quote", "nunique"),        # en cuántas quotes aparece
+            items_count=("item", "count"),            # cuántas líneas/items abarca
+            unique_items=("item", "nunique"),         # cuántos productos distintos
+            customers_count=("customer", "nunique"),  # en cuántos clientes aparece
+            total_qty=("qty", "sum"),
+            total_revenue=("revenue", "sum"),
+            total_cost=("cost", "sum"),
+            gross_profit=("gross_profit", "sum"),
+            avg_unit_price=("unit_price", "mean"),
+            avg_unit_cost=("unit_cost", "mean"),
+        )
+        .reset_index()
+    )
+
+    # Indicadores derivados
+    brand_recurrence["recurrence_pct_lines"] = np.where(
+        total_lines > 0,
+        brand_recurrence["recurrence_lines"] / total_lines,
+        0
+    )
+
+    brand_recurrence["quotes_pct"] = np.where(
+        total_quotes > 0,
+        brand_recurrence["quotes_count"] / total_quotes,
+        0
+    )
+
+    brand_recurrence["revenue_share"] = np.where(
+        total_revenue > 0,
+        brand_recurrence["total_revenue"] / total_revenue,
+        0
+    )
+
+    brand_recurrence["margin_pct"] = np.where(
+        brand_recurrence["total_revenue"] != 0,
+        brand_recurrence["gross_profit"] / brand_recurrence["total_revenue"],
+        0
+    )
+
+    brand_recurrence["avg_revenue_per_occurrence"] = np.where(
+        brand_recurrence["recurrence_lines"] > 0,
+        brand_recurrence["total_revenue"] / brand_recurrence["recurrence_lines"],
+        0
+    )
+
+    brand_recurrence["avg_revenue_per_quote"] = np.where(
+        brand_recurrence["quotes_count"] > 0,
+        brand_recurrence["total_revenue"] / brand_recurrence["quotes_count"],
+        0
+    )
+
+    # Ranking principal: recurrencia
+    brand_recurrence = brand_recurrence.sort_values(
+        by=["recurrence_lines", "quotes_count", "total_revenue"],
+        ascending=[False, False, False]
+    ).reset_index(drop=True)
+
+    # Top de marcas recurrentes
+    top_recurrent_brands = brand_recurrence.head(top_n).copy()
+
+    # Sección secundaria: marcas por monto
+    brand_amount_ranking = (
+        brand_recurrence
+        .sort_values(
+            by=["total_revenue", "gross_profit", "recurrence_lines"],
+            ascending=[False, False, False]
+        )
+        .reset_index(drop=True)
+        .head(top_n)
+        .copy()
+    )
+
+    # KPIs generales
+    summary_kpis = pd.DataFrame({
+        "metric": [
+            "total_lines",
+            "total_quotes",
+            "total_brands",
+            "total_revenue",
+            "top_brand_by_recurrence",
+            "top_brand_recurrence_lines",
+            "top_brand_recurrence_revenue",
+            "top_brand_by_amount",
+            "top_brand_amount_value"
+        ],
+        "value": [
+            total_lines,
+            total_quotes,
+            brand_recurrence["brand"].nunique(),
+            total_revenue,
+            brand_recurrence.iloc[0]["brand"] if len(brand_recurrence) else None,
+            brand_recurrence.iloc[0]["recurrence_lines"] if len(brand_recurrence) else None,
+            brand_recurrence.iloc[0]["total_revenue"] if len(brand_recurrence) else None,
+            brand_amount_ranking.iloc[0]["brand"] if len(brand_amount_ranking) else None,
+            brand_amount_ranking.iloc[0]["total_revenue"] if len(brand_amount_ranking) else None,
+        ]
+    })
+
+    return {
+        "brand_recurrence": brand_recurrence.to_dict(orient="records"),
+        "top_recurrent_brands": top_recurrent_brands.to_dict(orient="records"),
+        "brand_amount_ranking": brand_amount_ranking.to_dict(orient="records"),
+        "summary_kpis": summary_kpis.to_dict(orient="records"),
+    }
+    
+def quoted_brands_recurrence_metrics(df: pd.DataFrame, top_n: int = 10) -> dict:
+    """
+    Analiza recurrencia de marcas en items cotizados.
+    Prioriza frecuencia de aparición de la marca y, secundariamente,
+    muestra ranking por monto cotizado.
+
+    Parámetros
+    ----------
+    df : pd.DataFrame
+        DataFrame con columnas esperadas:
+        ['customer', 'quote', 'status', 'date', 'inside_sales',
+         'item', 'brand', 'product_group', 'selected_vendor',
+         'qty', 'unit_price']
+    top_n : int
+        Número de marcas a devolver en los rankings.
+
+    Retorna
+    -------
+    dict con:
+        - brand_recurrence: tabla principal enfocada en recurrencia
+        - top_recurrent_brands: top marcas por recurrencia
+        - brand_amount_ranking: ranking secundario por monto cotizado
+        - summary_kpis: KPIs generales
+    """
+
+    data = df.copy()
+
+    # Normalización
+    text_cols = [
+        "customer", "quote", "status", "inside_sales",
+        "item", "brand", "product_group", "selected_vendor"
+    ]
+    for col in text_cols:
+        if col in data.columns:
+            data[col] = data[col].astype(str).str.strip()
+
+    if "date" in data.columns:
+        data["date"] = pd.to_datetime(data["date"], errors="coerce")
+
+    for col in ["qty", "unit_price"]:
+        if col in data.columns:
+            data[col] = pd.to_numeric(data[col], errors="coerce").fillna(0)
+
+    # Métrica monetaria principal en cotizaciones
+    data["quoted_amount"] = data["qty"] * data["unit_price"]
+
+    total_lines = len(data)
+    total_quotes = data["quote"].nunique()
+    total_amount = data["quoted_amount"].sum()
+    total_qty = data["qty"].sum()
+
+    # Tabla principal: recurrencia de marca en cotizaciones
+    brand_recurrence = (
+        data.groupby("brand", dropna=False)
+        .agg(
+            recurrence_lines=("brand", "size"),         # veces que aparece
+            quotes_count=("quote", "nunique"),         # en cuántas quotes aparece
+            items_count=("item", "count"),             # líneas/items que abarca
+            unique_items=("item", "nunique"),          # items distintos
+            customers_count=("customer", "nunique"),   # clientes distintos
+            inside_sales_count=("inside_sales", "nunique"),
+            total_qty=("qty", "sum"),
+            total_quoted_amount=("quoted_amount", "sum"),
+            avg_unit_price=("unit_price", "mean"),
+            min_unit_price=("unit_price", "min"),
+            max_unit_price=("unit_price", "max"),
+        )
+        .reset_index()
+    )
+
+    # KPIs derivados
+    brand_recurrence["recurrence_pct_lines"] = np.where(
+        total_lines > 0,
+        brand_recurrence["recurrence_lines"] / total_lines,
+        0
+    )
+
+    brand_recurrence["quotes_pct"] = np.where(
+        total_quotes > 0,
+        brand_recurrence["quotes_count"] / total_quotes,
+        0
+    )
+
+    brand_recurrence["qty_share"] = np.where(
+        total_qty > 0,
+        brand_recurrence["total_qty"] / total_qty,
+        0
+    )
+
+    brand_recurrence["quoted_amount_share"] = np.where(
+        total_amount > 0,
+        brand_recurrence["total_quoted_amount"] / total_amount,
+        0
+    )
+
+    brand_recurrence["avg_amount_per_occurrence"] = np.where(
+        brand_recurrence["recurrence_lines"] > 0,
+        brand_recurrence["total_quoted_amount"] / brand_recurrence["recurrence_lines"],
+        0
+    )
+
+    brand_recurrence["avg_amount_per_quote"] = np.where(
+        brand_recurrence["quotes_count"] > 0,
+        brand_recurrence["total_quoted_amount"] / brand_recurrence["quotes_count"],
+        0
+    )
+
+    brand_recurrence["avg_qty_per_occurrence"] = np.where(
+        brand_recurrence["recurrence_lines"] > 0,
+        brand_recurrence["total_qty"] / brand_recurrence["recurrence_lines"],
+        0
+    )
+
+    # Orden principal: recurrencia
+    brand_recurrence = brand_recurrence.sort_values(
+        by=["recurrence_lines", "quotes_count", "total_quoted_amount"],
+        ascending=[False, False, False]
+    ).reset_index(drop=True)
+
+    # Top marcas recurrentes
+    top_recurrent_brands = brand_recurrence.head(top_n).copy()
+
+    # Sección secundaria: ranking por monto cotizado
+    brand_amount_ranking = (
+        brand_recurrence
+        .sort_values(
+            by=["total_quoted_amount", "recurrence_lines", "quotes_count"],
+            ascending=[False, False, False]
+        )
+        .reset_index(drop=True)
+        .head(top_n)
+        .copy()
+    )
+
+    # KPIs resumen
+    summary_kpis = pd.DataFrame({
+        "metric": [
+            "total_quote_lines",
+            "total_quotes",
+            "total_brands",
+            "total_quoted_qty",
+            "total_quoted_amount",
+            "top_brand_by_recurrence",
+            "top_brand_recurrence_lines",
+            "top_brand_recurrence_quotes",
+            "top_brand_recurrence_amount",
+            "top_brand_by_amount",
+            "top_brand_amount_value"
+        ],
+        "value": [
+            total_lines,
+            total_quotes,
+            brand_recurrence["brand"].nunique(),
+            total_qty,
+            total_amount,
+            brand_recurrence.iloc[0]["brand"] if len(brand_recurrence) else None,
+            brand_recurrence.iloc[0]["recurrence_lines"] if len(brand_recurrence) else None,
+            brand_recurrence.iloc[0]["quotes_count"] if len(brand_recurrence) else None,
+            brand_recurrence.iloc[0]["total_quoted_amount"] if len(brand_recurrence) else None,
+            brand_amount_ranking.iloc[0]["brand"] if len(brand_amount_ranking) else None,
+            brand_amount_ranking.iloc[0]["total_quoted_amount"] if len(brand_amount_ranking) else None,
+        ]
+    })
+
+    return {
+        "brand_recurrence": brand_recurrence.to_dict(orient="records"),
+        "top_recurrent_brands": top_recurrent_brands.to_dict(orient="records"),
+        "brand_amount_ranking": brand_amount_ranking.to_dict(orient="records"),
+        "summary_kpis": summary_kpis.to_dict(orient="records")
+    }

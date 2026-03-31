@@ -137,3 +137,30 @@ def get_customer_country(customer_name: str) -> str:
     WHERE customer_name LIKE '%' || UPPER('{customer_name}') || '%'
     LIMIT 1;
     """
+    
+def get_calls_summary(start_date: str, final_date: str, customer_name: str = '', organizer: str = '', subject: str = '') -> str:
+    """
+    Devuelve una consulta SQL para obtener el resumen de llamadas entre dos fechas específicas en PostgreSQL.
+    """
+    return f"""
+    SELECT
+    activity_date,
+    subject,
+    account,
+    organizer,
+    attendees,
+    contact,
+    description
+FROM ods.analytics.dataset_modjo_idra
+WHERE activity_date >= '{start_date}'
+  AND activity_date < '{final_date}'
+  AND description IS NOT NULL
+  AND LENGTH(TRIM(description)) >= 500
+  AND ('{customer_name}' IS NULL OR UPPER(account) ILIKE '%' || UPPER('{customer_name}') || '%')
+  AND ('{organizer}' IS NULL OR UPPER(organizer) ILIKE '%' || UPPER('{organizer}') || '%')
+  AND (
+        '{subject}' IS NULL
+        OR UPPER(subject) ILIKE '%' || UPPER('{subject}') || '%'
+      )
+ORDER BY activity_date DESC;
+    """

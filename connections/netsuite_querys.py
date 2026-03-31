@@ -147,8 +147,10 @@ def get_bookings_data(initial_date: str, final_date: str, customer_name: str, in
     t.foreigntotal * t.exchangerate AS gross_usd,
     (t.foreigntotal - NVL(t.taxtotal, 0)) * t.exchangerate AS net_usd,
     BUILTIN.DF(t.terms) AS terms,
-    t.custbody_items_gross_profit_amount_usd AS gross_margin,
-    t.custbody_items_g_profit_pc_vrq_cost AS gross_margin_pct
+    t.custbody_final_gm_item_freight AS gross_margin,
+    t.custbody_items_g_profit_pc_vrq_cost AS gross_margin_pct,
+    t.custbody_total_freight_price_usd AS freight_usd,
+    t.custbody_total_items_price_usd AS items_usd
 FROM transaction t
 INNER JOIN CustomerSubsidiaryRelationship csr ON csr.entity = t.entity AND csr.isprimarysub = 'T'
 INNER JOIN transactionStatus ts ON ts.id = t.status AND ts.trantype = 'SalesOrd'

@@ -9,12 +9,14 @@ from analitycs.data_transformations import tuple_to_dataframe
 from analitycs.sales import (
     finance_summary,
     opportunity_summary,
+    sold_brands_recurrence_metrics,
+    quoted_brands_recurrence_metrics,
     summarize_sold_items,
     summarize_is_quotes,
     summarize_items_quoted,
     analize_hr_desviado
 )
-from connections.postgresql_querys import get_vendors_customer_brand, get_customer_country, get_vendors_country_brand
+from connections.postgresql_querys import get_calls_summary, get_vendors_customer_brand, get_customer_country, get_vendors_country_brand
 from connections.postgresql import execute_pg_query_dev
 
 
@@ -121,7 +123,7 @@ def get_bookings(initial_date: Optional[str] = None, final_date: Optional[str] =
         dataset_reference=dataset_reference,
     )
 
-def get_quoted_items(initial_date: Optional[str] = None, final_date: Optional[str] = None, customer_name: Optional[str] = "", inside_sales: Optional[str] = "") -> Dict[str, Any]:
+def get_quoted_items(initial_date: Optional[str] = None, final_date: Optional[str] = None, customer_name: Optional[str] = "", inside_sales: Optional[str] = "", topic: Optional[str] = "items") -> Dict[str, Any]:
     """Retrieve summarized KPIs for quoted items for the provided period.
     
     Use this tool when user asks for quoted items, quoted items by customer or quoted items by Inside Sales.
@@ -131,6 +133,7 @@ def get_quoted_items(initial_date: Optional[str] = None, final_date: Optional[st
         final_date: End date; defaults to today.
         customer_name: Customer filter; optional.
         inside_sales: Inside Sales filter; optional.
+        topic: Topic for the summary; should be "items" or "brand" defaults to "items".
 
     Returns:
         Dict[str, Any]: Vendor/brand ranking, Inside Sales coverage, customer–brand breakdown, top quoted items plus dataset reference.
@@ -153,7 +156,10 @@ def get_quoted_items(initial_date: Optional[str] = None, final_date: Optional[st
 
     dataset_reference = save_result_to_json(columns, rows, f"List of quoted items dataset between {initial_date} and {final_date}", name="quoted_items")
     df = tuple_to_dataframe(columns, rows)
-    results = summarize_items_quoted(df)
+    if topic == "brand":
+        results = quoted_brands_recurrence_metrics(df)
+    else:   
+        results = summarize_items_quoted(df)
     results.pop("full_data_reference", None)
 
     return build_tool_response(
@@ -171,7 +177,7 @@ def get_quoted_items(initial_date: Optional[str] = None, final_date: Optional[st
         dataset_reference=dataset_reference,
     )
 
-def get_sold_items(initial_date: Optional[str] = None, final_date: Optional[str] = None, customer_name: Optional[str] = "", inside_sales: Optional[str] = "") -> Dict[str, Any]:
+def get_sold_items(initial_date: Optional[str] = None, final_date: Optional[str] = None, customer_name: Optional[str] = "", inside_sales: Optional[str] = "", topic: Optional[str] = "items") -> Dict[str, Any]:
     """Retrieve summarized KPIs for sold items for the provided period.
     
     Use this tool when user asks for sold items, sold items by customer or sold items by Inside Sales.
@@ -181,6 +187,7 @@ def get_sold_items(initial_date: Optional[str] = None, final_date: Optional[str]
         final_date: End date; defaults to today.
         customer_name: Customer filter; optional.
         inside_sales: Inside Sales filter; optional.
+        topic: Topic for the summary; should be "items" or "brand" defaults to "items".
 
     Returns:
         Dict[str, Any]: KPIs, top items, vendor/brand breakdown, product group distribution plus dataset reference.
@@ -202,7 +209,11 @@ def get_sold_items(initial_date: Optional[str] = None, final_date: Optional[str]
 
     dataset_reference = save_result_to_json(columns, rows, f"Sold items dataset between {initial_date} and {final_date}", name="sold_items_by_period")
     df = tuple_to_dataframe(columns, rows)
-    summary = summarize_sold_items(df)
+    
+    if topic == "brand":
+        summary = sold_brands_recurrence_metrics(df)
+    else:
+        summary = summarize_sold_items(df)
     summary.pop("full_data_reference", None)
 
     return build_tool_response(
@@ -326,7 +337,53 @@ def get_vendors_to_quote(customer_name: str, brand: str) -> Dict[str, Any]:
         },
     )
     
+def get_relationships_insights(start_date: Optional[str], final_date: Optional[str], customer_name: Optional[str], organizer: Optional[str], subject: Optional[str]) -> Dict[str, Any]:
+    """Retrieve insights about customer relationships for a given customer.
     
+    Use this tool when user asks for relationship insights for a specific customer.
+
+    Args:
+        start_date: The start date for filtering relationship data.
+        final_date: The final date for filtering relationship data.
+        customer_name: Name of the customer (case-insensitive).
+        organizer: Name of the organizer (case-insensitive).
+        subject: Subject of the relationship (case-insensitive).
+    Returns:
+        Dict[str, Any]: Insights about the customer's relationships, including key contacts, communication history, and any relevant notes or flags that could impact sales strategies.
+    """
+    
+    start_of_month, today_date = get_month_start_and_today()
+    start_q_date = start_date or start_of_month
+    final_q_date = final_date or today_date
+    sql = get_calls_summary(start_q_date, final_q_date, customer_name, organizer, subject)
+    print("sql", sql)
+    columns, rows = execute_pg_query_dev(sql)
+    df = tuple_to_dataframe(columns, rows)
+    calls_summary = df.to_dict(orient="records")
+    
+    return build_tool_response(
+        tool_name="get_relationships_insights",
+        summary={"total_calls": len(rows)},
+        filters={
+            "start_date": start_q_date,
+            "final_date": final_q_date,
+            "customer_name": customer_name or '',
+            "organizer": organizer or '',
+            "subject": subject or '',
+        },
+        source_systems=["postgresql"],
+        columns=columns,
+        rows=rows,
+        details={
+            "suggested_prompt_for_insights": f"""
+            A continuación se presentan los resúmenes de llamadas de ventas de IDICO. Tu objetivo es actuar como un Analista de Marketing Estratégico. Analiza los textos y responde exclusivamente basado en esta información:
+            1. Identifica las 3 objeciones más recurrentes.
+            2. Enumera qué características o valores mencionan que aprecian de IDICO.
+            3. Describe quiénes suelen estar presentes (roles) según el campo attendees y la descripción.
+            4. Clasifica las menciones en categorías (Precio, Servicio, Tecnología, etc.)""",
+            "calls_summary": calls_summary,
+        },
+    )
 
     
 
@@ -339,4 +396,5 @@ SALES_TOOLS: List = [
     get_sold_items,
     get_opportunities,
     get_vendors_to_quote,
+    get_relationships_insights
 ]
