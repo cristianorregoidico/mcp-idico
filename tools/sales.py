@@ -337,10 +337,10 @@ def get_vendors_to_quote(customer_name: str, brand: str) -> Dict[str, Any]:
         },
     )
     
-def get_relationships_insights(start_date: Optional[str], final_date: Optional[str], customer_name: Optional[str], organizer: Optional[str], subject: Optional[str]) -> Dict[str, Any]:
+def get_calls_events_insights(start_date: Optional[str], final_date: Optional[str], customer_name: Optional[str], organizer: Optional[str], subject: Optional[str]) -> Dict[str, Any]:
     """Retrieve insights about customer relationships for a given customer.
     
-    Use this tool when user asks for calls summary, events, relationship insights or modjo for a specific customer.
+    Use this tool when user asks for calls summary, events insights, modjo or in general for requests about customer conversations.
 
     Args:
         start_date: The start date for filtering calls data.
@@ -396,5 +396,5 @@ SALES_TOOLS: List = [
     get_sold_items,
     get_opportunities,
     get_vendors_to_quote,
-    get_relationships_insights
+    get_calls_events_insights
 ]
