@@ -340,11 +340,11 @@ def get_vendors_to_quote(customer_name: str, brand: str) -> Dict[str, Any]:
 def get_relationships_insights(start_date: Optional[str], final_date: Optional[str], customer_name: Optional[str], organizer: Optional[str], subject: Optional[str]) -> Dict[str, Any]:
     """Retrieve insights about customer relationships for a given customer.
     
-    Use this tool when user asks for relationship insights for a specific customer.
+    Use this tool when user asks for calls summary, events, relationship insights or modjo for a specific customer.
 
     Args:
-        start_date: The start date for filtering relationship data.
-        final_date: The final date for filtering relationship data.
+        start_date: The start date for filtering calls data.
+        final_date: The final date for filtering calls data.
         customer_name: Name of the customer (case-insensitive).
         organizer: Name of the organizer (case-insensitive).
         subject: Subject of the relationship (case-insensitive).
