@@ -337,24 +337,32 @@ def get_vendors_to_quote(customer_name: str, brand: str) -> Dict[str, Any]:
         },
     )
     
-def get_calls_events_insights(start_date: Optional[str], final_date: Optional[str], customer_name: Optional[str], organizer: Optional[str], subject: Optional[str]) -> Dict[str, Any]:
-    """Retrieve insights about customer relationships for a given customer.
     
-    Use this tool when user asks for calls summary, events insights, modjo or in general for requests about customer conversations.
+def get_account_conversation_insights(start_date: Optional[str], final_date: Optional[str], customer_name: Optional[str], organizer: Optional[str], subject: Optional[str]) -> Dict[str, Any]:
+    """Get customer calls insights for a specific account.
+
+    Use this tool when the user requests call summaries, event insights
+    or any other details related to customer conversations or calls.
 
     Args:
-        start_date: The start date for filtering calls data.
-        final_date: The final date for filtering calls data.
-        customer_name: Name of the customer (case-insensitive).
-        organizer: Name of the organizer (case-insensitive).
-        subject: Subject of the relationship (case-insensitive).
+        start_date: Initial date used to filter call records.
+        final_date: End date used to filter call records.
+        customer_name: Customer name to search for (case-insensitive).
+        organizer: Organizer name to filter by (case-insensitive).
+        subject: Relationship subject to filter by (case-insensitive).
+
     Returns:
-        Dict[str, Any]: Insights about the customer's relationships, including key contacts, communication history, and any relevant notes or flags that could impact sales strategies.
+        Dict[str, Any]: A summary of the customer's relationships, including main contacts,
+        communication history, and any relevant notes or flags that may influence sales actions.
     """
+
     
     start_of_month, today_date = get_month_start_and_today()
     start_q_date = start_date or start_of_month
     final_q_date = final_date or today_date
+    customer_name = customer_name.upper() if customer_name else ''
+    organizer = organizer.upper() if organizer else ''
+    subject = subject.upper() if subject else ''
     sql = get_calls_summary(start_q_date, final_q_date, customer_name, organizer, subject)
     print("sql", sql)
     columns, rows = execute_pg_query_dev(sql)
@@ -396,5 +404,5 @@ SALES_TOOLS: List = [
     get_sold_items,
     get_opportunities,
     get_vendors_to_quote,
-    get_calls_events_insights
+    get_account_conversation_insights,
 ]
