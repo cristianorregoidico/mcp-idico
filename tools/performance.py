@@ -23,7 +23,7 @@ def get_inside_sales_performance_report(initial_date: Optional[str] = None, fina
     
     # Resolve default dates
     start_of_month, today_date = get_month_start_and_today()
-    start_q_date = initial_date or today_date
+    start_q_date = initial_date or start_of_month
     final_q_date = final_date or today_date
 
     

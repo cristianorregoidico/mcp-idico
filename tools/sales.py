@@ -338,7 +338,7 @@ def get_vendors_to_quote(customer_name: str, brand: str) -> Dict[str, Any]:
     )
     
     
-def get_account_conversation_insights(start_date: Optional[str], final_date: Optional[str], customer_name: Optional[str], organizer: Optional[str], subject: Optional[str]) -> Dict[str, Any]:
+def get_account_calls_summary(start_date: Optional[str], final_date: Optional[str], customer_name: Optional[str], organizer: Optional[str], subject: Optional[str]) -> Dict[str, Any]:
     """Get customer calls insights for a specific account.
 
     Use this tool when the user requests call summaries, event insights
@@ -393,7 +393,6 @@ def get_account_conversation_insights(start_date: Optional[str], final_date: Opt
         },
     )
 
-    
 
 
 
@@ -404,5 +403,5 @@ SALES_TOOLS: List = [
     get_sold_items,
     get_opportunities,
     get_vendors_to_quote,
-    get_account_conversation_insights,
+    get_account_calls_summary,
 ]
