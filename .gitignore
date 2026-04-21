@@ -9,3 +9,8 @@ wheels/
 # Virtual environments
 .venv
 .env
+.codex
+.ruff_cache
+nginx
+main_final.py
+keys.py

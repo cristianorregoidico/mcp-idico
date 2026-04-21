@@ -231,7 +231,7 @@ def get_sold_items(initial_date: Optional[str] = None, final_date: Optional[str]
         dataset_reference=dataset_reference,
     )
 
-def get_opportunities(initial_date: Optional[str] = None, final_date: Optional[str] = None, inside_sales: Optional[str] = "") -> Dict[str, Any]:
+def get_opportunities(initial_date: Optional[str] = None, final_date: Optional[str] = None, inside_sales: Optional[str] = "", customer_name: Optional[str] = "") -> Dict[str, Any]:
     """Retrieve summarized KPIs for opportunities for the provided period and Inside Sales.
     
     Use this tool when user asks for opportunities or opportunities by Inside Sales.
@@ -240,6 +240,7 @@ def get_opportunities(initial_date: Optional[str] = None, final_date: Optional[s
         initial_date: ISO-8601 string indicating the start date; defaults to today's date.
         final_date: ISO-8601 string indicating the end date; defaults to today's date.
         inside_sales: Name or identifier of the Inside Sales rep to filter by (case-insensitive).
+        customer_name: Name of the customer to filter by (case-insensitive).
 
     Returns:
         Dict[str, Any]: KPIs per Inside Sales (total amount, order count, avg ticket), status breakdown with sales order lists, top customers per Inside Sales, and general totals plus period and timeline summaries.
@@ -251,8 +252,9 @@ def get_opportunities(initial_date: Optional[str] = None, final_date: Optional[s
     final_q_date = final_date or today_date
 
     inside_sales = "" if not inside_sales else inside_sales.upper()
+    customer_name = "" if not customer_name else customer_name.upper()
     
-    sql = get_opportunities_data(start_q_date, final_q_date, inside_sales)
+    sql = get_opportunities_data(start_q_date, final_q_date, inside_sales, customer_name)
     print("sql", sql)
     conn = NetSuiteConnection()
     with conn.managed() as ns:
@@ -338,10 +340,10 @@ def get_vendors_to_quote(customer_name: str, brand: str) -> Dict[str, Any]:
     )
     
     
-def get_account_calls_summary(start_date: Optional[str], final_date: Optional[str], customer_name: Optional[str], organizer: Optional[str], subject: Optional[str]) -> Dict[str, Any]:
+def get_events_summary(start_date: Optional[str], final_date: Optional[str], customer_name: Optional[str], organizer: Optional[str], subject: Optional[str]) -> Dict[str, Any]:
     """Get customer calls insights for a specific account.
 
-    Use this tool when the user requests call summaries, event insights
+    Use this tool when the user requests call summaries, event insights, modjo
     or any other details related to customer conversations or calls.
 
     Args:
@@ -403,5 +405,5 @@ SALES_TOOLS: List = [
     get_sold_items,
     get_opportunities,
     get_vendors_to_quote,
-    get_account_calls_summary,
+    get_events_summary,
 ]

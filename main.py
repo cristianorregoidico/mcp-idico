@@ -1,47 +1,41 @@
 from fastmcp import FastMCP
+from mcp.types import Icon
+import asyncio
+
+from auth.redis_client import create_redis_client
+from auth.provider import create_auth_provider
+from server.tool_registry import register_tools
+
 from tools.sales import SALES_TOOLS
 from tools.files import FILES_TOOLS
 from tools.operations import OPS_TOOLS
 from tools.performance import PERFORMANCE_TOOLS
 
+redis_client = create_redis_client()
+auth_provider = create_auth_provider(redis_client)
 
-app = FastMCP("idico-sales")
+app = FastMCP(
+    "IDRA IDICO AI",
+    auth=auth_provider,
+    instructions="Accede a datos en tiempo real y genera análisis claros para apoyar decisiones.",
+    icons=[Icon(src="https://i.ibb.co/svxz9ZcR/idra-logo.png", mimeType="image/png", sizes=["48x48"])],
+)
 
-DEFAULT_ANNOTATIONS = {
-    "readOnlyHint": True,      # ✅ solo consulta
-    "destructiveHint": False,  # ✅ no modifica nada
-    "openWorldHint": False,    # ✅ no “mundo abierto” (si es SQL predefinido, no debería ser open world)
-}
-
-def tool_register(fn):
-    app.tool(
-        enabled=True,
-        annotations=DEFAULT_ANNOTATIONS,
-    )(fn)
-    
-for tool_sales in SALES_TOOLS:
-    tool_register(tool_sales)
-
-for tool_files in FILES_TOOLS:
-    tool_register(tool_files)
-    
-for tool_performance in PERFORMANCE_TOOLS:
-    tool_register(tool_performance)
-    
-for tool_ops in OPS_TOOLS:
-    tool_register(tool_ops)
-    
-
+register_tools(app, SALES_TOOLS)
+register_tools(app, FILES_TOOLS)
+register_tools(app, PERFORMANCE_TOOLS)
+register_tools(app, OPS_TOOLS)
 
 
 if __name__ == "__main__":
-    import asyncio
+
     try:
         app.run(
             transport="streamable-http",
             host="0.0.0.0",
             port=8000,
-            path="/mcp",  # endpoint HTTP del servidor MCP
+            #path="/mcp",  # endpoint HTTP del servidor MCP
         )
     except asyncio.CancelledError:
         pass
+    

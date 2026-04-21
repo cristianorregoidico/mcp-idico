@@ -218,7 +218,7 @@ WHERE
 	AND TO_CHAR(t.trandate, 'YYYY-MM-DD') BETWEEN '{initial_date}' AND '{final_date}';
     """
 
-def get_opportunities_data(initial_date: str, final_date: str, inside_sales: str) -> str:
+def get_opportunities_data(initial_date: str, final_date: str, inside_sales: str, customer_name: str) -> str:
     return f"""
 SELECT 
 	op.id,
@@ -234,6 +234,11 @@ INNER JOIN CustomerSubsidiaryRelationship csr ON csr.entity = op.entity AND csr.
 INNER JOIN employee e ON e.id = op.employee
 INNER JOIN transactionStatus ts ON ts.id = op.status AND ts.trantype = 'Opprtnty'
 WHERE op.TYPE = 'Opprtnty'
+AND (
+        '{customer_name}' IS NULL
+        OR '{customer_name}' = ''
+        OR BUILTIN.DF(op.entity) LIKE '%' || '{customer_name}' || '%'
+    )
 AND (
     '{inside_sales}' IS NULL
     OR '{inside_sales}' = ''

@@ -3,6 +3,12 @@ import traceback
 from contextlib import contextmanager
 from dotenv import load_dotenv
 import jaydebeapi as jd
+import random
+import string
+import time
+import hmac
+import hashlib
+import base64
 # from netsuite_querys import get_bookings_by_period
 # from typing import Any, Dict, List, Optional
 
@@ -27,7 +33,7 @@ class NetSuiteConnection:
         self.driver = os.environ.get("DRIVER_NETSUITE")
         self.url = os.environ.get("URL_NETSUITE")
         self.usr = os.environ.get("USER_NETSUITE")
-        self.pwd = os.environ.get("PWD_NETSUITE")
+        self.pwd = self.generate_tba_token()  # Generate TBA token for password
         # Keep driver jar next to this file under lib/NQjc.jar
         self.path_driver = os.path.join(os.path.dirname(os.path.abspath(__file__)), "lib", "NQjc.jar")
 
@@ -95,6 +101,47 @@ class NetSuiteConnection:
                 cur.close()
             except Exception:
                 pass
+    
+    def generate_tba_token(self):
+        """Genera un token TBA (Token-Based Authentication) para NetSuite utilizando HMAC-SHA256."""
+       
+
+        # Generar nonce
+        #nonce = ''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(20))
+        nonce = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(10))
+
+
+        # PROD NS SS
+        account = '11012044'  # Cuenta Netsuite Legaxy
+        consumer_key = '57df4ad8829fa3973b28e570201d4f5f87ffa112d4c7d0b445c3e59376c66145'
+        consumer_secret = 'e2047c5fb143a69d8c3612a0c28c21de22528ae712ff4aeec87b0aca72cd51fc'
+        token = 'f4f5ea8f427f21a709ec701fcba64276e46308edb5eaeffedc009b4c1810ab32'
+        token_secret = '2b86fe37c5c05b3ceb7895663178fafeb94f554eee3dd0857b50ea017817d631'
+
+
+        # Obtener timestamp
+        timestamp = str(int(time.time()))
+
+        # Crear el mensaje para la firma
+        msg = f"{account}&{consumer_key}&{token}&{nonce}&{timestamp}"
+        secret = f"{consumer_secret}&{token_secret}"
+
+        key = f"{consumer_secret}&{token_secret}"
+        baseString = f"{account}&{consumer_key}&{token}&{nonce}&{timestamp}"
+
+        # Crear la firma HMAC-SHA256
+        #hmacsha = hmac.new(secret.encode('ascii'), msg.encode('ascii'), hashlib.sha256)
+        #signature = base64.b64encode(hmacsha.digest()).decode('ascii')
+        sha256 = hashlib.sha256(key.encode()).digest()
+        signature = base64.b64encode(hmac.new(sha256, baseString.encode(), hashlib.sha256).digest()).decode()
+
+        # Algoritmo de firma
+        signature_algorithm = 'HMAC-SHA256'
+
+        # Imprimir la estructura final
+        output = f"{account}&{consumer_key}&{token}&{nonce}&{timestamp}&{signature}&{signature_algorithm}"
+        print("output", output)
+        return output
         
 # sql = get_bookings_by_period("'2025-07-01'", "'2025-09-30'")
 # print("sql",sql)

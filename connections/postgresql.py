@@ -1,4 +1,5 @@
 import os
+import json
 import psycopg
 from typing import Any, List, Tuple, Optional
 import traceback
@@ -75,7 +76,39 @@ def execute_pg_query(sql: str) -> List[Tuple[Any, ...]]:
     finally:
         conn.close()
         print("[PG-CONNECT] Conexión cerrada.")
-        
+
+
+async def log_tool_call(tool_name: str, username: str, params: dict, response: str, duration_ms: int) -> None:
+    """Persiste en PostgreSQL una llamada a un tool: nombre, params, respuesta y duración."""
+    host = os.getenv("PGHOST", "localhost")
+    port = os.getenv("PGPORT", "5432")
+    db   = os.getenv("PGDATABASE", "postgres")
+    user = os.getenv("PGUSER", "postgres")
+
+    try:
+        aconn = await psycopg.AsyncConnection.connect(
+            host=host, port=port, dbname=db, user=user,
+            password=os.getenv("PGPASSWORD", ""),
+        )
+        async with aconn:
+            async with aconn.cursor() as cur:
+                await cur.execute(
+                    """
+                    INSERT INTO ods.analytics.idra_tool_calls (tool_name, username, params, response, duration_ms)
+                    VALUES (%s, %s, %s, %s, %s)
+                    """,
+                    (
+                        tool_name,
+                        username,
+                        json.dumps(params, default=str),
+                        response[:4000],
+                        duration_ms,
+                    ),
+                )
+    except Exception as e:
+        print(f"[PG-LOG] Error logging tool call '{tool_name}': {e}")
+
+
 def execute_pg_query_dev(sql: str) -> List[Tuple[Any, ...]]:
     """
     Ejecuta una consulta SQL en PostgreSQL y devuelve los resultados.
