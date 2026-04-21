@@ -1,202 +1,211 @@
-# IDICO IDRA MCP
+# IDRA / IDICO MCP Server
 
-Servidor MCP construido con `FastMCP` para exponer consultas analíticas de ventas, operaciones y desempeño comercial a partir de NetSuite y PostgreSQL. El servicio entrega respuestas resumidas listas para consumo por clientes MCP y, cuando aplica, guarda datasets completos en `data/` para consultas posteriores o exportación a Excel.
+Servidor MCP construido con `FastMCP` para exponer consultas analíticas y operativas de IDICO a partir de NetSuite y PostgreSQL, con autenticación en Azure / Microsoft Entra ID y almacenamiento OAuth en Azure Redis.
+
+El proyecto entrega respuestas estructuradas para clientes MCP, guarda datasets reutilizables en `data/` y registra auditoría básica por tool invocado.
+
+---
 
 ## Qué hace este proyecto
 
-Este repositorio centraliza consultas predefinidas y transformaciones en `pandas` para responder preguntas de negocio como:
+Este servidor permite consultar información de negocio como:
 
-- cotizaciones por Inside Sales o cliente
-- bookings y margen por periodo
-- oportunidades y conversión comercial
+- cotizaciones, bookings y oportunidades comerciales
 - items cotizados o vendidos
+- vendors sugeridos para cotizar por cliente y marca
 - scorecards y performance de Inside Sales
 - OTD, guías Helga e importaciones por cliente
-- recuperación de datasets JSON y archivos Excel generados por tools previas
+- resúmenes de eventos / llamadas comerciales
+- recuperación de datasets generados previamente
 
-La aplicación se publica como un servidor MCP HTTP en:
+Además:
 
-- host: `0.0.0.0`
-- puerto: `8000`
-- transporte: `streamable-http`
-- endpoint: `/mcp`
+- autentica usuarios con `AzureProvider`
+- persiste estado OAuth en Azure Redis
+- identifica qué usuario ejecuta cada petición
+- registra llamadas a tools en PostgreSQL
 
-## Arquitectura
+---
 
-Flujo general:
+## Arquitectura actual
 
-1. `main.py` registra todas las tools MCP.
-2. `tools/` encapsula los casos de uso expuestos al cliente MCP.
-3. `connections/` construye y ejecuta consultas contra NetSuite y PostgreSQL.
-4. `analitycs/` transforma los resultados tabulares en resúmenes JSON.
-5. `utils/` guarda datasets, genera Excel y resuelve utilidades de fechas.
+### Flujo general
 
-Componentes principales:
+1. `main.py` compone el servidor FastMCP.
+2. `auth/` encapsula autenticación, Redis y resolución de identidad.
+3. `server/tool_registry.py` registra tools con un wrapper común.
+4. `tools/` expone los casos de uso MCP.
+5. `connections/` ejecuta consultas contra NetSuite y PostgreSQL.
+6. `analitycs/` transforma resultados tabulares en resúmenes de negocio.
+7. `utils/` construye envelopes, persiste datasets y resuelve helpers comunes.
 
-- `main.py`: arranque del servidor MCP y registro de tools.
-- `tools/sales.py`: tools comerciales y de ventas.
-- `tools/operations.py`: tools operativas.
-- `tools/performance.py`: tools de performance y scorecards.
-- `tools/files.py`: acceso a datasets JSON y archivos Excel generados.
-- `connections/netsuite.py`: conexión JDBC a NetSuite usando `jaydebeapi` y `NQjc.jar`.
-- `connections/postgresql.py`: ejecución de consultas en PostgreSQL.
-- `data/`: datasets JSON y Excel generados en tiempo de ejecución.
+### Módulos principales
 
-## Requisitos
+| Ruta | Responsabilidad |
+|---|---|
+| `main.py` | Arranque del servidor y composición general |
+| `auth/redis_client.py` | Crear cliente Azure Redis |
+| `auth/provider.py` | Crear `AzureProvider` |
+| `auth/debug.py` | Resolver el usuario autenticado y emitir `AUTH-DEBUG` |
+| `server/tool_registry.py` | Registrar tools con wrapper compartido |
+| `tools/sales.py` | Tools comerciales |
+| `tools/operations.py` | Tools operativas |
+| `tools/performance.py` | Tools de desempeño |
+| `tools/files.py` | Recuperación de datasets |
+| `connections/netsuite.py` | Conexión JDBC a NetSuite |
+| `connections/postgresql.py` | Consultas y auditoría en PostgreSQL |
+| `data/` | Artefactos JSON/Excel generados |
 
-- Python `>= 3.10.12`
-- Java/JDK disponible para el driver JDBC de NetSuite
-- Acceso de red a NetSuite y PostgreSQL
-- Variables de entorno configuradas para ambas conexiones
+---
 
-Dependencias principales definidas en `pyproject.toml`:
+## Autenticación y seguridad
 
-- `fastmcp`
-- `mcp[cli]`
-- `pandas`
-- `openpyxl`
-- `jaydebeapi`
-- `psycopg[binary]`
-- `python-dotenv`
+### Azure / Microsoft Entra ID
 
-## Variables de entorno
+El servidor usa `AzureProvider` de FastMCP con scope requerido:
 
-El proyecto carga variables desde `.env` para NetSuite mediante `load_dotenv()`. PostgreSQL se lee desde variables de entorno del proceso.
+- `mcp-access`
 
-### NetSuite
+La autenticación ya no usa Auth0.
 
-Variables requeridas por [`connections/netsuite.py`](/home/cod/dev/labs/mcp/idico-mcp/connections/netsuite.py):
+### Azure Redis
 
-- `DRIVER_NETSUITE`
-- `URL_NETSUITE`
-- `USER_NETSUITE`
-- `PWD_NETSUITE`
+Azure Redis se usa como backend de `client_storage` para persistir estado OAuth entre reinicios e instancias.
 
-El driver JDBC se toma desde:
+Puntos importantes:
 
-- [`connections/lib/NQjc.jar`](/home/cod/dev/labs/mcp/idico-mcp/connections/lib/NQjc.jar)
+- conexión mediante `AZURE_REDIS_URL`
+- `decode_responses=True` para compatibilidad con `RedisStore`
+- cifrado de datos en reposo mediante `FernetEncryptionWrapper`
 
-### PostgreSQL
+### Identificación del usuario por petición
 
-Variables usadas por [`connections/postgresql.py`](/home/cod/dev/labs/mcp/idico-mcp/connections/postgresql.py):
+Antes de ejecutar cada tool se resuelve el usuario autenticado:
 
-- `PGHOST`
-- `PGHOST_DEV`
-- `PGPORT`
-- `PGDATABASE`
-- `PGUSER`
-- `PGPASSWORD`
+1. `preferred_username`
+2. si no existe, `name`
+3. si algo falla, `"Not Identified"`
 
-Notas:
+Además se imprime un log como:
 
-- `execute_pg_query()` usa `PGHOST`.
-- `execute_pg_query_dev()` usa `PGHOST_DEV`.
-- varias tools operan actualmente contra `PGHOST_DEV`.
-
-## Instalación y ejecución local
-
-### Opción 1: usando `uv`
-
-```bash
-uv sync
-uv run main.py
+```text
+[AUTH-DEBUG] tool=get_bookings auth=usuario@idico.com
 ```
 
-### Opción 2: usando `pip`
+---
 
-```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-python main.py
-```
+## Observabilidad y auditoría
 
-Si todo está configurado correctamente, el servidor quedará escuchando en `http://localhost:8000/mcp`.
+Cada tool se ejecuta a través de un wrapper central que:
 
-## Ejecución con Docker
+- captura el usuario autenticado
+- ejecuta el tool en `asyncio.to_thread(...)`
+- mide duración
+- registra resultado o error en PostgreSQL
 
-### Build y arranque
+La función `log_tool_call(...)` persiste actualmente:
 
-```bash
-docker compose up --build
-```
+- `tool_name`
+- `username`
+- `params`
+- `response`
+- `duration_ms`
 
-La composición actual:
+Esto permite trazabilidad básica sin tocar la lógica individual de cada tool.
 
-- expone `8000:8000`
-- carga variables desde `.env`
-- usa una imagen basada en `python:3.12-slim`
-- instala `default-jdk-headless` para soportar el driver JDBC de NetSuite
-
-Archivos relacionados:
-
-- [`Dockerfile`](/home/cod/dev/labs/mcp/idico-mcp/Dockerfile)
-- [`docker-compose.yml`](/home/cod/dev/labs/mcp/idico-mcp/docker-compose.yml)
+---
 
 ## Catálogo de tools
 
-Los nombres públicos de las tools corresponden a los nombres de función registrados en `main.py`.
+> Los nombres públicos corresponden a las funciones registradas en el servidor.
 
 ### Sales
 
 | Tool | Parámetros | Descripción |
-| --- | --- | --- |
-| `get_quotes` | `initial_date`, `final_date`, `inside_sales`, `customer_name` | Resume cotizaciones por periodo, Inside Sales y cliente. Genera dataset JSON y archivo Excel. |
-| `get_bookings` | `initial_date`, `final_date`, `customer_name`, `inside_sales` | Resume bookings, margen, términos, top clientes y KPIs agregados. Genera dataset JSON. |
-| `get_quoted_items` | `initial_date`, `final_date`, `customer_name`, `inside_sales` | Analiza items cotizados por cliente, marca, vendor e Inside Sales. Genera dataset JSON. |
-| `get_sold_items` | `initial_date`, `final_date`, `customer_name`, `inside_sales` | Analiza items vendidos, marcas, vendors y distribución comercial. Genera dataset JSON. |
-| `get_opportunities` | `initial_date`, `final_date`, `inside_sales` | Resume oportunidades por periodo e Inside Sales. Genera dataset JSON. |
-| `get_vendors_to_quote` | `customer_name`, `brand` | Sugiere vendors a cotizar combinando histórico por cliente/marca y país/marca desde PostgreSQL. |
+|---|---|---|
+| `get_quotes` | `initial_date`, `final_date`, `inside_sales`, `customer_name` | Resume cotizaciones por periodo, cliente e Inside Sales. Guarda dataset JSON. |
+| `get_bookings` | `initial_date`, `final_date`, `customer_name`, `inside_sales` | Resume bookings, margen, KPIs agregados y composición comercial. Guarda dataset JSON. |
+| `get_quoted_items` | `initial_date`, `final_date`, `customer_name`, `inside_sales`, `topic` | Analiza items o recurrencia de marcas cotizadas. Guarda dataset JSON. |
+| `get_sold_items` | `initial_date`, `final_date`, `customer_name`, `inside_sales`, `topic` | Analiza items vendidos o recurrencia de marcas vendidas. Guarda dataset JSON. |
+| `get_opportunities` | `initial_date`, `final_date`, `inside_sales`, `customer_name` | Resume oportunidades y pipeline comercial por periodo. Guarda dataset JSON. |
+| `get_vendors_to_quote` | `customer_name`, `brand` | Sugiere vendors a cotizar combinando histórico por cliente/marca y país/marca. |
+| `get_events_summary` | `start_date`, `final_date`, `customer_name`, `organizer`, `subject` | Recupera y resume eventos / llamadas comerciales para análisis de relaciones o insights. |
 
 ### Operations
 
 | Tool | Parámetros | Descripción |
-| --- | --- | --- |
-| `get_helga_guides` | `po`, `status`, `service` | Recupera guías Helga filtradas por PO, estado o servicio. Genera dataset JSON. |
-| `get_otd_indicators` | `initial_date`, `final_date`, `so_number` | Calcula indicadores OTD por mes y, si se envía `so_number`, devuelve detalle de la orden. Genera dataset JSON. |
-| `get_customer_imports` | `customer_name` | Resume importaciones de un cliente: montos FOB/CIF, marcas, vendors, años e indicadores asociados. |
+|---|---|---|
+| `get_helga_guides` | `po`, `status`, `service` | Recupera guías Helga por PO, estado o servicio. Guarda dataset JSON. |
+| `get_otd_indicators` | `initial_date`, `final_date`, `so_number` | Calcula indicadores OTD por periodo y puede devolver detalle de una SO específica. Guarda dataset JSON. |
+| `get_customer_imports` | `customer_name` | Resume importaciones por cliente: montos, marcas, vendors y tendencias. |
 
 ### Performance
 
 | Tool | Parámetros | Descripción |
-| --- | --- | --- |
-| `get_inside_sales_performance_report` | `initial_date`, `final_date` | Calcula tiempos de respuesta, hitrates y score de performance de Inside Sales. Genera dataset JSON. |
-| `get_scorecard_by_is` | `inside_sales` | Devuelve scorecards diario, mensual y anual desde PostgreSQL. |
+|---|---|---|
+| `get_inside_sales_performance_report` | `initial_date`, `final_date` | Calcula tiempos de respuesta, hitrate y score de desempeño de Inside Sales. Guarda dataset JSON. |
+| `get_scorecard_by_is` | `inside_sales` | Devuelve scorecard diario, mensual y anual desde PostgreSQL. |
 
 ### Files
 
 | Tool | Parámetros | Descripción |
-| --- | --- | --- |
-| `get_dataset` | `data_set_reference` | Recupera un dataset JSON generado previamente. |
-| `get_excel_file` | `file_name` | Devuelve un archivo `.xlsx` previamente generado. Incluye validación contra path traversal. |
+|---|---|---|
+| `get_dataset` | `data_set_reference` | Recupera un dataset JSON guardado previamente. |
 
-## Comportamiento por defecto de fechas
+> Nota: `get_excel_file` existe en código pero actualmente no está incluido en `FILES_TOOLS`, por lo que no queda expuesto como tool MCP.
 
-Las tools no usan exactamente la misma ventana por defecto. Según implementación:
+---
 
-- `get_quotes`: hoy a hoy
-- `get_opportunities`: hoy a hoy
-- `get_inside_sales_performance_report`: hoy a hoy
-- `get_bookings`: primer día del mes actual a hoy
-- `get_quoted_items`: primer día del mes actual a hoy
-- `get_sold_items`: primer día del mes actual a hoy
-- `get_otd_indicators`: primer día del mes actual a hoy
+## Formato de respuesta
 
-El helper que define estas fechas está en [`utils/date.py`](/home/cod/dev/labs/mcp/idico-mcp/utils/date.py).
+Las tools usan `utils/envelope.py` para devolver una estructura homogénea:
 
-## Datasets y archivos generados
+```json
+{
+  "meta": {
+    "tool_name": "get_bookings",
+    "generated_at": "2026-04-21T00:00:00+00:00",
+    "source_systems": ["netsuite"],
+    "filters": {},
+    "row_count": 100,
+    "column_count": 12,
+    "columns": [],
+    "time_range": {
+      "start_date": "2026-04-01",
+      "end_date": "2026-04-21"
+    },
+    "dataset_reference": "20260421_101010_bookings_data.json"
+  },
+  "kpi_metrics": {},
+  "artifacts": {
+    "dataset": {}
+  },
+  "details": {}
+}
+```
 
-Varias tools persisten el resultado completo de las consultas para poder reutilizarlo después.
+Campos frecuentes:
+
+- `meta`: trazabilidad y filtros aplicados
+- `kpi_metrics`: resumen principal para el cliente MCP
+- `artifacts.dataset`: referencia reutilizable al dataset completo
+- `details`: tablas auxiliares o información complementaria
+
+---
+
+## Datasets y artefactos
+
+Muchas tools guardan el resultado tabular completo en `data/`.
 
 ### JSON
 
-Los datasets se guardan en `data/` con nombre timestamped, por ejemplo:
+Ejemplo:
 
 ```text
-20260129_152522_get_quotes.json
+20260421_101010_bookings_data.json
 ```
 
-La estructura es:
+Estructura:
 
 ```json
 {
@@ -210,49 +219,217 @@ La estructura es:
 
 ### Excel
 
-Algunas tools también exportan el `DataFrame` completo a `.xlsx`, por ejemplo:
+El proyecto tiene helper para exportar DataFrames a Excel (`save_df_to_excel`), pero hoy la exportación no está activada en todas las tools ni el archivo Excel está expuesto como tool MCP.
 
-```text
-20260129_152522_get_quotes.xlsx
+---
+
+## Comportamiento por defecto de fechas
+
+La mayoría de las tools con rango temporal usan:
+
+- fecha inicial: primer día del mes actual
+- fecha final: hoy
+
+Esto aplica, por ejemplo, a:
+
+- `get_quotes`
+- `get_bookings`
+- `get_quoted_items`
+- `get_sold_items`
+- `get_opportunities`
+- `get_otd_indicators`
+- `get_inside_sales_performance_report`
+- `get_events_summary`
+
+El helper está en:
+
+- `utils/date.py`
+
+---
+
+## Fuentes de datos
+
+### NetSuite
+
+Se usa conexión JDBC a través de `jaydebeapi` y el driver configurado localmente.
+
+Consultas típicas:
+
+- cotizaciones
+- bookings
+- oportunidades
+- desempeño comercial
+- items vendidos/cotizados
+
+### PostgreSQL
+
+Se usa para:
+
+- scorecards
+- OTD
+- guías Helga
+- imports
+- vendors sugeridos
+- eventos / llamadas
+- auditoría de tools
+
+Hay uso diferenciado de:
+
+- `PGHOST`
+- `PGHOST_DEV`
+
+según la función utilizada.
+
+---
+
+## Variables de entorno
+
+El proyecto depende de variables de entorno para autenticación, Redis y bases de datos.
+
+Notas:
+
+- `connections/netsuite.py` sí carga `.env` mediante `load_dotenv()`.
+- para autenticación Azure, Redis y PostgreSQL es recomendable exportar variables en el entorno o usar `docker compose` con `env_file`.
+
+### Azure Auth / Redis
+
+- `AZURE_CLIENT_ID`
+- `AZURE_CLIENT_SECRET`
+- `AZURE_TENANT_ID`
+- `AZURE_REDIS_URL`
+- `JWT_SIGNING_KEY`
+- `STORAGE_ENCRYPTION_KEY`
+- `BASE_URL`
+
+### NetSuite
+
+- `DRIVER_NETSUITE`
+- `URL_NETSUITE`
+- `USER_NETSUITE`
+- `PWD_NETSUITE`
+
+### PostgreSQL
+
+- `PGHOST`
+- `PGHOST_DEV`
+- `PGPORT`
+- `PGDATABASE`
+- `PGUSER`
+- `PGPASSWORD`
+
+### Variables heredadas / históricas
+
+Todavía pueden existir variables viejas de Auth0 en `.env`, pero la implementación actual usa Azure.
+
+---
+
+## Requisitos
+
+- Python `>= 3.12`
+- Java / JDK para conexión JDBC a NetSuite
+- Acceso de red a NetSuite, PostgreSQL, Azure Redis y endpoints de Azure auth
+
+Dependencias principales:
+
+- `fastmcp`
+- `mcp[cli]`
+- `pandas`
+- `openpyxl`
+- `jaydebeapi`
+- `psycopg[binary]`
+- `cryptography`
+- `py-key-value-aio[redis]`
+
+---
+
+## Instalación y ejecución local
+
+### Opción 1: `uv`
+
+```bash
+uv sync
+uv run main.py
 ```
 
-La lógica de persistencia está en:
+### Opción 2: `venv` + `pip`
 
-- [`utils/json_df.py`](/home/cod/dev/labs/mcp/idico-mcp/utils/json_df.py)
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python main.py
+```
 
-## Detalles operativos importantes
+El servidor levanta en:
 
-- El servidor registra las tools con `readOnlyHint=True` y `destructiveHint=False`.
-- El proyecto no expone escritura sobre bases de datos; las tools actuales son de consulta y análisis.
-- Las consultas SQL están predefinidas en `connections/netsuite_querys.py` y `connections/postgresql_querys.py`.
-- Algunas tools guardan referencias al dataset completo bajo la clave `full_data_reference`.
-- `get_quotes` también devuelve `excel_file` cuando genera una exportación.
+- host: `0.0.0.0`
+- puerto: `8000`
+- transporte: `streamable-http`
+
+> El path HTTP depende de la configuración de FastMCP; en `main.py` no se fuerza actualmente un `path` personalizado.
+
+---
+
+## Docker
+
+### Build y arranque
+
+```bash
+docker compose up --build
+```
+
+Características actuales:
+
+- expone `8000:8000`
+- carga `.env`
+- usa `python:3.12-slim`
+- instala `default-jdk-headless`
+- ejecuta `uv run main.py`
+
+Archivos:
+
+- `Dockerfile`
+- `docker-compose.yml`
+
+---
 
 ## Desarrollo
 
-Script auxiliar disponible:
+### Estado del proyecto
 
-- [`test.py`](/home/cod/dev/labs/mcp/idico-mcp/test.py): script manual de prueba y exploración local. No corresponde a una suite automatizada formal.
+- arquitectura modularizada para auth y registro de tools
+- sin suite automatizada formal visible en el repositorio
+- existe `test.py` como script manual de exploración
 
-Estado actual del repositorio:
+### Convenciones importantes
 
-- no se detectó una carpeta de tests automatizados
-- la documentación debe considerarse alineada con la implementación actual de `main.py` y `tools/`
+- las tools son de solo lectura
+- el wrapper central aplica `readOnlyHint=True`
+- las consultas SQL están predefinidas en `connections/*_querys.py`
+- la lógica de negocio vive principalmente en `analitycs/`
 
-## Sugerencia de `.env`
+---
 
-Ejemplo mínimo:
+## Estructura resumida del repositorio
 
-```env
-DRIVER_NETSUITE=...
-URL_NETSUITE=...
-USER_NETSUITE=...
-PWD_NETSUITE=...
-
-PGHOST=...
-PGHOST_DEV=...
-PGPORT=5432
-PGDATABASE=...
-PGUSER=...
-PGPASSWORD=...
+```text
+.
+├── auth/
+├── analitycs/
+├── connections/
+├── data/
+├── server/
+├── tools/
+├── utils/
+├── main.py
+├── Dockerfile
+├── docker-compose.yml
+└── pyproject.toml
 ```
+
+---
+
+## Notas
+
+- La documentación de detalle sobre la migración a Azure y la captura del usuario autenticado quedó ampliada en `REPORTE_2026-04-20.md`.
+- Si en el futuro se reactiva exportación Excel como artefacto público, conviene actualizar también este README y `FILES_TOOLS`.
