@@ -97,6 +97,7 @@ def get_customer_imports_data(customer_name: str) -> str:
     return f"""
     SELECT * FROM ods.analytics.datasur WHERE importador LIKE '%{customer_name}%';
     """
+
 def get_vendors_customer_brand(customer_name: str, brand: str) -> str:
     """
     Devuelve una consulta SQL para obtener la tasa de acierto de desvío para un cliente y marca específicos en PostgreSQL.

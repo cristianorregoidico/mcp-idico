@@ -299,7 +299,7 @@ SELECT
     tl.custcol_evol_selected_vendors AS selected_vendor,
 	-tl.quantity AS qty,
 	tl.rate AS unit_price,
-	tl.custcol_evol_vrq_cost AS unit_cost,
+	tl.custcol_evol_vrq_cost * t.exchangerate AS unit_cost,
 	tl.costestimatebase AS estimated_line_cost,
 	tl.custcol_gm_percertange AS gross_margin_pct 
 FROM transaction t 

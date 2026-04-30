@@ -33,27 +33,33 @@ Además:
 
 1. `main.py` compone el servidor FastMCP.
 2. `auth/` encapsula autenticación, Redis y resolución de identidad.
-3. `server/tool_registry.py` registra tools con un wrapper común.
-4. `tools/` expone los casos de uso MCP.
-5. `connections/` ejecuta consultas contra NetSuite y PostgreSQL.
-6. `analitycs/` transforma resultados tabulares en resúmenes de negocio.
-7. `utils/` construye envelopes, persiste datasets y resuelve helpers comunes.
+3. `middleware.py` registra todas las tools con un wrapper común de auth + auditoría.
+4. `features/` agrupa cada dominio con sus tools y lógica analítica en un mismo lugar.
+5. `connections/` ejecuta consultas contra NetSuite y PostgreSQL, separando cliente y queries por subpaquete.
+6. `utils/` construye envelopes, persiste datasets y resuelve helpers comunes (incluye transformaciones de datos).
 
 ### Módulos principales
 
 | Ruta | Responsabilidad |
 |---|---|
 | `main.py` | Arranque del servidor y composición general |
+| `middleware.py` | Wrapper centralizado: auth, logging y registro de tools |
 | `auth/redis_client.py` | Crear cliente Azure Redis |
 | `auth/provider.py` | Crear `AzureProvider` |
-| `auth/debug.py` | Resolver el usuario autenticado y emitir `AUTH-DEBUG` |
-| `server/tool_registry.py` | Registrar tools con wrapper compartido |
-| `tools/sales.py` | Tools comerciales |
-| `tools/operations.py` | Tools operativas |
-| `tools/performance.py` | Tools de desempeño |
-| `tools/files.py` | Recuperación de datasets |
-| `connections/netsuite.py` | Conexión JDBC a NetSuite |
-| `connections/postgresql.py` | Consultas y auditoría en PostgreSQL |
+| `auth/identity.py` | Resolver el usuario autenticado y emitir `AUTH-DEBUG` |
+| `features/sales/tools.py` | Tools comerciales |
+| `features/sales/analytics.py` | Lógica de negocio y KPIs comerciales |
+| `features/operations/tools.py` | Tools operativas |
+| `features/operations/analytics.py` | Lógica de negocio operativa |
+| `features/performance/tools.py` | Tools de desempeño |
+| `features/performance/analytics.py` | Lógica de KPIs de Inside Sales |
+| `features/files/tools.py` | Recuperación de datasets |
+| `features/notifications/tools.py` | Envío de emails y mensajes Teams |
+| `connections/netsuite/client.py` | Conexión JDBC a NetSuite |
+| `connections/netsuite/queries.py` | Plantillas SQL para NetSuite |
+| `connections/postgresql/client.py` | Consultas y auditoría en PostgreSQL |
+| `connections/postgresql/queries.py` | Plantillas SQL para PostgreSQL |
+| `utils/transformations.py` | Conversión de resultados tabulares a DataFrame/dict |
 | `data/` | Artefactos JSON/Excel generados |
 
 ---
@@ -288,7 +294,7 @@ El proyecto depende de variables de entorno para autenticación, Redis y bases d
 
 Notas:
 
-- `connections/netsuite.py` sí carga `.env` mediante `load_dotenv()`.
+- `connections/netsuite/client.py` sí carga `.env` mediante `load_dotenv()`.
 - para autenticación Azure, Redis y PostgreSQL es recomendable exportar variables en el entorno o usar `docker compose` con `env_file`.
 
 ### Azure Auth / Redis
@@ -405,8 +411,8 @@ Archivos:
 
 - las tools son de solo lectura
 - el wrapper central aplica `readOnlyHint=True`
-- las consultas SQL están predefinidas en `connections/*_querys.py`
-- la lógica de negocio vive principalmente en `analitycs/`
+- las consultas SQL están predefinidas en `connections/netsuite/queries.py` y `connections/postgresql/queries.py`
+- la lógica de negocio vive en `features/<dominio>/analytics.py`, junto a las tools del mismo dominio
 
 ---
 
@@ -415,12 +421,38 @@ Archivos:
 ```text
 .
 ├── auth/
-├── analitycs/
+│   ├── identity.py          # resolución de usuario autenticado y AUTH-DEBUG
+│   ├── provider.py
+│   └── redis_client.py
 ├── connections/
-├── data/
-├── server/
-├── tools/
+│   ├── netsuite/
+│   │   ├── client.py        # conexión JDBC a NetSuite
+│   │   └── queries.py       # plantillas SQL de NetSuite
+│   └── postgresql/
+│       ├── client.py        # conexiones y auditoría en PostgreSQL
+│       └── queries.py       # plantillas SQL de PostgreSQL
+├── features/
+│   ├── sales/
+│   │   ├── tools.py         # tools comerciales
+│   │   └── analytics.py     # KPIs y resúmenes comerciales
+│   ├── operations/
+│   │   ├── tools.py
+│   │   └── analytics.py
+│   ├── performance/
+│   │   ├── tools.py
+│   │   └── analytics.py
+│   ├── files/
+│   │   └── tools.py
+│   └── notifications/
+│       └── tools.py
 ├── utils/
+│   ├── date.py
+│   ├── envelope.py
+│   ├── json_df.py
+│   └── transformations.py   # helpers de conversión tabular
+├── data/                    # artefactos JSON/Excel generados
+├── docs/
+├── middleware.py             # wrapper de auth, logging y registro de tools
 ├── main.py
 ├── Dockerfile
 ├── docker-compose.yml

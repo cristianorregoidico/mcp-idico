@@ -1,11 +1,11 @@
 from typing import Any, Dict, Optional, List
-from connections.postgresql import execute_pg_query, execute_pg_query_dev
-from connections.postgresql_querys import get_helga_guides_query, get_on_time_delivery, get_customer_imports_data
+from connections.postgresql.client import execute_pg_query, execute_pg_query_dev
+from connections.postgresql.queries import get_helga_guides_query, get_on_time_delivery, get_customer_imports_data
 from utils.json_df import save_result_to_json
 from utils.envelope import build_tool_response
 from utils.date import get_month_start_and_today
-from analitycs.operations import on_time_delivery_summary, build_imports_summary
-from analitycs.data_transformations import tuple_to_dataframe
+from features.operations.analytics import on_time_delivery_summary, build_imports_summary
+from utils.transformations import tuple_to_dataframe
 
 def get_helga_guides(po: Optional[str] = None, status: Optional[str] = None, service: Optional[str] = None) -> Dict[str, Any]:
     """Retrieve helga guides based on po, status and service filters.

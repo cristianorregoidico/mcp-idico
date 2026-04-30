@@ -3,10 +3,10 @@ from typing import Dict, List, Optional, Any
 from utils.date import get_month_start_and_today
 from utils.json_df import save_result_to_json, save_df_to_excel
 from utils.envelope import build_tool_response
-from connections.netsuite import NetSuiteConnection
-from connections.netsuite_querys import get_quotes_by_inside, get_bookings_data, get_items_quoted_by_customer, get_opportunities_data, get_sold_items_by_period
-from analitycs.data_transformations import tuple_to_dataframe
-from analitycs.sales import (
+from connections.netsuite.client import NetSuiteConnection
+from connections.netsuite.queries import get_quotes_by_inside, get_bookings_data, get_items_quoted_by_customer, get_opportunities_data, get_sold_items_by_period
+from utils.transformations import tuple_to_dataframe
+from features.sales.analytics import (
     finance_summary,
     opportunity_summary,
     sold_brands_recurrence_metrics,
@@ -16,8 +16,8 @@ from analitycs.sales import (
     summarize_items_quoted,
     analize_hr_desviado
 )
-from connections.postgresql_querys import get_calls_summary, get_vendors_customer_brand, get_customer_country, get_vendors_country_brand
-from connections.postgresql import execute_pg_query_dev
+from connections.postgresql.queries import get_calls_summary, get_vendors_customer_brand, get_customer_country, get_vendors_country_brand
+from connections.postgresql.client import execute_pg_query_dev
 
 
 def get_quotes(initial_date: Optional[str] = None, final_date: Optional[str] = None, inside_sales: Optional[str] = None, customer_name: Optional[str] = "") -> Dict[str, Any]:

@@ -1,13 +1,13 @@
 from typing import Dict, List, Optional, Any
-from analitycs.performance import analyze_inside_sales
-from connections.netsuite_querys import get_op_so_data
-from connections.postgresql_querys import get_scorecard_by_is_daily, get_scorecard_by_is_month, get_scorecard_by_is_year
+from features.performance.analytics import analyze_inside_sales
+from connections.netsuite.queries import get_op_so_data
+from connections.postgresql.queries import get_scorecard_by_is_daily, get_scorecard_by_is_month, get_scorecard_by_is_year
 from utils.date import get_month_start_and_today
 from utils.json_df import save_result_to_json
 from utils.envelope import build_tool_response
-from connections.netsuite import NetSuiteConnection
-from analitycs.data_transformations import tuple_to_dataframe
-from connections.postgresql import execute_pg_query_dev
+from connections.netsuite.client import NetSuiteConnection
+from utils.transformations import tuple_to_dataframe
+from connections.postgresql.client import execute_pg_query_dev
 
 def get_inside_sales_performance_report(initial_date: Optional[str] = None, final_date: Optional[str] = None) -> Dict[str, Any]:
     """Analyze Inside Sales performance for the selected period (Response time, hitrate).

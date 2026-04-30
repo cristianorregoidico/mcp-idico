@@ -148,7 +148,7 @@ Regla simple:
 
 - Hay 13 tools MCP expuestas actualmente.
 - Existe 1 tool implementada pero no publicada: `get_excel_file`.
-- `get_excel_file` está en `tools/files.py`, pero no se registra en el servidor.
+- `get_excel_file` está en `features/files/tools.py`, pero no se registra en el servidor.
 - Algunas tools devuelven un nombre técnico interno distinto al nombre público del MCP; para uso diario, mandan el nombre registrado.
 - La mayoría de las fechas, si no se informan, arrancan desde el primer día del mes actual hasta hoy.
 - El documento prioriza el código real del servidor; si el README dice algo distinto, conviene tomar este manual como referencia más cercana al comportamiento actual.

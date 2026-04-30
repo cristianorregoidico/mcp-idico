@@ -1,8 +1,8 @@
 import asyncio
 import functools
 import time
-from auth.debug import log_auth_debug
-from connections.postgresql import log_tool_call
+from auth.identity import log_auth_debug
+from connections.postgresql.client import log_tool_call
 
 DEFAULT_ANNOTATIONS = {
     "readOnlyHint": True,

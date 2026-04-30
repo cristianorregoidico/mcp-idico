@@ -1,13 +1,13 @@
 import pandas as pd
 from typing import Dict, List, Optional, Any
-from connections.netsuite import NetSuiteConnection
-from analitycs.data_transformations import tuple_to_dataframe
+from connections.netsuite.client import NetSuiteConnection
+from utils.transformations import tuple_to_dataframe
 from utils.json_df import save_result_to_json, load_dataset_from_json
-from connections.postgresql_querys import get_helga_guides_query, get_vendors_customer_brand, get_customer_country, get_calls_summary
-from connections.netsuite_querys import get_quotes_by_inside
-from connections.postgresql import execute_pg_query_dev, execute_pg_query
-from analitycs.sales import summarize_is_quotes,analize_hr_desviado
-from tools.sales import get_vendors_to_quote
+from connections.postgresql.queries import get_helga_guides_query, get_vendors_customer_brand, get_customer_country, get_calls_summary
+from connections.netsuite.queries import get_quotes_by_inside
+from connections.postgresql.client import execute_pg_query_dev, execute_pg_query
+from features.sales.analytics import summarize_is_quotes, analize_hr_desviado
+from features.sales.tools import get_vendors_to_quote
 
 sql = get_calls_summary('2026-01-01', '2026-03-31', 'PUEBLO VIEJO', '', '')
 print("sql",sql)

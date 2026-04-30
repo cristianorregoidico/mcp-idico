@@ -9,9 +9,6 @@ import time
 import hmac
 import hashlib
 import base64
-# from netsuite_querys import get_bookings_by_period
-# from typing import Any, Dict, List, Optional
-
 
 # Load environment variables from .env file (if present)
 load_dotenv()
@@ -34,8 +31,8 @@ class NetSuiteConnection:
         self.url = os.environ.get("URL_NETSUITE")
         self.usr = os.environ.get("USER_NETSUITE")
         self.pwd = self.generate_tba_token()  # Generate TBA token for password
-        # Keep driver jar next to this file under lib/NQjc.jar
-        self.path_driver = os.path.join(os.path.dirname(os.path.abspath(__file__)), "lib", "NQjc.jar")
+        # JAR lives at connections/lib/NQjc.jar — one level up from this subpackage
+        self.path_driver = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "lib", "NQjc.jar")
 
     def connect(self) -> bool:
         """Establish the JDBC connection. Returns True on success, False otherwise."""

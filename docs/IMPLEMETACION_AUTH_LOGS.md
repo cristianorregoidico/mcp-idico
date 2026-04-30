@@ -72,7 +72,7 @@ Se agregó una capa de resolución de identidad para identificar al usuario aute
 - Si ocurre cualquier error o no hay contexto autenticado, se retorna `"Not Identified"`.
 
 **Implementación actual:**
-- `auth/debug.py` encapsula esta lógica.
+- `auth/identity.py` encapsula esta lógica.
 
 ```python
 def resolve_authenticated_identity() -> str:
@@ -101,7 +101,7 @@ def resolve_authenticated_identity() -> str:
 
 ## 4. Auth debug por petición
 
-Antes de ejecutar cada tool, el sistema imprime en consola el usuario detectado para facilitar validación operativa.
+Antes de ejecutar cada tool, el sistema imprime en consola el usuario detectado para facilitar validación operativa. La función vive en `auth/identity.py`.
 
 **Implementación actual:**
 ```python
@@ -149,10 +149,10 @@ async def log_tool_call(
 
 ### 5.2 Wrapper centralizado para tools
 
-La lógica de registro de tools fue extraída de `main.py` y movida a `server/tool_registry.py`.
+La lógica de registro de tools fue extraída de `main.py` y vive ahora en `middleware.py` (raíz del proyecto).
 
 **Qué hace el wrapper actual:**
-- resuelve el usuario autenticado vía `log_auth_debug(...)`
+- resuelve el usuario autenticado vía `log_auth_debug(...)` (de `auth/identity.py`)
 - ejecuta el tool en `asyncio.to_thread(...)`
 - calcula duración
 - persiste nombre del tool, usuario, parámetros, respuesta y tiempo
@@ -186,7 +186,8 @@ def register_tool(app, fn):
                 )
             )
 
-    app.tool(annotations=DEFAULT_ANNOTATIONS)(wrapper)
+    annotations = getattr(fn, "MCP_ANNOTATIONS", DEFAULT_ANNOTATIONS)
+    app.tool(annotations=annotations)(wrapper)
 ```
 
 **DDL actualizado sugerido en Postgres:**
@@ -204,36 +205,19 @@ CREATE TABLE ods.analytics.idra_tool_calls (
 
 ---
 
-## 6. Refactor de estructura
-
-La lógica que antes estaba concentrada en `main.py` fue separada en módulos pequeños para mejorar mantenibilidad.
-
-**Nueva estructura relevante:**
+## 6. Estructura de módulos relevantes
 
 | Archivo | Responsabilidad |
 |---|---|
 | `main.py` | Composición del servidor FastMCP |
+| `middleware.py` | Wrapper centralizado: auth, logging y registro de tools |
 | `auth/redis_client.py` | Crear cliente Redis de Azure |
 | `auth/provider.py` | Crear `AzureProvider` |
-| `auth/debug.py` | Resolver e imprimir identidad del usuario |
-| `server/tool_registry.py` | Registrar tools con wrapper común |
-| `connections/postgresql.py` | Persistir auditoría de tools |
+| `auth/identity.py` | Resolver e imprimir identidad del usuario |
+| `connections/postgresql/client.py` | Persistir auditoría de tools (`log_tool_call`) |
 
 **Resultado:**
 - `main.py` quedó más limpio
 - la autenticación quedó desacoplada
-- la lógica de identificación del usuario quedó reutilizable
-- el wrapper de tools quedó centralizado
-
----
-
-## Resumen de archivos modificados / relevantes
-
-| Archivo | Tipo de cambio |
-|---|---|
-| `main.py` | Composición del servidor y registro de tools |
-| `auth/provider.py` | Nuevo módulo para `AzureProvider` |
-| `auth/redis_client.py` | Nuevo módulo para Redis de Azure |
-| `auth/debug.py` | Nuevo módulo para resolver/capturar usuario autenticado |
-| `server/tool_registry.py` | Nuevo wrapper centralizado para tools |
-| `connections/postgresql.py` | Logging async con columna `username` |
+- la lógica de identificación del usuario quedó reutilizable en `auth/identity.py`
+- el wrapper de tools quedó centralizado en `middleware.py`
