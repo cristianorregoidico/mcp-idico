@@ -30,7 +30,8 @@ def register_tool(app, fn):
             resp_str = f"ERROR: {error}" if error else str(response)
             asyncio.create_task(log_tool_call(fn.__name__, authenticated_user, kwargs, resp_str, duration_ms))
 
-    app.tool(annotations=DEFAULT_ANNOTATIONS)(wrapper)
+    annotations = getattr(fn, "MCP_ANNOTATIONS", DEFAULT_ANNOTATIONS)
+    app.tool(annotations=annotations)(wrapper)
 
 
 def register_tools(app, tools):

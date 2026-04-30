@@ -10,13 +10,14 @@ from tools.sales import SALES_TOOLS
 from tools.files import FILES_TOOLS
 from tools.operations import OPS_TOOLS
 from tools.performance import PERFORMANCE_TOOLS
+from tools.notifications import NOTIFICATION_TOOLS
 
 redis_client = create_redis_client()
 auth_provider = create_auth_provider(redis_client)
 
 app = FastMCP(
     "IDRA IDICO AI",
-    auth=auth_provider,
+    #auth=auth_provider,
     instructions="Accede a datos en tiempo real y genera análisis claros para apoyar decisiones.",
     icons=[Icon(src="https://i.ibb.co/svxz9ZcR/idra-logo.png", mimeType="image/png", sizes=["48x48"])],
 )
@@ -25,6 +26,7 @@ register_tools(app, SALES_TOOLS)
 register_tools(app, FILES_TOOLS)
 register_tools(app, PERFORMANCE_TOOLS)
 register_tools(app, OPS_TOOLS)
+register_tools(app, NOTIFICATION_TOOLS)
 
 
 if __name__ == "__main__":
