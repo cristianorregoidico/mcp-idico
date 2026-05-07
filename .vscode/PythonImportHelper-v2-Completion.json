@@ -1,0 +1,3016 @@
+[
+    {
+        "label": "runpy",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "runpy",
+        "description": "runpy",
+        "detail": "runpy",
+        "documentation": {}
+    },
+    {
+        "label": "annotations",
+        "importPath": "__future__",
+        "description": "__future__",
+        "isExtraImport": true,
+        "detail": "__future__",
+        "documentation": {}
+    },
+    {
+        "label": "annotations",
+        "importPath": "__future__",
+        "description": "__future__",
+        "isExtraImport": true,
+        "detail": "__future__",
+        "documentation": {}
+    },
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "site",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "site",
+        "description": "site",
+        "detail": "site",
+        "documentation": {}
+    },
+    {
+        "label": "sys",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sys",
+        "description": "sys",
+        "detail": "sys",
+        "documentation": {}
+    },
+    {
+        "label": "get_access_token",
+        "importPath": "fastmcp.server.dependencies",
+        "description": "fastmcp.server.dependencies",
+        "isExtraImport": true,
+        "detail": "fastmcp.server.dependencies",
+        "documentation": {}
+    },
+    {
+        "label": "get_access_token",
+        "importPath": "fastmcp.server.dependencies",
+        "description": "fastmcp.server.dependencies",
+        "isExtraImport": true,
+        "detail": "fastmcp.server.dependencies",
+        "documentation": {}
+    },
+    {
+        "label": "AzureProvider",
+        "importPath": "fastmcp.server.auth.providers.azure",
+        "description": "fastmcp.server.auth.providers.azure",
+        "isExtraImport": true,
+        "detail": "fastmcp.server.auth.providers.azure",
+        "documentation": {}
+    },
+    {
+        "label": "AzureProvider",
+        "importPath": "fastmcp.server.auth.providers.azure",
+        "description": "fastmcp.server.auth.providers.azure",
+        "isExtraImport": true,
+        "detail": "fastmcp.server.auth.providers.azure",
+        "documentation": {}
+    },
+    {
+        "label": "RedisStore",
+        "importPath": "key_value.aio.stores.redis",
+        "description": "key_value.aio.stores.redis",
+        "isExtraImport": true,
+        "detail": "key_value.aio.stores.redis",
+        "documentation": {}
+    },
+    {
+        "label": "RedisStore",
+        "importPath": "key_value.aio.stores.redis",
+        "description": "key_value.aio.stores.redis",
+        "isExtraImport": true,
+        "detail": "key_value.aio.stores.redis",
+        "documentation": {}
+    },
+    {
+        "label": "FernetEncryptionWrapper",
+        "importPath": "key_value.aio.wrappers.encryption",
+        "description": "key_value.aio.wrappers.encryption",
+        "isExtraImport": true,
+        "detail": "key_value.aio.wrappers.encryption",
+        "documentation": {}
+    },
+    {
+        "label": "FernetEncryptionWrapper",
+        "importPath": "key_value.aio.wrappers.encryption",
+        "description": "key_value.aio.wrappers.encryption",
+        "isExtraImport": true,
+        "detail": "key_value.aio.wrappers.encryption",
+        "documentation": {}
+    },
+    {
+        "label": "Fernet",
+        "importPath": "cryptography.fernet",
+        "description": "cryptography.fernet",
+        "isExtraImport": true,
+        "detail": "cryptography.fernet",
+        "documentation": {}
+    },
+    {
+        "label": "Fernet",
+        "importPath": "cryptography.fernet",
+        "description": "cryptography.fernet",
+        "isExtraImport": true,
+        "detail": "cryptography.fernet",
+        "documentation": {}
+    },
+    {
+        "label": "redis.asyncio",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "redis.asyncio",
+        "description": "redis.asyncio",
+        "detail": "redis.asyncio",
+        "documentation": {}
+    },
+    {
+        "label": "traceback",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "traceback",
+        "description": "traceback",
+        "detail": "traceback",
+        "documentation": {}
+    },
+    {
+        "label": "contextmanager",
+        "importPath": "contextlib",
+        "description": "contextlib",
+        "isExtraImport": true,
+        "detail": "contextlib",
+        "documentation": {}
+    },
+    {
+        "label": "load_dotenv",
+        "importPath": "dotenv",
+        "description": "dotenv",
+        "isExtraImport": true,
+        "detail": "dotenv",
+        "documentation": {}
+    },
+    {
+        "label": "load_dotenv",
+        "importPath": "dotenv",
+        "description": "dotenv",
+        "isExtraImport": true,
+        "detail": "dotenv",
+        "documentation": {}
+    },
+    {
+        "label": "load_dotenv",
+        "importPath": "dotenv",
+        "description": "dotenv",
+        "isExtraImport": true,
+        "detail": "dotenv",
+        "documentation": {}
+    },
+    {
+        "label": "jaydebeapi",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "jaydebeapi",
+        "description": "jaydebeapi",
+        "detail": "jaydebeapi",
+        "documentation": {}
+    },
+    {
+        "label": "random",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "random",
+        "description": "random",
+        "detail": "random",
+        "documentation": {}
+    },
+    {
+        "label": "string",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "string",
+        "description": "string",
+        "detail": "string",
+        "documentation": {}
+    },
+    {
+        "label": "time",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "time",
+        "description": "time",
+        "detail": "time",
+        "documentation": {}
+    },
+    {
+        "label": "hmac",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "hmac",
+        "description": "hmac",
+        "detail": "hmac",
+        "documentation": {}
+    },
+    {
+        "label": "hashlib",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "hashlib",
+        "description": "hashlib",
+        "detail": "hashlib",
+        "documentation": {}
+    },
+    {
+        "label": "base64",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "base64",
+        "description": "base64",
+        "detail": "base64",
+        "documentation": {}
+    },
+    {
+        "label": "json",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "json",
+        "description": "json",
+        "detail": "json",
+        "documentation": {}
+    },
+    {
+        "label": "psycopg",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "psycopg",
+        "description": "psycopg",
+        "detail": "psycopg",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Tuple",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Tuple",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "load_dataset_from_json",
+        "importPath": "utils.json_df",
+        "description": "utils.json_df",
+        "isExtraImport": true,
+        "detail": "utils.json_df",
+        "documentation": {}
+    },
+    {
+        "label": "save_result_to_json",
+        "importPath": "utils.json_df",
+        "description": "utils.json_df",
+        "isExtraImport": true,
+        "detail": "utils.json_df",
+        "documentation": {}
+    },
+    {
+        "label": "save_result_to_json",
+        "importPath": "utils.json_df",
+        "description": "utils.json_df",
+        "isExtraImport": true,
+        "detail": "utils.json_df",
+        "documentation": {}
+    },
+    {
+        "label": "save_result_to_json",
+        "importPath": "utils.json_df",
+        "description": "utils.json_df",
+        "isExtraImport": true,
+        "detail": "utils.json_df",
+        "documentation": {}
+    },
+    {
+        "label": "save_result_to_json",
+        "importPath": "utils.json_df",
+        "description": "utils.json_df",
+        "isExtraImport": true,
+        "detail": "utils.json_df",
+        "documentation": {}
+    },
+    {
+        "label": "save_result_to_json",
+        "importPath": "utils.json_df",
+        "description": "utils.json_df",
+        "isExtraImport": true,
+        "detail": "utils.json_df",
+        "documentation": {}
+    },
+    {
+        "label": "save_result_to_json",
+        "importPath": "utils.json_df",
+        "description": "utils.json_df",
+        "isExtraImport": true,
+        "detail": "utils.json_df",
+        "documentation": {}
+    },
+    {
+        "label": "save_result_to_json",
+        "importPath": "utils.json_df",
+        "description": "utils.json_df",
+        "isExtraImport": true,
+        "detail": "utils.json_df",
+        "documentation": {}
+    },
+    {
+        "label": "save_result_to_json",
+        "importPath": "utils.json_df",
+        "description": "utils.json_df",
+        "isExtraImport": true,
+        "detail": "utils.json_df",
+        "documentation": {}
+    },
+    {
+        "label": "load_dataset_from_json",
+        "importPath": "utils.json_df",
+        "description": "utils.json_df",
+        "isExtraImport": true,
+        "detail": "utils.json_df",
+        "documentation": {}
+    },
+    {
+        "label": "build_tool_response",
+        "importPath": "utils.envelope",
+        "description": "utils.envelope",
+        "isExtraImport": true,
+        "detail": "utils.envelope",
+        "documentation": {}
+    },
+    {
+        "label": "build_tool_response",
+        "importPath": "utils.envelope",
+        "description": "utils.envelope",
+        "isExtraImport": true,
+        "detail": "utils.envelope",
+        "documentation": {}
+    },
+    {
+        "label": "build_tool_response",
+        "importPath": "utils.envelope",
+        "description": "utils.envelope",
+        "isExtraImport": true,
+        "detail": "utils.envelope",
+        "documentation": {}
+    },
+    {
+        "label": "build_tool_response",
+        "importPath": "utils.envelope",
+        "description": "utils.envelope",
+        "isExtraImport": true,
+        "detail": "utils.envelope",
+        "documentation": {}
+    },
+    {
+        "label": "build_tool_response",
+        "importPath": "utils.envelope",
+        "description": "utils.envelope",
+        "isExtraImport": true,
+        "detail": "utils.envelope",
+        "documentation": {}
+    },
+    {
+        "label": "build_tool_response",
+        "importPath": "utils.envelope",
+        "description": "utils.envelope",
+        "isExtraImport": true,
+        "detail": "utils.envelope",
+        "documentation": {}
+    },
+    {
+        "label": "build_tool_response",
+        "importPath": "utils.envelope",
+        "description": "utils.envelope",
+        "isExtraImport": true,
+        "detail": "utils.envelope",
+        "documentation": {}
+    },
+    {
+        "label": "build_tool_response",
+        "importPath": "utils.envelope",
+        "description": "utils.envelope",
+        "isExtraImport": true,
+        "detail": "utils.envelope",
+        "documentation": {}
+    },
+    {
+        "label": "build_tool_response",
+        "importPath": "utils.envelope",
+        "description": "utils.envelope",
+        "isExtraImport": true,
+        "detail": "utils.envelope",
+        "documentation": {}
+    },
+    {
+        "label": "build_tool_response",
+        "importPath": "utils.envelope",
+        "description": "utils.envelope",
+        "isExtraImport": true,
+        "detail": "utils.envelope",
+        "documentation": {}
+    },
+    {
+        "label": "build_tool_response",
+        "importPath": "utils.envelope",
+        "description": "utils.envelope",
+        "isExtraImport": true,
+        "detail": "utils.envelope",
+        "documentation": {}
+    },
+    {
+        "label": "build_tool_response",
+        "importPath": "utils.envelope",
+        "description": "utils.envelope",
+        "isExtraImport": true,
+        "detail": "utils.envelope",
+        "documentation": {}
+    },
+    {
+        "label": "build_tool_response",
+        "importPath": "utils.envelope",
+        "description": "utils.envelope",
+        "isExtraImport": true,
+        "detail": "utils.envelope",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "File",
+        "importPath": "fastmcp.utilities.types",
+        "description": "fastmcp.utilities.types",
+        "isExtraImport": true,
+        "detail": "fastmcp.utilities.types",
+        "documentation": {}
+    },
+    {
+        "label": "HTTPError",
+        "importPath": "urllib.error",
+        "description": "urllib.error",
+        "isExtraImport": true,
+        "detail": "urllib.error",
+        "documentation": {}
+    },
+    {
+        "label": "URLError",
+        "importPath": "urllib.error",
+        "description": "urllib.error",
+        "isExtraImport": true,
+        "detail": "urllib.error",
+        "documentation": {}
+    },
+    {
+        "label": "Request",
+        "importPath": "urllib.request",
+        "description": "urllib.request",
+        "isExtraImport": true,
+        "detail": "urllib.request",
+        "documentation": {}
+    },
+    {
+        "label": "urlopen",
+        "importPath": "urllib.request",
+        "description": "urllib.request",
+        "isExtraImport": true,
+        "detail": "urllib.request",
+        "documentation": {}
+    },
+    {
+        "label": "pandas",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "pandas",
+        "description": "pandas",
+        "detail": "pandas",
+        "documentation": {}
+    },
+    {
+        "label": "numpy",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "numpy",
+        "description": "numpy",
+        "detail": "numpy",
+        "documentation": {}
+    },
+    {
+        "label": "execute_pg_query",
+        "importPath": "connections.postgresql.client",
+        "description": "connections.postgresql.client",
+        "isExtraImport": true,
+        "detail": "connections.postgresql.client",
+        "documentation": {}
+    },
+    {
+        "label": "execute_pg_query_dev",
+        "importPath": "connections.postgresql.client",
+        "description": "connections.postgresql.client",
+        "isExtraImport": true,
+        "detail": "connections.postgresql.client",
+        "documentation": {}
+    },
+    {
+        "label": "execute_pg_query_dev",
+        "importPath": "connections.postgresql.client",
+        "description": "connections.postgresql.client",
+        "isExtraImport": true,
+        "detail": "connections.postgresql.client",
+        "documentation": {}
+    },
+    {
+        "label": "execute_pg_query_dev",
+        "importPath": "connections.postgresql.client",
+        "description": "connections.postgresql.client",
+        "isExtraImport": true,
+        "detail": "connections.postgresql.client",
+        "documentation": {}
+    },
+    {
+        "label": "execute_pg_query_dev",
+        "importPath": "connections.postgresql.client",
+        "description": "connections.postgresql.client",
+        "isExtraImport": true,
+        "detail": "connections.postgresql.client",
+        "documentation": {}
+    },
+    {
+        "label": "execute_pg_query_dev",
+        "importPath": "connections.postgresql.client",
+        "description": "connections.postgresql.client",
+        "isExtraImport": true,
+        "detail": "connections.postgresql.client",
+        "documentation": {}
+    },
+    {
+        "label": "log_tool_call",
+        "importPath": "connections.postgresql.client",
+        "description": "connections.postgresql.client",
+        "isExtraImport": true,
+        "detail": "connections.postgresql.client",
+        "documentation": {}
+    },
+    {
+        "label": "log_tool_call",
+        "importPath": "connections.postgresql.client",
+        "description": "connections.postgresql.client",
+        "isExtraImport": true,
+        "detail": "connections.postgresql.client",
+        "documentation": {}
+    },
+    {
+        "label": "execute_pg_query_dev",
+        "importPath": "connections.postgresql.client",
+        "description": "connections.postgresql.client",
+        "isExtraImport": true,
+        "detail": "connections.postgresql.client",
+        "documentation": {}
+    },
+    {
+        "label": "execute_pg_query",
+        "importPath": "connections.postgresql.client",
+        "description": "connections.postgresql.client",
+        "isExtraImport": true,
+        "detail": "connections.postgresql.client",
+        "documentation": {}
+    },
+    {
+        "label": "get_helga_guides_query",
+        "importPath": "connections.postgresql.queries",
+        "description": "connections.postgresql.queries",
+        "isExtraImport": true,
+        "detail": "connections.postgresql.queries",
+        "documentation": {}
+    },
+    {
+        "label": "get_customer_imports_data",
+        "importPath": "connections.postgresql.queries",
+        "description": "connections.postgresql.queries",
+        "isExtraImport": true,
+        "detail": "connections.postgresql.queries",
+        "documentation": {}
+    },
+    {
+        "label": "get_on_time_delivery",
+        "importPath": "connections.postgresql.queries",
+        "description": "connections.postgresql.queries",
+        "isExtraImport": true,
+        "detail": "connections.postgresql.queries",
+        "documentation": {}
+    },
+    {
+        "label": "get_scorecard_by_is_daily",
+        "importPath": "connections.postgresql.queries",
+        "description": "connections.postgresql.queries",
+        "isExtraImport": true,
+        "detail": "connections.postgresql.queries",
+        "documentation": {}
+    },
+    {
+        "label": "get_scorecard_by_is_month",
+        "importPath": "connections.postgresql.queries",
+        "description": "connections.postgresql.queries",
+        "isExtraImport": true,
+        "detail": "connections.postgresql.queries",
+        "documentation": {}
+    },
+    {
+        "label": "get_scorecard_by_is_year",
+        "importPath": "connections.postgresql.queries",
+        "description": "connections.postgresql.queries",
+        "isExtraImport": true,
+        "detail": "connections.postgresql.queries",
+        "documentation": {}
+    },
+    {
+        "label": "get_calls_summary",
+        "importPath": "connections.postgresql.queries",
+        "description": "connections.postgresql.queries",
+        "isExtraImport": true,
+        "detail": "connections.postgresql.queries",
+        "documentation": {}
+    },
+    {
+        "label": "get_customer_country",
+        "importPath": "connections.postgresql.queries",
+        "description": "connections.postgresql.queries",
+        "isExtraImport": true,
+        "detail": "connections.postgresql.queries",
+        "documentation": {}
+    },
+    {
+        "label": "get_vendors_country_brand",
+        "importPath": "connections.postgresql.queries",
+        "description": "connections.postgresql.queries",
+        "isExtraImport": true,
+        "detail": "connections.postgresql.queries",
+        "documentation": {}
+    },
+    {
+        "label": "get_vendors_customer_brand",
+        "importPath": "connections.postgresql.queries",
+        "description": "connections.postgresql.queries",
+        "isExtraImport": true,
+        "detail": "connections.postgresql.queries",
+        "documentation": {}
+    },
+    {
+        "label": "get_helga_guides_query",
+        "importPath": "connections.postgresql.queries",
+        "description": "connections.postgresql.queries",
+        "isExtraImport": true,
+        "detail": "connections.postgresql.queries",
+        "documentation": {}
+    },
+    {
+        "label": "get_vendors_customer_brand",
+        "importPath": "connections.postgresql.queries",
+        "description": "connections.postgresql.queries",
+        "isExtraImport": true,
+        "detail": "connections.postgresql.queries",
+        "documentation": {}
+    },
+    {
+        "label": "get_customer_country",
+        "importPath": "connections.postgresql.queries",
+        "description": "connections.postgresql.queries",
+        "isExtraImport": true,
+        "detail": "connections.postgresql.queries",
+        "documentation": {}
+    },
+    {
+        "label": "get_calls_summary",
+        "importPath": "connections.postgresql.queries",
+        "description": "connections.postgresql.queries",
+        "isExtraImport": true,
+        "detail": "connections.postgresql.queries",
+        "documentation": {}
+    },
+    {
+        "label": "tuple_to_dataframe",
+        "importPath": "utils.transformations",
+        "description": "utils.transformations",
+        "isExtraImport": true,
+        "detail": "utils.transformations",
+        "documentation": {}
+    },
+    {
+        "label": "tuple_to_dataframe",
+        "importPath": "utils.transformations",
+        "description": "utils.transformations",
+        "isExtraImport": true,
+        "detail": "utils.transformations",
+        "documentation": {}
+    },
+    {
+        "label": "tuple_to_dataframe",
+        "importPath": "utils.transformations",
+        "description": "utils.transformations",
+        "isExtraImport": true,
+        "detail": "utils.transformations",
+        "documentation": {}
+    },
+    {
+        "label": "tuple_to_dataframe",
+        "importPath": "utils.transformations",
+        "description": "utils.transformations",
+        "isExtraImport": true,
+        "detail": "utils.transformations",
+        "documentation": {}
+    },
+    {
+        "label": "tuple_to_dataframe",
+        "importPath": "utils.transformations",
+        "description": "utils.transformations",
+        "isExtraImport": true,
+        "detail": "utils.transformations",
+        "documentation": {}
+    },
+    {
+        "label": "tuple_to_dataframe",
+        "importPath": "utils.transformations",
+        "description": "utils.transformations",
+        "isExtraImport": true,
+        "detail": "utils.transformations",
+        "documentation": {}
+    },
+    {
+        "label": "tuple_to_dataframe",
+        "importPath": "utils.transformations",
+        "description": "utils.transformations",
+        "isExtraImport": true,
+        "detail": "utils.transformations",
+        "documentation": {}
+    },
+    {
+        "label": "tuple_to_dataframe",
+        "importPath": "utils.transformations",
+        "description": "utils.transformations",
+        "isExtraImport": true,
+        "detail": "utils.transformations",
+        "documentation": {}
+    },
+    {
+        "label": "tuple_to_dataframe",
+        "importPath": "utils.transformations",
+        "description": "utils.transformations",
+        "isExtraImport": true,
+        "detail": "utils.transformations",
+        "documentation": {}
+    },
+    {
+        "label": "tuple_to_dataframe",
+        "importPath": "utils.transformations",
+        "description": "utils.transformations",
+        "isExtraImport": true,
+        "detail": "utils.transformations",
+        "documentation": {}
+    },
+    {
+        "label": "tuple_to_dataframe",
+        "importPath": "utils.transformations",
+        "description": "utils.transformations",
+        "isExtraImport": true,
+        "detail": "utils.transformations",
+        "documentation": {}
+    },
+    {
+        "label": "tuple_to_dataframe",
+        "importPath": "utils.transformations",
+        "description": "utils.transformations",
+        "isExtraImport": true,
+        "detail": "utils.transformations",
+        "documentation": {}
+    },
+    {
+        "label": "build_imports_summary",
+        "importPath": "features.operations.domain.imports",
+        "description": "features.operations.domain.imports",
+        "isExtraImport": true,
+        "detail": "features.operations.domain.imports",
+        "documentation": {}
+    },
+    {
+        "label": "build_imports_summary",
+        "importPath": "features.operations.domain.imports",
+        "description": "features.operations.domain.imports",
+        "isExtraImport": true,
+        "detail": "features.operations.domain.imports",
+        "documentation": {}
+    },
+    {
+        "label": "on_time_delivery_summary",
+        "importPath": "features.operations.domain.otd",
+        "description": "features.operations.domain.otd",
+        "isExtraImport": true,
+        "detail": "features.operations.domain.otd",
+        "documentation": {}
+    },
+    {
+        "label": "on_time_delivery_summary",
+        "importPath": "features.operations.domain.otd",
+        "description": "features.operations.domain.otd",
+        "isExtraImport": true,
+        "detail": "features.operations.domain.otd",
+        "documentation": {}
+    },
+    {
+        "label": "guides",
+        "importPath": "features.operations.use_cases",
+        "description": "features.operations.use_cases",
+        "isExtraImport": true,
+        "detail": "features.operations.use_cases",
+        "documentation": {}
+    },
+    {
+        "label": "imports",
+        "importPath": "features.operations.use_cases",
+        "description": "features.operations.use_cases",
+        "isExtraImport": true,
+        "detail": "features.operations.use_cases",
+        "documentation": {}
+    },
+    {
+        "label": "otd",
+        "importPath": "features.operations.use_cases",
+        "description": "features.operations.use_cases",
+        "isExtraImport": true,
+        "detail": "features.operations.use_cases",
+        "documentation": {}
+    },
+    {
+        "label": "get_month_start_and_today",
+        "importPath": "utils.date",
+        "description": "utils.date",
+        "isExtraImport": true,
+        "detail": "utils.date",
+        "documentation": {}
+    },
+    {
+        "label": "get_month_start_and_today",
+        "importPath": "utils.date",
+        "description": "utils.date",
+        "isExtraImport": true,
+        "detail": "utils.date",
+        "documentation": {}
+    },
+    {
+        "label": "get_month_start_and_today",
+        "importPath": "utils.date",
+        "description": "utils.date",
+        "isExtraImport": true,
+        "detail": "utils.date",
+        "documentation": {}
+    },
+    {
+        "label": "NetSuiteConnection",
+        "importPath": "connections.netsuite.client",
+        "description": "connections.netsuite.client",
+        "isExtraImport": true,
+        "detail": "connections.netsuite.client",
+        "documentation": {}
+    },
+    {
+        "label": "NetSuiteConnection",
+        "importPath": "connections.netsuite.client",
+        "description": "connections.netsuite.client",
+        "isExtraImport": true,
+        "detail": "connections.netsuite.client",
+        "documentation": {}
+    },
+    {
+        "label": "NetSuiteConnection",
+        "importPath": "connections.netsuite.client",
+        "description": "connections.netsuite.client",
+        "isExtraImport": true,
+        "detail": "connections.netsuite.client",
+        "documentation": {}
+    },
+    {
+        "label": "NetSuiteConnection",
+        "importPath": "connections.netsuite.client",
+        "description": "connections.netsuite.client",
+        "isExtraImport": true,
+        "detail": "connections.netsuite.client",
+        "documentation": {}
+    },
+    {
+        "label": "NetSuiteConnection",
+        "importPath": "connections.netsuite.client",
+        "description": "connections.netsuite.client",
+        "isExtraImport": true,
+        "detail": "connections.netsuite.client",
+        "documentation": {}
+    },
+    {
+        "label": "NetSuiteConnection",
+        "importPath": "connections.netsuite.client",
+        "description": "connections.netsuite.client",
+        "isExtraImport": true,
+        "detail": "connections.netsuite.client",
+        "documentation": {}
+    },
+    {
+        "label": "get_op_so_data",
+        "importPath": "connections.netsuite.queries",
+        "description": "connections.netsuite.queries",
+        "isExtraImport": true,
+        "detail": "connections.netsuite.queries",
+        "documentation": {}
+    },
+    {
+        "label": "get_bookings_data",
+        "importPath": "connections.netsuite.queries",
+        "description": "connections.netsuite.queries",
+        "isExtraImport": true,
+        "detail": "connections.netsuite.queries",
+        "documentation": {}
+    },
+    {
+        "label": "get_items_quoted_by_customer",
+        "importPath": "connections.netsuite.queries",
+        "description": "connections.netsuite.queries",
+        "isExtraImport": true,
+        "detail": "connections.netsuite.queries",
+        "documentation": {}
+    },
+    {
+        "label": "get_sold_items_by_period",
+        "importPath": "connections.netsuite.queries",
+        "description": "connections.netsuite.queries",
+        "isExtraImport": true,
+        "detail": "connections.netsuite.queries",
+        "documentation": {}
+    },
+    {
+        "label": "get_opportunities_data",
+        "importPath": "connections.netsuite.queries",
+        "description": "connections.netsuite.queries",
+        "isExtraImport": true,
+        "detail": "connections.netsuite.queries",
+        "documentation": {}
+    },
+    {
+        "label": "get_quotes_by_inside",
+        "importPath": "connections.netsuite.queries",
+        "description": "connections.netsuite.queries",
+        "isExtraImport": true,
+        "detail": "connections.netsuite.queries",
+        "documentation": {}
+    },
+    {
+        "label": "get_quotes_by_inside",
+        "importPath": "connections.netsuite.queries",
+        "description": "connections.netsuite.queries",
+        "isExtraImport": true,
+        "detail": "connections.netsuite.queries",
+        "documentation": {}
+    },
+    {
+        "label": "analyze_inside_sales",
+        "importPath": "features.performance.domain.inside_sales",
+        "description": "features.performance.domain.inside_sales",
+        "isExtraImport": true,
+        "detail": "features.performance.domain.inside_sales",
+        "documentation": {}
+    },
+    {
+        "label": "analyze_inside_sales",
+        "importPath": "features.performance.domain.inside_sales",
+        "description": "features.performance.domain.inside_sales",
+        "isExtraImport": true,
+        "detail": "features.performance.domain.inside_sales",
+        "documentation": {}
+    },
+    {
+        "label": "inside_sales_report",
+        "importPath": "features.performance.use_cases",
+        "description": "features.performance.use_cases",
+        "isExtraImport": true,
+        "detail": "features.performance.use_cases",
+        "documentation": {}
+    },
+    {
+        "label": "scorecard",
+        "importPath": "features.performance.use_cases",
+        "description": "features.performance.use_cases",
+        "isExtraImport": true,
+        "detail": "features.performance.use_cases",
+        "documentation": {}
+    },
+    {
+        "label": "finance_summary",
+        "importPath": "features.sales.domain.bookings",
+        "description": "features.sales.domain.bookings",
+        "isExtraImport": true,
+        "detail": "features.sales.domain.bookings",
+        "documentation": {}
+    },
+    {
+        "label": "finance_summary",
+        "importPath": "features.sales.domain.bookings",
+        "description": "features.sales.domain.bookings",
+        "isExtraImport": true,
+        "detail": "features.sales.domain.bookings",
+        "documentation": {}
+    },
+    {
+        "label": "quoted_brands_recurrence_metrics",
+        "importPath": "features.sales.domain.items",
+        "description": "features.sales.domain.items",
+        "isExtraImport": true,
+        "detail": "features.sales.domain.items",
+        "documentation": {}
+    },
+    {
+        "label": "sold_brands_recurrence_metrics",
+        "importPath": "features.sales.domain.items",
+        "description": "features.sales.domain.items",
+        "isExtraImport": true,
+        "detail": "features.sales.domain.items",
+        "documentation": {}
+    },
+    {
+        "label": "summarize_items_quoted",
+        "importPath": "features.sales.domain.items",
+        "description": "features.sales.domain.items",
+        "isExtraImport": true,
+        "detail": "features.sales.domain.items",
+        "documentation": {}
+    },
+    {
+        "label": "summarize_sold_items",
+        "importPath": "features.sales.domain.items",
+        "description": "features.sales.domain.items",
+        "isExtraImport": true,
+        "detail": "features.sales.domain.items",
+        "documentation": {}
+    },
+    {
+        "label": "quoted_brands_recurrence_metrics",
+        "importPath": "features.sales.domain.items",
+        "description": "features.sales.domain.items",
+        "isExtraImport": true,
+        "detail": "features.sales.domain.items",
+        "documentation": {}
+    },
+    {
+        "label": "sold_brands_recurrence_metrics",
+        "importPath": "features.sales.domain.items",
+        "description": "features.sales.domain.items",
+        "isExtraImport": true,
+        "detail": "features.sales.domain.items",
+        "documentation": {}
+    },
+    {
+        "label": "summarize_items_quoted",
+        "importPath": "features.sales.domain.items",
+        "description": "features.sales.domain.items",
+        "isExtraImport": true,
+        "detail": "features.sales.domain.items",
+        "documentation": {}
+    },
+    {
+        "label": "summarize_sold_items",
+        "importPath": "features.sales.domain.items",
+        "description": "features.sales.domain.items",
+        "isExtraImport": true,
+        "detail": "features.sales.domain.items",
+        "documentation": {}
+    },
+    {
+        "label": "opportunity_summary",
+        "importPath": "features.sales.domain.opportunities",
+        "description": "features.sales.domain.opportunities",
+        "isExtraImport": true,
+        "detail": "features.sales.domain.opportunities",
+        "documentation": {}
+    },
+    {
+        "label": "opportunity_summary",
+        "importPath": "features.sales.domain.opportunities",
+        "description": "features.sales.domain.opportunities",
+        "isExtraImport": true,
+        "detail": "features.sales.domain.opportunities",
+        "documentation": {}
+    },
+    {
+        "label": "summarize_is_quotes",
+        "importPath": "features.sales.domain.quotes",
+        "description": "features.sales.domain.quotes",
+        "isExtraImport": true,
+        "detail": "features.sales.domain.quotes",
+        "documentation": {}
+    },
+    {
+        "label": "general_summary_is_q_so",
+        "importPath": "features.sales.domain.quotes",
+        "description": "features.sales.domain.quotes",
+        "isExtraImport": true,
+        "detail": "features.sales.domain.quotes",
+        "documentation": {}
+    },
+    {
+        "label": "summarize_is_quotes",
+        "importPath": "features.sales.domain.quotes",
+        "description": "features.sales.domain.quotes",
+        "isExtraImport": true,
+        "detail": "features.sales.domain.quotes",
+        "documentation": {}
+    },
+    {
+        "label": "analize_hr_desviado",
+        "importPath": "features.sales.domain.vendor_recommendation",
+        "description": "features.sales.domain.vendor_recommendation",
+        "isExtraImport": true,
+        "detail": "features.sales.domain.vendor_recommendation",
+        "documentation": {}
+    },
+    {
+        "label": "analize_hr_desviado",
+        "importPath": "features.sales.domain.vendor_recommendation",
+        "description": "features.sales.domain.vendor_recommendation",
+        "isExtraImport": true,
+        "detail": "features.sales.domain.vendor_recommendation",
+        "documentation": {}
+    },
+    {
+        "label": "activity",
+        "importPath": "features.sales.use_cases",
+        "description": "features.sales.use_cases",
+        "isExtraImport": true,
+        "detail": "features.sales.use_cases",
+        "documentation": {}
+    },
+    {
+        "label": "bookings",
+        "importPath": "features.sales.use_cases",
+        "description": "features.sales.use_cases",
+        "isExtraImport": true,
+        "detail": "features.sales.use_cases",
+        "documentation": {}
+    },
+    {
+        "label": "items",
+        "importPath": "features.sales.use_cases",
+        "description": "features.sales.use_cases",
+        "isExtraImport": true,
+        "detail": "features.sales.use_cases",
+        "documentation": {}
+    },
+    {
+        "label": "opportunities",
+        "importPath": "features.sales.use_cases",
+        "description": "features.sales.use_cases",
+        "isExtraImport": true,
+        "detail": "features.sales.use_cases",
+        "documentation": {}
+    },
+    {
+        "label": "quotes",
+        "importPath": "features.sales.use_cases",
+        "description": "features.sales.use_cases",
+        "isExtraImport": true,
+        "detail": "features.sales.use_cases",
+        "documentation": {}
+    },
+    {
+        "label": "vendor_recommendation",
+        "importPath": "features.sales.use_cases",
+        "description": "features.sales.use_cases",
+        "isExtraImport": true,
+        "detail": "features.sales.use_cases",
+        "documentation": {}
+    },
+    {
+        "label": "unittest",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "unittest",
+        "description": "unittest",
+        "detail": "unittest",
+        "documentation": {}
+    },
+    {
+        "label": "MagicMock",
+        "importPath": "unittest.mock",
+        "description": "unittest.mock",
+        "isExtraImport": true,
+        "detail": "unittest.mock",
+        "documentation": {}
+    },
+    {
+        "label": "patch",
+        "importPath": "unittest.mock",
+        "description": "unittest.mock",
+        "isExtraImport": true,
+        "detail": "unittest.mock",
+        "documentation": {}
+    },
+    {
+        "label": "tools",
+        "importPath": "features.operations",
+        "description": "features.operations",
+        "isExtraImport": true,
+        "detail": "features.operations",
+        "documentation": {}
+    },
+    {
+        "label": "tools",
+        "importPath": "features.performance",
+        "description": "features.performance",
+        "isExtraImport": true,
+        "detail": "features.performance",
+        "documentation": {}
+    },
+    {
+        "label": "tools",
+        "importPath": "features.sales",
+        "description": "features.sales",
+        "isExtraImport": true,
+        "detail": "features.sales",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "datetime",
+        "description": "datetime",
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "timezone",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "RSAKeyPair",
+        "importPath": "fastmcp.server.auth.providers.jwt",
+        "description": "fastmcp.server.auth.providers.jwt",
+        "isExtraImport": true,
+        "detail": "fastmcp.server.auth.providers.jwt",
+        "documentation": {}
+    },
+    {
+        "label": "FastMCP",
+        "importPath": "fastmcp",
+        "description": "fastmcp",
+        "isExtraImport": true,
+        "detail": "fastmcp",
+        "documentation": {}
+    },
+    {
+        "label": "FastMCP",
+        "importPath": "fastmcp",
+        "description": "fastmcp",
+        "isExtraImport": true,
+        "detail": "fastmcp",
+        "documentation": {}
+    },
+    {
+        "label": "Icon",
+        "importPath": "mcp.types",
+        "description": "mcp.types",
+        "isExtraImport": true,
+        "detail": "mcp.types",
+        "documentation": {}
+    },
+    {
+        "label": "Icon",
+        "importPath": "mcp.types",
+        "description": "mcp.types",
+        "isExtraImport": true,
+        "detail": "mcp.types",
+        "documentation": {}
+    },
+    {
+        "label": "asyncio",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "asyncio",
+        "description": "asyncio",
+        "detail": "asyncio",
+        "documentation": {}
+    },
+    {
+        "label": "create_redis_client",
+        "importPath": "auth.redis_client",
+        "description": "auth.redis_client",
+        "isExtraImport": true,
+        "detail": "auth.redis_client",
+        "documentation": {}
+    },
+    {
+        "label": "create_auth_provider",
+        "importPath": "auth.provider",
+        "description": "auth.provider",
+        "isExtraImport": true,
+        "detail": "auth.provider",
+        "documentation": {}
+    },
+    {
+        "label": "register_tools",
+        "importPath": "middleware",
+        "description": "middleware",
+        "isExtraImport": true,
+        "detail": "middleware",
+        "documentation": {}
+    },
+    {
+        "label": "SALES_TOOLS",
+        "importPath": "features.sales.tools",
+        "description": "features.sales.tools",
+        "isExtraImport": true,
+        "detail": "features.sales.tools",
+        "documentation": {}
+    },
+    {
+        "label": "SALES_TOOLS",
+        "importPath": "features.sales.tools",
+        "description": "features.sales.tools",
+        "isExtraImport": true,
+        "detail": "features.sales.tools",
+        "documentation": {}
+    },
+    {
+        "label": "get_vendors_to_quote",
+        "importPath": "features.sales.tools",
+        "description": "features.sales.tools",
+        "isExtraImport": true,
+        "detail": "features.sales.tools",
+        "documentation": {}
+    },
+    {
+        "label": "FILES_TOOLS",
+        "importPath": "features.files.tools",
+        "description": "features.files.tools",
+        "isExtraImport": true,
+        "detail": "features.files.tools",
+        "documentation": {}
+    },
+    {
+        "label": "FILES_TOOLS",
+        "importPath": "features.files.tools",
+        "description": "features.files.tools",
+        "isExtraImport": true,
+        "detail": "features.files.tools",
+        "documentation": {}
+    },
+    {
+        "label": "OPS_TOOLS",
+        "importPath": "features.operations.tools",
+        "description": "features.operations.tools",
+        "isExtraImport": true,
+        "detail": "features.operations.tools",
+        "documentation": {}
+    },
+    {
+        "label": "OPS_TOOLS",
+        "importPath": "features.operations.tools",
+        "description": "features.operations.tools",
+        "isExtraImport": true,
+        "detail": "features.operations.tools",
+        "documentation": {}
+    },
+    {
+        "label": "PERFORMANCE_TOOLS",
+        "importPath": "features.performance.tools",
+        "description": "features.performance.tools",
+        "isExtraImport": true,
+        "detail": "features.performance.tools",
+        "documentation": {}
+    },
+    {
+        "label": "PERFORMANCE_TOOLS",
+        "importPath": "features.performance.tools",
+        "description": "features.performance.tools",
+        "isExtraImport": true,
+        "detail": "features.performance.tools",
+        "documentation": {}
+    },
+    {
+        "label": "NOTIFICATION_TOOLS",
+        "importPath": "features.notifications.tools",
+        "description": "features.notifications.tools",
+        "isExtraImport": true,
+        "detail": "features.notifications.tools",
+        "documentation": {}
+    },
+    {
+        "label": "functools",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "functools",
+        "description": "functools",
+        "detail": "functools",
+        "documentation": {}
+    },
+    {
+        "label": "Auth0Provider",
+        "importPath": "fastmcp.server.auth.providers.auth0",
+        "description": "fastmcp.server.auth.providers.auth0",
+        "isExtraImport": true,
+        "detail": "fastmcp.server.auth.providers.auth0",
+        "documentation": {}
+    },
+    {
+        "label": "log_auth_debug",
+        "importPath": "auth.identity",
+        "description": "auth.identity",
+        "isExtraImport": true,
+        "detail": "auth.identity",
+        "documentation": {}
+    },
+    {
+        "label": "summarize_is_quotes",
+        "importPath": "features.sales.analytics",
+        "description": "features.sales.analytics",
+        "isExtraImport": true,
+        "detail": "features.sales.analytics",
+        "documentation": {}
+    },
+    {
+        "label": "analize_hr_desviado",
+        "importPath": "features.sales.analytics",
+        "description": "features.sales.analytics",
+        "isExtraImport": true,
+        "detail": "features.sales.analytics",
+        "documentation": {}
+    },
+    {
+        "label": "bin_dir",
+        "kind": 5,
+        "importPath": ".venv.bin.activate_this",
+        "description": ".venv.bin.activate_this",
+        "peekOfCode": "bin_dir = os.path.dirname(abs_file)\nbase = bin_dir[: -len(\"bin\") - 1]  # strip away the bin part from the __file__, plus the path separator\n# prepend bin to PATH (this file is inside the bin directory)\nos.environ[\"PATH\"] = os.pathsep.join([bin_dir, *os.environ.get(\"PATH\", \"\").split(os.pathsep)])\nos.environ[\"VIRTUAL_ENV\"] = base  # virtual env is right above bin directory\nos.environ[\"VIRTUAL_ENV_PROMPT\"] = \"idico-sales\" or os.path.basename(base)  # noqa: SIM222\n# add the virtual environments libraries to the host python import mechanism\nprev_length = len(sys.path)\nfor lib in \"../lib/python3.12/site-packages\".split(os.pathsep):\n    path = os.path.realpath(os.path.join(bin_dir, lib))",
+        "detail": ".venv.bin.activate_this",
+        "documentation": {}
+    },
+    {
+        "label": "base",
+        "kind": 5,
+        "importPath": ".venv.bin.activate_this",
+        "description": ".venv.bin.activate_this",
+        "peekOfCode": "base = bin_dir[: -len(\"bin\") - 1]  # strip away the bin part from the __file__, plus the path separator\n# prepend bin to PATH (this file is inside the bin directory)\nos.environ[\"PATH\"] = os.pathsep.join([bin_dir, *os.environ.get(\"PATH\", \"\").split(os.pathsep)])\nos.environ[\"VIRTUAL_ENV\"] = base  # virtual env is right above bin directory\nos.environ[\"VIRTUAL_ENV_PROMPT\"] = \"idico-sales\" or os.path.basename(base)  # noqa: SIM222\n# add the virtual environments libraries to the host python import mechanism\nprev_length = len(sys.path)\nfor lib in \"../lib/python3.12/site-packages\".split(os.pathsep):\n    path = os.path.realpath(os.path.join(bin_dir, lib))\n    site.addsitedir(path)",
+        "detail": ".venv.bin.activate_this",
+        "documentation": {}
+    },
+    {
+        "label": "os.environ[\"PATH\"]",
+        "kind": 5,
+        "importPath": ".venv.bin.activate_this",
+        "description": ".venv.bin.activate_this",
+        "peekOfCode": "os.environ[\"PATH\"] = os.pathsep.join([bin_dir, *os.environ.get(\"PATH\", \"\").split(os.pathsep)])\nos.environ[\"VIRTUAL_ENV\"] = base  # virtual env is right above bin directory\nos.environ[\"VIRTUAL_ENV_PROMPT\"] = \"idico-sales\" or os.path.basename(base)  # noqa: SIM222\n# add the virtual environments libraries to the host python import mechanism\nprev_length = len(sys.path)\nfor lib in \"../lib/python3.12/site-packages\".split(os.pathsep):\n    path = os.path.realpath(os.path.join(bin_dir, lib))\n    site.addsitedir(path)\nsys.path[:] = sys.path[prev_length:] + sys.path[0:prev_length]\nsys.real_prefix = sys.prefix",
+        "detail": ".venv.bin.activate_this",
+        "documentation": {}
+    },
+    {
+        "label": "os.environ[\"VIRTUAL_ENV\"]",
+        "kind": 5,
+        "importPath": ".venv.bin.activate_this",
+        "description": ".venv.bin.activate_this",
+        "peekOfCode": "os.environ[\"VIRTUAL_ENV\"] = base  # virtual env is right above bin directory\nos.environ[\"VIRTUAL_ENV_PROMPT\"] = \"idico-sales\" or os.path.basename(base)  # noqa: SIM222\n# add the virtual environments libraries to the host python import mechanism\nprev_length = len(sys.path)\nfor lib in \"../lib/python3.12/site-packages\".split(os.pathsep):\n    path = os.path.realpath(os.path.join(bin_dir, lib))\n    site.addsitedir(path)\nsys.path[:] = sys.path[prev_length:] + sys.path[0:prev_length]\nsys.real_prefix = sys.prefix\nsys.prefix = base",
+        "detail": ".venv.bin.activate_this",
+        "documentation": {}
+    },
+    {
+        "label": "os.environ[\"VIRTUAL_ENV_PROMPT\"]",
+        "kind": 5,
+        "importPath": ".venv.bin.activate_this",
+        "description": ".venv.bin.activate_this",
+        "peekOfCode": "os.environ[\"VIRTUAL_ENV_PROMPT\"] = \"idico-sales\" or os.path.basename(base)  # noqa: SIM222\n# add the virtual environments libraries to the host python import mechanism\nprev_length = len(sys.path)\nfor lib in \"../lib/python3.12/site-packages\".split(os.pathsep):\n    path = os.path.realpath(os.path.join(bin_dir, lib))\n    site.addsitedir(path)\nsys.path[:] = sys.path[prev_length:] + sys.path[0:prev_length]\nsys.real_prefix = sys.prefix\nsys.prefix = base",
+        "detail": ".venv.bin.activate_this",
+        "documentation": {}
+    },
+    {
+        "label": "prev_length",
+        "kind": 5,
+        "importPath": ".venv.bin.activate_this",
+        "description": ".venv.bin.activate_this",
+        "peekOfCode": "prev_length = len(sys.path)\nfor lib in \"../lib/python3.12/site-packages\".split(os.pathsep):\n    path = os.path.realpath(os.path.join(bin_dir, lib))\n    site.addsitedir(path)\nsys.path[:] = sys.path[prev_length:] + sys.path[0:prev_length]\nsys.real_prefix = sys.prefix\nsys.prefix = base",
+        "detail": ".venv.bin.activate_this",
+        "documentation": {}
+    },
+    {
+        "label": "sys.path[:]",
+        "kind": 5,
+        "importPath": ".venv.bin.activate_this",
+        "description": ".venv.bin.activate_this",
+        "peekOfCode": "sys.path[:] = sys.path[prev_length:] + sys.path[0:prev_length]\nsys.real_prefix = sys.prefix\nsys.prefix = base",
+        "detail": ".venv.bin.activate_this",
+        "documentation": {}
+    },
+    {
+        "label": "sys.real_prefix",
+        "kind": 5,
+        "importPath": ".venv.bin.activate_this",
+        "description": ".venv.bin.activate_this",
+        "peekOfCode": "sys.real_prefix = sys.prefix\nsys.prefix = base",
+        "detail": ".venv.bin.activate_this",
+        "documentation": {}
+    },
+    {
+        "label": "sys.prefix",
+        "kind": 5,
+        "importPath": ".venv.bin.activate_this",
+        "description": ".venv.bin.activate_this",
+        "peekOfCode": "sys.prefix = base",
+        "detail": ".venv.bin.activate_this",
+        "documentation": {}
+    },
+    {
+        "label": "resolve_authenticated_identity",
+        "kind": 2,
+        "importPath": "auth.identity",
+        "description": "auth.identity",
+        "peekOfCode": "def resolve_authenticated_identity() -> str:\n    try:\n        token = get_access_token()\n        if token is None:\n            return \"Not Identified\"\n        claims = token.claims or {}\n        return (\n            claims.get(\"preferred_username\")\n            or claims.get(\"name\")\n            or \"Not Identified\"",
+        "detail": "auth.identity",
+        "documentation": {}
+    },
+    {
+        "label": "log_auth_debug",
+        "kind": 2,
+        "importPath": "auth.identity",
+        "description": "auth.identity",
+        "peekOfCode": "def log_auth_debug(tool_name: str) -> str:\n    identity = resolve_authenticated_identity()\n    print(f\"[AUTH-DEBUG] tool={tool_name} auth={identity}\")\n    return identity",
+        "detail": "auth.identity",
+        "documentation": {}
+    },
+    {
+        "label": "create_auth_provider",
+        "kind": 2,
+        "importPath": "auth.provider",
+        "description": "auth.provider",
+        "peekOfCode": "def create_auth_provider(redis_client):\n    return AzureProvider(\n        client_id=os.environ[\"AZURE_CLIENT_ID\"],\n        client_secret=os.environ[\"AZURE_CLIENT_SECRET\"],\n        tenant_id=os.environ[\"AZURE_TENANT_ID\"],\n        base_url=os.environ[\"BASE_URL\"],\n        required_scopes=[\"mcp-access\"],\n        jwt_signing_key=os.environ[\"JWT_SIGNING_KEY\"],\n        client_storage=FernetEncryptionWrapper(\n            key_value=RedisStore(client=redis_client),",
+        "detail": "auth.provider",
+        "documentation": {}
+    },
+    {
+        "label": "create_redis_client",
+        "kind": 2,
+        "importPath": "auth.redis_client",
+        "description": "auth.redis_client",
+        "peekOfCode": "def create_redis_client():\n    return aioredis.from_url(\n        os.environ[\"AZURE_REDIS_URL\"],\n        ssl_cert_reqs=None,\n        decode_responses=True,\n    )",
+        "detail": "auth.redis_client",
+        "documentation": {}
+    },
+    {
+        "label": "NetSuiteConnection",
+        "kind": 6,
+        "importPath": "connections.netsuite.client",
+        "description": "connections.netsuite.client",
+        "peekOfCode": "class NetSuiteConnection:\n    \"\"\"Wrapper around jaydebeapi connection for NetSuite.\n    Usage:\n        with NetSuiteConnection() as conn:\n            rows = conn.execute_query(sql, params)\n    This class exposes a context manager, an execute_query helper that returns\n    rows and column names, and robust error logging.\n    \"\"\"\n    def __init__(self):\n        self._conn = None",
+        "detail": "connections.netsuite.client",
+        "documentation": {}
+    },
+    {
+        "label": "get_quotes_by_inside",
+        "kind": 2,
+        "importPath": "connections.netsuite.queries",
+        "description": "connections.netsuite.queries",
+        "peekOfCode": "def get_quotes_by_inside(initial_date: str, final_date: str, inside_sales: str, customer_name: str) -> str:\n    return f\"\"\"\nSELECT \n    TO_CHAR(b.trandate, 'YYYY-MM-DD') AS CreateDate,\n    TO_CHAR(b.duedate, 'YYYY-MM-DD') AS ExpirationDate,\n    ts.name AS Status,\n    e.firstname || ' ' || e.lastname AS InsideSale,\n    b.TRANID AS QuoteNumber,\n    BUILTIN.DF(b.ENTITY) AS Customer,\n    BUILTIN.DF(a.SUBSIDIARY) AS Subsidiary,",
+        "detail": "connections.netsuite.queries",
+        "documentation": {}
+    },
+    {
+        "label": "get_sales_orders_by_inside",
+        "kind": 2,
+        "importPath": "connections.netsuite.queries",
+        "description": "connections.netsuite.queries",
+        "peekOfCode": "def get_sales_orders_by_inside(initial_date: str, final_date: str, inside_sales: str) -> str:\n    return f\"\"\"\nSELECT\n    TO_CHAR(a.trandate, 'YYYY-MM-DD') AS CreateDate,\n    ts.name AS Status,\n    e.firstname || ' ' || e.lastname AS InsideSale,\n    a.TRANID AS SO,\n    BUILTIN.DF(a.ENTITY) AS Customer,\n    BUILTIN.DF(b.Subsidiary) AS Subsidiary,\n    CASE ",
+        "detail": "connections.netsuite.queries",
+        "documentation": {}
+    },
+    {
+        "label": "get_bookings_by_period",
+        "kind": 2,
+        "importPath": "connections.netsuite.queries",
+        "description": "connections.netsuite.queries",
+        "peekOfCode": "def get_bookings_by_period(initial_date: str, final_date: str) -> str:\n    return f\"\"\"\nSELECT\n    TO_CHAR(t.trandate, 'YYYY-MM') AS period,\n    BUILTIN.DF(csr.subsidiary) AS subsidiary,\n    BUILTIN.DF(t.entity) AS customer,\n    SUM(t.foreigntotal * t.exchangerate) AS gross_usd,\n    SUM((t.foreigntotal - NVL(t.taxtotal, 0)) * t.exchangerate) AS net_usd,\n    SUM(t.custbody_items_gross_profit_amount_usd) AS gross_margin,\n    ROUND(AVG(t.custbody_items_g_profit_pc_vrq_cost), 2) AS gross_margin_pct,",
+        "detail": "connections.netsuite.queries",
+        "documentation": {}
+    },
+    {
+        "label": "get_bookings_data",
+        "kind": 2,
+        "importPath": "connections.netsuite.queries",
+        "description": "connections.netsuite.queries",
+        "peekOfCode": "def get_bookings_data(initial_date: str, final_date: str, customer_name: str, inside_sales: str) -> str:\n    return f\"\"\"\n    SELECT\n\tt.tranid AS so_number,\n\tts.name AS status,\n\tTO_CHAR(t.trandate, 'YYYY-MM-DD') AS date,\n    TO_CHAR(t.trandate, 'YYYY-MM') AS period,\n    CASE \n    \tWHEN csr.subsidiary = 5 AND t.custbody_transaccion_chile = 'T' THEN 'IDICO Chile'\n    \tELSE BUILTIN.DF(csr.subsidiary)",
+        "detail": "connections.netsuite.queries",
+        "documentation": {}
+    },
+    {
+        "label": "get_items_quoted_by_customer",
+        "kind": 2,
+        "importPath": "connections.netsuite.queries",
+        "description": "connections.netsuite.queries",
+        "peekOfCode": "def get_items_quoted_by_customer(initial_date: str, final_date: str, customer_name: str, inside_sales: str) -> str:\n    return f\"\"\"\nSELECT \n\tBUILTIN.DF(t.entity) AS customer,\n\tt.tranid AS quote,\n\tBUILTIN.DF(t.status) AS status,\n\tt.trandate AS date,\n    e.firstname || ' ' || e.lastname AS inside_sales,\n\tBUILTIN.DF(tl.item) AS item,\n    CASE ",
+        "detail": "connections.netsuite.queries",
+        "documentation": {}
+    },
+    {
+        "label": "get_opportunities_data",
+        "kind": 2,
+        "importPath": "connections.netsuite.queries",
+        "description": "connections.netsuite.queries",
+        "peekOfCode": "def get_opportunities_data(initial_date: str, final_date: str, inside_sales: str, customer_name: str) -> str:\n    return f\"\"\"\nSELECT \n\top.id,\n\top.tranid AS op_number,\n\tTO_CHAR(op.trandate, 'YYYY-MM-DD') AS tran_date,\n\tTO_CHAR(op.expectedclosedate, 'YYYY-MM-DD') AS expected_close_date,\n\tBUILTIN.DF(op.entity) AS customer,\n\tBUILTIN.DF(csr.subsidiary) AS subsidiary,\n\tts.name AS status,",
+        "detail": "connections.netsuite.queries",
+        "documentation": {}
+    },
+    {
+        "label": "get_op_so_data",
+        "kind": 2,
+        "importPath": "connections.netsuite.queries",
+        "description": "connections.netsuite.queries",
+        "peekOfCode": "def get_op_so_data(initial_date: str, final_date: str) -> str:\n    return f\"\"\"\nSELECT\n\top.tranid AS op_number,\n\tTO_CHAR(op.trandate, 'YYYY-MM-DD') as op_date,\n\tops.name AS op_status,\n\te.firstname || ' ' || e.lastname AS inside_sales,\n\tBUILTIN.DF(op.entity) AS customer,\n\tq.tranid AS q_number,\n\tTO_CHAR(q.trandate, 'YYYY-MM-DD') as q_date,",
+        "detail": "connections.netsuite.queries",
+        "documentation": {}
+    },
+    {
+        "label": "get_sold_items_by_period",
+        "kind": 2,
+        "importPath": "connections.netsuite.queries",
+        "description": "connections.netsuite.queries",
+        "peekOfCode": "def get_sold_items_by_period(initial_date: str, final_date: str, customer_name: str, inside_sales: str) -> str:\n    return f\"\"\"\nSELECT \n\tBUILTIN.DF(t.entity) AS customer,\n\tt.tranid AS quote,\n\tts.name AS status,\n\tTO_CHAR(t.trandate, 'YYYY-MM-DD') AS date,\n    e.firstname || ' ' || e.lastname AS inside_sales,\n\tBUILTIN.DF(tl.item) AS item,\n\tSUBSTR(i.purchasedescription, 1, 60) AS item_description,",
+        "detail": "connections.netsuite.queries",
+        "documentation": {}
+    },
+    {
+        "label": "\tt.type",
+        "kind": 5,
+        "importPath": "connections.netsuite.queries",
+        "description": "connections.netsuite.queries",
+        "peekOfCode": "\tt.type = 'Estimate'\n\tAND (\n        '{customer_name}' IS NULL\n        OR '{customer_name}' = ''\n        OR BUILTIN.DF(t.entity) LIKE '%' || '{customer_name}' || '%'\n    )\n    AND (\n        '{inside_sales}' IS NULL\n        OR '{inside_sales}' = ''\n        OR (e.firstname || ' ' || e.lastname) LIKE '%' || '{inside_sales}' || '%'",
+        "detail": "connections.netsuite.queries",
+        "documentation": {}
+    },
+    {
+        "label": "\tt.type",
+        "kind": 5,
+        "importPath": "connections.netsuite.queries",
+        "description": "connections.netsuite.queries",
+        "peekOfCode": "\tt.type = 'SalesOrd'\n\tAND (\n        '{customer_name}' IS NULL\n        OR '{customer_name}'= ''\n        OR BUILTIN.DF(t.entity) LIKE '%' || '{customer_name}' || '%'\n    )\n    AND (\n        '{inside_sales}' IS NULL\n        OR '{inside_sales}' = ''\n        OR (e.firstname || ' ' || e.lastname) LIKE '%' || '{inside_sales}' || '%'",
+        "detail": "connections.netsuite.queries",
+        "documentation": {}
+    },
+    {
+        "label": "execute_pg_query",
+        "kind": 2,
+        "importPath": "connections.postgresql.client",
+        "description": "connections.postgresql.client",
+        "peekOfCode": "def execute_pg_query(sql: str) -> List[Tuple[Any, ...]]:\n    \"\"\"\n    Ejecuta una consulta SQL en PostgreSQL y devuelve los resultados.\n    - Si la consulta es un SELECT, devuelve (columns, rows).\n    - Si la consulta no devuelve filas (INSERT/UPDATE/DELETE), devuelve ([], []).\n    Los parámetros de conexión se leen de variables de entorno:\n    PGHOST_DEV, PGPORT, PGDATABASE, PGUSER, PGPASSWORD.\n    \"\"\"\n    host = os.getenv(\"PGHOST\", \"localhost\")\n    port = os.getenv(\"PGPORT\", \"5432\")",
+        "detail": "connections.postgresql.client",
+        "documentation": {}
+    },
+    {
+        "label": "execute_pg_query_dev",
+        "kind": 2,
+        "importPath": "connections.postgresql.client",
+        "description": "connections.postgresql.client",
+        "peekOfCode": "def execute_pg_query_dev(sql: str) -> List[Tuple[Any, ...]]:\n    \"\"\"\n    Ejecuta una consulta SQL en PostgreSQL y devuelve los resultados.\n    - Si la consulta es un SELECT, devuelve (columns, rows).\n    - Si la consulta no devuelve filas (INSERT/UPDATE/DELETE), devuelve ([], []).\n    Los parámetros de conexión se leen de variables de entorno:\n    PGHOST_DEV, PGPORT, PGDATABASE, PGUSER, PGPASSWORD.\n    \"\"\"\n    host = os.getenv(\"PGHOST_DEV\", \"localhost\")\n    port = os.getenv(\"PGPORT\", \"5432\")",
+        "detail": "connections.postgresql.client",
+        "documentation": {}
+    },
+    {
+        "label": "get_helga_guides_query",
+        "kind": 2,
+        "importPath": "connections.postgresql.queries",
+        "description": "connections.postgresql.queries",
+        "peekOfCode": "def get_helga_guides_query(po: str | None, status: str | None, service: str | None) -> str:\n    where_clauses = []\n    if status:\n        where_clauses.append(\"gh.status_envio ILIKE '%{}%'\".format(status))\n    else:\n        where_clauses.append(\"gh.status_envio <> 'GUIA ENTREGADA'\")   \n    if po:\n        where_clauses.append(\"gh.po ILIKE '%{}%'\".format(po))\n    if service:\n        where_clauses.append(\"gh.servicio ILIKE '%{}%'\".format(service))",
+        "detail": "connections.postgresql.queries",
+        "documentation": {}
+    },
+    {
+        "label": "get_on_time_delivery",
+        "kind": 2,
+        "importPath": "connections.postgresql.queries",
+        "description": "connections.postgresql.queries",
+        "peekOfCode": "def get_on_time_delivery(initial_date: str, final_date: str, so_number: str = None) -> str:\n    \"\"\"\n    Devuelve una consulta SQL para obtener el tiempo de entrega de las órdenes de compra en PostgreSQL.\n    \"\"\"\n    if so_number:\n        return f\"\"\"\n        SELECT *\n        FROM ods.analytics.tableau_otd otd\n        WHERE otd.so_doc_number = '{so_number}';\n        \"\"\"",
+        "detail": "connections.postgresql.queries",
+        "documentation": {}
+    },
+    {
+        "label": "get_scorecard_by_is_month",
+        "kind": 2,
+        "importPath": "connections.postgresql.queries",
+        "description": "connections.postgresql.queries",
+        "peekOfCode": "def get_scorecard_by_is_month(inside_sales: str = None) -> str:\n    \"\"\"\n    Devuelve una consulta SQL para obtener el scorecard por IS en PostgreSQL.\n    \"\"\"\n    if inside_sales:\n        return f\"\"\"\n        SELECT * FROM ods.analytics.tableau_scorecard_by_inside_mensual WHERE sales_rep = '{inside_sales}';\n        \"\"\"\n    return \"\"\"\n    SELECT * FROM ods.analytics.tableau_scorecard_by_inside_mensual;",
+        "detail": "connections.postgresql.queries",
+        "documentation": {}
+    },
+    {
+        "label": "get_scorecard_by_is_daily",
+        "kind": 2,
+        "importPath": "connections.postgresql.queries",
+        "description": "connections.postgresql.queries",
+        "peekOfCode": "def get_scorecard_by_is_daily(inside_sales: str = None) -> str:\n    \"\"\"\n    Devuelve una consulta SQL para obtener el scorecard por IS en PostgreSQL.\n    \"\"\"\n    if inside_sales:\n        return f\"\"\"\n        SELECT * FROM ods.analytics.tableau_scorecard_by_inside_diario WHERE sales_rep = '{inside_sales}';\n        \"\"\"\n    return \"\"\"\n    SELECT * FROM ods.analytics.tableau_scorecard_by_inside_diario;",
+        "detail": "connections.postgresql.queries",
+        "documentation": {}
+    },
+    {
+        "label": "get_scorecard_by_is_year",
+        "kind": 2,
+        "importPath": "connections.postgresql.queries",
+        "description": "connections.postgresql.queries",
+        "peekOfCode": "def get_scorecard_by_is_year(inside_sales: str = None) -> str:\n    \"\"\"\n    Devuelve una consulta SQL para obtener el scorecard por IS en PostgreSQL.\n    \"\"\"\n    if inside_sales:\n        return f\"\"\"\n        SELECT * FROM ods.analytics.tableau_scorecard_by_inside_anual WHERE sales_rep = '{inside_sales}';\n        \"\"\"\n    return \"\"\"\n    SELECT * FROM ods.analytics.tableau_scorecard_by_inside_anual;",
+        "detail": "connections.postgresql.queries",
+        "documentation": {}
+    },
+    {
+        "label": "get_customer_imports_data",
+        "kind": 2,
+        "importPath": "connections.postgresql.queries",
+        "description": "connections.postgresql.queries",
+        "peekOfCode": "def get_customer_imports_data(customer_name: str) -> str:\n    \"\"\"\n    Devuelve una consulta SQL para obtener las importaciones de un cliente específico en PostgreSQL.\n    \"\"\"\n    return f\"\"\"\n    SELECT * FROM ods.analytics.datasur WHERE importador LIKE '%{customer_name}%';\n    \"\"\"\ndef get_vendors_customer_brand(customer_name: str, brand: str) -> str:\n    \"\"\"\n    Devuelve una consulta SQL para obtener la tasa de acierto de desvío para un cliente y marca específicos en PostgreSQL.",
+        "detail": "connections.postgresql.queries",
+        "documentation": {}
+    },
+    {
+        "label": "get_vendors_customer_brand",
+        "kind": 2,
+        "importPath": "connections.postgresql.queries",
+        "description": "connections.postgresql.queries",
+        "peekOfCode": "def get_vendors_customer_brand(customer_name: str, brand: str) -> str:\n    \"\"\"\n    Devuelve una consulta SQL para obtener la tasa de acierto de desvío para un cliente y marca específicos en PostgreSQL.\n    \"\"\"\n    return f\"\"\"\n    SELECT * FROM ods.analytics.hr_cus_brand_consolidado \n    WHERE customer_name LIKE '%' || UPPER('{customer_name}') || '%'\n    AND brand LIKE '%' || UPPER('{brand}') || '%'\n    AND probabilidad > 0\n    ORDER BY ",
+        "detail": "connections.postgresql.queries",
+        "documentation": {}
+    },
+    {
+        "label": "get_vendors_country_brand",
+        "kind": 2,
+        "importPath": "connections.postgresql.queries",
+        "description": "connections.postgresql.queries",
+        "peekOfCode": "def get_vendors_country_brand(country: str, brand: str) -> str:\n    \"\"\"\n    Devuelve una consulta SQL para obtener la tasa de acierto de desvío para un país y marca específicos en PostgreSQL.\n    \"\"\"\n    return f\"\"\"\n    SELECT * FROM ods.analytics.hr_country_brand_consolidado\n    WHERE country LIKE '%' || UPPER('{country}') || '%'\n    AND brand LIKE '%' || UPPER('{brand}') || '%'\n    ORDER BY \n        country ASC,",
+        "detail": "connections.postgresql.queries",
+        "documentation": {}
+    },
+    {
+        "label": "get_customer_country",
+        "kind": 2,
+        "importPath": "connections.postgresql.queries",
+        "description": "connections.postgresql.queries",
+        "peekOfCode": "def get_customer_country(customer_name: str) -> str:\n    \"\"\"\n    Devuelve una consulta SQL para obtener el país de un cliente específico en PostgreSQL.\n    \"\"\"\n    return f\"\"\"\n    SELECT country FROM ods.analytics.hr_cus_brand_consolidado\n    WHERE customer_name LIKE '%' || UPPER('{customer_name}') || '%'\n    LIMIT 1;\n    \"\"\"\ndef get_calls_summary(start_date: str, final_date: str, customer_name: str = '', organizer: str = '', subject: str = '') -> str:",
+        "detail": "connections.postgresql.queries",
+        "documentation": {}
+    },
+    {
+        "label": "get_calls_summary",
+        "kind": 2,
+        "importPath": "connections.postgresql.queries",
+        "description": "connections.postgresql.queries",
+        "peekOfCode": "def get_calls_summary(start_date: str, final_date: str, customer_name: str = '', organizer: str = '', subject: str = '') -> str:\n    \"\"\"\n    Devuelve una consulta SQL para obtener el resumen de llamadas entre dos fechas específicas en PostgreSQL.\n    \"\"\"\n    return f\"\"\"\n    SELECT\n    activity_date,\n    subject,\n    account,\n    organizer,",
+        "detail": "connections.postgresql.queries",
+        "documentation": {}
+    },
+    {
+        "label": "get_dataset",
+        "kind": 2,
+        "importPath": "features.files.tools",
+        "description": "features.files.tools",
+        "peekOfCode": "def get_dataset(data_set_reference: str) -> Dict[str, Any]:\n    \"\"\"Retrieve a dataset previously saved from an user query.\n    Args:\n        data_set_reference: The filename or identifier of the saved dataset.\n    Returns:\n        Dict[str, Any]: The dataset loaded from JSON.\n    \"\"\"\n    dataset = load_dataset_from_json(data_set_reference)\n    return dataset\ndef get_excel_file(file_name: str) -> File:",
+        "detail": "features.files.tools",
+        "documentation": {}
+    },
+    {
+        "label": "get_excel_file",
+        "kind": 2,
+        "importPath": "features.files.tools",
+        "description": "features.files.tools",
+        "peekOfCode": "def get_excel_file(file_name: str) -> File:\n    \"\"\"\n    Retrieve an Excel file previously saved from an user query.\n    Use this tool when user requests an Excel file generated from a dataset.\n    Args:\n        file_name: The filename of the saved Excel file.\n    Returns:\n        File: The Excel file as a FastMCP File object.\n    \"\"\"\n    # Normaliza a \"solo nombre de archivo\" (evita rutas)",
+        "detail": "features.files.tools",
+        "documentation": {}
+    },
+    {
+        "label": "DATA_DIR",
+        "kind": 5,
+        "importPath": "features.files.tools",
+        "description": "features.files.tools",
+        "peekOfCode": "DATA_DIR = Path(\"data\").resolve()\ndef get_dataset(data_set_reference: str) -> Dict[str, Any]:\n    \"\"\"Retrieve a dataset previously saved from an user query.\n    Args:\n        data_set_reference: The filename or identifier of the saved dataset.\n    Returns:\n        Dict[str, Any]: The dataset loaded from JSON.\n    \"\"\"\n    dataset = load_dataset_from_json(data_set_reference)\n    return dataset",
+        "detail": "features.files.tools",
+        "documentation": {}
+    },
+    {
+        "label": "send_email",
+        "kind": 2,
+        "importPath": "features.notifications.tools",
+        "description": "features.notifications.tools",
+        "peekOfCode": "def send_email(\n    subject: str,\n    body: str,\n    recipients: str,\n    is_teams_message: bool = False,\n    from_email: Optional[str] = None,\n) -> Dict[str, Any]:\n    \"\"\"Send an email through the configured Power Automate email flow.\n    Use this tool when the user asks to send an email or Teams notification.\n    Args:",
+        "detail": "features.notifications.tools",
+        "documentation": {}
+    },
+    {
+        "label": "ENDPOINT_POWER_AUTOMATE_EMAIL",
+        "kind": 5,
+        "importPath": "features.notifications.tools",
+        "description": "features.notifications.tools",
+        "peekOfCode": "ENDPOINT_POWER_AUTOMATE_EMAIL = os.getenv(\n    \"URL_SEND_EMAIL_PA\",\n    \"https://defaultdd3881f7d5fe4f9083f0dd74977579.51.environment.api.powerplatform.com/powerautomate/automations/direct/workflows/e1be2ea245d24e39bc4dbebfb70b218b/triggers/manual/paths/invoke/send_email?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=BtNK6OEITK5E-eAOf9JeVfaadiUXyJI2_VdE4lZ5V30\",\n)\ndef _parse_response_body(raw_body: bytes) -> Any:\n    \"\"\"Parse a Power Automate response body when possible.\"\"\"\n    if not raw_body:\n        return None\n    text = raw_body.decode(\"utf-8\", errors=\"replace\")\n    try:",
+        "detail": "features.notifications.tools",
+        "documentation": {}
+    },
+    {
+        "label": "send_email.MCP_ANNOTATIONS",
+        "kind": 5,
+        "importPath": "features.notifications.tools",
+        "description": "features.notifications.tools",
+        "peekOfCode": "send_email.MCP_ANNOTATIONS = {\n    \"readOnlyHint\": False,\n    \"destructiveHint\": False,\n    \"openWorldHint\": True,\n}\nNOTIFICATION_TOOLS: List = [send_email]",
+        "detail": "features.notifications.tools",
+        "documentation": {}
+    },
+    {
+        "label": "build_imports_summary",
+        "kind": 2,
+        "importPath": "features.operations.domain.imports",
+        "description": "features.operations.domain.imports",
+        "peekOfCode": "def build_imports_summary(df: pd.DataFrame) -> Dict[str, Any]:\n    df = df.copy()\n    for col in [\"amount_us_fob\", \"amount_us_cif\"]:\n        df[col] = pd.to_numeric(df[col], errors=\"coerce\").fillna(0.0)\n    total_fob = float(df[\"amount_us_fob\"].sum())\n    total_cif = float(df[\"amount_us_cif\"].sum())\n    unique_brands = int(df[\"marca\"].nunique(dropna=True))\n    unique_vendors = int(df[\"proveedor\"].nunique(dropna=True))\n    years = sorted([int(y) for y in df[\"ano\"].dropna().unique().tolist()])\n    year_agg = df.groupby(\"ano\")[[\"amount_us_fob\", \"amount_us_cif\"]].sum().reset_index()",
+        "detail": "features.operations.domain.imports",
+        "documentation": {}
+    },
+    {
+        "label": "on_time_delivery_summary",
+        "kind": 2,
+        "importPath": "features.operations.domain.otd",
+        "description": "features.operations.domain.otd",
+        "peekOfCode": "def on_time_delivery_summary(df: pd.DataFrame) -> Dict[str, Any]:\n    df = df.copy()\n    df[\"item_name_so\"] = df[\"item_name_so\"].replace(\"\", np.nan)\n    df[\"if_create_date\"] = pd.to_datetime(df[\"if_create_date\"], errors=\"coerce\")\n    df[\"if_month\"] = df[\"if_create_date\"].dt.to_period(\"M\")\n    df_valid = df.dropna(subset=[\"if_month\", \"item_name_so\"])\n    total_counts = df_valid.groupby(\"if_month\")[\"item_name_so\"].count().rename(\"total_items_delivery\")\n    on_time_counts = (\n        df_valid.loc[df_valid[\"delivery_status\"] == \"On Time\"]\n        .groupby(\"if_month\")[\"item_name_so\"]",
+        "detail": "features.operations.domain.otd",
+        "documentation": {}
+    },
+    {
+        "label": "execute",
+        "kind": 2,
+        "importPath": "features.operations.use_cases.guides",
+        "description": "features.operations.use_cases.guides",
+        "peekOfCode": "def execute(po: Optional[str], status: Optional[str], service: Optional[str]) -> Dict[str, Any]:\n    sql = get_helga_guides_query(po=po, status=status, service=service)\n    columns, rows = execute_pg_query(sql)\n    dataset_reference = save_result_to_json(columns, rows, \"List of guides pending for delivery\", name=\"guides_oneding_delivery\")\n    results = tuple_to_dataframe(columns, rows).to_dict(orient=\"records\")\n    return build_tool_response(\n        tool_name=\"get_helga_guides\",\n        summary={\"result_count\": len(results)},\n        filters={\"po\": po, \"status\": status, \"service\": service},\n        source_systems=[\"postgresql\"],",
+        "detail": "features.operations.use_cases.guides",
+        "documentation": {}
+    },
+    {
+        "label": "execute",
+        "kind": 2,
+        "importPath": "features.operations.use_cases.imports",
+        "description": "features.operations.use_cases.imports",
+        "peekOfCode": "def execute(customer_name: str) -> Dict[str, Any]:\n    sql = get_customer_imports_data(customer_name)\n    columns, rows = execute_pg_query_dev(sql)\n    df = tuple_to_dataframe(columns, rows)\n    summary = build_imports_summary(df)\n    return build_tool_response(\n        tool_name=\"get_customer_imports\",\n        summary=summary,\n        filters={\"customer_name\": customer_name},\n        source_systems=[\"postgresql\"],",
+        "detail": "features.operations.use_cases.imports",
+        "documentation": {}
+    },
+    {
+        "label": "execute",
+        "kind": 2,
+        "importPath": "features.operations.use_cases.otd",
+        "description": "features.operations.use_cases.otd",
+        "peekOfCode": "def execute(initial_date: str, final_date: str, so_number: Optional[str]) -> Dict[str, Any]:\n    sql = get_on_time_delivery(initial_date, final_date, so_number)\n    columns, rows = execute_pg_query_dev(sql)\n    dataset_reference = save_result_to_json(columns, rows, \"The full items delivery by period\", name=\"otd_data\")\n    df = tuple_to_dataframe(columns, rows)\n    results = on_time_delivery_summary(df)\n    if so_number:\n        results[\"so_details\"] = df.to_dict(orient=\"records\")\n    return build_tool_response(\n        tool_name=\"get_otd_indicators\",",
+        "detail": "features.operations.use_cases.otd",
+        "documentation": {}
+    },
+    {
+        "label": "__all__",
+        "kind": 5,
+        "importPath": "features.operations.analytics",
+        "description": "features.operations.analytics",
+        "peekOfCode": "__all__ = [\"on_time_delivery_summary\", \"build_imports_summary\"]",
+        "detail": "features.operations.analytics",
+        "documentation": {}
+    },
+    {
+        "label": "get_helga_guides",
+        "kind": 2,
+        "importPath": "features.operations.tools",
+        "description": "features.operations.tools",
+        "peekOfCode": "def get_helga_guides(po: Optional[str] = None, status: Optional[str] = None, service: Optional[str] = None) -> Dict[str, Any]:\n    \"\"\"Retrieve helga guides based on po, status and service filters.\"\"\"\n    return guides.execute(po, status, service)\ndef get_otd_indicators(initial_date: Optional[str] = None, final_date: Optional[str] = None, so_number: Optional[str] = None) -> Dict[str, Any]:\n    \"\"\"Retrieve the on time delivery indicators by period.\"\"\"\n    start_of_month, today_date = get_month_start_and_today()\n    start_q_date = initial_date or start_of_month\n    final_q_date = final_date or today_date\n    return otd.execute(start_q_date, final_q_date, so_number)\ndef get_customer_imports(customer_name: str) -> Dict[str, Any]:",
+        "detail": "features.operations.tools",
+        "documentation": {}
+    },
+    {
+        "label": "get_otd_indicators",
+        "kind": 2,
+        "importPath": "features.operations.tools",
+        "description": "features.operations.tools",
+        "peekOfCode": "def get_otd_indicators(initial_date: Optional[str] = None, final_date: Optional[str] = None, so_number: Optional[str] = None) -> Dict[str, Any]:\n    \"\"\"Retrieve the on time delivery indicators by period.\"\"\"\n    start_of_month, today_date = get_month_start_and_today()\n    start_q_date = initial_date or start_of_month\n    final_q_date = final_date or today_date\n    return otd.execute(start_q_date, final_q_date, so_number)\ndef get_customer_imports(customer_name: str) -> Dict[str, Any]:\n    \"\"\"Retrieve the imports summary for a given customer.\"\"\"\n    return imports.execute(customer_name)\nOPS_TOOLS: List = [",
+        "detail": "features.operations.tools",
+        "documentation": {}
+    },
+    {
+        "label": "get_customer_imports",
+        "kind": 2,
+        "importPath": "features.operations.tools",
+        "description": "features.operations.tools",
+        "peekOfCode": "def get_customer_imports(customer_name: str) -> Dict[str, Any]:\n    \"\"\"Retrieve the imports summary for a given customer.\"\"\"\n    return imports.execute(customer_name)\nOPS_TOOLS: List = [\n    get_helga_guides,\n    get_otd_indicators,\n    get_customer_imports,\n]",
+        "detail": "features.operations.tools",
+        "documentation": {}
+    },
+    {
+        "label": "analyze_inside_sales",
+        "kind": 2,
+        "importPath": "features.performance.domain.inside_sales",
+        "description": "features.performance.domain.inside_sales",
+        "peekOfCode": "def analyze_inside_sales(df: pd.DataFrame) -> dict:\n    df = df.copy()\n    for col in [\"op_date\", \"q_date\", \"so_date\"]:\n        if col in df.columns:\n            df[col] = pd.to_datetime(df[col], errors=\"coerce\")\n    for col in [\"q_amount\", \"so_amount\"]:\n        if col in df.columns:\n            df[col] = pd.to_numeric(df[col], errors=\"coerce\")\n    total_opps = int(len(df))\n    total_quotes = int(df[\"q_number\"].notna().sum())",
+        "detail": "features.performance.domain.inside_sales",
+        "documentation": {}
+    },
+    {
+        "label": "execute",
+        "kind": 2,
+        "importPath": "features.performance.use_cases.inside_sales_report",
+        "description": "features.performance.use_cases.inside_sales_report",
+        "peekOfCode": "def execute(initial_date: str, final_date: str) -> Dict[str, Any]:\n    sql = get_op_so_data(initial_date, final_date)\n    conn = NetSuiteConnection()\n    with conn.managed() as ns:\n        columns, rows = ns.execute_query(sql)\n    dataset_reference = save_result_to_json(columns, rows, f\"Inside Sales Performance dataset between {initial_date} and {final_date}\", name=\"op_to_so\")\n    df = tuple_to_dataframe(columns, rows)\n    results = analyze_inside_sales(df)\n    results.pop(\"full_data_reference\", None)\n    return build_tool_response(",
+        "detail": "features.performance.use_cases.inside_sales_report",
+        "documentation": {}
+    },
+    {
+        "label": "execute",
+        "kind": 2,
+        "importPath": "features.performance.use_cases.scorecard",
+        "description": "features.performance.use_cases.scorecard",
+        "peekOfCode": "def execute(inside_sales: Optional[str]) -> Dict[str, Any]:\n    sql_monthly = get_scorecard_by_is_month(inside_sales=inside_sales)\n    columns_monthly, rows_monthly = execute_pg_query_dev(sql_monthly)\n    monthly_data = tuple_to_dataframe(columns_monthly, rows_monthly).to_dict(orient=\"records\")\n    sql_daily = get_scorecard_by_is_daily(inside_sales=inside_sales)\n    columns_daily, rows_daily = execute_pg_query_dev(sql_daily)\n    daily_data = tuple_to_dataframe(columns_daily, rows_daily).to_dict(orient=\"records\")\n    sql_yearly = get_scorecard_by_is_year(inside_sales=inside_sales)\n    columns_yearly, rows_yearly = execute_pg_query_dev(sql_yearly)\n    yearly_data = tuple_to_dataframe(columns_yearly, rows_yearly).to_dict(orient=\"records\")",
+        "detail": "features.performance.use_cases.scorecard",
+        "documentation": {}
+    },
+    {
+        "label": "__all__",
+        "kind": 5,
+        "importPath": "features.performance.analytics",
+        "description": "features.performance.analytics",
+        "peekOfCode": "__all__ = [\"analyze_inside_sales\"]",
+        "detail": "features.performance.analytics",
+        "documentation": {}
+    },
+    {
+        "label": "get_inside_sales_performance_report",
+        "kind": 2,
+        "importPath": "features.performance.tools",
+        "description": "features.performance.tools",
+        "peekOfCode": "def get_inside_sales_performance_report(initial_date: Optional[str] = None, final_date: Optional[str] = None) -> Dict[str, Any]:\n    \"\"\"Analyze Inside Sales performance for the selected period (Response time, hitrate).\"\"\"\n    start_of_month, today_date = get_month_start_and_today()\n    start_q_date = initial_date or start_of_month\n    final_q_date = final_date or today_date\n    return inside_sales_report.execute(start_q_date, final_q_date)\ndef get_scorecard_by_is(inside_sales: Optional[str] = None) -> Dict[str, Any]:\n    \"\"\"Retrieve scorecard metrics by Inside Sales Daily/Monthly/Yearly.\"\"\"\n    return scorecard.execute(inside_sales)\nPERFORMANCE_TOOLS: List = [",
+        "detail": "features.performance.tools",
+        "documentation": {}
+    },
+    {
+        "label": "get_scorecard_by_is",
+        "kind": 2,
+        "importPath": "features.performance.tools",
+        "description": "features.performance.tools",
+        "peekOfCode": "def get_scorecard_by_is(inside_sales: Optional[str] = None) -> Dict[str, Any]:\n    \"\"\"Retrieve scorecard metrics by Inside Sales Daily/Monthly/Yearly.\"\"\"\n    return scorecard.execute(inside_sales)\nPERFORMANCE_TOOLS: List = [\n    get_inside_sales_performance_report,\n    get_scorecard_by_is,\n]",
+        "detail": "features.performance.tools",
+        "documentation": {}
+    },
+    {
+        "label": "finance_summary",
+        "kind": 2,
+        "importPath": "features.sales.domain.bookings",
+        "description": "features.sales.domain.bookings",
+        "peekOfCode": "def finance_summary(df: pd.DataFrame) -> dict:\n    \"\"\"\n    df: DataFrame con columnas al menos:\n        ['so_number','date','customer','customer_country','sales_rep',\n         'gross_usd','net_usd','terms','gross_margin','gross_margin_pct', 'freight_usd', 'items_usd']\n    \"\"\"\n    # Asegurar tipos\n    if \"date\" in df.columns:\n        df[\"date\"] = pd.to_datetime(df[\"date\"], errors=\"coerce\")\n    # -----------------------------",
+        "detail": "features.sales.domain.bookings",
+        "documentation": {}
+    },
+    {
+        "label": "summarize_sold_items",
+        "kind": 2,
+        "importPath": "features.sales.domain.items",
+        "description": "features.sales.domain.items",
+        "peekOfCode": "def summarize_sold_items(df: pd.DataFrame) -> Dict[str, Any]:\n    \"\"\"\n    Espera un DataFrame con al menos las columnas:\n    ['customer', 'quote', 'status', 'date', 'inside_sales',\n     'item', 'item_description', 'brand', 'product_group',\n     'selected_vendor', 'qty', 'unit_price', 'unit_cost',\n     'gross_margin_pct']\n    Retorna un dict con el shape:\n    {\n      \"general_summary\": {},",
+        "detail": "features.sales.domain.items",
+        "documentation": {}
+    },
+    {
+        "label": "summarize_items_quoted",
+        "kind": 2,
+        "importPath": "features.sales.domain.items",
+        "description": "features.sales.domain.items",
+        "peekOfCode": "def summarize_items_quoted(df: pd.DataFrame) -> Dict[str, Any]:\n    \"\"\"Generate summaries from the items quoted DataFrame.\"\"\"\n    # Add calculated column for line value\n    df[\"line_value\"] = df[\"qty\"] * df[\"unit_price\"]\n    # 01. More Used Vendor Summary\n    vendor_summary = (\n        df.groupby(\"selected_vendor\", dropna=False, as_index=False)\n        .agg(\n            num_quotes=(\"quote\", \"nunique\"),\n            num_lines=(\"item\", \"count\"),",
+        "detail": "features.sales.domain.items",
+        "documentation": {}
+    },
+    {
+        "label": "sold_brands_recurrence_metrics",
+        "kind": 2,
+        "importPath": "features.sales.domain.items",
+        "description": "features.sales.domain.items",
+        "peekOfCode": "def sold_brands_recurrence_metrics(df: pd.DataFrame, top_n: int = 10) -> dict:\n    \"\"\"\n    Analiza recurrencia de marcas, priorizando frecuencia de aparición.\n    Parámetros\n    ----------\n    df : pd.DataFrame\n        DataFrame con al menos estas columnas:\n        ['quote', 'brand', 'item', 'customer', 'qty', 'unit_price', 'unit_cost']\n    top_n : int, default 10\n        Número de marcas a devolver en rankings principales.",
+        "detail": "features.sales.domain.items",
+        "documentation": {}
+    },
+    {
+        "label": "quoted_brands_recurrence_metrics",
+        "kind": 2,
+        "importPath": "features.sales.domain.items",
+        "description": "features.sales.domain.items",
+        "peekOfCode": "def quoted_brands_recurrence_metrics(df: pd.DataFrame, top_n: int = 10) -> dict:\n    \"\"\"\n    Analiza recurrencia de marcas en items cotizados.\n    Prioriza frecuencia de aparición de la marca y, secundariamente,\n    muestra ranking por monto cotizado.\n    Parámetros\n    ----------\n    df : pd.DataFrame\n        DataFrame con columnas esperadas:\n        ['customer', 'quote', 'status', 'date', 'inside_sales',",
+        "detail": "features.sales.domain.items",
+        "documentation": {}
+    },
+    {
+        "label": "opportunity_summary",
+        "kind": 2,
+        "importPath": "features.sales.domain.opportunities",
+        "description": "features.sales.domain.opportunities",
+        "peekOfCode": "def opportunity_summary(df: pd.DataFrame) -> dict:\n    \"\"\"\n    df: DataFrame con columnas:\n        ['id','op_number','tran_date','expected_close_date',\n         'customer','subsidiary','status','inside_sales']\n    \"\"\"\n    # Asegurar tipo fecha\n    df[\"tran_date\"] = pd.to_datetime(df[\"tran_date\"], errors=\"coerce\")\n    df_valid = df.dropna(subset=[\"tran_date\"])\n    # -----------------------------",
+        "detail": "features.sales.domain.opportunities",
+        "documentation": {}
+    },
+    {
+        "label": "general_summary_is_q_so",
+        "kind": 2,
+        "importPath": "features.sales.domain.quotes",
+        "description": "features.sales.domain.quotes",
+        "peekOfCode": "def general_summary_is_q_so(df: pd.DataFrame) -> Dict[str, Any]:\n    \"\"\"Generate a general summary from IS quotes or sales orders DataFrame.\"\"\"\n    df[\"CreateDate\"] = pd.to_datetime(df[\"CreateDate\"])\n    general_total = {\n        \"total_amount\": float(df[\"Amount\"].sum()),\n        \"total_transactions\": int(df[\"QuoteNumber\"].nunique() if \"QuoteNumber\" in df else df[\"SO\"].nunique()),\n        \"total_customers\": int(df[\"Customer\"].nunique()),\n        \"start_date\": str(df[\"CreateDate\"].min().date()),\n        \"end_date\": str(df[\"CreateDate\"].max().date()),\n    }",
+        "detail": "features.sales.domain.quotes",
+        "documentation": {}
+    },
+    {
+        "label": "summarize_is_quotes",
+        "kind": 2,
+        "importPath": "features.sales.domain.quotes",
+        "description": "features.sales.domain.quotes",
+        "peekOfCode": "def summarize_is_quotes(df: pd.DataFrame) -> Dict[str, Any]:\n    \"\"\"Generate summaries from the IS quotes DataFrame.\"\"\"\n    # 01. KPI by Inside Sale\n    df = df.copy()\n    # Asegurar tipos numéricos para evitar problemas\n    df[\"Amount\"] = pd.to_numeric(df[\"Amount\"], errors=\"coerce\")\n    if \"GrossMargin\" in df.columns:\n        df[\"GrossMargin\"] = pd.to_numeric(df[\"GrossMargin\"], errors=\"coerce\")\n    if \"GrossMarginPct\" in df.columns:\n        df[\"GrossMarginPct\"] = pd.to_numeric(df[\"GrossMarginPct\"], errors=\"coerce\")",
+        "detail": "features.sales.domain.quotes",
+        "documentation": {}
+    },
+    {
+        "label": "analize_hr_desviado",
+        "kind": 2,
+        "importPath": "features.sales.domain.vendor_recommendation",
+        "description": "features.sales.domain.vendor_recommendation",
+        "peekOfCode": "def analize_hr_desviado(df_cus_brand: pd.DataFrame, df_country_brand: pd.DataFrame) -> Dict[str, Any]:\n    \"\"\"\n    Divide el dataframe por año y ordena cada subset por probabilidad descendente.\n    Returns:\n        df_2025, df_2024\n    \"\"\"\n    df_customer_2025 = (\n        df_cus_brand[df_cus_brand[\"year\"] == 2025]\n        .sort_values(by=\"probabilidad\", ascending=False)\n        .reset_index(drop=True)",
+        "detail": "features.sales.domain.vendor_recommendation",
+        "documentation": {}
+    },
+    {
+        "label": "execute",
+        "kind": 2,
+        "importPath": "features.sales.use_cases.activity",
+        "description": "features.sales.use_cases.activity",
+        "peekOfCode": "def execute(start_date: str, final_date: str, customer_name: str, organizer: str, subject: str) -> Dict[str, Any]:\n    sql = get_calls_summary(start_date, final_date, customer_name, organizer, subject)\n    columns, rows = execute_pg_query_dev(sql)\n    df = tuple_to_dataframe(columns, rows)\n    calls_summary = df.to_dict(orient=\"records\")\n    return build_tool_response(\n        tool_name=\"get_relationships_insights\",\n        summary={\"total_calls\": len(rows)},\n        filters={\n            \"start_date\": start_date,",
+        "detail": "features.sales.use_cases.activity",
+        "documentation": {}
+    },
+    {
+        "label": "execute",
+        "kind": 2,
+        "importPath": "features.sales.use_cases.bookings",
+        "description": "features.sales.use_cases.bookings",
+        "peekOfCode": "def execute(initial_date: str, final_date: str, customer_name: str, inside_sales: str) -> Dict[str, Any]:\n    sql = get_bookings_data(initial_date, final_date, customer_name, inside_sales)\n    conn = NetSuiteConnection()\n    with conn.managed() as ns:\n        columns, rows = ns.execute_query(sql)\n    dataset_reference = save_result_to_json(columns, rows, f\"Bookings dataset between {initial_date} and {final_date}\", name=\"bookings_data\")\n    df = tuple_to_dataframe(columns, rows)\n    summary = finance_summary(df)\n    summary.pop(\"full_data_reference\", None)\n    return build_tool_response(",
+        "detail": "features.sales.use_cases.bookings",
+        "documentation": {}
+    },
+    {
+        "label": "execute_quoted_items",
+        "kind": 2,
+        "importPath": "features.sales.use_cases.items",
+        "description": "features.sales.use_cases.items",
+        "peekOfCode": "def execute_quoted_items(initial_date: str, final_date: str, customer_name: str, inside_sales: str, topic: str) -> Dict[str, Any]:\n    sql = get_items_quoted_by_customer(initial_date, final_date, customer_name, inside_sales)\n    conn = NetSuiteConnection()\n    with conn.managed() as ns:\n        columns, rows = ns.execute_query(sql)\n    dataset_reference = save_result_to_json(columns, rows, f\"List of quoted items dataset between {initial_date} and {final_date}\", name=\"quoted_items\")\n    df = tuple_to_dataframe(columns, rows)\n    results = quoted_brands_recurrence_metrics(df) if topic == \"brand\" else summarize_items_quoted(df)\n    results.pop(\"full_data_reference\", None)\n    return build_tool_response(",
+        "detail": "features.sales.use_cases.items",
+        "documentation": {}
+    },
+    {
+        "label": "execute_sold_items",
+        "kind": 2,
+        "importPath": "features.sales.use_cases.items",
+        "description": "features.sales.use_cases.items",
+        "peekOfCode": "def execute_sold_items(initial_date: str, final_date: str, customer_name: str, inside_sales: str, topic: str) -> Dict[str, Any]:\n    sql = get_sold_items_by_period(initial_date, final_date, customer_name, inside_sales)\n    conn = NetSuiteConnection()\n    with conn.managed() as ns:\n        columns, rows = ns.execute_query(sql)\n    dataset_reference = save_result_to_json(columns, rows, f\"Sold items dataset between {initial_date} and {final_date}\", name=\"sold_items_by_period\")\n    df = tuple_to_dataframe(columns, rows)\n    summary = sold_brands_recurrence_metrics(df) if topic == \"brand\" else summarize_sold_items(df)\n    summary.pop(\"full_data_reference\", None)\n    return build_tool_response(",
+        "detail": "features.sales.use_cases.items",
+        "documentation": {}
+    },
+    {
+        "label": "execute",
+        "kind": 2,
+        "importPath": "features.sales.use_cases.opportunities",
+        "description": "features.sales.use_cases.opportunities",
+        "peekOfCode": "def execute(initial_date: str, final_date: str, inside_sales: str, customer_name: str) -> Dict[str, Any]:\n    sql = get_opportunities_data(initial_date, final_date, inside_sales, customer_name)\n    conn = NetSuiteConnection()\n    with conn.managed() as ns:\n        columns, rows = ns.execute_query(sql)\n    dataset_reference = save_result_to_json(columns, rows, f\"Opportunities by Inside Sales dataset between {initial_date} and {final_date}\", name=\"opportunity_by_is\")\n    df = tuple_to_dataframe(columns, rows)\n    results = opportunity_summary(df)\n    results.pop(\"full_data_reference\", None)\n    return build_tool_response(",
+        "detail": "features.sales.use_cases.opportunities",
+        "documentation": {}
+    },
+    {
+        "label": "execute",
+        "kind": 2,
+        "importPath": "features.sales.use_cases.quotes",
+        "description": "features.sales.use_cases.quotes",
+        "peekOfCode": "def execute(initial_date: str, final_date: str, inside_sales: str, customer_name: str) -> Dict[str, Any]:\n    sql = get_quotes_by_inside(initial_date, final_date, inside_sales, customer_name)\n    conn = NetSuiteConnection()\n    with conn.managed() as ns:\n        columns, rows = ns.execute_query(sql)\n    dataset_reference = save_result_to_json(\n        columns,\n        rows,\n        f\"Quotes by Inside Sales dataset between {initial_date} and {final_date}\",\n        name=\"get_quotes\",",
+        "detail": "features.sales.use_cases.quotes",
+        "documentation": {}
+    },
+    {
+        "label": "execute",
+        "kind": 2,
+        "importPath": "features.sales.use_cases.vendor_recommendation",
+        "description": "features.sales.use_cases.vendor_recommendation",
+        "peekOfCode": "def execute(customer_name: str, brand: str) -> Dict[str, Any]:\n    sql_cus_brand = get_vendors_customer_brand(customer_name, brand)\n    columns_cus_brand, rows_cus_brand = execute_pg_query_dev(sql_cus_brand)\n    df_cus_brand = tuple_to_dataframe(columns_cus_brand, rows_cus_brand)\n    sql_country = get_customer_country(customer_name)\n    _, rows_country = execute_pg_query_dev(sql_country)\n    country = rows_country[0][0] if rows_country else \"\"\n    sql_country_brand = get_vendors_country_brand(country, brand)\n    columns_country_brand, rows_country_brand = execute_pg_query_dev(sql_country_brand)\n    df_country_brand = tuple_to_dataframe(columns_country_brand, rows_country_brand)",
+        "detail": "features.sales.use_cases.vendor_recommendation",
+        "documentation": {}
+    },
+    {
+        "label": "__all__",
+        "kind": 5,
+        "importPath": "features.sales.analytics",
+        "description": "features.sales.analytics",
+        "peekOfCode": "__all__ = [\n    \"finance_summary\",\n    \"opportunity_summary\",\n    \"sold_brands_recurrence_metrics\",\n    \"quoted_brands_recurrence_metrics\",\n    \"summarize_sold_items\",\n    \"summarize_is_quotes\",\n    \"summarize_items_quoted\",\n    \"analize_hr_desviado\",\n    \"general_summary_is_q_so\",",
+        "detail": "features.sales.analytics",
+        "documentation": {}
+    },
+    {
+        "label": "get_quotes",
+        "kind": 2,
+        "importPath": "features.sales.tools",
+        "description": "features.sales.tools",
+        "peekOfCode": "def get_quotes(initial_date: Optional[str] = None, final_date: Optional[str] = None, inside_sales: Optional[str] = None, customer_name: Optional[str] = \"\") -> Dict[str, Any]:\n    start_of_month, today_date = get_month_start_and_today()\n    start_q_date = initial_date or start_of_month\n    final_q_date = final_date or today_date\n    normalized_inside_sales = \"\" if not inside_sales else inside_sales.upper()\n    normalized_customer_name = customer_name.upper() if customer_name else \"\"\n    return quotes.execute(start_q_date, final_q_date, normalized_inside_sales, normalized_customer_name)\ndef get_bookings(initial_date: Optional[str] = None, final_date: Optional[str] = None, customer_name: Optional[str] = \"\", inside_sales: Optional[str] = \"\") -> Dict[str, Any]:\n    start_of_month, today_date = get_month_start_and_today()\n    start_q_date = initial_date or start_of_month",
+        "detail": "features.sales.tools",
+        "documentation": {}
+    },
+    {
+        "label": "get_bookings",
+        "kind": 2,
+        "importPath": "features.sales.tools",
+        "description": "features.sales.tools",
+        "peekOfCode": "def get_bookings(initial_date: Optional[str] = None, final_date: Optional[str] = None, customer_name: Optional[str] = \"\", inside_sales: Optional[str] = \"\") -> Dict[str, Any]:\n    start_of_month, today_date = get_month_start_and_today()\n    start_q_date = initial_date or start_of_month\n    final_q_date = final_date or today_date\n    normalized_customer_name = customer_name.upper() if customer_name else \"\"\n    normalized_inside_sales = inside_sales.upper() if inside_sales else \"\"\n    return bookings.execute(start_q_date, final_q_date, normalized_customer_name, normalized_inside_sales)\ndef get_quoted_items(initial_date: Optional[str] = None, final_date: Optional[str] = None, customer_name: Optional[str] = \"\", inside_sales: Optional[str] = \"\", topic: Optional[str] = \"items\") -> Dict[str, Any]:\n    start_of_month, today_date = get_month_start_and_today()\n    start_q_date = initial_date or start_of_month",
+        "detail": "features.sales.tools",
+        "documentation": {}
+    },
+    {
+        "label": "get_quoted_items",
+        "kind": 2,
+        "importPath": "features.sales.tools",
+        "description": "features.sales.tools",
+        "peekOfCode": "def get_quoted_items(initial_date: Optional[str] = None, final_date: Optional[str] = None, customer_name: Optional[str] = \"\", inside_sales: Optional[str] = \"\", topic: Optional[str] = \"items\") -> Dict[str, Any]:\n    start_of_month, today_date = get_month_start_and_today()\n    start_q_date = initial_date or start_of_month\n    final_q_date = final_date or today_date\n    normalized_customer_name = customer_name.upper() if customer_name else \"\"\n    normalized_inside_sales = inside_sales.upper() if inside_sales else \"\"\n    return items.execute_quoted_items(start_q_date, final_q_date, normalized_customer_name, normalized_inside_sales, topic or \"items\")\ndef get_sold_items(initial_date: Optional[str] = None, final_date: Optional[str] = None, customer_name: Optional[str] = \"\", inside_sales: Optional[str] = \"\", topic: Optional[str] = \"items\") -> Dict[str, Any]:\n    start_of_month, today_date = get_month_start_and_today()\n    start_q_date = initial_date or start_of_month",
+        "detail": "features.sales.tools",
+        "documentation": {}
+    },
+    {
+        "label": "get_sold_items",
+        "kind": 2,
+        "importPath": "features.sales.tools",
+        "description": "features.sales.tools",
+        "peekOfCode": "def get_sold_items(initial_date: Optional[str] = None, final_date: Optional[str] = None, customer_name: Optional[str] = \"\", inside_sales: Optional[str] = \"\", topic: Optional[str] = \"items\") -> Dict[str, Any]:\n    start_of_month, today_date = get_month_start_and_today()\n    start_q_date = initial_date or start_of_month\n    final_q_date = final_date or today_date\n    normalized_customer_name = customer_name.upper() if customer_name else \"\"\n    normalized_inside_sales = inside_sales.upper() if inside_sales else \"\"\n    return items.execute_sold_items(start_q_date, final_q_date, normalized_customer_name, normalized_inside_sales, topic or \"items\")\ndef get_opportunities(initial_date: Optional[str] = None, final_date: Optional[str] = None, inside_sales: Optional[str] = \"\", customer_name: Optional[str] = \"\") -> Dict[str, Any]:\n    start_of_month, today_date = get_month_start_and_today()\n    start_q_date = initial_date or start_of_month",
+        "detail": "features.sales.tools",
+        "documentation": {}
+    },
+    {
+        "label": "get_opportunities",
+        "kind": 2,
+        "importPath": "features.sales.tools",
+        "description": "features.sales.tools",
+        "peekOfCode": "def get_opportunities(initial_date: Optional[str] = None, final_date: Optional[str] = None, inside_sales: Optional[str] = \"\", customer_name: Optional[str] = \"\") -> Dict[str, Any]:\n    start_of_month, today_date = get_month_start_and_today()\n    start_q_date = initial_date or start_of_month\n    final_q_date = final_date or today_date\n    normalized_inside_sales = \"\" if not inside_sales else inside_sales.upper()\n    normalized_customer_name = \"\" if not customer_name else customer_name.upper()\n    return opportunities.execute(start_q_date, final_q_date, normalized_inside_sales, normalized_customer_name)\ndef get_vendors_to_quote(customer_name: str, brand: str) -> Dict[str, Any]:\n    if not customer_name or not brand:\n        raise ValueError(\"Both customer_name and brand must be provided.\")",
+        "detail": "features.sales.tools",
+        "documentation": {}
+    },
+    {
+        "label": "get_vendors_to_quote",
+        "kind": 2,
+        "importPath": "features.sales.tools",
+        "description": "features.sales.tools",
+        "peekOfCode": "def get_vendors_to_quote(customer_name: str, brand: str) -> Dict[str, Any]:\n    if not customer_name or not brand:\n        raise ValueError(\"Both customer_name and brand must be provided.\")\n    normalized_customer_name = customer_name.upper()\n    normalized_brand = brand.upper()\n    return vendor_recommendation.execute(normalized_customer_name, normalized_brand)\ndef get_events_summary(start_date: Optional[str], final_date: Optional[str], customer_name: Optional[str], organizer: Optional[str], subject: Optional[str]) -> Dict[str, Any]:\n    start_of_month, today_date = get_month_start_and_today()\n    start_q_date = start_date or start_of_month\n    final_q_date = final_date or today_date",
+        "detail": "features.sales.tools",
+        "documentation": {}
+    },
+    {
+        "label": "get_events_summary",
+        "kind": 2,
+        "importPath": "features.sales.tools",
+        "description": "features.sales.tools",
+        "peekOfCode": "def get_events_summary(start_date: Optional[str], final_date: Optional[str], customer_name: Optional[str], organizer: Optional[str], subject: Optional[str]) -> Dict[str, Any]:\n    start_of_month, today_date = get_month_start_and_today()\n    start_q_date = start_date or start_of_month\n    final_q_date = final_date or today_date\n    normalized_customer_name = customer_name.upper() if customer_name else \"\"\n    normalized_organizer = organizer.upper() if organizer else \"\"\n    normalized_subject = subject.upper() if subject else \"\"\n    return activity.execute(start_q_date, final_q_date, normalized_customer_name, normalized_organizer, normalized_subject)\nSALES_TOOLS: List = [\n    get_quotes,",
+        "detail": "features.sales.tools",
+        "documentation": {}
+    },
+    {
+        "label": "TestMCPResponseEnvelopeContract",
+        "kind": 6,
+        "importPath": "tests.test_response_envelope_contract",
+        "description": "tests.test_response_envelope_contract",
+        "peekOfCode": "class TestMCPResponseEnvelopeContract(unittest.TestCase):\n    @patch(\"features.sales.use_cases.bookings.finance_summary\")\n    @patch(\"features.sales.use_cases.bookings.tuple_to_dataframe\")\n    @patch(\"features.sales.use_cases.bookings.save_result_to_json\")\n    @patch(\"features.sales.use_cases.bookings.NetSuiteConnection\")\n    @patch(\"features.sales.use_cases.bookings.get_bookings_data\")\n    def test_sales_get_bookings_envelope_contract(\n        self,\n        mock_get_bookings_data,\n        mock_netsuite_connection,",
+        "detail": "tests.test_response_envelope_contract",
+        "documentation": {}
+    },
+    {
+        "label": "get_month_start_and_today",
+        "kind": 2,
+        "importPath": "utils.date",
+        "description": "utils.date",
+        "peekOfCode": "def get_month_start_and_today():\n    \"\"\"Returns the first day of the current month and today's date as strings in 'YYYY-MM-DD' format.\"\"\"\n    today = datetime.today()\n    month_start = today.replace(day=1)\n    return month_start.strftime('%Y-%m-%d'), today.strftime('%Y-%m-%d')",
+        "detail": "utils.date",
+        "documentation": {}
+    },
+    {
+        "label": "build_tool_response",
+        "kind": 2,
+        "importPath": "utils.envelope",
+        "description": "utils.envelope",
+        "peekOfCode": "def build_tool_response(\n    *,\n    tool_name: str,\n    summary: Any,\n    filters: Optional[Dict[str, Any]] = None,\n    source_systems: Optional[List[str]] = None,\n    columns: Optional[List[str]] = None,\n    rows: Optional[List[Any]] = None,\n    dataset_reference: Optional[Dict[str, Any]] = None,\n    # excel_file: Optional[str] = None,",
+        "detail": "utils.envelope",
+        "documentation": {}
+    },
+    {
+        "label": "save_result_to_json",
+        "kind": 2,
+        "importPath": "utils.json_df",
+        "description": "utils.json_df",
+        "peekOfCode": "def save_result_to_json(\n    columns: List[str],\n    rows: List[Tuple[Any, ...]],\n    description: str,\n    name: str = \"sales_dataset.json\",\n    selected_columns: Optional[List[str]] = None,\n) -> None:\n    \"\"\"\n    Guarda los datos de una consulta (columns + rows) en un archivo JSON\n    con la estructura:",
+        "detail": "utils.json_df",
+        "documentation": {}
+    },
+    {
+        "label": "load_dataset_from_json",
+        "kind": 2,
+        "importPath": "utils.json_df",
+        "description": "utils.json_df",
+        "peekOfCode": "def load_dataset_from_json(filename: str) -> Tuple[pd.DataFrame, str]:\n    \"\"\"\n    Lee un archivo JSON con estructura:\n    {\n      \"data_set_description\": \"\",\n      \"columns\": [],\n      \"rows\": [\n        []\n      ]\n    }",
+        "detail": "utils.json_df",
+        "documentation": {}
+    },
+    {
+        "label": "save_df_to_excel",
+        "kind": 2,
+        "importPath": "utils.json_df",
+        "description": "utils.json_df",
+        "peekOfCode": "def save_df_to_excel(df: pd.DataFrame, name: str = \"dataset\") -> str:\n    \"\"\"\n    Guarda un DataFrame de pandas en un archivo Excel y devuelve el nombre del archivo.\n    \"\"\"\n    timestamp = datetime.datetime.now().strftime(\"%Y%m%d_%H%M%S\")\n    filename = f\"{timestamp}_{name}.xlsx\"\n    filepath = \"data/\" + filename\n    df.to_excel(filepath, index=False)\n    print(f\"DataFrame saved to Excel: {filepath}\")\n    return filename",
+        "detail": "utils.json_df",
+        "documentation": {}
+    },
+    {
+        "label": "tuple_to_dataframe",
+        "kind": 2,
+        "importPath": "utils.transformations",
+        "description": "utils.transformations",
+        "peekOfCode": "def tuple_to_dataframe(columns: List[str], rows: List[tuple]) -> pd.DataFrame:\n    \"\"\"Convert query result tuples to a pandas DataFrame.\"\"\"\n    return pd.DataFrame(rows, columns=columns)\ndef map_rows_to_dicts(columns: List[str], rows: List[tuple]) -> List[Dict[str, Any]]:\n    \"\"\"Map rows (tuples) to dicts using column names.\"\"\"\n    results: List[Dict[str, Any]] = []\n    for row in rows:\n        if columns:\n            results.append({col: val for col, val in zip(columns, row)})\n        else:",
+        "detail": "utils.transformations",
+        "documentation": {}
+    },
+    {
+        "label": "map_rows_to_dicts",
+        "kind": 2,
+        "importPath": "utils.transformations",
+        "description": "utils.transformations",
+        "peekOfCode": "def map_rows_to_dicts(columns: List[str], rows: List[tuple]) -> List[Dict[str, Any]]:\n    \"\"\"Map rows (tuples) to dicts using column names.\"\"\"\n    results: List[Dict[str, Any]] = []\n    for row in rows:\n        if columns:\n            results.append({col: val for col, val in zip(columns, row)})\n        else:\n            # If no column names provided, return tuple under 'row'\n            results.append({\"row\": row})\n    return results",
+        "detail": "utils.transformations",
+        "documentation": {}
+    },
+    {
+        "label": "key_pair",
+        "kind": 5,
+        "importPath": "keys",
+        "description": "keys",
+        "peekOfCode": "key_pair = RSAKeyPair(\n    private_key=os.environ[\"PRIVATE_KEY\"],\n    public_key=os.environ[\"PUBLIC_KEY\"]\n)\ntoken = key_pair.create_token(\n    audience=\"idico-sales\",\n    expires_in_seconds=365*24*3600  # 1 año\n)\nprint(token)",
+        "detail": "keys",
+        "documentation": {}
+    },
+    {
+        "label": "token",
+        "kind": 5,
+        "importPath": "keys",
+        "description": "keys",
+        "peekOfCode": "token = key_pair.create_token(\n    audience=\"idico-sales\",\n    expires_in_seconds=365*24*3600  # 1 año\n)\nprint(token)",
+        "detail": "keys",
+        "documentation": {}
+    },
+    {
+        "label": "redis_client",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "redis_client = create_redis_client()\nauth_provider = create_auth_provider(redis_client)\napp = FastMCP(\n    \"IDRA IDICO AI\",\n    auth=auth_provider,\n    instructions=\"Accede a datos en tiempo real y genera análisis claros para apoyar decisiones.\",\n    icons=[Icon(src=\"https://i.ibb.co/svxz9ZcR/idra-logo.png\", mimeType=\"image/png\", sizes=[\"48x48\"])],\n)\nregister_tools(app, SALES_TOOLS)\nregister_tools(app, FILES_TOOLS)",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "auth_provider",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "auth_provider = create_auth_provider(redis_client)\napp = FastMCP(\n    \"IDRA IDICO AI\",\n    auth=auth_provider,\n    instructions=\"Accede a datos en tiempo real y genera análisis claros para apoyar decisiones.\",\n    icons=[Icon(src=\"https://i.ibb.co/svxz9ZcR/idra-logo.png\", mimeType=\"image/png\", sizes=[\"48x48\"])],\n)\nregister_tools(app, SALES_TOOLS)\nregister_tools(app, FILES_TOOLS)\nregister_tools(app, PERFORMANCE_TOOLS)",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "app",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "app = FastMCP(\n    \"IDRA IDICO AI\",\n    auth=auth_provider,\n    instructions=\"Accede a datos en tiempo real y genera análisis claros para apoyar decisiones.\",\n    icons=[Icon(src=\"https://i.ibb.co/svxz9ZcR/idra-logo.png\", mimeType=\"image/png\", sizes=[\"48x48\"])],\n)\nregister_tools(app, SALES_TOOLS)\nregister_tools(app, FILES_TOOLS)\nregister_tools(app, PERFORMANCE_TOOLS)\nregister_tools(app, OPS_TOOLS)",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "build_auth_debug_snapshot",
+        "kind": 2,
+        "importPath": "main_final",
+        "description": "main_final",
+        "peekOfCode": "def build_auth_debug_snapshot():\n    try:\n        token = get_access_token()\n        if token is None:\n            return \"Not Identified\"\n        claims = token.claims or {}\n        return (\n            claims.get(\"preferred_username\")\n            or claims.get(\"name\")\n            or \"Not Identified\"",
+        "detail": "main_final",
+        "documentation": {}
+    },
+    {
+        "label": "tool_register",
+        "kind": 2,
+        "importPath": "main_final",
+        "description": "main_final",
+        "peekOfCode": "def tool_register(fn):\n    @functools.wraps(fn)\n    async def wrapper(**kwargs):\n        start = time.monotonic()\n        error = None\n        response = None\n        authenticated_username = build_auth_debug_snapshot()\n        print(f\"[AUTH-DEBUG] tool={fn.__name__} auth={authenticated_username}\")\n        try:\n            response = await asyncio.to_thread(fn, **kwargs)",
+        "detail": "main_final",
+        "documentation": {}
+    },
+    {
+        "label": "redis_client",
+        "kind": 5,
+        "importPath": "main_final",
+        "description": "main_final",
+        "peekOfCode": "redis_client = aioredis.from_url(\n    os.environ[\"AZURE_REDIS_URL\"],\n    ssl_cert_reqs=None,  # Upstash no requiere verificación de certificado\n    decode_responses=True  # RedisStore requiere str, no bytes\n)\n# Autenticacion Auth0\n# auth_provider = Auth0Provider(\n#     config_url=f\"https://{os.environ['AUTH0_DOMAIN']}/.well-known/openid-configuration\",\n#     client_id=os.environ[\"AUTH0_CLIENT_ID\"],\n#     client_secret=os.environ[\"AUTH0_CLIENT_SECRET\"],",
+        "detail": "main_final",
+        "documentation": {}
+    },
+    {
+        "label": "auth_provider",
+        "kind": 5,
+        "importPath": "main_final",
+        "description": "main_final",
+        "peekOfCode": "auth_provider = AzureProvider(\n    client_id=os.environ[\"AZURE_CLIENT_ID\"],\n    client_secret=os.environ[\"AZURE_CLIENT_SECRET\"],\n    tenant_id=os.environ[\"AZURE_TENANT_ID\"],\n    base_url=os.environ[\"BASE_URL\"],\n    required_scopes=[\"mcp-access\"],  # el scope que creaste\n    jwt_signing_key=os.environ[\"JWT_SIGNING_KEY\"],\n    client_storage=FernetEncryptionWrapper(\n        key_value=RedisStore(client=redis_client),\n        fernet=Fernet(os.environ[\"STORAGE_ENCRYPTION_KEY\"])",
+        "detail": "main_final",
+        "documentation": {}
+    },
+    {
+        "label": "app",
+        "kind": 5,
+        "importPath": "main_final",
+        "description": "main_final",
+        "peekOfCode": "app = FastMCP(\"IDRA IDICO AI\", auth=auth_provider, instructions=\"Accede a datos en tiempo real y genera análisis claros para apoyar decisiones.\", icons=[Icon(src=\"https://i.ibb.co/svxz9ZcR/idra-logo.png\",mimeType=\"image/png\",\n            sizes=[\"48x48\"])])\nDEFAULT_ANNOTATIONS = {\n    \"readOnlyHint\": True,      # ✅ solo consulta\n    \"destructiveHint\": False,  # ✅ no modifica nada\n    \"openWorldHint\": False,    # ✅ no “mundo abierto” (si es SQL predefinido, no debería ser open world)\n}\ndef build_auth_debug_snapshot():\n    try:\n        token = get_access_token()",
+        "detail": "main_final",
+        "documentation": {}
+    },
+    {
+        "label": "DEFAULT_ANNOTATIONS",
+        "kind": 5,
+        "importPath": "main_final",
+        "description": "main_final",
+        "peekOfCode": "DEFAULT_ANNOTATIONS = {\n    \"readOnlyHint\": True,      # ✅ solo consulta\n    \"destructiveHint\": False,  # ✅ no modifica nada\n    \"openWorldHint\": False,    # ✅ no “mundo abierto” (si es SQL predefinido, no debería ser open world)\n}\ndef build_auth_debug_snapshot():\n    try:\n        token = get_access_token()\n        if token is None:\n            return \"Not Identified\"",
+        "detail": "main_final",
+        "documentation": {}
+    },
+    {
+        "label": "register_tool",
+        "kind": 2,
+        "importPath": "middleware",
+        "description": "middleware",
+        "peekOfCode": "def register_tool(app, fn):\n    @functools.wraps(fn)\n    async def wrapper(**kwargs):\n        start = time.monotonic()\n        error = None\n        response = None\n        authenticated_user = log_auth_debug(fn.__name__)\n        try:\n            response = await asyncio.to_thread(fn, **kwargs)\n            return response",
+        "detail": "middleware",
+        "documentation": {}
+    },
+    {
+        "label": "register_tools",
+        "kind": 2,
+        "importPath": "middleware",
+        "description": "middleware",
+        "peekOfCode": "def register_tools(app, tools):\n    for tool in tools:\n        register_tool(app, tool)",
+        "detail": "middleware",
+        "documentation": {}
+    },
+    {
+        "label": "DEFAULT_ANNOTATIONS",
+        "kind": 5,
+        "importPath": "middleware",
+        "description": "middleware",
+        "peekOfCode": "DEFAULT_ANNOTATIONS = {\n    \"readOnlyHint\": True,\n    \"destructiveHint\": False,\n    \"openWorldHint\": False,\n}\ndef register_tool(app, fn):\n    @functools.wraps(fn)\n    async def wrapper(**kwargs):\n        start = time.monotonic()\n        error = None",
+        "detail": "middleware",
+        "documentation": {}
+    },
+    {
+        "label": "sql",
+        "kind": 5,
+        "importPath": "test",
+        "description": "test",
+        "peekOfCode": "sql = get_calls_summary('2026-01-01', '2026-03-31', 'PUEBLO VIEJO', '', '')\nprint(\"sql\",sql)\ncolumns, rows = execute_pg_query_dev(sql)\n# conn = NetSuiteConnection()\n# with conn.managed() as ns:\n#     columns, rows = ns.execute_query(sql)\nprint(\"columns\",columns)\nprint(\"rows\",rows)\n# df = tuple_to_dataframe(columns, rows)\n# hr_result = get_vendors_to_quote(\"PUEBLO VIEJO\", \"3M\")",
+        "detail": "test",
+        "documentation": {}
+    },
+    {
+        "label": "#summary",
+        "kind": 5,
+        "importPath": "test",
+        "description": "test",
+        "peekOfCode": "#summary = summarize_is_quotes(df)\n# summary[\"so_details\"] = so\n#print(\"summary\",summary)\n# Map rows (tuples) to dicts using column names\n# dataset_reference = save_result_to_json(columns, rows, \"Full Bookings Dataset\", name=\"bookings_data\")\n#print(\"dataset_reference\",dataset_reference)\n# df_from_json, description = load_dataset_from_json(dataset_reference)\n# print(\"df_from_json\",df_from_json)\nresults: List[Dict[str, Any]] = []\nfor row in rows:",
+        "detail": "test",
+        "documentation": {}
+    }
+]
