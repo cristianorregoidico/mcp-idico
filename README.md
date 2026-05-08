@@ -34,8 +34,8 @@ Además:
 1. `main.py` compone el servidor FastMCP.
 2. `auth/` encapsula autenticación, Redis y resolución de identidad.
 3. `middleware.py` registra todas las tools con un wrapper común de auth + auditoría.
-4. `features/` agrupa cada dominio con un patrón interno consistente: `tools.py` como adapter MCP, `use_cases/` para orquestación y `domain/` para lógica de negocio.
-5. `connections/` ejecuta consultas contra NetSuite y PostgreSQL, separando cliente y queries por subpaquete.
+4. `features/` agrupa cada dominio con un patrón interno consistente: `tools.py` como adapter MCP, `use_cases/` para orquestación, `queries/` para extracción de datos por capability y `domain/` para lógica de negocio.
+5. `connections/` mantiene la infraestructura de conexión contra NetSuite y PostgreSQL.
 6. `utils/` construye envelopes, persiste datasets y resuelve helpers comunes (incluye transformaciones de datos).
 
 ### Módulos principales
@@ -49,22 +49,20 @@ Además:
 | `auth/identity.py` | Resolver el usuario autenticado y emitir `AUTH-DEBUG` |
 | `features/sales/tools.py` | Entry points MCP del dominio comercial |
 | `features/sales/use_cases/` | Orquestación de consultas, datasets y armado de responses en Sales |
+| `features/sales/queries/` | Query builders de Sales organizados por capability |
 | `features/sales/domain/` | KPIs y reglas de negocio comerciales por capability |
-| `features/sales/analytics.py` | Facade de compatibilidad para imports legacy |
 | `features/operations/tools.py` | Entry points MCP del dominio operativo |
 | `features/operations/use_cases/` | Orquestación de guías, OTD e importaciones |
+| `features/operations/queries/` | Query builders operativos organizados por capability |
 | `features/operations/domain/` | Lógica de negocio operativa reusable |
-| `features/operations/analytics.py` | Facade de compatibilidad para imports legacy |
 | `features/performance/tools.py` | Entry points MCP del dominio de performance |
 | `features/performance/use_cases/` | Orquestación de reportes y scorecards |
+| `features/performance/queries/` | Query builders de performance organizados por capability |
 | `features/performance/domain/` | Lógica de KPIs de Inside Sales |
-| `features/performance/analytics.py` | Facade de compatibilidad para imports legacy |
 | `features/files/tools.py` | Recuperación de datasets |
 | `features/notifications/tools.py` | Envío de emails y mensajes Teams |
 | `connections/netsuite/client.py` | Conexión JDBC a NetSuite |
-| `connections/netsuite/queries.py` | Plantillas SQL para NetSuite |
 | `connections/postgresql/client.py` | Consultas y auditoría en PostgreSQL |
-| `connections/postgresql/queries.py` | Plantillas SQL para PostgreSQL |
 | `utils/transformations.py` | Conversión de resultados tabulares a DataFrame/dict |
 | `data/` | Artefactos JSON/Excel generados |
 
@@ -135,7 +133,8 @@ Los dominios principales (`sales`, `operations`, `performance`) siguen ahora la 
 
 1. `tools.py` recibe la invocación MCP y normaliza parámetros.
 2. `use_cases/` orquesta queries, datasets y envelopes.
-3. `domain/` calcula KPIs y aplica reglas de negocio puras.
+3. `queries/` define la extracción de datos por capability.
+4. `domain/` calcula KPIs y aplica reglas de negocio puras.
 
 ### Responsabilidades por capa
 
@@ -143,13 +142,14 @@ Los dominios principales (`sales`, `operations`, `performance`) siguen ahora la 
 |---|---|
 | `tools.py` | Adapter público MCP; validación liviana y defaults |
 | `use_cases/` | Orquestación del caso de uso; integra `connections/`, `utils/` y `domain/` |
+| `queries/` | Query builders del dominio; construyen `sql, params` por capability |
 | `domain/` | Reglas, agregaciones, resúmenes y KPIs por capability |
-| `analytics.py` | Compatibilidad temporal para imports previos; no debería recibir lógica nueva |
 
 ### Ejemplo en Sales
 
 - `features/sales/tools.py` expone tools como `get_bookings`.
 - `features/sales/use_cases/bookings.py` ejecuta la consulta, persiste dataset y arma el response.
+- `features/sales/queries/bookings.py` define la query y sus parámetros.
 - `features/sales/domain/bookings.py` calcula métricas y resúmenes de bookings.
 
 ---
@@ -445,10 +445,10 @@ Archivos:
 
 - las tools son de solo lectura
 - el wrapper central aplica `readOnlyHint=True`
-- las consultas SQL están predefinidas en `connections/netsuite/queries.py` y `connections/postgresql/queries.py`
+- los query builders nuevos deben vivir en `features/<dominio>/queries/` por capability
+- `connections/*/client.py` mantiene la infraestructura de conexión, no la definición de queries del negocio
 - la lógica nueva de negocio debe vivir en `features/<dominio>/domain/*.py`
 - la orquestación de cada tool debe vivir en `features/<dominio>/use_cases/*.py`
-- `features/<dominio>/analytics.py` queda como facade de compatibilidad mientras existan imports legacy
 
 ---
 
@@ -462,26 +462,24 @@ Archivos:
 │   └── redis_client.py
 ├── connections/
 │   ├── netsuite/
-│   │   ├── client.py        # conexión JDBC a NetSuite
-│   │   └── queries.py       # plantillas SQL de NetSuite
+│   │   └── client.py        # conexión JDBC a NetSuite
 │   └── postgresql/
-│       ├── client.py        # conexiones y auditoría en PostgreSQL
-│       └── queries.py       # plantillas SQL de PostgreSQL
+│       └── client.py        # conexiones y auditoría en PostgreSQL
 ├── features/
 │   ├── sales/
 │   │   ├── tools.py         # entry points MCP comerciales
-│   │   ├── analytics.py     # facade legacy
 │   │   ├── use_cases/       # orquestación por tool
+│   │   ├── queries/         # extracción de datos por capability
 │   │   └── domain/          # KPIs y reglas de negocio por capability
 │   ├── operations/
 │   │   ├── tools.py
-│   │   ├── analytics.py     # facade legacy
 │   │   ├── use_cases/
+│   │   ├── queries/
 │   │   └── domain/
 │   ├── performance/
 │   │   ├── tools.py
-│   │   ├── analytics.py     # facade legacy
 │   │   ├── use_cases/
+│   │   ├── queries/
 │   │   └── domain/
 │   ├── files/
 │   │   └── tools.py
@@ -507,5 +505,4 @@ Archivos:
 ## Notas
 
 - La documentación de detalle sobre autenticación, Redis y auditoría quedó ampliada en `docs/IMPLEMETACION_AUTH_LOGS.md`.
-- Si en el futuro se elimina por completo la compatibilidad legacy, `features/*/analytics.py` puede desaparecer y este README debería actualizarse.
 - Si se reactiva exportación Excel como artefacto público, conviene actualizar también este README y `FILES_TOOLS`.

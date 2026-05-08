@@ -5,7 +5,7 @@ from typing import Any, List, Tuple, Optional
 import traceback
 
 
-def execute_pg_query(sql: str) -> List[Tuple[Any, ...]]:
+def execute_pg_query(sql: str, params: Optional[tuple | list] = None) -> List[Tuple[Any, ...]]:
     """
     Ejecuta una consulta SQL en PostgreSQL y devuelve los resultados.
 
@@ -43,7 +43,10 @@ def execute_pg_query(sql: str) -> List[Tuple[Any, ...]]:
         print(f"[PG-QUERY] Ejecutando SQL: {sql[:200]}{'...' if len(sql) > 200 else ''}")
 
         with conn.cursor() as cur:
-            cur.execute(sql)
+            if params is not None:
+                cur.execute(sql, params)
+            else:
+                cur.execute(sql)
 
             if cur.description is None:
                 # No hay resultado (por ejemplo INSERT/UPDATE/DELETE)
@@ -109,7 +112,7 @@ async def log_tool_call(tool_name: str, username: str, params: dict, response: s
         print(f"[PG-LOG] Error logging tool call '{tool_name}': {e}")
 
 
-def execute_pg_query_dev(sql: str) -> List[Tuple[Any, ...]]:
+def execute_pg_query_dev(sql: str, params: Optional[tuple | list] = None) -> List[Tuple[Any, ...]]:
     """
     Ejecuta una consulta SQL en PostgreSQL y devuelve los resultados.
 
@@ -147,7 +150,10 @@ def execute_pg_query_dev(sql: str) -> List[Tuple[Any, ...]]:
         print(f"[PG-QUERY] Ejecutando SQL: {sql[:200]}{'...' if len(sql) > 200 else ''}")
 
         with conn.cursor() as cur:
-            cur.execute(sql)
+            if params is not None:
+                cur.execute(sql, params)
+            else:
+                cur.execute(sql)
 
             if cur.description is None:
                 # No hay resultado (por ejemplo INSERT/UPDATE/DELETE)

@@ -1,14 +1,14 @@
 from typing import Any, Dict
 
 from connections.postgresql.client import execute_pg_query_dev
-from connections.postgresql.queries import get_calls_summary
+from features.sales.queries.activity import get_calls_summary
 from utils.envelope import build_tool_response
 from utils.transformations import tuple_to_dataframe
 
 
 def execute(start_date: str, final_date: str, customer_name: str, organizer: str, subject: str) -> Dict[str, Any]:
-    sql = get_calls_summary(start_date, final_date, customer_name, organizer, subject)
-    columns, rows = execute_pg_query_dev(sql)
+    sql, params = get_calls_summary(start_date, final_date, customer_name, organizer, subject)
+    columns, rows = execute_pg_query_dev(sql, params)
     df = tuple_to_dataframe(columns, rows)
     calls_summary = df.to_dict(orient="records")
 

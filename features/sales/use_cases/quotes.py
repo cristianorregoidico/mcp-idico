@@ -1,7 +1,7 @@
 from typing import Any, Dict, Optional
 
 from connections.netsuite.client import NetSuiteConnection
-from connections.netsuite.queries import get_quotes_by_inside
+from features.sales.queries.quotes import get_quotes_by_inside
 from features.sales.domain.quotes import summarize_is_quotes
 from utils.envelope import build_tool_response
 from utils.json_df import save_result_to_json
@@ -9,10 +9,10 @@ from utils.transformations import tuple_to_dataframe
 
 
 def execute(initial_date: str, final_date: str, inside_sales: str, customer_name: str) -> Dict[str, Any]:
-    sql = get_quotes_by_inside(initial_date, final_date, inside_sales, customer_name)
+    sql, params = get_quotes_by_inside(initial_date, final_date, inside_sales, customer_name)
     conn = NetSuiteConnection()
     with conn.managed() as ns:
-        columns, rows = ns.execute_query(sql)
+        columns, rows = ns.execute_query(sql, params)
 
     dataset_reference = save_result_to_json(
         columns,

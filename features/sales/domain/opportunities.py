@@ -12,6 +12,30 @@ def opportunity_summary(df: pd.DataFrame) -> dict:
     df["tran_date"] = pd.to_datetime(df["tran_date"], errors="coerce")
     df_valid = df.dropna(subset=["tran_date"])
 
+    if df_valid.empty:
+        return {
+            "period": {
+                "start_date": None,
+                "end_date": None,
+            },
+            "overview": {
+                "total_opportunities": 0,
+                "total_unique_customers": 0,
+                "customer_participation": [],
+            },
+            "distribution": {
+                "inside_sales": [],
+                "status": [],
+            },
+            "overdue_in_progress": [],
+            "low_performance_indicators": {
+                "daily": [],
+                "weekly": [],
+                "monthly": [],
+            },
+            "full_data_reference": "dataset_reference",
+        }
+
     # -----------------------------
     # 1) PERIODO
     # -----------------------------

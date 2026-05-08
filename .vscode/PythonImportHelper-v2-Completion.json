@@ -1186,114 +1186,26 @@
     },
     {
         "label": "get_helga_guides_query",
-        "importPath": "connections.postgresql.queries",
-        "description": "connections.postgresql.queries",
+        "importPath": "features.operations.queries.guides",
+        "description": "features.operations.queries.guides",
         "isExtraImport": true,
-        "detail": "connections.postgresql.queries",
-        "documentation": {}
-    },
-    {
-        "label": "get_customer_imports_data",
-        "importPath": "connections.postgresql.queries",
-        "description": "connections.postgresql.queries",
-        "isExtraImport": true,
-        "detail": "connections.postgresql.queries",
-        "documentation": {}
-    },
-    {
-        "label": "get_on_time_delivery",
-        "importPath": "connections.postgresql.queries",
-        "description": "connections.postgresql.queries",
-        "isExtraImport": true,
-        "detail": "connections.postgresql.queries",
-        "documentation": {}
-    },
-    {
-        "label": "get_scorecard_by_is_daily",
-        "importPath": "connections.postgresql.queries",
-        "description": "connections.postgresql.queries",
-        "isExtraImport": true,
-        "detail": "connections.postgresql.queries",
-        "documentation": {}
-    },
-    {
-        "label": "get_scorecard_by_is_month",
-        "importPath": "connections.postgresql.queries",
-        "description": "connections.postgresql.queries",
-        "isExtraImport": true,
-        "detail": "connections.postgresql.queries",
-        "documentation": {}
-    },
-    {
-        "label": "get_scorecard_by_is_year",
-        "importPath": "connections.postgresql.queries",
-        "description": "connections.postgresql.queries",
-        "isExtraImport": true,
-        "detail": "connections.postgresql.queries",
-        "documentation": {}
-    },
-    {
-        "label": "get_calls_summary",
-        "importPath": "connections.postgresql.queries",
-        "description": "connections.postgresql.queries",
-        "isExtraImport": true,
-        "detail": "connections.postgresql.queries",
-        "documentation": {}
-    },
-    {
-        "label": "get_customer_country",
-        "importPath": "connections.postgresql.queries",
-        "description": "connections.postgresql.queries",
-        "isExtraImport": true,
-        "detail": "connections.postgresql.queries",
-        "documentation": {}
-    },
-    {
-        "label": "get_vendors_country_brand",
-        "importPath": "connections.postgresql.queries",
-        "description": "connections.postgresql.queries",
-        "isExtraImport": true,
-        "detail": "connections.postgresql.queries",
-        "documentation": {}
-    },
-    {
-        "label": "get_vendors_customer_brand",
-        "importPath": "connections.postgresql.queries",
-        "description": "connections.postgresql.queries",
-        "isExtraImport": true,
-        "detail": "connections.postgresql.queries",
+        "detail": "features.operations.queries.guides",
         "documentation": {}
     },
     {
         "label": "get_helga_guides_query",
-        "importPath": "connections.postgresql.queries",
-        "description": "connections.postgresql.queries",
+        "importPath": "features.operations.queries.guides",
+        "description": "features.operations.queries.guides",
         "isExtraImport": true,
-        "detail": "connections.postgresql.queries",
+        "detail": "features.operations.queries.guides",
         "documentation": {}
     },
     {
-        "label": "get_vendors_customer_brand",
-        "importPath": "connections.postgresql.queries",
-        "description": "connections.postgresql.queries",
+        "label": "get_helga_guides_query",
+        "importPath": "features.operations.queries.guides",
+        "description": "features.operations.queries.guides",
         "isExtraImport": true,
-        "detail": "connections.postgresql.queries",
-        "documentation": {}
-    },
-    {
-        "label": "get_customer_country",
-        "importPath": "connections.postgresql.queries",
-        "description": "connections.postgresql.queries",
-        "isExtraImport": true,
-        "detail": "connections.postgresql.queries",
-        "documentation": {}
-    },
-    {
-        "label": "get_calls_summary",
-        "importPath": "connections.postgresql.queries",
-        "description": "connections.postgresql.queries",
-        "isExtraImport": true,
-        "detail": "connections.postgresql.queries",
+        "detail": "features.operations.queries.guides",
         "documentation": {}
     },
     {
@@ -1390,6 +1302,14 @@
         "description": "utils.transformations",
         "isExtraImport": true,
         "detail": "utils.transformations",
+        "documentation": {}
+    },
+    {
+        "label": "get_customer_imports_data",
+        "importPath": "features.operations.queries.imports",
+        "description": "features.operations.queries.imports",
+        "isExtraImport": true,
+        "detail": "features.operations.queries.imports",
         "documentation": {}
     },
     {
@@ -1401,19 +1321,19 @@
         "documentation": {}
     },
     {
-        "label": "build_imports_summary",
-        "importPath": "features.operations.domain.imports",
-        "description": "features.operations.domain.imports",
+        "label": "get_on_time_delivery",
+        "importPath": "features.operations.queries.otd",
+        "description": "features.operations.queries.otd",
         "isExtraImport": true,
-        "detail": "features.operations.domain.imports",
+        "detail": "features.operations.queries.otd",
         "documentation": {}
     },
     {
-        "label": "on_time_delivery_summary",
-        "importPath": "features.operations.domain.otd",
-        "description": "features.operations.domain.otd",
+        "label": "get_on_time_delivery",
+        "importPath": "features.operations.queries.otd",
+        "description": "features.operations.queries.otd",
         "isExtraImport": true,
-        "detail": "features.operations.domain.otd",
+        "detail": "features.operations.queries.otd",
         "documentation": {}
     },
     {
@@ -1522,58 +1442,10 @@
     },
     {
         "label": "get_op_so_data",
-        "importPath": "connections.netsuite.queries",
-        "description": "connections.netsuite.queries",
+        "importPath": "features.performance.queries.inside_sales",
+        "description": "features.performance.queries.inside_sales",
         "isExtraImport": true,
-        "detail": "connections.netsuite.queries",
-        "documentation": {}
-    },
-    {
-        "label": "get_bookings_data",
-        "importPath": "connections.netsuite.queries",
-        "description": "connections.netsuite.queries",
-        "isExtraImport": true,
-        "detail": "connections.netsuite.queries",
-        "documentation": {}
-    },
-    {
-        "label": "get_items_quoted_by_customer",
-        "importPath": "connections.netsuite.queries",
-        "description": "connections.netsuite.queries",
-        "isExtraImport": true,
-        "detail": "connections.netsuite.queries",
-        "documentation": {}
-    },
-    {
-        "label": "get_sold_items_by_period",
-        "importPath": "connections.netsuite.queries",
-        "description": "connections.netsuite.queries",
-        "isExtraImport": true,
-        "detail": "connections.netsuite.queries",
-        "documentation": {}
-    },
-    {
-        "label": "get_opportunities_data",
-        "importPath": "connections.netsuite.queries",
-        "description": "connections.netsuite.queries",
-        "isExtraImport": true,
-        "detail": "connections.netsuite.queries",
-        "documentation": {}
-    },
-    {
-        "label": "get_quotes_by_inside",
-        "importPath": "connections.netsuite.queries",
-        "description": "connections.netsuite.queries",
-        "isExtraImport": true,
-        "detail": "connections.netsuite.queries",
-        "documentation": {}
-    },
-    {
-        "label": "get_quotes_by_inside",
-        "importPath": "connections.netsuite.queries",
-        "description": "connections.netsuite.queries",
-        "isExtraImport": true,
-        "detail": "connections.netsuite.queries",
+        "detail": "features.performance.queries.inside_sales",
         "documentation": {}
     },
     {
@@ -1585,11 +1457,27 @@
         "documentation": {}
     },
     {
-        "label": "analyze_inside_sales",
-        "importPath": "features.performance.domain.inside_sales",
-        "description": "features.performance.domain.inside_sales",
+        "label": "get_scorecard_by_is_daily",
+        "importPath": "features.performance.queries.scorecard",
+        "description": "features.performance.queries.scorecard",
         "isExtraImport": true,
-        "detail": "features.performance.domain.inside_sales",
+        "detail": "features.performance.queries.scorecard",
+        "documentation": {}
+    },
+    {
+        "label": "get_scorecard_by_is_month",
+        "importPath": "features.performance.queries.scorecard",
+        "description": "features.performance.queries.scorecard",
+        "isExtraImport": true,
+        "detail": "features.performance.queries.scorecard",
+        "documentation": {}
+    },
+    {
+        "label": "get_scorecard_by_is_year",
+        "importPath": "features.performance.queries.scorecard",
+        "description": "features.performance.queries.scorecard",
+        "isExtraImport": true,
+        "detail": "features.performance.queries.scorecard",
         "documentation": {}
     },
     {
@@ -1609,11 +1497,35 @@
         "documentation": {}
     },
     {
-        "label": "finance_summary",
-        "importPath": "features.sales.domain.bookings",
-        "description": "features.sales.domain.bookings",
+        "label": "get_calls_summary",
+        "importPath": "features.sales.queries.activity",
+        "description": "features.sales.queries.activity",
         "isExtraImport": true,
-        "detail": "features.sales.domain.bookings",
+        "detail": "features.sales.queries.activity",
+        "documentation": {}
+    },
+    {
+        "label": "get_calls_summary",
+        "importPath": "features.sales.queries.activity",
+        "description": "features.sales.queries.activity",
+        "isExtraImport": true,
+        "detail": "features.sales.queries.activity",
+        "documentation": {}
+    },
+    {
+        "label": "get_calls_summary",
+        "importPath": "features.sales.queries.activity",
+        "description": "features.sales.queries.activity",
+        "isExtraImport": true,
+        "detail": "features.sales.queries.activity",
+        "documentation": {}
+    },
+    {
+        "label": "get_bookings_data",
+        "importPath": "features.sales.queries.bookings",
+        "description": "features.sales.queries.bookings",
+        "isExtraImport": true,
+        "detail": "features.sales.queries.bookings",
         "documentation": {}
     },
     {
@@ -1622,6 +1534,22 @@
         "description": "features.sales.domain.bookings",
         "isExtraImport": true,
         "detail": "features.sales.domain.bookings",
+        "documentation": {}
+    },
+    {
+        "label": "get_items_quoted_by_customer",
+        "importPath": "features.sales.queries.items",
+        "description": "features.sales.queries.items",
+        "isExtraImport": true,
+        "detail": "features.sales.queries.items",
+        "documentation": {}
+    },
+    {
+        "label": "get_sold_items_by_period",
+        "importPath": "features.sales.queries.items",
+        "description": "features.sales.queries.items",
+        "isExtraImport": true,
+        "detail": "features.sales.queries.items",
         "documentation": {}
     },
     {
@@ -1657,35 +1585,11 @@
         "documentation": {}
     },
     {
-        "label": "quoted_brands_recurrence_metrics",
-        "importPath": "features.sales.domain.items",
-        "description": "features.sales.domain.items",
+        "label": "get_opportunities_data",
+        "importPath": "features.sales.queries.opportunities",
+        "description": "features.sales.queries.opportunities",
         "isExtraImport": true,
-        "detail": "features.sales.domain.items",
-        "documentation": {}
-    },
-    {
-        "label": "sold_brands_recurrence_metrics",
-        "importPath": "features.sales.domain.items",
-        "description": "features.sales.domain.items",
-        "isExtraImport": true,
-        "detail": "features.sales.domain.items",
-        "documentation": {}
-    },
-    {
-        "label": "summarize_items_quoted",
-        "importPath": "features.sales.domain.items",
-        "description": "features.sales.domain.items",
-        "isExtraImport": true,
-        "detail": "features.sales.domain.items",
-        "documentation": {}
-    },
-    {
-        "label": "summarize_sold_items",
-        "importPath": "features.sales.domain.items",
-        "description": "features.sales.domain.items",
-        "isExtraImport": true,
-        "detail": "features.sales.domain.items",
+        "detail": "features.sales.queries.opportunities",
         "documentation": {}
     },
     {
@@ -1697,11 +1601,27 @@
         "documentation": {}
     },
     {
-        "label": "opportunity_summary",
-        "importPath": "features.sales.domain.opportunities",
-        "description": "features.sales.domain.opportunities",
+        "label": "get_quotes_by_inside",
+        "importPath": "features.sales.queries.quotes",
+        "description": "features.sales.queries.quotes",
         "isExtraImport": true,
-        "detail": "features.sales.domain.opportunities",
+        "detail": "features.sales.queries.quotes",
+        "documentation": {}
+    },
+    {
+        "label": "get_quotes_by_inside",
+        "importPath": "features.sales.queries.quotes",
+        "description": "features.sales.queries.quotes",
+        "isExtraImport": true,
+        "detail": "features.sales.queries.quotes",
+        "documentation": {}
+    },
+    {
+        "label": "get_quotes_by_inside",
+        "importPath": "features.sales.queries.quotes",
+        "description": "features.sales.queries.quotes",
+        "isExtraImport": true,
+        "detail": "features.sales.queries.quotes",
         "documentation": {}
     },
     {
@@ -1713,27 +1633,43 @@
         "documentation": {}
     },
     {
-        "label": "general_summary_is_q_so",
-        "importPath": "features.sales.domain.quotes",
-        "description": "features.sales.domain.quotes",
+        "label": "get_customer_country",
+        "importPath": "features.sales.queries.vendor_recommendation",
+        "description": "features.sales.queries.vendor_recommendation",
         "isExtraImport": true,
-        "detail": "features.sales.domain.quotes",
+        "detail": "features.sales.queries.vendor_recommendation",
         "documentation": {}
     },
     {
-        "label": "summarize_is_quotes",
-        "importPath": "features.sales.domain.quotes",
-        "description": "features.sales.domain.quotes",
+        "label": "get_vendors_country_brand",
+        "importPath": "features.sales.queries.vendor_recommendation",
+        "description": "features.sales.queries.vendor_recommendation",
         "isExtraImport": true,
-        "detail": "features.sales.domain.quotes",
+        "detail": "features.sales.queries.vendor_recommendation",
         "documentation": {}
     },
     {
-        "label": "analize_hr_desviado",
-        "importPath": "features.sales.domain.vendor_recommendation",
-        "description": "features.sales.domain.vendor_recommendation",
+        "label": "get_vendors_customer_brand",
+        "importPath": "features.sales.queries.vendor_recommendation",
+        "description": "features.sales.queries.vendor_recommendation",
         "isExtraImport": true,
-        "detail": "features.sales.domain.vendor_recommendation",
+        "detail": "features.sales.queries.vendor_recommendation",
+        "documentation": {}
+    },
+    {
+        "label": "get_customer_country",
+        "importPath": "features.sales.queries.vendor_recommendation",
+        "description": "features.sales.queries.vendor_recommendation",
+        "isExtraImport": true,
+        "detail": "features.sales.queries.vendor_recommendation",
+        "documentation": {}
+    },
+    {
+        "label": "get_vendors_customer_brand",
+        "importPath": "features.sales.queries.vendor_recommendation",
+        "description": "features.sales.queries.vendor_recommendation",
+        "isExtraImport": true,
+        "detail": "features.sales.queries.vendor_recommendation",
         "documentation": {}
     },
     {
@@ -2195,101 +2131,11 @@
         "documentation": {}
     },
     {
-        "label": "get_quotes_by_inside",
-        "kind": 2,
-        "importPath": "connections.netsuite.queries",
-        "description": "connections.netsuite.queries",
-        "peekOfCode": "def get_quotes_by_inside(initial_date: str, final_date: str, inside_sales: str, customer_name: str) -> str:\n    return f\"\"\"\nSELECT \n    TO_CHAR(b.trandate, 'YYYY-MM-DD') AS CreateDate,\n    TO_CHAR(b.duedate, 'YYYY-MM-DD') AS ExpirationDate,\n    ts.name AS Status,\n    e.firstname || ' ' || e.lastname AS InsideSale,\n    b.TRANID AS QuoteNumber,\n    BUILTIN.DF(b.ENTITY) AS Customer,\n    BUILTIN.DF(a.SUBSIDIARY) AS Subsidiary,",
-        "detail": "connections.netsuite.queries",
-        "documentation": {}
-    },
-    {
-        "label": "get_sales_orders_by_inside",
-        "kind": 2,
-        "importPath": "connections.netsuite.queries",
-        "description": "connections.netsuite.queries",
-        "peekOfCode": "def get_sales_orders_by_inside(initial_date: str, final_date: str, inside_sales: str) -> str:\n    return f\"\"\"\nSELECT\n    TO_CHAR(a.trandate, 'YYYY-MM-DD') AS CreateDate,\n    ts.name AS Status,\n    e.firstname || ' ' || e.lastname AS InsideSale,\n    a.TRANID AS SO,\n    BUILTIN.DF(a.ENTITY) AS Customer,\n    BUILTIN.DF(b.Subsidiary) AS Subsidiary,\n    CASE ",
-        "detail": "connections.netsuite.queries",
-        "documentation": {}
-    },
-    {
-        "label": "get_bookings_by_period",
-        "kind": 2,
-        "importPath": "connections.netsuite.queries",
-        "description": "connections.netsuite.queries",
-        "peekOfCode": "def get_bookings_by_period(initial_date: str, final_date: str) -> str:\n    return f\"\"\"\nSELECT\n    TO_CHAR(t.trandate, 'YYYY-MM') AS period,\n    BUILTIN.DF(csr.subsidiary) AS subsidiary,\n    BUILTIN.DF(t.entity) AS customer,\n    SUM(t.foreigntotal * t.exchangerate) AS gross_usd,\n    SUM((t.foreigntotal - NVL(t.taxtotal, 0)) * t.exchangerate) AS net_usd,\n    SUM(t.custbody_items_gross_profit_amount_usd) AS gross_margin,\n    ROUND(AVG(t.custbody_items_g_profit_pc_vrq_cost), 2) AS gross_margin_pct,",
-        "detail": "connections.netsuite.queries",
-        "documentation": {}
-    },
-    {
-        "label": "get_bookings_data",
-        "kind": 2,
-        "importPath": "connections.netsuite.queries",
-        "description": "connections.netsuite.queries",
-        "peekOfCode": "def get_bookings_data(initial_date: str, final_date: str, customer_name: str, inside_sales: str) -> str:\n    return f\"\"\"\n    SELECT\n\tt.tranid AS so_number,\n\tts.name AS status,\n\tTO_CHAR(t.trandate, 'YYYY-MM-DD') AS date,\n    TO_CHAR(t.trandate, 'YYYY-MM') AS period,\n    CASE \n    \tWHEN csr.subsidiary = 5 AND t.custbody_transaccion_chile = 'T' THEN 'IDICO Chile'\n    \tELSE BUILTIN.DF(csr.subsidiary)",
-        "detail": "connections.netsuite.queries",
-        "documentation": {}
-    },
-    {
-        "label": "get_items_quoted_by_customer",
-        "kind": 2,
-        "importPath": "connections.netsuite.queries",
-        "description": "connections.netsuite.queries",
-        "peekOfCode": "def get_items_quoted_by_customer(initial_date: str, final_date: str, customer_name: str, inside_sales: str) -> str:\n    return f\"\"\"\nSELECT \n\tBUILTIN.DF(t.entity) AS customer,\n\tt.tranid AS quote,\n\tBUILTIN.DF(t.status) AS status,\n\tt.trandate AS date,\n    e.firstname || ' ' || e.lastname AS inside_sales,\n\tBUILTIN.DF(tl.item) AS item,\n    CASE ",
-        "detail": "connections.netsuite.queries",
-        "documentation": {}
-    },
-    {
-        "label": "get_opportunities_data",
-        "kind": 2,
-        "importPath": "connections.netsuite.queries",
-        "description": "connections.netsuite.queries",
-        "peekOfCode": "def get_opportunities_data(initial_date: str, final_date: str, inside_sales: str, customer_name: str) -> str:\n    return f\"\"\"\nSELECT \n\top.id,\n\top.tranid AS op_number,\n\tTO_CHAR(op.trandate, 'YYYY-MM-DD') AS tran_date,\n\tTO_CHAR(op.expectedclosedate, 'YYYY-MM-DD') AS expected_close_date,\n\tBUILTIN.DF(op.entity) AS customer,\n\tBUILTIN.DF(csr.subsidiary) AS subsidiary,\n\tts.name AS status,",
-        "detail": "connections.netsuite.queries",
-        "documentation": {}
-    },
-    {
-        "label": "get_op_so_data",
-        "kind": 2,
-        "importPath": "connections.netsuite.queries",
-        "description": "connections.netsuite.queries",
-        "peekOfCode": "def get_op_so_data(initial_date: str, final_date: str) -> str:\n    return f\"\"\"\nSELECT\n\top.tranid AS op_number,\n\tTO_CHAR(op.trandate, 'YYYY-MM-DD') as op_date,\n\tops.name AS op_status,\n\te.firstname || ' ' || e.lastname AS inside_sales,\n\tBUILTIN.DF(op.entity) AS customer,\n\tq.tranid AS q_number,\n\tTO_CHAR(q.trandate, 'YYYY-MM-DD') as q_date,",
-        "detail": "connections.netsuite.queries",
-        "documentation": {}
-    },
-    {
-        "label": "get_sold_items_by_period",
-        "kind": 2,
-        "importPath": "connections.netsuite.queries",
-        "description": "connections.netsuite.queries",
-        "peekOfCode": "def get_sold_items_by_period(initial_date: str, final_date: str, customer_name: str, inside_sales: str) -> str:\n    return f\"\"\"\nSELECT \n\tBUILTIN.DF(t.entity) AS customer,\n\tt.tranid AS quote,\n\tts.name AS status,\n\tTO_CHAR(t.trandate, 'YYYY-MM-DD') AS date,\n    e.firstname || ' ' || e.lastname AS inside_sales,\n\tBUILTIN.DF(tl.item) AS item,\n\tSUBSTR(i.purchasedescription, 1, 60) AS item_description,",
-        "detail": "connections.netsuite.queries",
-        "documentation": {}
-    },
-    {
-        "label": "\tt.type",
-        "kind": 5,
-        "importPath": "connections.netsuite.queries",
-        "description": "connections.netsuite.queries",
-        "peekOfCode": "\tt.type = 'Estimate'\n\tAND (\n        '{customer_name}' IS NULL\n        OR '{customer_name}' = ''\n        OR BUILTIN.DF(t.entity) LIKE '%' || '{customer_name}' || '%'\n    )\n    AND (\n        '{inside_sales}' IS NULL\n        OR '{inside_sales}' = ''\n        OR (e.firstname || ' ' || e.lastname) LIKE '%' || '{inside_sales}' || '%'",
-        "detail": "connections.netsuite.queries",
-        "documentation": {}
-    },
-    {
-        "label": "\tt.type",
-        "kind": 5,
-        "importPath": "connections.netsuite.queries",
-        "description": "connections.netsuite.queries",
-        "peekOfCode": "\tt.type = 'SalesOrd'\n\tAND (\n        '{customer_name}' IS NULL\n        OR '{customer_name}'= ''\n        OR BUILTIN.DF(t.entity) LIKE '%' || '{customer_name}' || '%'\n    )\n    AND (\n        '{inside_sales}' IS NULL\n        OR '{inside_sales}' = ''\n        OR (e.firstname || ' ' || e.lastname) LIKE '%' || '{inside_sales}' || '%'",
-        "detail": "connections.netsuite.queries",
-        "documentation": {}
-    },
-    {
         "label": "execute_pg_query",
         "kind": 2,
         "importPath": "connections.postgresql.client",
         "description": "connections.postgresql.client",
-        "peekOfCode": "def execute_pg_query(sql: str) -> List[Tuple[Any, ...]]:\n    \"\"\"\n    Ejecuta una consulta SQL en PostgreSQL y devuelve los resultados.\n    - Si la consulta es un SELECT, devuelve (columns, rows).\n    - Si la consulta no devuelve filas (INSERT/UPDATE/DELETE), devuelve ([], []).\n    Los parámetros de conexión se leen de variables de entorno:\n    PGHOST_DEV, PGPORT, PGDATABASE, PGUSER, PGPASSWORD.\n    \"\"\"\n    host = os.getenv(\"PGHOST\", \"localhost\")\n    port = os.getenv(\"PGPORT\", \"5432\")",
+        "peekOfCode": "def execute_pg_query(sql: str, params: Optional[tuple | list] = None) -> List[Tuple[Any, ...]]:\n    \"\"\"\n    Ejecuta una consulta SQL en PostgreSQL y devuelve los resultados.\n    - Si la consulta es un SELECT, devuelve (columns, rows).\n    - Si la consulta no devuelve filas (INSERT/UPDATE/DELETE), devuelve ([], []).\n    Los parámetros de conexión se leen de variables de entorno:\n    PGHOST_DEV, PGPORT, PGDATABASE, PGUSER, PGPASSWORD.\n    \"\"\"\n    host = os.getenv(\"PGHOST\", \"localhost\")\n    port = os.getenv(\"PGPORT\", \"5432\")",
         "detail": "connections.postgresql.client",
         "documentation": {}
     },
@@ -2298,98 +2144,8 @@
         "kind": 2,
         "importPath": "connections.postgresql.client",
         "description": "connections.postgresql.client",
-        "peekOfCode": "def execute_pg_query_dev(sql: str) -> List[Tuple[Any, ...]]:\n    \"\"\"\n    Ejecuta una consulta SQL en PostgreSQL y devuelve los resultados.\n    - Si la consulta es un SELECT, devuelve (columns, rows).\n    - Si la consulta no devuelve filas (INSERT/UPDATE/DELETE), devuelve ([], []).\n    Los parámetros de conexión se leen de variables de entorno:\n    PGHOST_DEV, PGPORT, PGDATABASE, PGUSER, PGPASSWORD.\n    \"\"\"\n    host = os.getenv(\"PGHOST_DEV\", \"localhost\")\n    port = os.getenv(\"PGPORT\", \"5432\")",
+        "peekOfCode": "def execute_pg_query_dev(sql: str, params: Optional[tuple | list] = None) -> List[Tuple[Any, ...]]:\n    \"\"\"\n    Ejecuta una consulta SQL en PostgreSQL y devuelve los resultados.\n    - Si la consulta es un SELECT, devuelve (columns, rows).\n    - Si la consulta no devuelve filas (INSERT/UPDATE/DELETE), devuelve ([], []).\n    Los parámetros de conexión se leen de variables de entorno:\n    PGHOST_DEV, PGPORT, PGDATABASE, PGUSER, PGPASSWORD.\n    \"\"\"\n    host = os.getenv(\"PGHOST_DEV\", \"localhost\")\n    port = os.getenv(\"PGPORT\", \"5432\")",
         "detail": "connections.postgresql.client",
-        "documentation": {}
-    },
-    {
-        "label": "get_helga_guides_query",
-        "kind": 2,
-        "importPath": "connections.postgresql.queries",
-        "description": "connections.postgresql.queries",
-        "peekOfCode": "def get_helga_guides_query(po: str | None, status: str | None, service: str | None) -> str:\n    where_clauses = []\n    if status:\n        where_clauses.append(\"gh.status_envio ILIKE '%{}%'\".format(status))\n    else:\n        where_clauses.append(\"gh.status_envio <> 'GUIA ENTREGADA'\")   \n    if po:\n        where_clauses.append(\"gh.po ILIKE '%{}%'\".format(po))\n    if service:\n        where_clauses.append(\"gh.servicio ILIKE '%{}%'\".format(service))",
-        "detail": "connections.postgresql.queries",
-        "documentation": {}
-    },
-    {
-        "label": "get_on_time_delivery",
-        "kind": 2,
-        "importPath": "connections.postgresql.queries",
-        "description": "connections.postgresql.queries",
-        "peekOfCode": "def get_on_time_delivery(initial_date: str, final_date: str, so_number: str = None) -> str:\n    \"\"\"\n    Devuelve una consulta SQL para obtener el tiempo de entrega de las órdenes de compra en PostgreSQL.\n    \"\"\"\n    if so_number:\n        return f\"\"\"\n        SELECT *\n        FROM ods.analytics.tableau_otd otd\n        WHERE otd.so_doc_number = '{so_number}';\n        \"\"\"",
-        "detail": "connections.postgresql.queries",
-        "documentation": {}
-    },
-    {
-        "label": "get_scorecard_by_is_month",
-        "kind": 2,
-        "importPath": "connections.postgresql.queries",
-        "description": "connections.postgresql.queries",
-        "peekOfCode": "def get_scorecard_by_is_month(inside_sales: str = None) -> str:\n    \"\"\"\n    Devuelve una consulta SQL para obtener el scorecard por IS en PostgreSQL.\n    \"\"\"\n    if inside_sales:\n        return f\"\"\"\n        SELECT * FROM ods.analytics.tableau_scorecard_by_inside_mensual WHERE sales_rep = '{inside_sales}';\n        \"\"\"\n    return \"\"\"\n    SELECT * FROM ods.analytics.tableau_scorecard_by_inside_mensual;",
-        "detail": "connections.postgresql.queries",
-        "documentation": {}
-    },
-    {
-        "label": "get_scorecard_by_is_daily",
-        "kind": 2,
-        "importPath": "connections.postgresql.queries",
-        "description": "connections.postgresql.queries",
-        "peekOfCode": "def get_scorecard_by_is_daily(inside_sales: str = None) -> str:\n    \"\"\"\n    Devuelve una consulta SQL para obtener el scorecard por IS en PostgreSQL.\n    \"\"\"\n    if inside_sales:\n        return f\"\"\"\n        SELECT * FROM ods.analytics.tableau_scorecard_by_inside_diario WHERE sales_rep = '{inside_sales}';\n        \"\"\"\n    return \"\"\"\n    SELECT * FROM ods.analytics.tableau_scorecard_by_inside_diario;",
-        "detail": "connections.postgresql.queries",
-        "documentation": {}
-    },
-    {
-        "label": "get_scorecard_by_is_year",
-        "kind": 2,
-        "importPath": "connections.postgresql.queries",
-        "description": "connections.postgresql.queries",
-        "peekOfCode": "def get_scorecard_by_is_year(inside_sales: str = None) -> str:\n    \"\"\"\n    Devuelve una consulta SQL para obtener el scorecard por IS en PostgreSQL.\n    \"\"\"\n    if inside_sales:\n        return f\"\"\"\n        SELECT * FROM ods.analytics.tableau_scorecard_by_inside_anual WHERE sales_rep = '{inside_sales}';\n        \"\"\"\n    return \"\"\"\n    SELECT * FROM ods.analytics.tableau_scorecard_by_inside_anual;",
-        "detail": "connections.postgresql.queries",
-        "documentation": {}
-    },
-    {
-        "label": "get_customer_imports_data",
-        "kind": 2,
-        "importPath": "connections.postgresql.queries",
-        "description": "connections.postgresql.queries",
-        "peekOfCode": "def get_customer_imports_data(customer_name: str) -> str:\n    \"\"\"\n    Devuelve una consulta SQL para obtener las importaciones de un cliente específico en PostgreSQL.\n    \"\"\"\n    return f\"\"\"\n    SELECT * FROM ods.analytics.datasur WHERE importador LIKE '%{customer_name}%';\n    \"\"\"\ndef get_vendors_customer_brand(customer_name: str, brand: str) -> str:\n    \"\"\"\n    Devuelve una consulta SQL para obtener la tasa de acierto de desvío para un cliente y marca específicos en PostgreSQL.",
-        "detail": "connections.postgresql.queries",
-        "documentation": {}
-    },
-    {
-        "label": "get_vendors_customer_brand",
-        "kind": 2,
-        "importPath": "connections.postgresql.queries",
-        "description": "connections.postgresql.queries",
-        "peekOfCode": "def get_vendors_customer_brand(customer_name: str, brand: str) -> str:\n    \"\"\"\n    Devuelve una consulta SQL para obtener la tasa de acierto de desvío para un cliente y marca específicos en PostgreSQL.\n    \"\"\"\n    return f\"\"\"\n    SELECT * FROM ods.analytics.hr_cus_brand_consolidado \n    WHERE customer_name LIKE '%' || UPPER('{customer_name}') || '%'\n    AND brand LIKE '%' || UPPER('{brand}') || '%'\n    AND probabilidad > 0\n    ORDER BY ",
-        "detail": "connections.postgresql.queries",
-        "documentation": {}
-    },
-    {
-        "label": "get_vendors_country_brand",
-        "kind": 2,
-        "importPath": "connections.postgresql.queries",
-        "description": "connections.postgresql.queries",
-        "peekOfCode": "def get_vendors_country_brand(country: str, brand: str) -> str:\n    \"\"\"\n    Devuelve una consulta SQL para obtener la tasa de acierto de desvío para un país y marca específicos en PostgreSQL.\n    \"\"\"\n    return f\"\"\"\n    SELECT * FROM ods.analytics.hr_country_brand_consolidado\n    WHERE country LIKE '%' || UPPER('{country}') || '%'\n    AND brand LIKE '%' || UPPER('{brand}') || '%'\n    ORDER BY \n        country ASC,",
-        "detail": "connections.postgresql.queries",
-        "documentation": {}
-    },
-    {
-        "label": "get_customer_country",
-        "kind": 2,
-        "importPath": "connections.postgresql.queries",
-        "description": "connections.postgresql.queries",
-        "peekOfCode": "def get_customer_country(customer_name: str) -> str:\n    \"\"\"\n    Devuelve una consulta SQL para obtener el país de un cliente específico en PostgreSQL.\n    \"\"\"\n    return f\"\"\"\n    SELECT country FROM ods.analytics.hr_cus_brand_consolidado\n    WHERE customer_name LIKE '%' || UPPER('{customer_name}') || '%'\n    LIMIT 1;\n    \"\"\"\ndef get_calls_summary(start_date: str, final_date: str, customer_name: str = '', organizer: str = '', subject: str = '') -> str:",
-        "detail": "connections.postgresql.queries",
-        "documentation": {}
-    },
-    {
-        "label": "get_calls_summary",
-        "kind": 2,
-        "importPath": "connections.postgresql.queries",
-        "description": "connections.postgresql.queries",
-        "peekOfCode": "def get_calls_summary(start_date: str, final_date: str, customer_name: str = '', organizer: str = '', subject: str = '') -> str:\n    \"\"\"\n    Devuelve una consulta SQL para obtener el resumen de llamadas entre dos fechas específicas en PostgreSQL.\n    \"\"\"\n    return f\"\"\"\n    SELECT\n    activity_date,\n    subject,\n    account,\n    organizer,",
-        "detail": "connections.postgresql.queries",
         "documentation": {}
     },
     {
@@ -2465,11 +2221,38 @@
         "documentation": {}
     },
     {
+        "label": "get_helga_guides_query",
+        "kind": 2,
+        "importPath": "features.operations.queries.guides",
+        "description": "features.operations.queries.guides",
+        "peekOfCode": "def get_helga_guides_query(po: str | None, status: str | None, service: str | None) -> tuple[str, list[str]]:\n    where_clauses = []\n    params: list[str] = []\n    if status:\n        where_clauses.append(\"gh.status_envio ILIKE %s\")\n        params.append(f\"%{status}%\")\n    else:\n        where_clauses.append(\"gh.status_envio <> 'GUIA ENTREGADA'\")\n    if po:\n        where_clauses.append(\"gh.po ILIKE %s\")",
+        "detail": "features.operations.queries.guides",
+        "documentation": {}
+    },
+    {
+        "label": "get_customer_imports_data",
+        "kind": 2,
+        "importPath": "features.operations.queries.imports",
+        "description": "features.operations.queries.imports",
+        "peekOfCode": "def get_customer_imports_data(customer_name: str) -> tuple[str, list[str]]:\n    return \"\"\"\n    SELECT * FROM ods.analytics.datasur WHERE importador LIKE %s;\n    \"\"\", [f\"%{customer_name}%\"]",
+        "detail": "features.operations.queries.imports",
+        "documentation": {}
+    },
+    {
+        "label": "get_on_time_delivery",
+        "kind": 2,
+        "importPath": "features.operations.queries.otd",
+        "description": "features.operations.queries.otd",
+        "peekOfCode": "def get_on_time_delivery(initial_date: str, final_date: str, so_number: str = None) -> tuple[str, list[str]]:\n    if so_number:\n        return \"\"\"\n        SELECT *\n        FROM ods.analytics.tableau_otd otd\n        WHERE otd.so_doc_number = %s;\n        \"\"\", [so_number]\n    return \"\"\"\n    SELECT\n    *",
+        "detail": "features.operations.queries.otd",
+        "documentation": {}
+    },
+    {
         "label": "execute",
         "kind": 2,
         "importPath": "features.operations.use_cases.guides",
         "description": "features.operations.use_cases.guides",
-        "peekOfCode": "def execute(po: Optional[str], status: Optional[str], service: Optional[str]) -> Dict[str, Any]:\n    sql = get_helga_guides_query(po=po, status=status, service=service)\n    columns, rows = execute_pg_query(sql)\n    dataset_reference = save_result_to_json(columns, rows, \"List of guides pending for delivery\", name=\"guides_oneding_delivery\")\n    results = tuple_to_dataframe(columns, rows).to_dict(orient=\"records\")\n    return build_tool_response(\n        tool_name=\"get_helga_guides\",\n        summary={\"result_count\": len(results)},\n        filters={\"po\": po, \"status\": status, \"service\": service},\n        source_systems=[\"postgresql\"],",
+        "peekOfCode": "def execute(po: Optional[str], status: Optional[str], service: Optional[str]) -> Dict[str, Any]:\n    sql, params = get_helga_guides_query(po=po, status=status, service=service)\n    columns, rows = execute_pg_query(sql, params)\n    dataset_reference = save_result_to_json(columns, rows, \"List of guides pending for delivery\", name=\"guides_oneding_delivery\")\n    results = tuple_to_dataframe(columns, rows).to_dict(orient=\"records\")\n    return build_tool_response(\n        tool_name=\"get_helga_guides\",\n        summary={\"result_count\": len(results)},\n        filters={\"po\": po, \"status\": status, \"service\": service},\n        source_systems=[\"postgresql\"],",
         "detail": "features.operations.use_cases.guides",
         "documentation": {}
     },
@@ -2478,7 +2261,7 @@
         "kind": 2,
         "importPath": "features.operations.use_cases.imports",
         "description": "features.operations.use_cases.imports",
-        "peekOfCode": "def execute(customer_name: str) -> Dict[str, Any]:\n    sql = get_customer_imports_data(customer_name)\n    columns, rows = execute_pg_query_dev(sql)\n    df = tuple_to_dataframe(columns, rows)\n    summary = build_imports_summary(df)\n    return build_tool_response(\n        tool_name=\"get_customer_imports\",\n        summary=summary,\n        filters={\"customer_name\": customer_name},\n        source_systems=[\"postgresql\"],",
+        "peekOfCode": "def execute(customer_name: str) -> Dict[str, Any]:\n    sql, params = get_customer_imports_data(customer_name)\n    columns, rows = execute_pg_query_dev(sql, params)\n    df = tuple_to_dataframe(columns, rows)\n    summary = build_imports_summary(df)\n    return build_tool_response(\n        tool_name=\"get_customer_imports\",\n        summary=summary,\n        filters={\"customer_name\": customer_name},\n        source_systems=[\"postgresql\"],",
         "detail": "features.operations.use_cases.imports",
         "documentation": {}
     },
@@ -2487,17 +2270,8 @@
         "kind": 2,
         "importPath": "features.operations.use_cases.otd",
         "description": "features.operations.use_cases.otd",
-        "peekOfCode": "def execute(initial_date: str, final_date: str, so_number: Optional[str]) -> Dict[str, Any]:\n    sql = get_on_time_delivery(initial_date, final_date, so_number)\n    columns, rows = execute_pg_query_dev(sql)\n    dataset_reference = save_result_to_json(columns, rows, \"The full items delivery by period\", name=\"otd_data\")\n    df = tuple_to_dataframe(columns, rows)\n    results = on_time_delivery_summary(df)\n    if so_number:\n        results[\"so_details\"] = df.to_dict(orient=\"records\")\n    return build_tool_response(\n        tool_name=\"get_otd_indicators\",",
+        "peekOfCode": "def execute(initial_date: str, final_date: str, so_number: Optional[str]) -> Dict[str, Any]:\n    sql, params = get_on_time_delivery(initial_date, final_date, so_number)\n    columns, rows = execute_pg_query_dev(sql, params)\n    dataset_reference = save_result_to_json(columns, rows, \"The full items delivery by period\", name=\"otd_data\")\n    df = tuple_to_dataframe(columns, rows)\n    results = on_time_delivery_summary(df)\n    if so_number:\n        results[\"so_details\"] = df.to_dict(orient=\"records\")\n    return build_tool_response(\n        tool_name=\"get_otd_indicators\",",
         "detail": "features.operations.use_cases.otd",
-        "documentation": {}
-    },
-    {
-        "label": "__all__",
-        "kind": 5,
-        "importPath": "features.operations.analytics",
-        "description": "features.operations.analytics",
-        "peekOfCode": "__all__ = [\"on_time_delivery_summary\", \"build_imports_summary\"]",
-        "detail": "features.operations.analytics",
         "documentation": {}
     },
     {
@@ -2537,11 +2311,47 @@
         "documentation": {}
     },
     {
+        "label": "get_op_so_data",
+        "kind": 2,
+        "importPath": "features.performance.queries.inside_sales",
+        "description": "features.performance.queries.inside_sales",
+        "peekOfCode": "def get_op_so_data(initial_date: str, final_date: str) -> tuple[str, list[str]]:\n    sql = \"\"\"\nSELECT\n\top.tranid AS op_number,\n\tTO_CHAR(op.trandate, 'YYYY-MM-DD') as op_date,\n\tops.name AS op_status,\n\te.firstname || ' ' || e.lastname AS inside_sales,\n\tBUILTIN.DF(op.entity) AS customer,\n\tq.tranid AS q_number,\n\tTO_CHAR(q.trandate, 'YYYY-MM-DD') as q_date,",
+        "detail": "features.performance.queries.inside_sales",
+        "documentation": {}
+    },
+    {
+        "label": "get_scorecard_by_is_month",
+        "kind": 2,
+        "importPath": "features.performance.queries.scorecard",
+        "description": "features.performance.queries.scorecard",
+        "peekOfCode": "def get_scorecard_by_is_month(inside_sales: str = None) -> tuple[str, list[str]]:\n    if inside_sales:\n        return \"\"\"\n        SELECT * FROM ods.analytics.tableau_scorecard_by_inside_mensual WHERE sales_rep = %s;\n        \"\"\", [inside_sales]\n    return \"\"\"\n    SELECT * FROM ods.analytics.tableau_scorecard_by_inside_mensual;\n    \"\"\", []\ndef get_scorecard_by_is_daily(inside_sales: str = None) -> tuple[str, list[str]]:\n    if inside_sales:",
+        "detail": "features.performance.queries.scorecard",
+        "documentation": {}
+    },
+    {
+        "label": "get_scorecard_by_is_daily",
+        "kind": 2,
+        "importPath": "features.performance.queries.scorecard",
+        "description": "features.performance.queries.scorecard",
+        "peekOfCode": "def get_scorecard_by_is_daily(inside_sales: str = None) -> tuple[str, list[str]]:\n    if inside_sales:\n        return \"\"\"\n        SELECT * FROM ods.analytics.tableau_scorecard_by_inside_diario WHERE sales_rep = %s;\n        \"\"\", [inside_sales]\n    return \"\"\"\n    SELECT * FROM ods.analytics.tableau_scorecard_by_inside_diario;\n    \"\"\", []\ndef get_scorecard_by_is_year(inside_sales: str = None) -> tuple[str, list[str]]:\n    if inside_sales:",
+        "detail": "features.performance.queries.scorecard",
+        "documentation": {}
+    },
+    {
+        "label": "get_scorecard_by_is_year",
+        "kind": 2,
+        "importPath": "features.performance.queries.scorecard",
+        "description": "features.performance.queries.scorecard",
+        "peekOfCode": "def get_scorecard_by_is_year(inside_sales: str = None) -> tuple[str, list[str]]:\n    if inside_sales:\n        return \"\"\"\n        SELECT * FROM ods.analytics.tableau_scorecard_by_inside_anual WHERE sales_rep = %s;\n        \"\"\", [inside_sales]\n    return \"\"\"\n    SELECT * FROM ods.analytics.tableau_scorecard_by_inside_anual;\n    \"\"\", []",
+        "detail": "features.performance.queries.scorecard",
+        "documentation": {}
+    },
+    {
         "label": "execute",
         "kind": 2,
         "importPath": "features.performance.use_cases.inside_sales_report",
         "description": "features.performance.use_cases.inside_sales_report",
-        "peekOfCode": "def execute(initial_date: str, final_date: str) -> Dict[str, Any]:\n    sql = get_op_so_data(initial_date, final_date)\n    conn = NetSuiteConnection()\n    with conn.managed() as ns:\n        columns, rows = ns.execute_query(sql)\n    dataset_reference = save_result_to_json(columns, rows, f\"Inside Sales Performance dataset between {initial_date} and {final_date}\", name=\"op_to_so\")\n    df = tuple_to_dataframe(columns, rows)\n    results = analyze_inside_sales(df)\n    results.pop(\"full_data_reference\", None)\n    return build_tool_response(",
+        "peekOfCode": "def execute(initial_date: str, final_date: str) -> Dict[str, Any]:\n    sql, params = get_op_so_data(initial_date, final_date)\n    conn = NetSuiteConnection()\n    with conn.managed() as ns:\n        columns, rows = ns.execute_query(sql, params)\n    dataset_reference = save_result_to_json(columns, rows, f\"Inside Sales Performance dataset between {initial_date} and {final_date}\", name=\"op_to_so\")\n    df = tuple_to_dataframe(columns, rows)\n    results = analyze_inside_sales(df)\n    results.pop(\"full_data_reference\", None)\n    return build_tool_response(",
         "detail": "features.performance.use_cases.inside_sales_report",
         "documentation": {}
     },
@@ -2550,17 +2360,8 @@
         "kind": 2,
         "importPath": "features.performance.use_cases.scorecard",
         "description": "features.performance.use_cases.scorecard",
-        "peekOfCode": "def execute(inside_sales: Optional[str]) -> Dict[str, Any]:\n    sql_monthly = get_scorecard_by_is_month(inside_sales=inside_sales)\n    columns_monthly, rows_monthly = execute_pg_query_dev(sql_monthly)\n    monthly_data = tuple_to_dataframe(columns_monthly, rows_monthly).to_dict(orient=\"records\")\n    sql_daily = get_scorecard_by_is_daily(inside_sales=inside_sales)\n    columns_daily, rows_daily = execute_pg_query_dev(sql_daily)\n    daily_data = tuple_to_dataframe(columns_daily, rows_daily).to_dict(orient=\"records\")\n    sql_yearly = get_scorecard_by_is_year(inside_sales=inside_sales)\n    columns_yearly, rows_yearly = execute_pg_query_dev(sql_yearly)\n    yearly_data = tuple_to_dataframe(columns_yearly, rows_yearly).to_dict(orient=\"records\")",
+        "peekOfCode": "def execute(inside_sales: Optional[str]) -> Dict[str, Any]:\n    sql_monthly, params_monthly = get_scorecard_by_is_month(inside_sales=inside_sales)\n    columns_monthly, rows_monthly = execute_pg_query_dev(sql_monthly, params_monthly)\n    monthly_data = tuple_to_dataframe(columns_monthly, rows_monthly).to_dict(orient=\"records\")\n    sql_daily, params_daily = get_scorecard_by_is_daily(inside_sales=inside_sales)\n    columns_daily, rows_daily = execute_pg_query_dev(sql_daily, params_daily)\n    daily_data = tuple_to_dataframe(columns_daily, rows_daily).to_dict(orient=\"records\")\n    sql_yearly, params_yearly = get_scorecard_by_is_year(inside_sales=inside_sales)\n    columns_yearly, rows_yearly = execute_pg_query_dev(sql_yearly, params_yearly)\n    yearly_data = tuple_to_dataframe(columns_yearly, rows_yearly).to_dict(orient=\"records\")",
         "detail": "features.performance.use_cases.scorecard",
-        "documentation": {}
-    },
-    {
-        "label": "__all__",
-        "kind": 5,
-        "importPath": "features.performance.analytics",
-        "description": "features.performance.analytics",
-        "peekOfCode": "__all__ = [\"analyze_inside_sales\"]",
-        "detail": "features.performance.analytics",
         "documentation": {}
     },
     {
@@ -2631,7 +2432,7 @@
         "kind": 2,
         "importPath": "features.sales.domain.opportunities",
         "description": "features.sales.domain.opportunities",
-        "peekOfCode": "def opportunity_summary(df: pd.DataFrame) -> dict:\n    \"\"\"\n    df: DataFrame con columnas:\n        ['id','op_number','tran_date','expected_close_date',\n         'customer','subsidiary','status','inside_sales']\n    \"\"\"\n    # Asegurar tipo fecha\n    df[\"tran_date\"] = pd.to_datetime(df[\"tran_date\"], errors=\"coerce\")\n    df_valid = df.dropna(subset=[\"tran_date\"])\n    # -----------------------------",
+        "peekOfCode": "def opportunity_summary(df: pd.DataFrame) -> dict:\n    \"\"\"\n    df: DataFrame con columnas:\n        ['id','op_number','tran_date','expected_close_date',\n         'customer','subsidiary','status','inside_sales']\n    \"\"\"\n    # Asegurar tipo fecha\n    df[\"tran_date\"] = pd.to_datetime(df[\"tran_date\"], errors=\"coerce\")\n    df_valid = df.dropna(subset=[\"tran_date\"])\n    if df_valid.empty:",
         "detail": "features.sales.domain.opportunities",
         "documentation": {}
     },
@@ -2663,11 +2464,92 @@
         "documentation": {}
     },
     {
+        "label": "get_calls_summary",
+        "kind": 2,
+        "importPath": "features.sales.queries.activity",
+        "description": "features.sales.queries.activity",
+        "peekOfCode": "def get_calls_summary(start_date: str, final_date: str, customer_name: str = '', organizer: str = '', subject: str = '') -> tuple[str, list[str]]:\n    where_clauses = [\n        \"activity_date >= %s\",\n        \"activity_date < %s\",\n        \"description IS NOT NULL\",\n        \"LENGTH(TRIM(description)) >= 500\",\n    ]\n    params: list[str] = [start_date, final_date]\n    if customer_name:\n        where_clauses.append(\"UPPER(account) ILIKE '%' || UPPER(%s) || '%'\")",
+        "detail": "features.sales.queries.activity",
+        "documentation": {}
+    },
+    {
+        "label": "get_bookings_data",
+        "kind": 2,
+        "importPath": "features.sales.queries.bookings",
+        "description": "features.sales.queries.bookings",
+        "peekOfCode": "def get_bookings_data(initial_date: str, final_date: str, customer_name: str, inside_sales: str) -> tuple[str, list[str]]:\n    where_clauses = [\n        \"TO_CHAR(t.trandate, 'YYYY-MM-DD') BETWEEN ? AND ?\",\n        \"csr.subsidiary IN (5, 4, 3)\",\n        \"t.type IN ('SalesOrd')\",\n        \"ts.id NOT IN ('C', 'H', 'A', 'Y')\",\n        \"t.entity NOT IN (37839, 3085, 213418,2414, 355535, 1066, 401658, 101528, 144291, 183866, 185705, 186223)\",\n        \"t.custbody7 = 'F'\",\n    ]\n    params = [initial_date, final_date]",
+        "detail": "features.sales.queries.bookings",
+        "documentation": {}
+    },
+    {
+        "label": "get_items_quoted_by_customer",
+        "kind": 2,
+        "importPath": "features.sales.queries.items",
+        "description": "features.sales.queries.items",
+        "peekOfCode": "def get_items_quoted_by_customer(initial_date: str, final_date: str, customer_name: str, inside_sales: str) -> tuple[str, list[str]]:\n    where_clauses = [\n        \"t.type = 'Estimate'\",\n        \"TO_CHAR(t.trandate, 'YYYY-MM-DD') BETWEEN ? AND ?\",\n    ]\n    params = [initial_date, final_date]\n    if customer_name:\n        where_clauses.append(\"BUILTIN.DF(t.entity) LIKE ?\")\n        params.append(f\"%{customer_name}%\")\n    if inside_sales:",
+        "detail": "features.sales.queries.items",
+        "documentation": {}
+    },
+    {
+        "label": "get_sold_items_by_period",
+        "kind": 2,
+        "importPath": "features.sales.queries.items",
+        "description": "features.sales.queries.items",
+        "peekOfCode": "def get_sold_items_by_period(initial_date: str, final_date: str, customer_name: str, inside_sales: str) -> tuple[str, list[str]]:\n    where_clauses = [\n        \"t.type = 'SalesOrd'\",\n        \"TO_CHAR(t.trandate, 'YYYY-MM-DD') BETWEEN ? AND ?\",\n    ]\n    params = [initial_date, final_date]\n    if customer_name:\n        where_clauses.append(\"BUILTIN.DF(t.entity) LIKE ?\")\n        params.append(f\"%{customer_name}%\")\n    if inside_sales:",
+        "detail": "features.sales.queries.items",
+        "documentation": {}
+    },
+    {
+        "label": "get_opportunities_data",
+        "kind": 2,
+        "importPath": "features.sales.queries.opportunities",
+        "description": "features.sales.queries.opportunities",
+        "peekOfCode": "def get_opportunities_data(initial_date: str, final_date: str, inside_sales: str, customer_name: str) -> tuple[str, list[str]]:\n    where_clauses = [\n        \"op.TYPE = 'Opprtnty'\",\n        \"TO_CHAR(op.trandate, 'YYYY-MM-DD') BETWEEN ? AND ?\",\n        \"(op.winlossreason <> 21 OR op.winlossreason IS NULL)\",\n    ]\n    params = [initial_date, final_date]\n    if customer_name:\n        where_clauses.append(\"BUILTIN.DF(op.entity) LIKE ?\")\n        params.append(f\"%{customer_name}%\")",
+        "detail": "features.sales.queries.opportunities",
+        "documentation": {}
+    },
+    {
+        "label": "get_quotes_by_inside",
+        "kind": 2,
+        "importPath": "features.sales.queries.quotes",
+        "description": "features.sales.queries.quotes",
+        "peekOfCode": "def get_quotes_by_inside(initial_date: str, final_date: str, inside_sales: str, customer_name: str) -> tuple[str, list[str]]:\n    where_clauses = [\n        \"b.TYPE = 'Estimate'\",\n        \"TO_CHAR(b.trandate, 'YYYY-MM-DD') BETWEEN ? AND ?\",\n        \"BUILTIN.DF(b.STATUS) <> 'Quote : Voided'\",\n        \"BUILTIN.DF(b.custbody_evol_idico_services_campo) NOT IN ('ACORD', 'SIEVO')\",\n        \"a.itemtype='InvtPart'\",\n    ]\n    params = [initial_date, final_date]\n    if customer_name:",
+        "detail": "features.sales.queries.quotes",
+        "documentation": {}
+    },
+    {
+        "label": "get_vendors_customer_brand",
+        "kind": 2,
+        "importPath": "features.sales.queries.vendor_recommendation",
+        "description": "features.sales.queries.vendor_recommendation",
+        "peekOfCode": "def get_vendors_customer_brand(customer_name: str, brand: str) -> tuple[str, list[str]]:\n    return \"\"\"\n    SELECT * FROM ods.analytics.hr_cus_brand_consolidado\n    WHERE customer_name LIKE '%' || UPPER(%s) || '%'\n    AND brand LIKE '%' || UPPER(%s) || '%'\n    AND probabilidad > 0\n    ORDER BY\n    customer_name ASC,\n    brand ASC,\n    probabilidad DESC,",
+        "detail": "features.sales.queries.vendor_recommendation",
+        "documentation": {}
+    },
+    {
+        "label": "get_vendors_country_brand",
+        "kind": 2,
+        "importPath": "features.sales.queries.vendor_recommendation",
+        "description": "features.sales.queries.vendor_recommendation",
+        "peekOfCode": "def get_vendors_country_brand(country: str, brand: str) -> tuple[str, list[str]]:\n    return \"\"\"\n    SELECT * FROM ods.analytics.hr_country_brand_consolidado\n    WHERE country LIKE '%' || UPPER(%s) || '%'\n    AND brand LIKE '%' || UPPER(%s) || '%'\n    ORDER BY\n        country ASC,\n        brand ASC,\n        probabilidad DESC,\n        count_so DESC;",
+        "detail": "features.sales.queries.vendor_recommendation",
+        "documentation": {}
+    },
+    {
+        "label": "get_customer_country",
+        "kind": 2,
+        "importPath": "features.sales.queries.vendor_recommendation",
+        "description": "features.sales.queries.vendor_recommendation",
+        "peekOfCode": "def get_customer_country(customer_name: str) -> tuple[str, list[str]]:\n    return \"\"\"\n    SELECT country FROM ods.analytics.hr_cus_brand_consolidado\n    WHERE customer_name LIKE '%' || UPPER(%s) || '%'\n    LIMIT 1;\n    \"\"\", [customer_name]",
+        "detail": "features.sales.queries.vendor_recommendation",
+        "documentation": {}
+    },
+    {
         "label": "execute",
         "kind": 2,
         "importPath": "features.sales.use_cases.activity",
         "description": "features.sales.use_cases.activity",
-        "peekOfCode": "def execute(start_date: str, final_date: str, customer_name: str, organizer: str, subject: str) -> Dict[str, Any]:\n    sql = get_calls_summary(start_date, final_date, customer_name, organizer, subject)\n    columns, rows = execute_pg_query_dev(sql)\n    df = tuple_to_dataframe(columns, rows)\n    calls_summary = df.to_dict(orient=\"records\")\n    return build_tool_response(\n        tool_name=\"get_relationships_insights\",\n        summary={\"total_calls\": len(rows)},\n        filters={\n            \"start_date\": start_date,",
+        "peekOfCode": "def execute(start_date: str, final_date: str, customer_name: str, organizer: str, subject: str) -> Dict[str, Any]:\n    sql, params = get_calls_summary(start_date, final_date, customer_name, organizer, subject)\n    columns, rows = execute_pg_query_dev(sql, params)\n    df = tuple_to_dataframe(columns, rows)\n    calls_summary = df.to_dict(orient=\"records\")\n    return build_tool_response(\n        tool_name=\"get_relationships_insights\",\n        summary={\"total_calls\": len(rows)},\n        filters={\n            \"start_date\": start_date,",
         "detail": "features.sales.use_cases.activity",
         "documentation": {}
     },
@@ -2676,7 +2558,7 @@
         "kind": 2,
         "importPath": "features.sales.use_cases.bookings",
         "description": "features.sales.use_cases.bookings",
-        "peekOfCode": "def execute(initial_date: str, final_date: str, customer_name: str, inside_sales: str) -> Dict[str, Any]:\n    sql = get_bookings_data(initial_date, final_date, customer_name, inside_sales)\n    conn = NetSuiteConnection()\n    with conn.managed() as ns:\n        columns, rows = ns.execute_query(sql)\n    dataset_reference = save_result_to_json(columns, rows, f\"Bookings dataset between {initial_date} and {final_date}\", name=\"bookings_data\")\n    df = tuple_to_dataframe(columns, rows)\n    summary = finance_summary(df)\n    summary.pop(\"full_data_reference\", None)\n    return build_tool_response(",
+        "peekOfCode": "def execute(initial_date: str, final_date: str, customer_name: str, inside_sales: str) -> Dict[str, Any]:\n    sql, params = get_bookings_data(initial_date, final_date, customer_name, inside_sales)\n    conn = NetSuiteConnection()\n    with conn.managed() as ns:\n        columns, rows = ns.execute_query(sql, params)\n    dataset_reference = save_result_to_json(columns, rows, f\"Bookings dataset between {initial_date} and {final_date}\", name=\"bookings_data\")\n    df = tuple_to_dataframe(columns, rows)\n    summary = finance_summary(df)\n    summary.pop(\"full_data_reference\", None)\n    return build_tool_response(",
         "detail": "features.sales.use_cases.bookings",
         "documentation": {}
     },
@@ -2685,7 +2567,7 @@
         "kind": 2,
         "importPath": "features.sales.use_cases.items",
         "description": "features.sales.use_cases.items",
-        "peekOfCode": "def execute_quoted_items(initial_date: str, final_date: str, customer_name: str, inside_sales: str, topic: str) -> Dict[str, Any]:\n    sql = get_items_quoted_by_customer(initial_date, final_date, customer_name, inside_sales)\n    conn = NetSuiteConnection()\n    with conn.managed() as ns:\n        columns, rows = ns.execute_query(sql)\n    dataset_reference = save_result_to_json(columns, rows, f\"List of quoted items dataset between {initial_date} and {final_date}\", name=\"quoted_items\")\n    df = tuple_to_dataframe(columns, rows)\n    results = quoted_brands_recurrence_metrics(df) if topic == \"brand\" else summarize_items_quoted(df)\n    results.pop(\"full_data_reference\", None)\n    return build_tool_response(",
+        "peekOfCode": "def execute_quoted_items(initial_date: str, final_date: str, customer_name: str, inside_sales: str, topic: str) -> Dict[str, Any]:\n    sql, params = get_items_quoted_by_customer(initial_date, final_date, customer_name, inside_sales)\n    conn = NetSuiteConnection()\n    with conn.managed() as ns:\n        columns, rows = ns.execute_query(sql, params)\n    dataset_reference = save_result_to_json(columns, rows, f\"List of quoted items dataset between {initial_date} and {final_date}\", name=\"quoted_items\")\n    df = tuple_to_dataframe(columns, rows)\n    results = quoted_brands_recurrence_metrics(df) if topic == \"brand\" else summarize_items_quoted(df)\n    results.pop(\"full_data_reference\", None)\n    return build_tool_response(",
         "detail": "features.sales.use_cases.items",
         "documentation": {}
     },
@@ -2694,7 +2576,7 @@
         "kind": 2,
         "importPath": "features.sales.use_cases.items",
         "description": "features.sales.use_cases.items",
-        "peekOfCode": "def execute_sold_items(initial_date: str, final_date: str, customer_name: str, inside_sales: str, topic: str) -> Dict[str, Any]:\n    sql = get_sold_items_by_period(initial_date, final_date, customer_name, inside_sales)\n    conn = NetSuiteConnection()\n    with conn.managed() as ns:\n        columns, rows = ns.execute_query(sql)\n    dataset_reference = save_result_to_json(columns, rows, f\"Sold items dataset between {initial_date} and {final_date}\", name=\"sold_items_by_period\")\n    df = tuple_to_dataframe(columns, rows)\n    summary = sold_brands_recurrence_metrics(df) if topic == \"brand\" else summarize_sold_items(df)\n    summary.pop(\"full_data_reference\", None)\n    return build_tool_response(",
+        "peekOfCode": "def execute_sold_items(initial_date: str, final_date: str, customer_name: str, inside_sales: str, topic: str) -> Dict[str, Any]:\n    sql, params = get_sold_items_by_period(initial_date, final_date, customer_name, inside_sales)\n    conn = NetSuiteConnection()\n    with conn.managed() as ns:\n        columns, rows = ns.execute_query(sql, params)\n    dataset_reference = save_result_to_json(columns, rows, f\"Sold items dataset between {initial_date} and {final_date}\", name=\"sold_items_by_period\")\n    df = tuple_to_dataframe(columns, rows)\n    summary = sold_brands_recurrence_metrics(df) if topic == \"brand\" else summarize_sold_items(df)\n    summary.pop(\"full_data_reference\", None)\n    return build_tool_response(",
         "detail": "features.sales.use_cases.items",
         "documentation": {}
     },
@@ -2703,7 +2585,7 @@
         "kind": 2,
         "importPath": "features.sales.use_cases.opportunities",
         "description": "features.sales.use_cases.opportunities",
-        "peekOfCode": "def execute(initial_date: str, final_date: str, inside_sales: str, customer_name: str) -> Dict[str, Any]:\n    sql = get_opportunities_data(initial_date, final_date, inside_sales, customer_name)\n    conn = NetSuiteConnection()\n    with conn.managed() as ns:\n        columns, rows = ns.execute_query(sql)\n    dataset_reference = save_result_to_json(columns, rows, f\"Opportunities by Inside Sales dataset between {initial_date} and {final_date}\", name=\"opportunity_by_is\")\n    df = tuple_to_dataframe(columns, rows)\n    results = opportunity_summary(df)\n    results.pop(\"full_data_reference\", None)\n    return build_tool_response(",
+        "peekOfCode": "def execute(initial_date: str, final_date: str, inside_sales: str, customer_name: str) -> Dict[str, Any]:\n    sql, params = get_opportunities_data(initial_date, final_date, inside_sales, customer_name)\n    conn = NetSuiteConnection()\n    with conn.managed() as ns:\n        columns, rows = ns.execute_query(sql, params)\n    dataset_reference = save_result_to_json(columns, rows, f\"Opportunities by Inside Sales dataset between {initial_date} and {final_date}\", name=\"opportunity_by_is\")\n    df = tuple_to_dataframe(columns, rows)\n    results = opportunity_summary(df)\n    results.pop(\"full_data_reference\", None)\n    return build_tool_response(",
         "detail": "features.sales.use_cases.opportunities",
         "documentation": {}
     },
@@ -2712,7 +2594,7 @@
         "kind": 2,
         "importPath": "features.sales.use_cases.quotes",
         "description": "features.sales.use_cases.quotes",
-        "peekOfCode": "def execute(initial_date: str, final_date: str, inside_sales: str, customer_name: str) -> Dict[str, Any]:\n    sql = get_quotes_by_inside(initial_date, final_date, inside_sales, customer_name)\n    conn = NetSuiteConnection()\n    with conn.managed() as ns:\n        columns, rows = ns.execute_query(sql)\n    dataset_reference = save_result_to_json(\n        columns,\n        rows,\n        f\"Quotes by Inside Sales dataset between {initial_date} and {final_date}\",\n        name=\"get_quotes\",",
+        "peekOfCode": "def execute(initial_date: str, final_date: str, inside_sales: str, customer_name: str) -> Dict[str, Any]:\n    sql, params = get_quotes_by_inside(initial_date, final_date, inside_sales, customer_name)\n    conn = NetSuiteConnection()\n    with conn.managed() as ns:\n        columns, rows = ns.execute_query(sql, params)\n    dataset_reference = save_result_to_json(\n        columns,\n        rows,\n        f\"Quotes by Inside Sales dataset between {initial_date} and {final_date}\",\n        name=\"get_quotes\",",
         "detail": "features.sales.use_cases.quotes",
         "documentation": {}
     },
@@ -2721,17 +2603,8 @@
         "kind": 2,
         "importPath": "features.sales.use_cases.vendor_recommendation",
         "description": "features.sales.use_cases.vendor_recommendation",
-        "peekOfCode": "def execute(customer_name: str, brand: str) -> Dict[str, Any]:\n    sql_cus_brand = get_vendors_customer_brand(customer_name, brand)\n    columns_cus_brand, rows_cus_brand = execute_pg_query_dev(sql_cus_brand)\n    df_cus_brand = tuple_to_dataframe(columns_cus_brand, rows_cus_brand)\n    sql_country = get_customer_country(customer_name)\n    _, rows_country = execute_pg_query_dev(sql_country)\n    country = rows_country[0][0] if rows_country else \"\"\n    sql_country_brand = get_vendors_country_brand(country, brand)\n    columns_country_brand, rows_country_brand = execute_pg_query_dev(sql_country_brand)\n    df_country_brand = tuple_to_dataframe(columns_country_brand, rows_country_brand)",
+        "peekOfCode": "def execute(customer_name: str, brand: str) -> Dict[str, Any]:\n    sql_cus_brand, params_cus_brand = get_vendors_customer_brand(customer_name, brand)\n    columns_cus_brand, rows_cus_brand = execute_pg_query_dev(sql_cus_brand, params_cus_brand)\n    df_cus_brand = tuple_to_dataframe(columns_cus_brand, rows_cus_brand)\n    sql_country, params_country = get_customer_country(customer_name)\n    _, rows_country = execute_pg_query_dev(sql_country, params_country)\n    country = rows_country[0][0] if rows_country else \"\"\n    sql_country_brand, params_country_brand = get_vendors_country_brand(country, brand)\n    columns_country_brand, rows_country_brand = execute_pg_query_dev(sql_country_brand, params_country_brand)\n    df_country_brand = tuple_to_dataframe(columns_country_brand, rows_country_brand)",
         "detail": "features.sales.use_cases.vendor_recommendation",
-        "documentation": {}
-    },
-    {
-        "label": "__all__",
-        "kind": 5,
-        "importPath": "features.sales.analytics",
-        "description": "features.sales.analytics",
-        "peekOfCode": "__all__ = [\n    \"finance_summary\",\n    \"opportunity_summary\",\n    \"sold_brands_recurrence_metrics\",\n    \"quoted_brands_recurrence_metrics\",\n    \"summarize_sold_items\",\n    \"summarize_is_quotes\",\n    \"summarize_items_quoted\",\n    \"analize_hr_desviado\",\n    \"general_summary_is_q_so\",",
-        "detail": "features.sales.analytics",
         "documentation": {}
     },
     {
@@ -2795,6 +2668,15 @@
         "description": "features.sales.tools",
         "peekOfCode": "def get_events_summary(start_date: Optional[str], final_date: Optional[str], customer_name: Optional[str], organizer: Optional[str], subject: Optional[str]) -> Dict[str, Any]:\n    start_of_month, today_date = get_month_start_and_today()\n    start_q_date = start_date or start_of_month\n    final_q_date = final_date or today_date\n    normalized_customer_name = customer_name.upper() if customer_name else \"\"\n    normalized_organizer = organizer.upper() if organizer else \"\"\n    normalized_subject = subject.upper() if subject else \"\"\n    return activity.execute(start_q_date, final_q_date, normalized_customer_name, normalized_organizer, normalized_subject)\nSALES_TOOLS: List = [\n    get_quotes,",
         "detail": "features.sales.tools",
+        "documentation": {}
+    },
+    {
+        "label": "TestQueryParameterization",
+        "kind": 6,
+        "importPath": "tests.test_query_parameterization",
+        "description": "tests.test_query_parameterization",
+        "peekOfCode": "class TestQueryParameterization(unittest.TestCase):\n    def test_netsuite_quotes_without_optional_filters(self):\n        sql, params = get_quotes_by_inside(\"2026-01-01\", \"2026-01-31\", \"\", \"\")\n        self.assertIn(\"BETWEEN ? AND ?\", sql)\n        self.assertNotIn(\"customer_name\", sql)\n        self.assertNotIn(\"inside_sales\", sql)\n        self.assertEqual(params, [\"2026-01-01\", \"2026-01-31\"])\n    def test_postgres_guides_default_status_behavior_preserved(self):\n        sql, params = get_helga_guides_query(po=None, status=None, service=None)\n        self.assertIn(\"gh.status_envio <> 'GUIA ENTREGADA'\", sql)",
+        "detail": "tests.test_query_parameterization",
         "documentation": {}
     },
     {
@@ -2892,7 +2774,7 @@
         "kind": 5,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "redis_client = create_redis_client()\nauth_provider = create_auth_provider(redis_client)\napp = FastMCP(\n    \"IDRA IDICO AI\",\n    auth=auth_provider,\n    instructions=\"Accede a datos en tiempo real y genera análisis claros para apoyar decisiones.\",\n    icons=[Icon(src=\"https://i.ibb.co/svxz9ZcR/idra-logo.png\", mimeType=\"image/png\", sizes=[\"48x48\"])],\n)\nregister_tools(app, SALES_TOOLS)\nregister_tools(app, FILES_TOOLS)",
+        "peekOfCode": "redis_client = create_redis_client()\nauth_provider = create_auth_provider(redis_client)\napp = FastMCP(\n    \"IDRA IDICO AI\",\n    #auth=auth_provider,\n    instructions=\"Accede a datos en tiempo real y genera análisis claros para apoyar decisiones.\",\n    icons=[Icon(src=\"https://i.ibb.co/svxz9ZcR/idra-logo.png\", mimeType=\"image/png\", sizes=[\"48x48\"])],\n)\nregister_tools(app, SALES_TOOLS)\nregister_tools(app, FILES_TOOLS)",
         "detail": "main",
         "documentation": {}
     },
@@ -2901,7 +2783,7 @@
         "kind": 5,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "auth_provider = create_auth_provider(redis_client)\napp = FastMCP(\n    \"IDRA IDICO AI\",\n    auth=auth_provider,\n    instructions=\"Accede a datos en tiempo real y genera análisis claros para apoyar decisiones.\",\n    icons=[Icon(src=\"https://i.ibb.co/svxz9ZcR/idra-logo.png\", mimeType=\"image/png\", sizes=[\"48x48\"])],\n)\nregister_tools(app, SALES_TOOLS)\nregister_tools(app, FILES_TOOLS)\nregister_tools(app, PERFORMANCE_TOOLS)",
+        "peekOfCode": "auth_provider = create_auth_provider(redis_client)\napp = FastMCP(\n    \"IDRA IDICO AI\",\n    #auth=auth_provider,\n    instructions=\"Accede a datos en tiempo real y genera análisis claros para apoyar decisiones.\",\n    icons=[Icon(src=\"https://i.ibb.co/svxz9ZcR/idra-logo.png\", mimeType=\"image/png\", sizes=[\"48x48\"])],\n)\nregister_tools(app, SALES_TOOLS)\nregister_tools(app, FILES_TOOLS)\nregister_tools(app, PERFORMANCE_TOOLS)",
         "detail": "main",
         "documentation": {}
     },
@@ -2910,7 +2792,7 @@
         "kind": 5,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "app = FastMCP(\n    \"IDRA IDICO AI\",\n    auth=auth_provider,\n    instructions=\"Accede a datos en tiempo real y genera análisis claros para apoyar decisiones.\",\n    icons=[Icon(src=\"https://i.ibb.co/svxz9ZcR/idra-logo.png\", mimeType=\"image/png\", sizes=[\"48x48\"])],\n)\nregister_tools(app, SALES_TOOLS)\nregister_tools(app, FILES_TOOLS)\nregister_tools(app, PERFORMANCE_TOOLS)\nregister_tools(app, OPS_TOOLS)",
+        "peekOfCode": "app = FastMCP(\n    \"IDRA IDICO AI\",\n    #auth=auth_provider,\n    instructions=\"Accede a datos en tiempo real y genera análisis claros para apoyar decisiones.\",\n    icons=[Icon(src=\"https://i.ibb.co/svxz9ZcR/idra-logo.png\", mimeType=\"image/png\", sizes=[\"48x48\"])],\n)\nregister_tools(app, SALES_TOOLS)\nregister_tools(app, FILES_TOOLS)\nregister_tools(app, PERFORMANCE_TOOLS)\nregister_tools(app, OPS_TOOLS)",
         "detail": "main",
         "documentation": {}
     },

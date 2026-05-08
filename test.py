@@ -3,8 +3,10 @@ from typing import Dict, List, Optional, Any
 from connections.netsuite.client import NetSuiteConnection
 from utils.transformations import tuple_to_dataframe
 from utils.json_df import save_result_to_json, load_dataset_from_json
-from connections.postgresql.queries import get_helga_guides_query, get_vendors_customer_brand, get_customer_country, get_calls_summary
-from connections.netsuite.queries import get_quotes_by_inside
+from features.operations.queries.guides import get_helga_guides_query
+from features.sales.queries.activity import get_calls_summary
+from features.sales.queries.quotes import get_quotes_by_inside
+from features.sales.queries.vendor_recommendation import get_customer_country, get_vendors_customer_brand
 from connections.postgresql.client import execute_pg_query_dev, execute_pg_query
 from features.sales.analytics import summarize_is_quotes, analize_hr_desviado
 from features.sales.tools import get_vendors_to_quote

@@ -22,7 +22,7 @@ class TestMCPResponseEnvelopeContract(unittest.TestCase):
         mock_tuple_to_dataframe,
         mock_finance_summary,
     ):
-        mock_get_bookings_data.return_value = "SELECT bookings"
+        mock_get_bookings_data.return_value = ("SELECT bookings", ["2026-01-01", "2026-01-31", "%ACME%", "%JUAN%"])
         mock_save_result_to_json.return_value = {"filename": "bookings_data.json", "path": "/tmp/bookings_data.json"}
 
         columns = ["quote_id", "amount", "inside_sales"]
@@ -47,6 +47,11 @@ class TestMCPResponseEnvelopeContract(unittest.TestCase):
             final_date="2026-01-31",
             customer_name="acme",
             inside_sales="juan",
+        )
+
+        ns_client.execute_query.assert_called_once_with(
+            "SELECT bookings",
+            ["2026-01-01", "2026-01-31", "%ACME%", "%JUAN%"],
         )
 
         self.assertEqual(set(response.keys()), {"meta", "kpi_metrics", "artifacts"})
@@ -78,7 +83,7 @@ class TestMCPResponseEnvelopeContract(unittest.TestCase):
         mock_tuple_to_dataframe,
         mock_on_time_delivery_summary,
     ):
-        mock_get_on_time_delivery.return_value = "SELECT otd"
+        mock_get_on_time_delivery.return_value = ("SELECT otd", ["2026-02-01", "2026-02-28", "SO-1"])
         mock_save_result_to_json.return_value = {"filename": "otd_data.json", "path": "/tmp/otd_data.json"}
 
         columns = ["so_number", "is_on_time"]
@@ -93,6 +98,11 @@ class TestMCPResponseEnvelopeContract(unittest.TestCase):
             initial_date="2026-02-01",
             final_date="2026-02-28",
             so_number="SO-1",
+        )
+
+        mock_execute_pg_query_dev.assert_called_once_with(
+            "SELECT otd",
+            ["2026-02-01", "2026-02-28", "SO-1"],
         )
 
         self.assertEqual(set(response.keys()), {"meta", "kpi_metrics", "artifacts"})
@@ -122,9 +132,9 @@ class TestMCPResponseEnvelopeContract(unittest.TestCase):
         mock_get_year,
         mock_execute_pg_query_dev,
     ):
-        mock_get_month.return_value = "SELECT month"
-        mock_get_daily.return_value = "SELECT day"
-        mock_get_year.return_value = "SELECT year"
+        mock_get_month.return_value = ("SELECT month", ["juan"])
+        mock_get_daily.return_value = ("SELECT day", ["juan"])
+        mock_get_year.return_value = ("SELECT year", ["juan"])
 
         monthly = (["inside_sales", "score"], [("JUAN", 10)])
         daily = (["inside_sales", "score"], [("JUAN", 1), ("JUAN", 2)])
@@ -132,6 +142,15 @@ class TestMCPResponseEnvelopeContract(unittest.TestCase):
         mock_execute_pg_query_dev.side_effect = [monthly, daily, yearly]
 
         response = performance_tools.get_scorecard_by_is(inside_sales="juan")
+
+        self.assertEqual(
+            mock_execute_pg_query_dev.call_args_list,
+            [
+                unittest.mock.call("SELECT month", ["juan"]),
+                unittest.mock.call("SELECT day", ["juan"]),
+                unittest.mock.call("SELECT year", ["juan"]),
+            ],
+        )
 
         self.assertEqual(set(response.keys()), {"meta", "kpi_metrics", "artifacts", "details"})
         self.assertEqual(response["meta"]["tool_name"], "get_scorecard_by_is")
@@ -149,6 +168,52 @@ class TestMCPResponseEnvelopeContract(unittest.TestCase):
         self.assertEqual(response["details"]["row_counts"]["monthly"], 1)
         self.assertEqual(response["details"]["row_counts"]["daily"], 2)
         self.assertEqual(response["details"]["row_counts"]["yearly"], 1)
+
+    @patch("features.sales.use_cases.opportunities.save_result_to_json")
+    @patch("features.sales.use_cases.opportunities.NetSuiteConnection")
+    @patch("features.sales.use_cases.opportunities.get_opportunities_data")
+    def test_sales_get_opportunities_empty_result_contract(
+        self,
+        mock_get_opportunities_data,
+        mock_netsuite_connection,
+        mock_save_result_to_json,
+    ):
+        mock_get_opportunities_data.return_value = (
+            "SELECT opportunities",
+            ["2025-05-01", "2025-05-08", "%Daniel Jaramillo%", "%Pueblo Viejo%"],
+        )
+        mock_save_result_to_json.return_value = {"filename": "opportunity_by_is.json", "path": "/tmp/opportunity_by_is.json"}
+
+        columns = ["id", "op_number", "tran_date", "expected_close_date", "customer", "subsidiary", "status", "inside_sales"]
+        rows = []
+
+        ns_client = MagicMock()
+        ns_client.execute_query.return_value = (columns, rows)
+        managed_ctx = MagicMock()
+        managed_ctx.__enter__.return_value = ns_client
+        managed_ctx.__exit__.return_value = False
+        mock_netsuite_connection.return_value.managed.return_value = managed_ctx
+
+        response = sales_tools.get_opportunities(
+            initial_date="2025-05-01",
+            final_date="2025-05-08",
+            inside_sales="Daniel Jaramillo",
+            customer_name="Pueblo Viejo",
+        )
+
+        ns_client.execute_query.assert_called_once_with(
+            "SELECT opportunities",
+            ["2025-05-01", "2025-05-08", "%Daniel Jaramillo%", "%Pueblo Viejo%"],
+        )
+
+        self.assertEqual(response["meta"]["tool_name"], "get_opportunities")
+        self.assertEqual(response["kpi_metrics"]["period"]["start_date"], None)
+        self.assertEqual(response["kpi_metrics"]["period"]["end_date"], None)
+        self.assertEqual(response["kpi_metrics"]["overview"]["total_opportunities"], 0)
+        self.assertEqual(response["kpi_metrics"]["overview"]["total_unique_customers"], 0)
+        self.assertEqual(response["kpi_metrics"]["distribution"]["inside_sales"], [])
+        self.assertEqual(response["kpi_metrics"]["distribution"]["status"], [])
+        self.assertEqual(response["kpi_metrics"]["overdue_in_progress"], [])
 
 
 if __name__ == "__main__":

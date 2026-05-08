@@ -1,7 +1,7 @@
 from typing import Any, Dict
 
 from connections.netsuite.client import NetSuiteConnection
-from connections.netsuite.queries import get_items_quoted_by_customer, get_sold_items_by_period
+from features.sales.queries.items import get_items_quoted_by_customer, get_sold_items_by_period
 from features.sales.domain.items import (
     quoted_brands_recurrence_metrics,
     sold_brands_recurrence_metrics,
@@ -14,10 +14,10 @@ from utils.transformations import tuple_to_dataframe
 
 
 def execute_quoted_items(initial_date: str, final_date: str, customer_name: str, inside_sales: str, topic: str) -> Dict[str, Any]:
-    sql = get_items_quoted_by_customer(initial_date, final_date, customer_name, inside_sales)
+    sql, params = get_items_quoted_by_customer(initial_date, final_date, customer_name, inside_sales)
     conn = NetSuiteConnection()
     with conn.managed() as ns:
-        columns, rows = ns.execute_query(sql)
+        columns, rows = ns.execute_query(sql, params)
 
     dataset_reference = save_result_to_json(columns, rows, f"List of quoted items dataset between {initial_date} and {final_date}", name="quoted_items")
     df = tuple_to_dataframe(columns, rows)
@@ -41,10 +41,10 @@ def execute_quoted_items(initial_date: str, final_date: str, customer_name: str,
 
 
 def execute_sold_items(initial_date: str, final_date: str, customer_name: str, inside_sales: str, topic: str) -> Dict[str, Any]:
-    sql = get_sold_items_by_period(initial_date, final_date, customer_name, inside_sales)
+    sql, params = get_sold_items_by_period(initial_date, final_date, customer_name, inside_sales)
     conn = NetSuiteConnection()
     with conn.managed() as ns:
-        columns, rows = ns.execute_query(sql)
+        columns, rows = ns.execute_query(sql, params)
 
     dataset_reference = save_result_to_json(columns, rows, f"Sold items dataset between {initial_date} and {final_date}", name="sold_items_by_period")
     df = tuple_to_dataframe(columns, rows)
