@@ -415,7 +415,87 @@
         "documentation": {}
     },
     {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Tuple",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
         "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
         "importPath": "typing",
         "description": "typing",
         "isExtraImport": true,
@@ -927,11 +1007,27 @@
         "documentation": {}
     },
     {
+        "label": "save_result_to_json",
+        "importPath": "utils.json_df",
+        "description": "utils.json_df",
+        "isExtraImport": true,
+        "detail": "utils.json_df",
+        "documentation": {}
+    },
+    {
         "label": "load_dataset_from_json",
         "importPath": "utils.json_df",
         "description": "utils.json_df",
         "isExtraImport": true,
         "detail": "utils.json_df",
+        "documentation": {}
+    },
+    {
+        "label": "build_tool_response",
+        "importPath": "utils.envelope",
+        "description": "utils.envelope",
+        "isExtraImport": true,
+        "detail": "utils.envelope",
         "documentation": {}
     },
     {
@@ -1305,6 +1401,14 @@
         "documentation": {}
     },
     {
+        "label": "tuple_to_dataframe",
+        "importPath": "utils.transformations",
+        "description": "utils.transformations",
+        "isExtraImport": true,
+        "detail": "utils.transformations",
+        "documentation": {}
+    },
+    {
         "label": "get_customer_imports_data",
         "importPath": "features.operations.queries.imports",
         "description": "features.operations.queries.imports",
@@ -1345,6 +1449,158 @@
         "documentation": {}
     },
     {
+        "label": "NetSuiteConnection",
+        "importPath": "connections.netsuite.client",
+        "description": "connections.netsuite.client",
+        "isExtraImport": true,
+        "detail": "connections.netsuite.client",
+        "documentation": {}
+    },
+    {
+        "label": "NetSuiteConnection",
+        "importPath": "connections.netsuite.client",
+        "description": "connections.netsuite.client",
+        "isExtraImport": true,
+        "detail": "connections.netsuite.client",
+        "documentation": {}
+    },
+    {
+        "label": "NetSuiteConnection",
+        "importPath": "connections.netsuite.client",
+        "description": "connections.netsuite.client",
+        "isExtraImport": true,
+        "detail": "connections.netsuite.client",
+        "documentation": {}
+    },
+    {
+        "label": "NetSuiteConnection",
+        "importPath": "connections.netsuite.client",
+        "description": "connections.netsuite.client",
+        "isExtraImport": true,
+        "detail": "connections.netsuite.client",
+        "documentation": {}
+    },
+    {
+        "label": "NetSuiteConnection",
+        "importPath": "connections.netsuite.client",
+        "description": "connections.netsuite.client",
+        "isExtraImport": true,
+        "detail": "connections.netsuite.client",
+        "documentation": {}
+    },
+    {
+        "label": "NetSuiteConnection",
+        "importPath": "connections.netsuite.client",
+        "description": "connections.netsuite.client",
+        "isExtraImport": true,
+        "detail": "connections.netsuite.client",
+        "documentation": {}
+    },
+    {
+        "label": "NetSuiteConnection",
+        "importPath": "connections.netsuite.client",
+        "description": "connections.netsuite.client",
+        "isExtraImport": true,
+        "detail": "connections.netsuite.client",
+        "documentation": {}
+    },
+    {
+        "label": "build_items_analysis",
+        "importPath": "features.operations.domain.purchase_orders",
+        "description": "features.operations.domain.purchase_orders",
+        "isExtraImport": true,
+        "detail": "features.operations.domain.purchase_orders",
+        "documentation": {}
+    },
+    {
+        "label": "build_vendors_analysis",
+        "importPath": "features.operations.domain.purchase_orders",
+        "description": "features.operations.domain.purchase_orders",
+        "isExtraImport": true,
+        "detail": "features.operations.domain.purchase_orders",
+        "documentation": {}
+    },
+    {
+        "label": "normalize_topic",
+        "importPath": "features.operations.domain.purchase_orders",
+        "description": "features.operations.domain.purchase_orders",
+        "isExtraImport": true,
+        "detail": "features.operations.domain.purchase_orders",
+        "documentation": {}
+    },
+    {
+        "label": "build_items_analysis",
+        "importPath": "features.operations.domain.purchase_orders",
+        "description": "features.operations.domain.purchase_orders",
+        "isExtraImport": true,
+        "detail": "features.operations.domain.purchase_orders",
+        "documentation": {}
+    },
+    {
+        "label": "build_vendors_analysis",
+        "importPath": "features.operations.domain.purchase_orders",
+        "description": "features.operations.domain.purchase_orders",
+        "isExtraImport": true,
+        "detail": "features.operations.domain.purchase_orders",
+        "documentation": {}
+    },
+    {
+        "label": "normalize_topic",
+        "importPath": "features.operations.domain.purchase_orders",
+        "description": "features.operations.domain.purchase_orders",
+        "isExtraImport": true,
+        "detail": "features.operations.domain.purchase_orders",
+        "documentation": {}
+    },
+    {
+        "label": "get_purchase_orders_query",
+        "importPath": "features.operations.queries.purchase_orders",
+        "description": "features.operations.queries.purchase_orders",
+        "isExtraImport": true,
+        "detail": "features.operations.queries.purchase_orders",
+        "documentation": {}
+    },
+    {
+        "label": "get_purchase_orders_query",
+        "importPath": "features.operations.queries.purchase_orders",
+        "description": "features.operations.queries.purchase_orders",
+        "isExtraImport": true,
+        "detail": "features.operations.queries.purchase_orders",
+        "documentation": {}
+    },
+    {
+        "label": "get_month_start_and_today",
+        "importPath": "utils.date",
+        "description": "utils.date",
+        "isExtraImport": true,
+        "detail": "utils.date",
+        "documentation": {}
+    },
+    {
+        "label": "get_month_start_and_today",
+        "importPath": "utils.date",
+        "description": "utils.date",
+        "isExtraImport": true,
+        "detail": "utils.date",
+        "documentation": {}
+    },
+    {
+        "label": "get_month_start_and_today",
+        "importPath": "utils.date",
+        "description": "utils.date",
+        "isExtraImport": true,
+        "detail": "utils.date",
+        "documentation": {}
+    },
+    {
+        "label": "get_month_start_and_today",
+        "importPath": "utils.date",
+        "description": "utils.date",
+        "isExtraImport": true,
+        "detail": "utils.date",
+        "documentation": {}
+    },
+    {
         "label": "guides",
         "importPath": "features.operations.use_cases",
         "description": "features.operations.use_cases",
@@ -1369,75 +1625,19 @@
         "documentation": {}
     },
     {
-        "label": "get_month_start_and_today",
-        "importPath": "utils.date",
-        "description": "utils.date",
+        "label": "purchase_orders",
+        "importPath": "features.operations.use_cases",
+        "description": "features.operations.use_cases",
         "isExtraImport": true,
-        "detail": "utils.date",
+        "detail": "features.operations.use_cases",
         "documentation": {}
     },
     {
-        "label": "get_month_start_and_today",
-        "importPath": "utils.date",
-        "description": "utils.date",
+        "label": "purchase_orders",
+        "importPath": "features.operations.use_cases",
+        "description": "features.operations.use_cases",
         "isExtraImport": true,
-        "detail": "utils.date",
-        "documentation": {}
-    },
-    {
-        "label": "get_month_start_and_today",
-        "importPath": "utils.date",
-        "description": "utils.date",
-        "isExtraImport": true,
-        "detail": "utils.date",
-        "documentation": {}
-    },
-    {
-        "label": "NetSuiteConnection",
-        "importPath": "connections.netsuite.client",
-        "description": "connections.netsuite.client",
-        "isExtraImport": true,
-        "detail": "connections.netsuite.client",
-        "documentation": {}
-    },
-    {
-        "label": "NetSuiteConnection",
-        "importPath": "connections.netsuite.client",
-        "description": "connections.netsuite.client",
-        "isExtraImport": true,
-        "detail": "connections.netsuite.client",
-        "documentation": {}
-    },
-    {
-        "label": "NetSuiteConnection",
-        "importPath": "connections.netsuite.client",
-        "description": "connections.netsuite.client",
-        "isExtraImport": true,
-        "detail": "connections.netsuite.client",
-        "documentation": {}
-    },
-    {
-        "label": "NetSuiteConnection",
-        "importPath": "connections.netsuite.client",
-        "description": "connections.netsuite.client",
-        "isExtraImport": true,
-        "detail": "connections.netsuite.client",
-        "documentation": {}
-    },
-    {
-        "label": "NetSuiteConnection",
-        "importPath": "connections.netsuite.client",
-        "description": "connections.netsuite.client",
-        "isExtraImport": true,
-        "detail": "connections.netsuite.client",
-        "documentation": {}
-    },
-    {
-        "label": "NetSuiteConnection",
-        "importPath": "connections.netsuite.client",
-        "description": "connections.netsuite.client",
-        "isExtraImport": true,
-        "detail": "connections.netsuite.client",
+        "detail": "features.operations.use_cases",
         "documentation": {}
     },
     {
@@ -1735,6 +1935,22 @@
         "importPath": "unittest",
         "description": "unittest",
         "detail": "unittest",
+        "documentation": {}
+    },
+    {
+        "label": "MagicMock",
+        "importPath": "unittest.mock",
+        "description": "unittest.mock",
+        "isExtraImport": true,
+        "detail": "unittest.mock",
+        "documentation": {}
+    },
+    {
+        "label": "patch",
+        "importPath": "unittest.mock",
+        "description": "unittest.mock",
+        "isExtraImport": true,
+        "detail": "unittest.mock",
         "documentation": {}
     },
     {
@@ -2221,6 +2437,42 @@
         "documentation": {}
     },
     {
+        "label": "normalize_topic",
+        "kind": 2,
+        "importPath": "features.operations.domain.purchase_orders",
+        "description": "features.operations.domain.purchase_orders",
+        "peekOfCode": "def normalize_topic(topic: Optional[str]) -> str:\n    normalized = (topic or \"vendors\").strip().lower()\n    if not normalized:\n        return \"vendors\"\n    if normalized not in {\"vendors\", \"items\"}:\n        raise ValueError(\"Invalid topic. Allowed values: vendors, items\")\n    return normalized\ndef _to_records(df: pd.DataFrame) -> list[dict[str, Any]]:\n    return df.to_dict(orient=\"records\")\ndef _series_count(series: pd.Series, key: str, value_name: str = \"count\") -> list[dict[str, Any]]:",
+        "detail": "features.operations.domain.purchase_orders",
+        "documentation": {}
+    },
+    {
+        "label": "build_vendors_analysis",
+        "kind": 2,
+        "importPath": "features.operations.domain.purchase_orders",
+        "description": "features.operations.domain.purchase_orders",
+        "peekOfCode": "def build_vendors_analysis(df: pd.DataFrame) -> Dict[str, Any]:\n    if df.empty:\n        return {\n            \"topic\": \"vendors\",\n            \"overview\": {},\n            \"status_analysis\": {},\n            \"vendor_analysis\": {},\n            \"subsidiary_analysis\": {},\n            \"delivery_analysis\": {},\n            \"rescheduling_analysis\": {},",
+        "detail": "features.operations.domain.purchase_orders",
+        "documentation": {}
+    },
+    {
+        "label": "build_items_analysis",
+        "kind": 2,
+        "importPath": "features.operations.domain.purchase_orders",
+        "description": "features.operations.domain.purchase_orders",
+        "peekOfCode": "def build_items_analysis(df: pd.DataFrame) -> Dict[str, Any]:\n    if df.empty:\n        return {\n            \"topic\": \"items\",\n            \"overview\": {},\n            \"receipt_analysis\": {},\n            \"brand_analysis\": {},\n            \"product_group_analysis\": {},\n            \"brand_vendor_analysis\": {},\n            \"brand_customer_analysis\": {},",
+        "detail": "features.operations.domain.purchase_orders",
+        "documentation": {}
+    },
+    {
+        "label": "DELIVERY_COMPLETED_STATUSES",
+        "kind": 5,
+        "importPath": "features.operations.domain.purchase_orders",
+        "description": "features.operations.domain.purchase_orders",
+        "peekOfCode": "DELIVERY_COMPLETED_STATUSES = {\"Fully Billed\", \"Pending Bill\"}\ndef normalize_topic(topic: Optional[str]) -> str:\n    normalized = (topic or \"vendors\").strip().lower()\n    if not normalized:\n        return \"vendors\"\n    if normalized not in {\"vendors\", \"items\"}:\n        raise ValueError(\"Invalid topic. Allowed values: vendors, items\")\n    return normalized\ndef _to_records(df: pd.DataFrame) -> list[dict[str, Any]]:\n    return df.to_dict(orient=\"records\")",
+        "detail": "features.operations.domain.purchase_orders",
+        "documentation": {}
+    },
+    {
         "label": "get_helga_guides_query",
         "kind": 2,
         "importPath": "features.operations.queries.guides",
@@ -2245,6 +2497,15 @@
         "description": "features.operations.queries.otd",
         "peekOfCode": "def get_on_time_delivery(initial_date: str, final_date: str, so_number: str = None) -> tuple[str, list[str]]:\n    if so_number:\n        return \"\"\"\n        SELECT *\n        FROM ods.analytics.tableau_otd otd\n        WHERE otd.so_doc_number = %s;\n        \"\"\", [so_number]\n    return \"\"\"\n    SELECT\n    *",
         "detail": "features.operations.queries.otd",
+        "documentation": {}
+    },
+    {
+        "label": "get_purchase_orders_query",
+        "kind": 2,
+        "importPath": "features.operations.queries.purchase_orders",
+        "description": "features.operations.queries.purchase_orders",
+        "peekOfCode": "def get_purchase_orders_query(\n    initial_date: str,\n    final_date: str,\n    vendor: Optional[str] = None,\n    status: Optional[str] = None,\n    brand: Optional[str] = None,\n) -> Tuple[str, List[Any]]:\n    where_clauses = [\n        \"t.type = 'PurchOrd'\",\n        \"tl.mainline = 'F'\",",
+        "detail": "features.operations.queries.purchase_orders",
         "documentation": {}
     },
     {
@@ -2275,6 +2536,24 @@
         "documentation": {}
     },
     {
+        "label": "execute",
+        "kind": 2,
+        "importPath": "features.operations.use_cases.purchase_orders",
+        "description": "features.operations.use_cases.purchase_orders",
+        "peekOfCode": "def execute(\n    initial_date: Optional[str] = None,\n    final_date: Optional[str] = None,\n    vendor: Optional[str] = None,\n    status: Optional[str] = None,\n    brand: Optional[str] = None,\n    topic: Optional[str] = \"vendors\",\n) -> Dict[str, Any]:\n    if not initial_date or not final_date:\n        initial_date, final_date = get_month_start_and_today()",
+        "detail": "features.operations.use_cases.purchase_orders",
+        "documentation": {}
+    },
+    {
+        "label": "ALLOWED_STATUS",
+        "kind": 5,
+        "importPath": "features.operations.use_cases.purchase_orders",
+        "description": "features.operations.use_cases.purchase_orders",
+        "peekOfCode": "ALLOWED_STATUS = {\n    \"Pending Supervisor Approval\",\n    \"Pending Receipt\",\n    \"Rejected by Supervisor\",\n    \"Partially Received\",\n    \"Pending Billing/Partially Received\",\n    \"Pending Bill\",\n    \"Fully Billed\",\n}\ndef execute(",
+        "detail": "features.operations.use_cases.purchase_orders",
+        "documentation": {}
+    },
+    {
         "label": "get_helga_guides",
         "kind": 2,
         "importPath": "features.operations.tools",
@@ -2298,6 +2577,15 @@
         "importPath": "features.operations.tools",
         "description": "features.operations.tools",
         "peekOfCode": "def get_customer_imports(customer_name: str) -> Dict[str, Any]:\n    \"\"\"Retrieve the imports summary for a given customer.\n    Use this tool when the user asks for customer import amounts,\n    trends, brands or vendor-related import summaries.\n    Args:\n        customer_name: Customer name; required.\n    Returns:\n        Dict[str, Any]: Import summary metrics and grouped business insights.\n    \"\"\"\n    return imports.execute(customer_name)",
+        "detail": "features.operations.tools",
+        "documentation": {}
+    },
+    {
+        "label": "get_purchase_orders",
+        "kind": 2,
+        "importPath": "features.operations.tools",
+        "description": "features.operations.tools",
+        "peekOfCode": "def get_purchase_orders(\n    initial_date: Optional[str] = None,\n    final_date: Optional[str] = None,\n    vendor: Optional[str] = None,\n    status: Optional[str] = None,\n    brand: Optional[str] = None,\n    topic: str = \"vendors\",\n) -> Dict[str, Any]:\n    \"\"\"Retrieve purchase-order analytics from NetSuite.\n    Use this tool when the user asks for purchase-order status, vendor activity,",
         "detail": "features.operations.tools",
         "documentation": {}
     },
@@ -2671,6 +2959,15 @@
         "documentation": {}
     },
     {
+        "label": "TestPurchaseOrdersAnalysis",
+        "kind": 6,
+        "importPath": "tests.test_purchase_orders_analysis",
+        "description": "tests.test_purchase_orders_analysis",
+        "peekOfCode": "class TestPurchaseOrdersAnalysis(unittest.TestCase):\n    @patch(\"features.operations.use_cases.purchase_orders.build_vendors_analysis\")\n    @patch(\"features.operations.use_cases.purchase_orders.tuple_to_dataframe\")\n    @patch(\"features.operations.use_cases.purchase_orders.save_result_to_json\")\n    @patch(\"features.operations.use_cases.purchase_orders.NetSuiteConnection\")\n    @patch(\"features.operations.use_cases.purchase_orders.get_purchase_orders_query\")\n    @patch(\"features.operations.use_cases.purchase_orders.get_month_start_and_today\")\n    def test_use_case_defaults_missing_dates_and_topic_defaults_to_vendors(\n        self,\n        mock_get_month_start_and_today,",
+        "detail": "tests.test_purchase_orders_analysis",
+        "documentation": {}
+    },
+    {
         "label": "TestQueryParameterization",
         "kind": 6,
         "importPath": "tests.test_query_parameterization",
@@ -2774,7 +3071,7 @@
         "kind": 5,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "redis_client = create_redis_client()\nauth_provider = create_auth_provider(redis_client)\napp = FastMCP(\n    \"IDRA IDICO AI\",\n    auth=auth_provider,\n    instructions=\"Accede a datos en tiempo real y genera análisis claros para apoyar decisiones.\",\n    icons=[Icon(src=\"https://i.ibb.co/svxz9ZcR/idra-logo.png\", mimeType=\"image/png\", sizes=[\"48x48\"])],\n)\nregister_tools(app, SALES_TOOLS)\nregister_tools(app, FILES_TOOLS)",
+        "peekOfCode": "redis_client = create_redis_client()\nauth_provider = create_auth_provider(redis_client)\napp = FastMCP(\n    \"IDRA IDICO AI\",\n    #auth=auth_provider,\n    instructions=\"Accede a datos en tiempo real y genera análisis claros para apoyar decisiones.\",\n    icons=[Icon(src=\"https://i.ibb.co/svxz9ZcR/idra-logo.png\", mimeType=\"image/png\", sizes=[\"48x48\"])],\n)\nregister_tools(app, SALES_TOOLS)\nregister_tools(app, FILES_TOOLS)",
         "detail": "main",
         "documentation": {}
     },
@@ -2783,7 +3080,7 @@
         "kind": 5,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "auth_provider = create_auth_provider(redis_client)\napp = FastMCP(\n    \"IDRA IDICO AI\",\n    auth=auth_provider,\n    instructions=\"Accede a datos en tiempo real y genera análisis claros para apoyar decisiones.\",\n    icons=[Icon(src=\"https://i.ibb.co/svxz9ZcR/idra-logo.png\", mimeType=\"image/png\", sizes=[\"48x48\"])],\n)\nregister_tools(app, SALES_TOOLS)\nregister_tools(app, FILES_TOOLS)\nregister_tools(app, PERFORMANCE_TOOLS)",
+        "peekOfCode": "auth_provider = create_auth_provider(redis_client)\napp = FastMCP(\n    \"IDRA IDICO AI\",\n    #auth=auth_provider,\n    instructions=\"Accede a datos en tiempo real y genera análisis claros para apoyar decisiones.\",\n    icons=[Icon(src=\"https://i.ibb.co/svxz9ZcR/idra-logo.png\", mimeType=\"image/png\", sizes=[\"48x48\"])],\n)\nregister_tools(app, SALES_TOOLS)\nregister_tools(app, FILES_TOOLS)\nregister_tools(app, PERFORMANCE_TOOLS)",
         "detail": "main",
         "documentation": {}
     },
@@ -2792,7 +3089,7 @@
         "kind": 5,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "app = FastMCP(\n    \"IDRA IDICO AI\",\n    auth=auth_provider,\n    instructions=\"Accede a datos en tiempo real y genera análisis claros para apoyar decisiones.\",\n    icons=[Icon(src=\"https://i.ibb.co/svxz9ZcR/idra-logo.png\", mimeType=\"image/png\", sizes=[\"48x48\"])],\n)\nregister_tools(app, SALES_TOOLS)\nregister_tools(app, FILES_TOOLS)\nregister_tools(app, PERFORMANCE_TOOLS)\nregister_tools(app, OPS_TOOLS)",
+        "peekOfCode": "app = FastMCP(\n    \"IDRA IDICO AI\",\n    #auth=auth_provider,\n    instructions=\"Accede a datos en tiempo real y genera análisis claros para apoyar decisiones.\",\n    icons=[Icon(src=\"https://i.ibb.co/svxz9ZcR/idra-logo.png\", mimeType=\"image/png\", sizes=[\"48x48\"])],\n)\nregister_tools(app, SALES_TOOLS)\nregister_tools(app, FILES_TOOLS)\nregister_tools(app, PERFORMANCE_TOOLS)\nregister_tools(app, OPS_TOOLS)",
         "detail": "main",
         "documentation": {}
     },

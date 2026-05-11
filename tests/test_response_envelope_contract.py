@@ -121,6 +121,64 @@ class TestMCPResponseEnvelopeContract(unittest.TestCase):
         self.assertIn("so_details", response["kpi_metrics"])
         self.assertIsInstance(response["kpi_metrics"]["so_details"], list)
 
+    @patch("features.operations.use_cases.purchase_orders.build_vendors_analysis")
+    @patch("features.operations.use_cases.purchase_orders.tuple_to_dataframe")
+    @patch("features.operations.use_cases.purchase_orders.save_result_to_json")
+    @patch("features.operations.use_cases.purchase_orders.NetSuiteConnection")
+    @patch("features.operations.use_cases.purchase_orders.get_purchase_orders_query")
+    def test_operations_get_purchase_orders_analysis_envelope_contract(
+        self,
+        mock_get_purchase_orders_query,
+        mock_netsuite_connection,
+        mock_save_result_to_json,
+        mock_tuple_to_dataframe,
+        mock_build_vendors_analysis,
+    ):
+        mock_get_purchase_orders_query.return_value = (
+            "SELECT po",
+            ["2026-05-01", "2026-05-11", "Vendor A", "Pending Receipt", "Brand X"],
+        )
+        mock_save_result_to_json.return_value = {"filename": "purchase_orders_data.json", "path": "/tmp/purchase_orders_data.json"}
+
+        columns = ["po_id", "amount_usd"]
+        rows = [(1, 100.0)]
+        ns_client = MagicMock()
+        ns_client.execute_query.return_value = (columns, rows)
+        managed_ctx = MagicMock()
+        managed_ctx.__enter__.return_value = ns_client
+        managed_ctx.__exit__.return_value = False
+        mock_netsuite_connection.return_value.managed.return_value = managed_ctx
+
+        mock_tuple_to_dataframe.return_value = pd.DataFrame(rows, columns=columns)
+        mock_build_vendors_analysis.return_value = {
+            "topic": "vendors",
+            "overview": {"total_purchase_orders": 1},
+            "full_data_reference": "internal-only",
+        }
+
+        response = operations_tools.get_purchase_orders_analysis(
+            initial_date="2026-05-01",
+            final_date="2026-05-11",
+            vendor="Vendor A",
+            status="Pending Receipt",
+            brand="Brand X",
+            topic="vendors",
+        )
+
+        ns_client.execute_query.assert_called_once_with(
+            "SELECT po",
+            ["2026-05-01", "2026-05-11", "Vendor A", "Pending Receipt", "Brand X"],
+        )
+        self.assertEqual(set(response.keys()), {"meta", "kpi_metrics", "artifacts"})
+        self.assertEqual(response["meta"]["tool_name"], "get_purchase_orders_analysis")
+        self.assertEqual(response["meta"]["source_systems"], ["netsuite"])
+        self.assertEqual(
+            set(response["meta"]["filters"].keys()),
+            {"initial_date", "final_date", "vendor", "status", "brand", "topic"},
+        )
+        self.assertEqual(response["meta"]["filters"]["topic"], "vendors")
+        self.assertNotIn("full_data_reference", response["kpi_metrics"])
+
     @patch("features.performance.use_cases.scorecard.execute_pg_query_dev")
     @patch("features.performance.use_cases.scorecard.get_scorecard_by_is_year")
     @patch("features.performance.use_cases.scorecard.get_scorecard_by_is_daily")

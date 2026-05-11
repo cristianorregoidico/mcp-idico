@@ -2,6 +2,7 @@ import unittest
 
 from features.operations.queries.guides import get_helga_guides_query
 from features.operations.queries.otd import get_on_time_delivery
+from features.operations.queries.purchase_orders import get_purchase_orders_query
 from features.sales.queries.activity import get_calls_summary
 from features.sales.queries.quotes import get_quotes_by_inside
 
@@ -41,6 +42,30 @@ class TestQueryParameterization(unittest.TestCase):
 
         self.assertIn("BETWEEN %s::date AND %s::date", sql)
         self.assertEqual(params, ["2026-02-01", "2026-02-28"])
+
+    def test_purchase_orders_only_required_filters(self):
+        sql, params = get_purchase_orders_query("2026-04-01", "2026-04-30")
+
+        self.assertIn("TO_CHAR(t.trandate, 'YYYY-MM-DD') BETWEEN ? AND ?", sql)
+        self.assertNotIn("BUILTIN.DF(t.entity) LIKE '%' || ? || '%'", sql)
+        self.assertNotIn("ts.name LIKE '%' || ? || '%'", sql)
+        self.assertNotIn("BUILTIN.DF(i.custitem13) LIKE '%' || ? || '%'", sql)
+        self.assertEqual(params, ["2026-04-01", "2026-04-30"])
+
+    def test_purchase_orders_dynamic_filters_and_non_interpolated_values(self):
+        vendor = "ACME Vendor"
+        status = "Pending Receipt"
+        brand = "Brand-X"
+        sql, params = get_purchase_orders_query("2026-04-01", "2026-04-30", vendor=vendor, status=status, brand=brand)
+
+        self.assertIn("BUILTIN.DF(t.entity) LIKE '%' || ? || '%'", sql)
+        self.assertIn("ts.name LIKE '%' || ? || '%'", sql)
+        self.assertIn("BUILTIN.DF(i.custitem13) LIKE '%' || ? || '%'", sql)
+        self.assertEqual(params, ["2026-04-01", "2026-04-30", vendor, status, brand])
+
+        self.assertNotIn(vendor, sql)
+        self.assertNotIn(status, sql)
+        self.assertNotIn(brand, sql)
 
 
 if __name__ == "__main__":
