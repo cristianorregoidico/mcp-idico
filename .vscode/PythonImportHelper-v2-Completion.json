@@ -2279,7 +2279,7 @@
         "kind": 2,
         "importPath": "features.operations.tools",
         "description": "features.operations.tools",
-        "peekOfCode": "def get_helga_guides(po: Optional[str] = None, status: Optional[str] = None, service: Optional[str] = None) -> Dict[str, Any]:\n    \"\"\"Retrieve helga guides based on po, status and service filters.\"\"\"\n    return guides.execute(po, status, service)\ndef get_otd_indicators(initial_date: Optional[str] = None, final_date: Optional[str] = None, so_number: Optional[str] = None) -> Dict[str, Any]:\n    \"\"\"Retrieve the on time delivery indicators by period.\"\"\"\n    start_of_month, today_date = get_month_start_and_today()\n    start_q_date = initial_date or start_of_month\n    final_q_date = final_date or today_date\n    return otd.execute(start_q_date, final_q_date, so_number)\ndef get_customer_imports(customer_name: str) -> Dict[str, Any]:",
+        "peekOfCode": "def get_helga_guides(po: Optional[str] = None, status: Optional[str] = None, service: Optional[str] = None) -> Dict[str, Any]:\n    \"\"\"Retrieve Helga guides using PO, status and service filters.\n    Use this tool when the user asks for shipment guide tracking,\n    pending guides, or operational status by PO or service.\n    Args:\n        po: Purchase order filter; optional.\n        status: Shipment status filter; optional.\n        service: Service filter; optional.\n    Returns:\n        Dict[str, Any]: Result count, guide details and dataset reference.",
         "detail": "features.operations.tools",
         "documentation": {}
     },
@@ -2288,7 +2288,7 @@
         "kind": 2,
         "importPath": "features.operations.tools",
         "description": "features.operations.tools",
-        "peekOfCode": "def get_otd_indicators(initial_date: Optional[str] = None, final_date: Optional[str] = None, so_number: Optional[str] = None) -> Dict[str, Any]:\n    \"\"\"Retrieve the on time delivery indicators by period.\"\"\"\n    start_of_month, today_date = get_month_start_and_today()\n    start_q_date = initial_date or start_of_month\n    final_q_date = final_date or today_date\n    return otd.execute(start_q_date, final_q_date, so_number)\ndef get_customer_imports(customer_name: str) -> Dict[str, Any]:\n    \"\"\"Retrieve the imports summary for a given customer.\"\"\"\n    return imports.execute(customer_name)\nOPS_TOOLS: List = [",
+        "peekOfCode": "def get_otd_indicators(initial_date: Optional[str] = None, final_date: Optional[str] = None, so_number: Optional[str] = None) -> Dict[str, Any]:\n    \"\"\"Retrieve on-time-delivery indicators for a period or sales order.\n    Use this tool when the user asks for OTD metrics, delivery compliance,\n    or details for a specific sales order.\n    Args:\n        initial_date: Start date in YYYY-MM-DD format; defaults to month start.\n        final_date: End date in YYYY-MM-DD format; defaults to today.\n        so_number: Sales order filter; optional.\n    Returns:\n        Dict[str, Any]: OTD KPIs, optional sales-order detail and dataset reference.",
         "detail": "features.operations.tools",
         "documentation": {}
     },
@@ -2297,7 +2297,7 @@
         "kind": 2,
         "importPath": "features.operations.tools",
         "description": "features.operations.tools",
-        "peekOfCode": "def get_customer_imports(customer_name: str) -> Dict[str, Any]:\n    \"\"\"Retrieve the imports summary for a given customer.\"\"\"\n    return imports.execute(customer_name)\nOPS_TOOLS: List = [\n    get_helga_guides,\n    get_otd_indicators,\n    get_customer_imports,\n]",
+        "peekOfCode": "def get_customer_imports(customer_name: str) -> Dict[str, Any]:\n    \"\"\"Retrieve the imports summary for a given customer.\n    Use this tool when the user asks for customer import amounts,\n    trends, brands or vendor-related import summaries.\n    Args:\n        customer_name: Customer name; required.\n    Returns:\n        Dict[str, Any]: Import summary metrics and grouped business insights.\n    \"\"\"\n    return imports.execute(customer_name)",
         "detail": "features.operations.tools",
         "documentation": {}
     },
@@ -2369,7 +2369,7 @@
         "kind": 2,
         "importPath": "features.performance.tools",
         "description": "features.performance.tools",
-        "peekOfCode": "def get_inside_sales_performance_report(initial_date: Optional[str] = None, final_date: Optional[str] = None) -> Dict[str, Any]:\n    \"\"\"Analyze Inside Sales performance for the selected period (Response time, hitrate).\"\"\"\n    start_of_month, today_date = get_month_start_and_today()\n    start_q_date = initial_date or start_of_month\n    final_q_date = final_date or today_date\n    return inside_sales_report.execute(start_q_date, final_q_date)\ndef get_scorecard_by_is(inside_sales: Optional[str] = None) -> Dict[str, Any]:\n    \"\"\"Retrieve scorecard metrics by Inside Sales Daily/Monthly/Yearly.\"\"\"\n    return scorecard.execute(inside_sales)\nPERFORMANCE_TOOLS: List = [",
+        "peekOfCode": "def get_inside_sales_performance_report(initial_date: Optional[str] = None, final_date: Optional[str] = None) -> Dict[str, Any]:\n    \"\"\"Analyze Inside Sales performance for the selected period.\n    Use this tool when the user asks for response-time performance,\n    hit rate, opportunity-to-quote flow, or ranking of Inside Sales reps.\n    Args:\n        initial_date: Start date in YYYY-MM-DD format; defaults to month start.\n        final_date: End date in YYYY-MM-DD format; defaults to today.\n    Returns:\n        Dict[str, Any]: Performance KPIs, rankings, flow insights and dataset reference.\n    \"\"\"",
         "detail": "features.performance.tools",
         "documentation": {}
     },
@@ -2378,7 +2378,7 @@
         "kind": 2,
         "importPath": "features.performance.tools",
         "description": "features.performance.tools",
-        "peekOfCode": "def get_scorecard_by_is(inside_sales: Optional[str] = None) -> Dict[str, Any]:\n    \"\"\"Retrieve scorecard metrics by Inside Sales Daily/Monthly/Yearly.\"\"\"\n    return scorecard.execute(inside_sales)\nPERFORMANCE_TOOLS: List = [\n    get_inside_sales_performance_report,\n    get_scorecard_by_is,\n]",
+        "peekOfCode": "def get_scorecard_by_is(inside_sales: Optional[str] = None) -> Dict[str, Any]:\n    \"\"\"Retrieve scorecard metrics by Inside Sales in daily, monthly and yearly views.\n    Use this tool when the user asks for scorecards, recurrent performance\n    tracking, or multi-period metrics for an Inside Sales rep.\n    Args:\n        inside_sales: Inside Sales filter; optional.\n    Returns:\n        Dict[str, Any]: Daily, monthly and yearly scorecard blocks plus row counts.\n    \"\"\"\n    return scorecard.execute(inside_sales)",
         "detail": "features.performance.tools",
         "documentation": {}
     },
@@ -2612,7 +2612,7 @@
         "kind": 2,
         "importPath": "features.sales.tools",
         "description": "features.sales.tools",
-        "peekOfCode": "def get_quotes(initial_date: Optional[str] = None, final_date: Optional[str] = None, inside_sales: Optional[str] = None, customer_name: Optional[str] = \"\") -> Dict[str, Any]:\n    start_of_month, today_date = get_month_start_and_today()\n    start_q_date = initial_date or start_of_month\n    final_q_date = final_date or today_date\n    normalized_inside_sales = \"\" if not inside_sales else inside_sales.upper()\n    normalized_customer_name = customer_name.upper() if customer_name else \"\"\n    return quotes.execute(start_q_date, final_q_date, normalized_inside_sales, normalized_customer_name)\ndef get_bookings(initial_date: Optional[str] = None, final_date: Optional[str] = None, customer_name: Optional[str] = \"\", inside_sales: Optional[str] = \"\") -> Dict[str, Any]:\n    start_of_month, today_date = get_month_start_and_today()\n    start_q_date = initial_date or start_of_month",
+        "peekOfCode": "def get_quotes(initial_date: Optional[str] = None, final_date: Optional[str] = None, inside_sales: Optional[str] = None, customer_name: Optional[str] = \"\") -> Dict[str, Any]:\n    \"\"\"Retrieve summarized KPIs for quotes for the provided period.\n    Use this tool when the user asks for quotes, quotes by customer,\n    or quotes by Inside Sales.\n    Args:\n        initial_date: Start date in YYYY-MM-DD format; defaults to month start.\n        final_date: End date in YYYY-MM-DD format; defaults to today.\n        inside_sales: Inside Sales rep to filter; optional.\n        customer_name: Customer name to filter; optional.\n    Returns:",
         "detail": "features.sales.tools",
         "documentation": {}
     },
@@ -2621,7 +2621,7 @@
         "kind": 2,
         "importPath": "features.sales.tools",
         "description": "features.sales.tools",
-        "peekOfCode": "def get_bookings(initial_date: Optional[str] = None, final_date: Optional[str] = None, customer_name: Optional[str] = \"\", inside_sales: Optional[str] = \"\") -> Dict[str, Any]:\n    start_of_month, today_date = get_month_start_and_today()\n    start_q_date = initial_date or start_of_month\n    final_q_date = final_date or today_date\n    normalized_customer_name = customer_name.upper() if customer_name else \"\"\n    normalized_inside_sales = inside_sales.upper() if inside_sales else \"\"\n    return bookings.execute(start_q_date, final_q_date, normalized_customer_name, normalized_inside_sales)\ndef get_quoted_items(initial_date: Optional[str] = None, final_date: Optional[str] = None, customer_name: Optional[str] = \"\", inside_sales: Optional[str] = \"\", topic: Optional[str] = \"items\") -> Dict[str, Any]:\n    start_of_month, today_date = get_month_start_and_today()\n    start_q_date = initial_date or start_of_month",
+        "peekOfCode": "def get_bookings(initial_date: Optional[str] = None, final_date: Optional[str] = None, customer_name: Optional[str] = \"\", inside_sales: Optional[str] = \"\") -> Dict[str, Any]:\n    \"\"\"Retrieve summarized KPIs for bookings for the provided period.\n    Use this tool when the user asks for bookings, sales totals,\n    bookings by customer, or bookings by Inside Sales.\n    Args:\n        initial_date: Start date in YYYY-MM-DD format; defaults to month start.\n        final_date: End date in YYYY-MM-DD format; defaults to today.\n        customer_name: Customer filter; optional.\n        inside_sales: Inside Sales filter; optional.\n    Returns:",
         "detail": "features.sales.tools",
         "documentation": {}
     },
@@ -2630,7 +2630,7 @@
         "kind": 2,
         "importPath": "features.sales.tools",
         "description": "features.sales.tools",
-        "peekOfCode": "def get_quoted_items(initial_date: Optional[str] = None, final_date: Optional[str] = None, customer_name: Optional[str] = \"\", inside_sales: Optional[str] = \"\", topic: Optional[str] = \"items\") -> Dict[str, Any]:\n    start_of_month, today_date = get_month_start_and_today()\n    start_q_date = initial_date or start_of_month\n    final_q_date = final_date or today_date\n    normalized_customer_name = customer_name.upper() if customer_name else \"\"\n    normalized_inside_sales = inside_sales.upper() if inside_sales else \"\"\n    return items.execute_quoted_items(start_q_date, final_q_date, normalized_customer_name, normalized_inside_sales, topic or \"items\")\ndef get_sold_items(initial_date: Optional[str] = None, final_date: Optional[str] = None, customer_name: Optional[str] = \"\", inside_sales: Optional[str] = \"\", topic: Optional[str] = \"items\") -> Dict[str, Any]:\n    start_of_month, today_date = get_month_start_and_today()\n    start_q_date = initial_date or start_of_month",
+        "peekOfCode": "def get_quoted_items(initial_date: Optional[str] = None, final_date: Optional[str] = None, customer_name: Optional[str] = \"\", inside_sales: Optional[str] = \"\", topic: Optional[str] = \"items\") -> Dict[str, Any]:\n    \"\"\"Retrieve summarized KPIs for quoted items for the provided period.\n    Use this tool when the user asks for quoted items, quoted brands,\n    quoted products by customer, or quoted products by Inside Sales.\n    Args:\n        initial_date: Start date in YYYY-MM-DD format; defaults to month start.\n        final_date: End date in YYYY-MM-DD format; defaults to today.\n        customer_name: Customer filter; optional.\n        inside_sales: Inside Sales filter; optional.\n        topic: Either \"items\" or \"brand\" to change the summary focus.",
         "detail": "features.sales.tools",
         "documentation": {}
     },
@@ -2639,7 +2639,7 @@
         "kind": 2,
         "importPath": "features.sales.tools",
         "description": "features.sales.tools",
-        "peekOfCode": "def get_sold_items(initial_date: Optional[str] = None, final_date: Optional[str] = None, customer_name: Optional[str] = \"\", inside_sales: Optional[str] = \"\", topic: Optional[str] = \"items\") -> Dict[str, Any]:\n    start_of_month, today_date = get_month_start_and_today()\n    start_q_date = initial_date or start_of_month\n    final_q_date = final_date or today_date\n    normalized_customer_name = customer_name.upper() if customer_name else \"\"\n    normalized_inside_sales = inside_sales.upper() if inside_sales else \"\"\n    return items.execute_sold_items(start_q_date, final_q_date, normalized_customer_name, normalized_inside_sales, topic or \"items\")\ndef get_opportunities(initial_date: Optional[str] = None, final_date: Optional[str] = None, inside_sales: Optional[str] = \"\", customer_name: Optional[str] = \"\") -> Dict[str, Any]:\n    start_of_month, today_date = get_month_start_and_today()\n    start_q_date = initial_date or start_of_month",
+        "peekOfCode": "def get_sold_items(initial_date: Optional[str] = None, final_date: Optional[str] = None, customer_name: Optional[str] = \"\", inside_sales: Optional[str] = \"\", topic: Optional[str] = \"items\") -> Dict[str, Any]:\n    \"\"\"Retrieve summarized KPIs for sold items for the provided period.\n    Use this tool when the user asks for sold items, sold brands,\n    product mix, or sold products by customer or Inside Sales.\n    Args:\n        initial_date: Start date in YYYY-MM-DD format; defaults to month start.\n        final_date: End date in YYYY-MM-DD format; defaults to today.\n        customer_name: Customer filter; optional.\n        inside_sales: Inside Sales filter; optional.\n        topic: Either \"items\" or \"brand\" to change the summary focus.",
         "detail": "features.sales.tools",
         "documentation": {}
     },
@@ -2648,7 +2648,7 @@
         "kind": 2,
         "importPath": "features.sales.tools",
         "description": "features.sales.tools",
-        "peekOfCode": "def get_opportunities(initial_date: Optional[str] = None, final_date: Optional[str] = None, inside_sales: Optional[str] = \"\", customer_name: Optional[str] = \"\") -> Dict[str, Any]:\n    start_of_month, today_date = get_month_start_and_today()\n    start_q_date = initial_date or start_of_month\n    final_q_date = final_date or today_date\n    normalized_inside_sales = \"\" if not inside_sales else inside_sales.upper()\n    normalized_customer_name = \"\" if not customer_name else customer_name.upper()\n    return opportunities.execute(start_q_date, final_q_date, normalized_inside_sales, normalized_customer_name)\ndef get_vendors_to_quote(customer_name: str, brand: str) -> Dict[str, Any]:\n    if not customer_name or not brand:\n        raise ValueError(\"Both customer_name and brand must be provided.\")",
+        "peekOfCode": "def get_opportunities(initial_date: Optional[str] = None, final_date: Optional[str] = None, inside_sales: Optional[str] = \"\", customer_name: Optional[str] = \"\") -> Dict[str, Any]:\n    \"\"\"Retrieve summarized KPIs for opportunities for the provided period.\n    Use this tool when the user asks for opportunities, pipeline activity,\n    commercial follow-up, or opportunities by customer or Inside Sales.\n    Args:\n        initial_date: Start date in YYYY-MM-DD format; defaults to month start.\n        final_date: End date in YYYY-MM-DD format; defaults to today.\n        inside_sales: Inside Sales filter; optional.\n        customer_name: Customer filter; optional.\n    Returns:",
         "detail": "features.sales.tools",
         "documentation": {}
     },
@@ -2657,7 +2657,7 @@
         "kind": 2,
         "importPath": "features.sales.tools",
         "description": "features.sales.tools",
-        "peekOfCode": "def get_vendors_to_quote(customer_name: str, brand: str) -> Dict[str, Any]:\n    if not customer_name or not brand:\n        raise ValueError(\"Both customer_name and brand must be provided.\")\n    normalized_customer_name = customer_name.upper()\n    normalized_brand = brand.upper()\n    return vendor_recommendation.execute(normalized_customer_name, normalized_brand)\ndef get_events_summary(start_date: Optional[str], final_date: Optional[str], customer_name: Optional[str], organizer: Optional[str], subject: Optional[str]) -> Dict[str, Any]:\n    start_of_month, today_date = get_month_start_and_today()\n    start_q_date = start_date or start_of_month\n    final_q_date = final_date or today_date",
+        "peekOfCode": "def get_vendors_to_quote(customer_name: str, brand: str) -> Dict[str, Any]:\n    \"\"\"Suggest vendors to quote for a specific customer and brand.\n    Use this tool when the user wants vendor suggestions for a customer-brand\n    combination based on historical customer-brand and country-brand behavior.\n    Args:\n        customer_name: Customer name; required.\n        brand: Brand name; required.\n    Returns:\n        Dict[str, Any]: Suggested vendor lists and supporting metadata for\n        customer-brand and country-brand matches.",
         "detail": "features.sales.tools",
         "documentation": {}
     },
@@ -2666,7 +2666,7 @@
         "kind": 2,
         "importPath": "features.sales.tools",
         "description": "features.sales.tools",
-        "peekOfCode": "def get_events_summary(start_date: Optional[str], final_date: Optional[str], customer_name: Optional[str], organizer: Optional[str], subject: Optional[str]) -> Dict[str, Any]:\n    start_of_month, today_date = get_month_start_and_today()\n    start_q_date = start_date or start_of_month\n    final_q_date = final_date or today_date\n    normalized_customer_name = customer_name.upper() if customer_name else \"\"\n    normalized_organizer = organizer.upper() if organizer else \"\"\n    normalized_subject = subject.upper() if subject else \"\"\n    return activity.execute(start_q_date, final_q_date, normalized_customer_name, normalized_organizer, normalized_subject)\nSALES_TOOLS: List = [\n    get_quotes,",
+        "peekOfCode": "def get_events_summary(start_date: Optional[str], final_date: Optional[str], customer_name: Optional[str], organizer: Optional[str], subject: Optional[str]) -> Dict[str, Any]:\n    \"\"\"Retrieve and summarize commercial events or call activity.\n    Use this tool when the user asks for event summaries, commercial calls,\n    customer conversation context, or relationship insights.\n    Args:\n        start_date: Start date in YYYY-MM-DD format; defaults to month start.\n        final_date: End date in YYYY-MM-DD format; defaults to today.\n        customer_name: Customer filter; optional.\n        organizer: Organizer filter; optional.\n        subject: Subject filter; optional.",
         "detail": "features.sales.tools",
         "documentation": {}
     },

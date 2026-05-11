@@ -5,6 +5,21 @@ from utils.date import get_month_start_and_today
 
 
 def get_quotes(initial_date: Optional[str] = None, final_date: Optional[str] = None, inside_sales: Optional[str] = None, customer_name: Optional[str] = "") -> Dict[str, Any]:
+    """Retrieve summarized KPIs for quotes for the provided period.
+
+    Use this tool when the user asks for quotes, quotes by customer,
+    or quotes by Inside Sales.
+
+    Args:
+        initial_date: Start date in YYYY-MM-DD format; defaults to month start.
+        final_date: End date in YYYY-MM-DD format; defaults to today.
+        inside_sales: Inside Sales rep to filter; optional.
+        customer_name: Customer name to filter; optional.
+
+    Returns:
+        Dict[str, Any]: KPIs per Inside Sales, status mix, win rate,
+        commercial totals, period summaries and dataset reference.
+    """
     start_of_month, today_date = get_month_start_and_today()
     start_q_date = initial_date or start_of_month
     final_q_date = final_date or today_date
@@ -14,6 +29,21 @@ def get_quotes(initial_date: Optional[str] = None, final_date: Optional[str] = N
 
 
 def get_bookings(initial_date: Optional[str] = None, final_date: Optional[str] = None, customer_name: Optional[str] = "", inside_sales: Optional[str] = "") -> Dict[str, Any]:
+    """Retrieve summarized KPIs for bookings for the provided period.
+
+    Use this tool when the user asks for bookings, sales totals,
+    bookings by customer, or bookings by Inside Sales.
+
+    Args:
+        initial_date: Start date in YYYY-MM-DD format; defaults to month start.
+        final_date: End date in YYYY-MM-DD format; defaults to today.
+        customer_name: Customer filter; optional.
+        inside_sales: Inside Sales filter; optional.
+
+    Returns:
+        Dict[str, Any]: Booking totals, margins, top customers,
+        distributions, KPI summaries and dataset reference.
+    """
     start_of_month, today_date = get_month_start_and_today()
     start_q_date = initial_date or start_of_month
     final_q_date = final_date or today_date
@@ -23,6 +53,22 @@ def get_bookings(initial_date: Optional[str] = None, final_date: Optional[str] =
 
 
 def get_quoted_items(initial_date: Optional[str] = None, final_date: Optional[str] = None, customer_name: Optional[str] = "", inside_sales: Optional[str] = "", topic: Optional[str] = "items") -> Dict[str, Any]:
+    """Retrieve summarized KPIs for quoted items for the provided period.
+
+    Use this tool when the user asks for quoted items, quoted brands,
+    quoted products by customer, or quoted products by Inside Sales.
+
+    Args:
+        initial_date: Start date in YYYY-MM-DD format; defaults to month start.
+        final_date: End date in YYYY-MM-DD format; defaults to today.
+        customer_name: Customer filter; optional.
+        inside_sales: Inside Sales filter; optional.
+        topic: Either "items" or "brand" to change the summary focus.
+
+    Returns:
+        Dict[str, Any]: Item or brand recurrence summaries, vendor and
+        customer breakdowns, and dataset reference.
+    """
     start_of_month, today_date = get_month_start_and_today()
     start_q_date = initial_date or start_of_month
     final_q_date = final_date or today_date
@@ -32,6 +78,22 @@ def get_quoted_items(initial_date: Optional[str] = None, final_date: Optional[st
 
 
 def get_sold_items(initial_date: Optional[str] = None, final_date: Optional[str] = None, customer_name: Optional[str] = "", inside_sales: Optional[str] = "", topic: Optional[str] = "items") -> Dict[str, Any]:
+    """Retrieve summarized KPIs for sold items for the provided period.
+
+    Use this tool when the user asks for sold items, sold brands,
+    product mix, or sold products by customer or Inside Sales.
+
+    Args:
+        initial_date: Start date in YYYY-MM-DD format; defaults to month start.
+        final_date: End date in YYYY-MM-DD format; defaults to today.
+        customer_name: Customer filter; optional.
+        inside_sales: Inside Sales filter; optional.
+        topic: Either "items" or "brand" to change the summary focus.
+
+    Returns:
+        Dict[str, Any]: KPI summaries, top sold items, brand distributions,
+        margin-related insights, and dataset reference.
+    """
     start_of_month, today_date = get_month_start_and_today()
     start_q_date = initial_date or start_of_month
     final_q_date = final_date or today_date
@@ -41,6 +103,21 @@ def get_sold_items(initial_date: Optional[str] = None, final_date: Optional[str]
 
 
 def get_opportunities(initial_date: Optional[str] = None, final_date: Optional[str] = None, inside_sales: Optional[str] = "", customer_name: Optional[str] = "") -> Dict[str, Any]:
+    """Retrieve summarized KPIs for opportunities for the provided period.
+
+    Use this tool when the user asks for opportunities, pipeline activity,
+    commercial follow-up, or opportunities by customer or Inside Sales.
+
+    Args:
+        initial_date: Start date in YYYY-MM-DD format; defaults to month start.
+        final_date: End date in YYYY-MM-DD format; defaults to today.
+        inside_sales: Inside Sales filter; optional.
+        customer_name: Customer filter; optional.
+
+    Returns:
+        Dict[str, Any]: Opportunity totals, customer participation,
+        status distributions, overdue items and dataset reference.
+    """
     start_of_month, today_date = get_month_start_and_today()
     start_q_date = initial_date or start_of_month
     final_q_date = final_date or today_date
@@ -50,6 +127,19 @@ def get_opportunities(initial_date: Optional[str] = None, final_date: Optional[s
 
 
 def get_vendors_to_quote(customer_name: str, brand: str) -> Dict[str, Any]:
+    """Suggest vendors to quote for a specific customer and brand.
+
+    Use this tool when the user wants vendor suggestions for a customer-brand
+    combination based on historical customer-brand and country-brand behavior.
+
+    Args:
+        customer_name: Customer name; required.
+        brand: Brand name; required.
+
+    Returns:
+        Dict[str, Any]: Suggested vendor lists and supporting metadata for
+        customer-brand and country-brand matches.
+    """
     if not customer_name or not brand:
         raise ValueError("Both customer_name and brand must be provided.")
     normalized_customer_name = customer_name.upper()
@@ -58,6 +148,22 @@ def get_vendors_to_quote(customer_name: str, brand: str) -> Dict[str, Any]:
 
 
 def get_events_summary(start_date: Optional[str], final_date: Optional[str], customer_name: Optional[str], organizer: Optional[str], subject: Optional[str]) -> Dict[str, Any]:
+    """Retrieve and summarize commercial events or call activity.
+
+    Use this tool when the user asks for event summaries, commercial calls,
+    customer conversation context, or relationship insights.
+
+    Args:
+        start_date: Start date in YYYY-MM-DD format; defaults to month start.
+        final_date: End date in YYYY-MM-DD format; defaults to today.
+        customer_name: Customer filter; optional.
+        organizer: Organizer filter; optional.
+        subject: Subject filter; optional.
+
+    Returns:
+        Dict[str, Any]: Total activity count plus detailed records and a
+        suggested prompt block for downstream qualitative analysis.
+    """
     start_of_month, today_date = get_month_start_and_today()
     start_q_date = start_date or start_of_month
     final_q_date = final_date or today_date
