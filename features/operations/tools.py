@@ -1,6 +1,6 @@
 from typing import Any, Dict, List, Optional
 
-from features.operations.use_cases import guides, imports, otd, purchase_orders
+from features.operations.use_cases import guides, imports, otd, purchase_orders, walle_usage
 from utils.date import get_month_start_and_today
 
 
@@ -90,9 +90,35 @@ def get_purchase_orders(
     return purchase_orders.execute(initial_date, final_date, vendor, status, brand, topic)
 
 
+def get_walle_usage(
+    initial_date: Optional[str] = None,
+    final_date: Optional[str] = None,
+    po_name: Optional[str] = None,
+    limit: int = 100,
+) -> Dict[str, Any]:
+    """Retrieve Walle usage metrics from PostgreSQL.
+
+    Use this tool when the user asks for Walle adoption, AI email processing,
+    action suggestion activity, or API usage metrics for a period or a specific PO.
+
+    Args:
+        initial_date: Start date in YYYY-MM-DD format; defaults to month start
+            when needed.
+        final_date: End date in YYYY-MM-DD format; defaults to today when needed.
+        po_name: Exact PO filter; when present, PO-related queries ignore date range.
+        limit: Maximum sample size for detail payloads. Clamped to a safe maximum.
+
+    Returns:
+        Dict[str, Any]: MCP response envelope with Walle KPI metrics, raw dataset
+        references, and limited detail samples.
+    """
+    return walle_usage.execute(initial_date, final_date, po_name, limit)
+
+
 OPS_TOOLS: List = [
     get_helga_guides,
     get_otd_indicators,
     get_customer_imports,
     get_purchase_orders,
+    get_walle_usage,
 ]

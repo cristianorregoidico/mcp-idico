@@ -25,6 +25,22 @@
         "documentation": {}
     },
     {
+        "label": "annotations",
+        "importPath": "__future__",
+        "description": "__future__",
+        "isExtraImport": true,
+        "detail": "__future__",
+        "documentation": {}
+    },
+    {
+        "label": "annotations",
+        "importPath": "__future__",
+        "description": "__future__",
+        "isExtraImport": true,
+        "detail": "__future__",
+        "documentation": {}
+    },
+    {
         "label": "os",
         "kind": 6,
         "isExtraImport": true,
@@ -415,6 +431,22 @@
         "documentation": {}
     },
     {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
         "label": "List",
         "importPath": "typing",
         "description": "typing",
@@ -472,6 +504,30 @@
     },
     {
         "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
         "importPath": "typing",
         "description": "typing",
         "isExtraImport": true,
@@ -967,6 +1023,30 @@
         "documentation": {}
     },
     {
+        "label": "save_dataset_manifest",
+        "importPath": "utils.json_df",
+        "description": "utils.json_df",
+        "isExtraImport": true,
+        "detail": "utils.json_df",
+        "documentation": {}
+    },
+    {
+        "label": "save_result_to_json",
+        "importPath": "utils.json_df",
+        "description": "utils.json_df",
+        "isExtraImport": true,
+        "detail": "utils.json_df",
+        "documentation": {}
+    },
+    {
+        "label": "save_result_to_json",
+        "importPath": "utils.json_df",
+        "description": "utils.json_df",
+        "isExtraImport": true,
+        "detail": "utils.json_df",
+        "documentation": {}
+    },
+    {
         "label": "save_result_to_json",
         "importPath": "utils.json_df",
         "description": "utils.json_df",
@@ -1020,6 +1100,14 @@
         "description": "utils.json_df",
         "isExtraImport": true,
         "detail": "utils.json_df",
+        "documentation": {}
+    },
+    {
+        "label": "build_tool_response",
+        "importPath": "utils.envelope",
+        "description": "utils.envelope",
+        "isExtraImport": true,
+        "detail": "utils.envelope",
         "documentation": {}
     },
     {
@@ -1225,6 +1313,14 @@
         "documentation": {}
     },
     {
+        "label": "execute_pg_query",
+        "importPath": "connections.postgresql.client",
+        "description": "connections.postgresql.client",
+        "isExtraImport": true,
+        "detail": "connections.postgresql.client",
+        "documentation": {}
+    },
+    {
         "label": "execute_pg_query_dev",
         "importPath": "connections.postgresql.client",
         "description": "connections.postgresql.client",
@@ -1302,6 +1398,14 @@
         "description": "features.operations.queries.guides",
         "isExtraImport": true,
         "detail": "features.operations.queries.guides",
+        "documentation": {}
+    },
+    {
+        "label": "tuple_to_dataframe",
+        "importPath": "utils.transformations",
+        "description": "utils.transformations",
+        "isExtraImport": true,
+        "detail": "utils.transformations",
         "documentation": {}
     },
     {
@@ -1601,6 +1705,135 @@
         "documentation": {}
     },
     {
+        "label": "get_month_start_and_today",
+        "importPath": "utils.date",
+        "description": "utils.date",
+        "isExtraImport": true,
+        "detail": "utils.date",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "datetime",
+        "description": "datetime",
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "timezone",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "build_walle_usage_metrics",
+        "importPath": "features.operations.domain.walle_usage",
+        "description": "features.operations.domain.walle_usage",
+        "isExtraImport": true,
+        "detail": "features.operations.domain.walle_usage",
+        "documentation": {}
+    },
+    {
+        "label": "build_walle_usage_metrics",
+        "importPath": "features.operations.domain.walle_usage",
+        "description": "features.operations.domain.walle_usage",
+        "isExtraImport": true,
+        "detail": "features.operations.domain.walle_usage",
+        "documentation": {}
+    },
+    {
+        "label": "get_action_suggestions_query",
+        "importPath": "features.operations.queries.walle_usage",
+        "description": "features.operations.queries.walle_usage",
+        "isExtraImport": true,
+        "detail": "features.operations.queries.walle_usage",
+        "documentation": {}
+    },
+    {
+        "label": "get_analyzed_emails_query",
+        "importPath": "features.operations.queries.walle_usage",
+        "description": "features.operations.queries.walle_usage",
+        "isExtraImport": true,
+        "detail": "features.operations.queries.walle_usage",
+        "documentation": {}
+    },
+    {
+        "label": "get_summarized_emails_query",
+        "importPath": "features.operations.queries.walle_usage",
+        "description": "features.operations.queries.walle_usage",
+        "isExtraImport": true,
+        "detail": "features.operations.queries.walle_usage",
+        "documentation": {}
+    },
+    {
+        "label": "get_walle_event_log_query",
+        "importPath": "features.operations.queries.walle_usage",
+        "description": "features.operations.queries.walle_usage",
+        "isExtraImport": true,
+        "detail": "features.operations.queries.walle_usage",
+        "documentation": {}
+    },
+    {
+        "label": "get_action_suggestions_query",
+        "importPath": "features.operations.queries.walle_usage",
+        "description": "features.operations.queries.walle_usage",
+        "isExtraImport": true,
+        "detail": "features.operations.queries.walle_usage",
+        "documentation": {}
+    },
+    {
+        "label": "get_analyzed_emails_query",
+        "importPath": "features.operations.queries.walle_usage",
+        "description": "features.operations.queries.walle_usage",
+        "isExtraImport": true,
+        "detail": "features.operations.queries.walle_usage",
+        "documentation": {}
+    },
+    {
+        "label": "get_summarized_emails_query",
+        "importPath": "features.operations.queries.walle_usage",
+        "description": "features.operations.queries.walle_usage",
+        "isExtraImport": true,
+        "detail": "features.operations.queries.walle_usage",
+        "documentation": {}
+    },
+    {
+        "label": "get_walle_event_log_query",
+        "importPath": "features.operations.queries.walle_usage",
+        "description": "features.operations.queries.walle_usage",
+        "isExtraImport": true,
+        "detail": "features.operations.queries.walle_usage",
+        "documentation": {}
+    },
+    {
         "label": "guides",
         "importPath": "features.operations.use_cases",
         "description": "features.operations.use_cases",
@@ -1633,7 +1866,23 @@
         "documentation": {}
     },
     {
+        "label": "walle_usage",
+        "importPath": "features.operations.use_cases",
+        "description": "features.operations.use_cases",
+        "isExtraImport": true,
+        "detail": "features.operations.use_cases",
+        "documentation": {}
+    },
+    {
         "label": "purchase_orders",
+        "importPath": "features.operations.use_cases",
+        "description": "features.operations.use_cases",
+        "isExtraImport": true,
+        "detail": "features.operations.use_cases",
+        "documentation": {}
+    },
+    {
+        "label": "walle_usage",
         "importPath": "features.operations.use_cases",
         "description": "features.operations.use_cases",
         "isExtraImport": true,
@@ -1938,6 +2187,38 @@
         "documentation": {}
     },
     {
+        "label": "Decimal",
+        "importPath": "decimal",
+        "description": "decimal",
+        "isExtraImport": true,
+        "detail": "decimal",
+        "documentation": {}
+    },
+    {
+        "label": "Decimal",
+        "importPath": "decimal",
+        "description": "decimal",
+        "isExtraImport": true,
+        "detail": "decimal",
+        "documentation": {}
+    },
+    {
+        "label": "mock_open",
+        "importPath": "unittest.mock",
+        "description": "unittest.mock",
+        "isExtraImport": true,
+        "detail": "unittest.mock",
+        "documentation": {}
+    },
+    {
+        "label": "patch",
+        "importPath": "unittest.mock",
+        "description": "unittest.mock",
+        "isExtraImport": true,
+        "detail": "unittest.mock",
+        "documentation": {}
+    },
+    {
         "label": "MagicMock",
         "importPath": "unittest.mock",
         "description": "unittest.mock",
@@ -1955,6 +2236,14 @@
     },
     {
         "label": "MagicMock",
+        "importPath": "unittest.mock",
+        "description": "unittest.mock",
+        "isExtraImport": true,
+        "detail": "unittest.mock",
+        "documentation": {}
+    },
+    {
+        "label": "patch",
         "importPath": "unittest.mock",
         "description": "unittest.mock",
         "isExtraImport": true,
@@ -1991,39 +2280,6 @@
         "description": "features.sales",
         "isExtraImport": true,
         "detail": "features.sales",
-        "documentation": {}
-    },
-    {
-        "label": "datetime",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "datetime",
-        "description": "datetime",
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "datetime",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "datetime",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "timezone",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
         "documentation": {}
     },
     {
@@ -2473,6 +2729,15 @@
         "documentation": {}
     },
     {
+        "label": "build_walle_usage_metrics",
+        "kind": 2,
+        "importPath": "features.operations.domain.walle_usage",
+        "description": "features.operations.domain.walle_usage",
+        "peekOfCode": "def build_walle_usage_metrics(\n    summarized_emails_df: pd.DataFrame,\n    analyzed_emails_df: pd.DataFrame,\n    action_suggestions_df: pd.DataFrame,\n    event_log_df: pd.DataFrame,\n) -> Dict[str, Any]:\n    po_series = pd.concat(\n        [\n            summarized_emails_df.get(\"po_name\", pd.Series(dtype=\"object\")),\n            analyzed_emails_df.get(\"po_name\", pd.Series(dtype=\"object\")),",
+        "detail": "features.operations.domain.walle_usage",
+        "documentation": {}
+    },
+    {
         "label": "get_helga_guides_query",
         "kind": 2,
         "importPath": "features.operations.queries.guides",
@@ -2506,6 +2771,42 @@
         "description": "features.operations.queries.purchase_orders",
         "peekOfCode": "def get_purchase_orders_query(\n    initial_date: str,\n    final_date: str,\n    vendor: Optional[str] = None,\n    status: Optional[str] = None,\n    brand: Optional[str] = None,\n) -> Tuple[str, List[Any]]:\n    where_clauses = [\n        \"t.type = 'PurchOrd'\",\n        \"tl.mainline = 'F'\",",
         "detail": "features.operations.queries.purchase_orders",
+        "documentation": {}
+    },
+    {
+        "label": "get_summarized_emails_query",
+        "kind": 2,
+        "importPath": "features.operations.queries.walle_usage",
+        "description": "features.operations.queries.walle_usage",
+        "peekOfCode": "def get_summarized_emails_query(\n    initial_date: str | None = None,\n    final_date: str | None = None,\n    po_name: str | None = None,\n) -> tuple[str, list[str | None]]:\n    dynamic_where, params = _build_po_or_date_filter(\n        date_column=\"poe.email_date::date\",\n        initial_date=initial_date,\n        final_date=final_date,\n        po_name=po_name,",
+        "detail": "features.operations.queries.walle_usage",
+        "documentation": {}
+    },
+    {
+        "label": "get_analyzed_emails_query",
+        "kind": 2,
+        "importPath": "features.operations.queries.walle_usage",
+        "description": "features.operations.queries.walle_usage",
+        "peekOfCode": "def get_analyzed_emails_query(\n    initial_date: str | None = None,\n    final_date: str | None = None,\n    po_name: str | None = None,\n) -> tuple[str, list[str | None]]:\n    dynamic_where, params = _build_po_or_date_filter(\n        date_column='mea.\"createdAt\"::date',\n        initial_date=initial_date,\n        final_date=final_date,\n        po_name=po_name,",
+        "detail": "features.operations.queries.walle_usage",
+        "documentation": {}
+    },
+    {
+        "label": "get_action_suggestions_query",
+        "kind": 2,
+        "importPath": "features.operations.queries.walle_usage",
+        "description": "features.operations.queries.walle_usage",
+        "peekOfCode": "def get_action_suggestions_query(\n    initial_date: str | None = None,\n    final_date: str | None = None,\n    po_name: str | None = None,\n) -> tuple[str, list[str | None]]:\n    dynamic_where, params = _build_po_or_date_filter(\n        date_column='eas.\"createdAt\"::date',\n        initial_date=initial_date,\n        final_date=final_date,\n        po_name=po_name,",
+        "detail": "features.operations.queries.walle_usage",
+        "documentation": {}
+    },
+    {
+        "label": "get_walle_event_log_query",
+        "kind": 2,
+        "importPath": "features.operations.queries.walle_usage",
+        "description": "features.operations.queries.walle_usage",
+        "peekOfCode": "def get_walle_event_log_query(initial_date: str, final_date: str) -> tuple[str, list[str]]:\n    sql = \"\"\"\n    SELECT\n        el.method,\n        el.endpoint,\n        el.status_code,\n        el.duration_ms,\n        el.\"createdAt\"\n    FROM ods.walle.event_log el\n    WHERE el.method = 'POST'",
+        "detail": "features.operations.queries.walle_usage",
         "documentation": {}
     },
     {
@@ -2554,6 +2855,33 @@
         "documentation": {}
     },
     {
+        "label": "execute",
+        "kind": 2,
+        "importPath": "features.operations.use_cases.walle_usage",
+        "description": "features.operations.use_cases.walle_usage",
+        "peekOfCode": "def execute(\n    initial_date: Optional[str] = None,\n    final_date: Optional[str] = None,\n    po_name: Optional[str] = None,\n    limit: int = 100,\n) -> Dict[str, Any]:\n    normalized_po_name = _normalize_po_name(po_name)\n    sample_limit = _normalize_limit(limit)\n    resolved_initial_date, resolved_final_date = _resolve_dates(initial_date, final_date, normalized_po_name)\n    query_specs = {",
+        "detail": "features.operations.use_cases.walle_usage",
+        "documentation": {}
+    },
+    {
+        "label": "MAX_SAMPLE_LIMIT",
+        "kind": 5,
+        "importPath": "features.operations.use_cases.walle_usage",
+        "description": "features.operations.use_cases.walle_usage",
+        "peekOfCode": "MAX_SAMPLE_LIMIT = 500\nDATE_FORMAT = \"%Y-%m-%d\"\ndef _validate_date(date_value: str, field_name: str) -> None:\n    try:\n        datetime.strptime(date_value, DATE_FORMAT)\n    except ValueError as exc:\n        raise ValueError(f\"Invalid {field_name} '{date_value}'. Expected YYYY-MM-DD\") from exc\ndef _normalize_limit(limit: int) -> int:\n    if limit <= 0:\n        raise ValueError(\"limit must be greater than 0\")",
+        "detail": "features.operations.use_cases.walle_usage",
+        "documentation": {}
+    },
+    {
+        "label": "DATE_FORMAT",
+        "kind": 5,
+        "importPath": "features.operations.use_cases.walle_usage",
+        "description": "features.operations.use_cases.walle_usage",
+        "peekOfCode": "DATE_FORMAT = \"%Y-%m-%d\"\ndef _validate_date(date_value: str, field_name: str) -> None:\n    try:\n        datetime.strptime(date_value, DATE_FORMAT)\n    except ValueError as exc:\n        raise ValueError(f\"Invalid {field_name} '{date_value}'. Expected YYYY-MM-DD\") from exc\ndef _normalize_limit(limit: int) -> int:\n    if limit <= 0:\n        raise ValueError(\"limit must be greater than 0\")\n    return min(limit, MAX_SAMPLE_LIMIT)",
+        "detail": "features.operations.use_cases.walle_usage",
+        "documentation": {}
+    },
+    {
         "label": "get_helga_guides",
         "kind": 2,
         "importPath": "features.operations.tools",
@@ -2586,6 +2914,15 @@
         "importPath": "features.operations.tools",
         "description": "features.operations.tools",
         "peekOfCode": "def get_purchase_orders(\n    initial_date: Optional[str] = None,\n    final_date: Optional[str] = None,\n    vendor: Optional[str] = None,\n    status: Optional[str] = None,\n    brand: Optional[str] = None,\n    topic: str = \"vendors\",\n) -> Dict[str, Any]:\n    \"\"\"Retrieve purchase-order analytics from NetSuite.\n    Use this tool when the user asks for purchase-order status, vendor activity,",
+        "detail": "features.operations.tools",
+        "documentation": {}
+    },
+    {
+        "label": "get_walle_usage",
+        "kind": 2,
+        "importPath": "features.operations.tools",
+        "description": "features.operations.tools",
+        "peekOfCode": "def get_walle_usage(\n    initial_date: Optional[str] = None,\n    final_date: Optional[str] = None,\n    po_name: Optional[str] = None,\n    limit: int = 100,\n) -> Dict[str, Any]:\n    \"\"\"Retrieve Walle usage metrics from PostgreSQL.\n    Use this tool when the user asks for Walle adoption, AI email processing,\n    action suggestion activity, or API usage metrics for a period or a specific PO.\n    Args:",
         "detail": "features.operations.tools",
         "documentation": {}
     },
@@ -2959,6 +3296,15 @@
         "documentation": {}
     },
     {
+        "label": "TestJsonDf",
+        "kind": 6,
+        "importPath": "tests.test_json_df",
+        "description": "tests.test_json_df",
+        "peekOfCode": "class TestJsonDf(unittest.TestCase):\n    @patch(\"builtins.open\", new_callable=mock_open)\n    def test_save_result_to_json_serializes_decimal_values(self, _mock_open):\n        dataset = save_result_to_json(\n            columns=[\"amount_usd\", \"created_at\"],\n            rows=[(Decimal(\"10.50\"), \"2026-05-12\")],\n            description=\"Dataset with decimal\",\n            name=\"decimal_dataset\",\n        )\n        self.assertIn(\"filename\", dataset)",
+        "detail": "tests.test_json_df",
+        "documentation": {}
+    },
+    {
         "label": "TestPurchaseOrdersAnalysis",
         "kind": 6,
         "importPath": "tests.test_purchase_orders_analysis",
@@ -2986,6 +3332,24 @@
         "documentation": {}
     },
     {
+        "label": "TestWalleUsageDomain",
+        "kind": 6,
+        "importPath": "tests.test_walle_usage_domain",
+        "description": "tests.test_walle_usage_domain",
+        "peekOfCode": "class TestWalleUsageDomain(unittest.TestCase):\n    def test_build_walle_usage_metrics_computes_expected_kpis(self):\n        summarized_emails_df = pd.DataFrame(\n            [\n                {\n                    \"po_name\": \"PO-1\",\n                    \"po_status\": \"Open\",\n                    \"vendor_name\": \"Vendor A\",\n                    \"email_id\": \"E-1\",\n                    \"email_date\": \"2026-05-01T10:00:00\",",
+        "detail": "tests.test_walle_usage_domain",
+        "documentation": {}
+    },
+    {
+        "label": "TestWalleUsageUseCase",
+        "kind": 6,
+        "importPath": "tests.test_walle_usage_use_case",
+        "description": "tests.test_walle_usage_use_case",
+        "peekOfCode": "class TestWalleUsageUseCase(unittest.TestCase):\n    @patch(\"features.operations.use_cases.walle_usage.build_walle_usage_metrics\")\n    @patch(\"features.operations.use_cases.walle_usage.save_dataset_manifest\")\n    @patch(\"features.operations.use_cases.walle_usage.save_result_to_json\")\n    @patch(\"features.operations.use_cases.walle_usage.execute_pg_query\")\n    def test_execute_applies_defaults_and_returns_dataset_references(\n        self,\n        mock_execute_pg_query,\n        mock_save_result_to_json,\n        mock_save_dataset_manifest,",
+        "detail": "tests.test_walle_usage_use_case",
+        "documentation": {}
+    },
+    {
         "label": "get_month_start_and_today",
         "kind": 2,
         "importPath": "utils.date",
@@ -3009,6 +3373,15 @@
         "importPath": "utils.json_df",
         "description": "utils.json_df",
         "peekOfCode": "def save_result_to_json(\n    columns: List[str],\n    rows: List[Tuple[Any, ...]],\n    description: str,\n    name: str = \"sales_dataset.json\",\n    selected_columns: Optional[List[str]] = None,\n) -> None:\n    \"\"\"\n    Guarda los datos de una consulta (columns + rows) en un archivo JSON\n    con la estructura:",
+        "detail": "utils.json_df",
+        "documentation": {}
+    },
+    {
+        "label": "save_dataset_manifest",
+        "kind": 2,
+        "importPath": "utils.json_df",
+        "description": "utils.json_df",
+        "peekOfCode": "def save_dataset_manifest(datasets: dict[str, Any], description: str, name: str = \"dataset_manifest\") -> dict[str, Any]:\n    timestamp = datetime.datetime.now().strftime(\"%Y%m%d_%H%M%S\")\n    filename = f\"{timestamp}_{name}.json\"\n    data = {\n        \"data_set_description\": description,\n        \"datasets\": datasets,\n    }\n    with open(\"data/\" + filename, \"w\", encoding=\"utf-8\") as f:\n        json.dump(data, f, ensure_ascii=False, indent=2)\n    return {",
         "detail": "utils.json_df",
         "documentation": {}
     },
@@ -3071,7 +3444,7 @@
         "kind": 5,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "redis_client = create_redis_client()\nauth_provider = create_auth_provider(redis_client)\napp = FastMCP(\n    \"IDRA IDICO AI\",\n    auth=auth_provider,\n    instructions=\"Accede a datos en tiempo real y genera análisis claros para apoyar decisiones.\",\n    icons=[Icon(src=\"https://i.ibb.co/svxz9ZcR/idra-logo.png\", mimeType=\"image/png\", sizes=[\"48x48\"])],\n)\nregister_tools(app, SALES_TOOLS)\nregister_tools(app, FILES_TOOLS)",
+        "peekOfCode": "redis_client = create_redis_client()\nauth_provider = create_auth_provider(redis_client)\napp = FastMCP(\n    \"IDRA IDICO AI\",\n    #auth=auth_provider,\n    instructions=\"Accede a datos en tiempo real y genera análisis claros para apoyar decisiones.\",\n    icons=[Icon(src=\"https://i.ibb.co/svxz9ZcR/idra-logo.png\", mimeType=\"image/png\", sizes=[\"48x48\"])],\n)\nregister_tools(app, SALES_TOOLS)\nregister_tools(app, FILES_TOOLS)",
         "detail": "main",
         "documentation": {}
     },
@@ -3080,7 +3453,7 @@
         "kind": 5,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "auth_provider = create_auth_provider(redis_client)\napp = FastMCP(\n    \"IDRA IDICO AI\",\n    auth=auth_provider,\n    instructions=\"Accede a datos en tiempo real y genera análisis claros para apoyar decisiones.\",\n    icons=[Icon(src=\"https://i.ibb.co/svxz9ZcR/idra-logo.png\", mimeType=\"image/png\", sizes=[\"48x48\"])],\n)\nregister_tools(app, SALES_TOOLS)\nregister_tools(app, FILES_TOOLS)\nregister_tools(app, PERFORMANCE_TOOLS)",
+        "peekOfCode": "auth_provider = create_auth_provider(redis_client)\napp = FastMCP(\n    \"IDRA IDICO AI\",\n    #auth=auth_provider,\n    instructions=\"Accede a datos en tiempo real y genera análisis claros para apoyar decisiones.\",\n    icons=[Icon(src=\"https://i.ibb.co/svxz9ZcR/idra-logo.png\", mimeType=\"image/png\", sizes=[\"48x48\"])],\n)\nregister_tools(app, SALES_TOOLS)\nregister_tools(app, FILES_TOOLS)\nregister_tools(app, PERFORMANCE_TOOLS)",
         "detail": "main",
         "documentation": {}
     },
@@ -3089,7 +3462,7 @@
         "kind": 5,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "app = FastMCP(\n    \"IDRA IDICO AI\",\n    auth=auth_provider,\n    instructions=\"Accede a datos en tiempo real y genera análisis claros para apoyar decisiones.\",\n    icons=[Icon(src=\"https://i.ibb.co/svxz9ZcR/idra-logo.png\", mimeType=\"image/png\", sizes=[\"48x48\"])],\n)\nregister_tools(app, SALES_TOOLS)\nregister_tools(app, FILES_TOOLS)\nregister_tools(app, PERFORMANCE_TOOLS)\nregister_tools(app, OPS_TOOLS)",
+        "peekOfCode": "app = FastMCP(\n    \"IDRA IDICO AI\",\n    #auth=auth_provider,\n    instructions=\"Accede a datos en tiempo real y genera análisis claros para apoyar decisiones.\",\n    icons=[Icon(src=\"https://i.ibb.co/svxz9ZcR/idra-logo.png\", mimeType=\"image/png\", sizes=[\"48x48\"])],\n)\nregister_tools(app, SALES_TOOLS)\nregister_tools(app, FILES_TOOLS)\nregister_tools(app, PERFORMANCE_TOOLS)\nregister_tools(app, OPS_TOOLS)",
         "detail": "main",
         "documentation": {}
     },

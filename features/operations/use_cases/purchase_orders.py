@@ -63,7 +63,7 @@ def execute(
     summary.pop("full_data_reference", None)
 
     return build_tool_response(
-        tool_name="get_purchase_orders_analysis",
+        tool_name="get_purchase_orders",
         summary=summary,
         filters={
             "initial_date": initial_date,

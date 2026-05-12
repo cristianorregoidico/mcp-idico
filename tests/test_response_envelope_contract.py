@@ -126,7 +126,7 @@ class TestMCPResponseEnvelopeContract(unittest.TestCase):
     @patch("features.operations.use_cases.purchase_orders.save_result_to_json")
     @patch("features.operations.use_cases.purchase_orders.NetSuiteConnection")
     @patch("features.operations.use_cases.purchase_orders.get_purchase_orders_query")
-    def test_operations_get_purchase_orders_analysis_envelope_contract(
+    def test_operations_get_purchase_orders_envelope_contract(
         self,
         mock_get_purchase_orders_query,
         mock_netsuite_connection,
@@ -156,7 +156,7 @@ class TestMCPResponseEnvelopeContract(unittest.TestCase):
             "full_data_reference": "internal-only",
         }
 
-        response = operations_tools.get_purchase_orders_analysis(
+        response = operations_tools.get_purchase_orders(
             initial_date="2026-05-01",
             final_date="2026-05-11",
             vendor="Vendor A",
@@ -170,7 +170,7 @@ class TestMCPResponseEnvelopeContract(unittest.TestCase):
             ["2026-05-01", "2026-05-11", "Vendor A", "Pending Receipt", "Brand X"],
         )
         self.assertEqual(set(response.keys()), {"meta", "kpi_metrics", "artifacts"})
-        self.assertEqual(response["meta"]["tool_name"], "get_purchase_orders_analysis")
+        self.assertEqual(response["meta"]["tool_name"], "get_purchase_orders")
         self.assertEqual(response["meta"]["source_systems"], ["netsuite"])
         self.assertEqual(
             set(response["meta"]["filters"].keys()),
@@ -178,6 +178,78 @@ class TestMCPResponseEnvelopeContract(unittest.TestCase):
         )
         self.assertEqual(response["meta"]["filters"]["topic"], "vendors")
         self.assertNotIn("full_data_reference", response["kpi_metrics"])
+
+    @patch("features.operations.use_cases.walle_usage.build_walle_usage_metrics")
+    @patch("features.operations.use_cases.walle_usage.save_dataset_manifest")
+    @patch("features.operations.use_cases.walle_usage.save_result_to_json")
+    @patch("features.operations.use_cases.walle_usage.execute_pg_query")
+    def test_operations_get_walle_usage_envelope_contract(
+        self,
+        mock_execute_pg_query_dev,
+        mock_save_result_to_json,
+        mock_save_dataset_manifest,
+        mock_build_walle_usage_metrics,
+    ):
+        mock_execute_pg_query_dev.side_effect = [
+            (["po_name", "email_id", "email_type"], [("PO-1", "E-1", "follow_up")]),
+            (["po_name", "email_id", "confidence"], [("PO-1", "E-1", 0.9)]),
+            (["po_name", "createdAt", "updatedAt"], [("PO-1", "2026-05-01T09:00:00", "2026-05-01T10:00:00")]),
+            (["endpoint", "status_code", "duration_ms"], [("/walle/analyze", 200, 150)]),
+        ]
+        mock_save_result_to_json.side_effect = [
+            {"filename": "summarized.json"},
+            {"filename": "analyzed.json"},
+            {"filename": "actions.json"},
+            {"filename": "events.json"},
+        ]
+        mock_save_dataset_manifest.return_value = {"filename": "walle_manifest.json"}
+        mock_build_walle_usage_metrics.return_value = {
+            "overview": {"processed_po_count": 1},
+            "email_summary": {},
+            "email_analysis": {},
+            "actions": {},
+            "api_usage": {},
+        }
+
+        response = operations_tools.get_walle_usage(
+            initial_date="2026-05-01",
+            final_date="2026-05-12",
+            po_name="PO-1",
+            limit=25,
+        )
+
+        self.assertEqual(set(response.keys()), {"meta", "kpi_metrics", "artifacts", "details"})
+        self.assertEqual(response["meta"]["tool_name"], "get_walle_usage")
+        self.assertEqual(response["meta"]["source_systems"], ["postgresql"])
+        self.assertEqual(
+            set(response["meta"]["filters"].keys()),
+            {"initial_date", "final_date", "po_name", "limit"},
+        )
+        self.assertEqual(response["meta"]["filters"]["po_name"], "PO-1")
+        self.assertEqual(response["meta"]["filters"]["limit"], 25)
+        self.assertEqual(response["artifacts"]["dataset"]["filename"], "walle_manifest.json")
+        self.assertIn("overview", response["kpi_metrics"])
+        self.assertIn("dataset_references", response["details"])
+        self.assertEqual(
+            response["details"]["dataset_references"],
+            {
+                "summarized_emails": "summarized.json",
+                "analyzed_emails": "analyzed.json",
+                "action_suggestions": "actions.json",
+                "event_log": "events.json",
+            },
+        )
+        self.assertEqual(
+            response["details"]["row_counts"],
+            {
+                "summarized_emails": 1,
+                "analyzed_emails": 1,
+                "action_suggestions": 1,
+                "event_log": 1,
+            },
+        )
+        self.assertEqual(response["details"]["sample_limit"], 25)
+        self.assertIn("Request the dataset", response["details"]["note"])
 
     @patch("features.performance.use_cases.scorecard.execute_pg_query_dev")
     @patch("features.performance.use_cases.scorecard.get_scorecard_by_is_year")
