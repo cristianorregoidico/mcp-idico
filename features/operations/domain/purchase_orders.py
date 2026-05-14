@@ -29,6 +29,16 @@ def _safe_pct(num: float, den: float) -> float:
     return float((num / den) * 100.0) if den else 0.0
 
 
+def _build_line_receipt_score(quantity: pd.Series, quantity_received: pd.Series) -> pd.Series:
+    quantity = pd.to_numeric(quantity, errors="coerce").fillna(0.0)
+    quantity_received = pd.to_numeric(quantity_received, errors="coerce").fillna(0.0)
+
+    score = pd.Series(0.0, index=quantity.index, dtype="float64")
+    valid_quantity = quantity > 0
+    score.loc[valid_quantity] = (quantity_received.loc[valid_quantity] / quantity.loc[valid_quantity]).clip(lower=0.0, upper=1.0)
+    return score
+
+
 def _prepare_dates(df: pd.DataFrame) -> pd.DataFrame:
     data = df.copy()
     for col in ["receive_by", "new_receive_by", "last_est_delivery_date_informed", "today", "po_date"]:
@@ -200,10 +210,9 @@ def build_items_analysis(df: pd.DataFrame) -> Dict[str, Any]:
         data[col] = pd.to_numeric(data.get(col), errors="coerce").fillna(0.0)
 
     data["pending_quantity"] = (data["quantity"] - data["quantity_received"]).clip(lower=0)
-    data["received_pct"] = (data["quantity_received"] / data["quantity"].replace({0: pd.NA})).fillna(0.0)
+    data["line_receipt_score"] = _build_line_receipt_score(data["quantity"], data["quantity_received"])
 
     total_quantity = float(data["quantity"].sum())
-    total_received = float(data["quantity_received"].sum())
     total_pending = float(data["pending_quantity"].sum())
 
     overview = {
@@ -211,8 +220,6 @@ def build_items_analysis(df: pd.DataFrame) -> Dict[str, Any]:
         "total_brands": int(data["brand"].nunique(dropna=True)),
         "total_product_groups": int(data["product_group"].nunique(dropna=True)),
         "total_line_amount": float(data["line_amount"].sum()),
-        "total_quantity": total_quantity,
-        "total_received_quantity": total_received,
         "total_pending_quantity": total_pending,
     }
 
@@ -221,16 +228,14 @@ def build_items_analysis(df: pd.DataFrame) -> Dict[str, Any]:
     data.loc[data["pending_quantity"] <= 0, "receipt_status"] = "fully_received"
 
     receipt_analysis = {
-        "ordered_vs_received_vs_pending": {
-            "ordered": total_quantity,
-            "received": total_received,
-            "pending": total_pending,
-        },
-        "global_received_pct": _safe_pct(total_received, total_quantity),
+        "avg_line_receipt_score": float(data["line_receipt_score"].mean() or 0.0),
+        "avg_line_receipt_score_pct": float((data["line_receipt_score"].mean() or 0.0) * 100.0),
         "receipt_status_distribution": _series_count(data["receipt_status"], "receipt_status"),
         "pending_lines": int((data["pending_quantity"] > 0).sum()),
         "partially_received_lines": int((data["receipt_status"] == "partially_received").sum()),
         "fully_received_lines": int((data["receipt_status"] == "fully_received").sum()),
+        "not_received_lines": int((data["receipt_status"] == "not_received").sum()),
+        "secondary_pending_quantity": total_pending,
     }
 
     brand_group = (
@@ -241,12 +246,11 @@ def build_items_analysis(df: pd.DataFrame) -> Dict[str, Any]:
             quantity=("quantity", "sum"),
             quantity_received=("quantity_received", "sum"),
             pending_quantity=("pending_quantity", "sum"),
+            avg_line_receipt_score=("line_receipt_score", "mean"),
         )
         .reset_index()
     )
-    brand_group["received_pct"] = brand_group.apply(
-        lambda row: _safe_pct(float(row["quantity_received"]), float(row["quantity"])), axis=1
-    )
+    brand_group["avg_line_receipt_score_pct"] = brand_group["avg_line_receipt_score"].fillna(0.0) * 100.0
     brand_analysis = {
         "distribution": _to_records(brand_group[["brand", "line_count"]]),
         "metrics": _to_records(brand_group),
@@ -260,12 +264,11 @@ def build_items_analysis(df: pd.DataFrame) -> Dict[str, Any]:
             quantity=("quantity", "sum"),
             quantity_received=("quantity_received", "sum"),
             pending_quantity=("pending_quantity", "sum"),
+            avg_line_receipt_score=("line_receipt_score", "mean"),
         )
         .reset_index()
     )
-    pg_group["received_pct"] = pg_group.apply(
-        lambda row: _safe_pct(float(row["quantity_received"]), float(row["quantity"])), axis=1
-    )
+    pg_group["avg_line_receipt_score_pct"] = pg_group["avg_line_receipt_score"].fillna(0.0) * 100.0
     product_group_analysis = {
         "distribution": _to_records(pg_group[["product_group", "line_count"]]),
         "metrics": _to_records(pg_group),
@@ -279,12 +282,11 @@ def build_items_analysis(df: pd.DataFrame) -> Dict[str, Any]:
             pending_quantity=("pending_quantity", "sum"),
             quantity=("quantity", "sum"),
             quantity_received=("quantity_received", "sum"),
+            avg_line_receipt_score=("line_receipt_score", "mean"),
         )
         .reset_index()
     )
-    by_vendor_brand["received_pct"] = by_vendor_brand.apply(
-        lambda row: _safe_pct(float(row["quantity_received"]), float(row["quantity"])), axis=1
-    )
+    by_vendor_brand["avg_line_receipt_score_pct"] = by_vendor_brand["avg_line_receipt_score"].fillna(0.0) * 100.0
     brand_vendor_analysis = {
         "distribution": _to_records(by_vendor_brand[["vendor", "brand", "line_count"]]),
         "top_by_amount": _to_records(by_vendor_brand.sort_values("amount_usd", ascending=False).head(10)),
@@ -299,12 +301,11 @@ def build_items_analysis(df: pd.DataFrame) -> Dict[str, Any]:
             pending_quantity=("pending_quantity", "sum"),
             quantity=("quantity", "sum"),
             quantity_received=("quantity_received", "sum"),
+            avg_line_receipt_score=("line_receipt_score", "mean"),
         )
         .reset_index()
     )
-    by_customer_brand["received_pct"] = by_customer_brand.apply(
-        lambda row: _safe_pct(float(row["quantity_received"]), float(row["quantity"])), axis=1
-    )
+    by_customer_brand["avg_line_receipt_score_pct"] = by_customer_brand["avg_line_receipt_score"].fillna(0.0) * 100.0
     brand_customer_analysis = {
         "distribution": _to_records(by_customer_brand[["customer", "brand", "line_count"]]),
         "top_by_amount": _to_records(by_customer_brand.sort_values("amount_usd", ascending=False).head(10)),
