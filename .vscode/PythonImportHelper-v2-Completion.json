@@ -41,6 +41,22 @@
         "documentation": {}
     },
     {
+        "label": "annotations",
+        "importPath": "__future__",
+        "description": "__future__",
+        "isExtraImport": true,
+        "detail": "__future__",
+        "documentation": {}
+    },
+    {
+        "label": "annotations",
+        "importPath": "__future__",
+        "description": "__future__",
+        "isExtraImport": true,
+        "detail": "__future__",
+        "documentation": {}
+    },
+    {
         "label": "os",
         "kind": 6,
         "isExtraImport": true,
@@ -415,6 +431,22 @@
         "documentation": {}
     },
     {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
         "label": "Optional",
         "importPath": "typing",
         "description": "typing",
@@ -488,6 +520,22 @@
     },
     {
         "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
         "importPath": "typing",
         "description": "typing",
         "isExtraImport": true,
@@ -992,6 +1040,14 @@
     },
     {
         "label": "load_dataset_from_json",
+        "importPath": "utils.json_df",
+        "description": "utils.json_df",
+        "isExtraImport": true,
+        "detail": "utils.json_df",
+        "documentation": {}
+    },
+    {
+        "label": "save_result_to_json",
         "importPath": "utils.json_df",
         "description": "utils.json_df",
         "isExtraImport": true,
@@ -1223,6 +1279,14 @@
         "documentation": {}
     },
     {
+        "label": "build_tool_response",
+        "importPath": "utils.envelope",
+        "description": "utils.envelope",
+        "isExtraImport": true,
+        "detail": "utils.envelope",
+        "documentation": {}
+    },
+    {
         "label": "Path",
         "importPath": "pathlib",
         "description": "pathlib",
@@ -1271,6 +1335,15 @@
         "documentation": {}
     },
     {
+        "label": "ast",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "ast",
+        "description": "ast",
+        "detail": "ast",
+        "documentation": {}
+    },
+    {
         "label": "pandas",
         "kind": 6,
         "isExtraImport": true,
@@ -1297,6 +1370,14 @@
         "documentation": {}
     },
     {
+        "label": "execute_pg_query",
+        "importPath": "connections.postgresql.client",
+        "description": "connections.postgresql.client",
+        "isExtraImport": true,
+        "detail": "connections.postgresql.client",
+        "documentation": {}
+    },
+    {
         "label": "execute_pg_query_dev",
         "importPath": "connections.postgresql.client",
         "description": "connections.postgresql.client",
@@ -1510,6 +1591,111 @@
         "description": "utils.transformations",
         "isExtraImport": true,
         "detail": "utils.transformations",
+        "documentation": {}
+    },
+    {
+        "label": "tuple_to_dataframe",
+        "importPath": "utils.transformations",
+        "description": "utils.transformations",
+        "isExtraImport": true,
+        "detail": "utils.transformations",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "datetime",
+        "description": "datetime",
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "timedelta",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "timezone",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "build_idra_usage_metrics",
+        "importPath": "features.operations.domain.idra_usage",
+        "description": "features.operations.domain.idra_usage",
+        "isExtraImport": true,
+        "detail": "features.operations.domain.idra_usage",
+        "documentation": {}
+    },
+    {
+        "label": "build_idra_usage_metrics",
+        "importPath": "features.operations.domain.idra_usage",
+        "description": "features.operations.domain.idra_usage",
+        "isExtraImport": true,
+        "detail": "features.operations.domain.idra_usage",
+        "documentation": {}
+    },
+    {
+        "label": "classify_response",
+        "importPath": "features.operations.domain.idra_usage",
+        "description": "features.operations.domain.idra_usage",
+        "isExtraImport": true,
+        "detail": "features.operations.domain.idra_usage",
+        "documentation": {}
+    },
+    {
+        "label": "get_idra_usage_query",
+        "importPath": "features.operations.queries.idra_usage",
+        "description": "features.operations.queries.idra_usage",
+        "isExtraImport": true,
+        "detail": "features.operations.queries.idra_usage",
+        "documentation": {}
+    },
+    {
+        "label": "get_idra_usage_query",
+        "importPath": "features.operations.queries.idra_usage",
+        "description": "features.operations.queries.idra_usage",
+        "isExtraImport": true,
+        "detail": "features.operations.queries.idra_usage",
         "documentation": {}
     },
     {
@@ -1713,47 +1899,6 @@
         "documentation": {}
     },
     {
-        "label": "datetime",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "datetime",
-        "description": "datetime",
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "datetime",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "datetime",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "datetime",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "timezone",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
         "label": "build_walle_usage_metrics",
         "importPath": "features.operations.domain.walle_usage",
         "description": "features.operations.domain.walle_usage",
@@ -1842,6 +1987,14 @@
         "documentation": {}
     },
     {
+        "label": "idra_usage",
+        "importPath": "features.operations.use_cases",
+        "description": "features.operations.use_cases",
+        "isExtraImport": true,
+        "detail": "features.operations.use_cases",
+        "documentation": {}
+    },
+    {
         "label": "imports",
         "importPath": "features.operations.use_cases",
         "description": "features.operations.use_cases",
@@ -1867,6 +2020,14 @@
     },
     {
         "label": "walle_usage",
+        "importPath": "features.operations.use_cases",
+        "description": "features.operations.use_cases",
+        "isExtraImport": true,
+        "detail": "features.operations.use_cases",
+        "documentation": {}
+    },
+    {
+        "label": "idra_usage",
         "importPath": "features.operations.use_cases",
         "description": "features.operations.use_cases",
         "isExtraImport": true,
@@ -2187,19 +2348,11 @@
         "documentation": {}
     },
     {
-        "label": "Decimal",
-        "importPath": "decimal",
-        "description": "decimal",
+        "label": "patch",
+        "importPath": "unittest.mock",
+        "description": "unittest.mock",
         "isExtraImport": true,
-        "detail": "decimal",
-        "documentation": {}
-    },
-    {
-        "label": "Decimal",
-        "importPath": "decimal",
-        "description": "decimal",
-        "isExtraImport": true,
-        "detail": "decimal",
+        "detail": "unittest.mock",
         "documentation": {}
     },
     {
@@ -2256,6 +2409,22 @@
         "description": "unittest.mock",
         "isExtraImport": true,
         "detail": "unittest.mock",
+        "documentation": {}
+    },
+    {
+        "label": "Decimal",
+        "importPath": "decimal",
+        "description": "decimal",
+        "isExtraImport": true,
+        "detail": "decimal",
+        "documentation": {}
+    },
+    {
+        "label": "Decimal",
+        "importPath": "decimal",
+        "description": "decimal",
+        "isExtraImport": true,
+        "detail": "decimal",
         "documentation": {}
     },
     {
@@ -2675,6 +2844,33 @@
         "documentation": {}
     },
     {
+        "label": "classify_response",
+        "kind": 2,
+        "importPath": "features.operations.domain.idra_usage",
+        "description": "features.operations.domain.idra_usage",
+        "peekOfCode": "def classify_response(response: Any) -> dict[str, Any]:\n    text = \"\" if response is None else str(response).strip()\n    if not text:\n        return {\n            \"response_kind\": \"empty\",\n            \"execution_status\": \"unknown\",\n            \"error_message\": None,\n        }\n    if text.startswith(\"ERROR:\"):\n        return {",
+        "detail": "features.operations.domain.idra_usage",
+        "documentation": {}
+    },
+    {
+        "label": "build_idra_usage_metrics",
+        "kind": 2,
+        "importPath": "features.operations.domain.idra_usage",
+        "description": "features.operations.domain.idra_usage",
+        "peekOfCode": "def build_idra_usage_metrics(tool_calls_df: pd.DataFrame) -> Dict[str, Any]:\n    prepared = _prepare_dataframe(tool_calls_df)\n    total_calls = int(len(prepared.index))\n    unique_tools = int(prepared[\"tool_name\"].nunique()) if \"tool_name\" in prepared.columns else 0\n    unique_users = int(prepared[\"username\"].nunique()) if \"username\" in prepared.columns else 0\n    unique_days = int(prepared[\"date\"].dropna().nunique()) if \"date\" in prepared.columns else 0\n    duration_series = prepared[\"duration_ms\"].dropna() if \"duration_ms\" in prepared.columns else pd.Series(dtype=\"float64\")\n    error_count = int(prepared[\"is_error\"].sum()) if \"is_error\" in prepared.columns else 0\n    success_count = int(prepared[\"is_success\"].sum()) if \"is_success\" in prepared.columns else 0\n    unknown_count = int(prepared[\"is_unknown\"].sum()) if \"is_unknown\" in prepared.columns else 0",
+        "detail": "features.operations.domain.idra_usage",
+        "documentation": {}
+    },
+    {
+        "label": "WEEKDAY_ORDER",
+        "kind": 5,
+        "importPath": "features.operations.domain.idra_usage",
+        "description": "features.operations.domain.idra_usage",
+        "peekOfCode": "WEEKDAY_ORDER = [\n    \"Monday\",\n    \"Tuesday\",\n    \"Wednesday\",\n    \"Thursday\",\n    \"Friday\",\n    \"Saturday\",\n    \"Sunday\",\n]\ndef _safe_float(value: Any) -> float:",
+        "detail": "features.operations.domain.idra_usage",
+        "documentation": {}
+    },
+    {
         "label": "build_imports_summary",
         "kind": 2,
         "importPath": "features.operations.domain.imports",
@@ -2747,6 +2943,15 @@
         "documentation": {}
     },
     {
+        "label": "get_idra_usage_query",
+        "kind": 2,
+        "importPath": "features.operations.queries.idra_usage",
+        "description": "features.operations.queries.idra_usage",
+        "peekOfCode": "def get_idra_usage_query(initial_date: str, final_date_exclusive: str) -> tuple[str, list[str]]:\n    sql = \"\"\"\n    SELECT\n        tool_name,\n        username,\n        response,\n        duration_ms,\n        created_at\n    FROM ods.analytics.idra_tool_calls\n    WHERE username <> 'Not Identified'",
+        "detail": "features.operations.queries.idra_usage",
+        "documentation": {}
+    },
+    {
         "label": "get_customer_imports_data",
         "kind": 2,
         "importPath": "features.operations.queries.imports",
@@ -2816,6 +3021,24 @@
         "description": "features.operations.use_cases.guides",
         "peekOfCode": "def execute(po: Optional[str], status: Optional[str], service: Optional[str]) -> Dict[str, Any]:\n    sql, params = get_helga_guides_query(po=po, status=status, service=service)\n    columns, rows = execute_pg_query(sql, params)\n    dataset_reference = save_result_to_json(columns, rows, \"List of guides pending for delivery\", name=\"guides_oneding_delivery\")\n    results = tuple_to_dataframe(columns, rows).to_dict(orient=\"records\")\n    return build_tool_response(\n        tool_name=\"get_helga_guides\",\n        summary={\"result_count\": len(results)},\n        filters={\"po\": po, \"status\": status, \"service\": service},\n        source_systems=[\"postgresql\"],",
         "detail": "features.operations.use_cases.guides",
+        "documentation": {}
+    },
+    {
+        "label": "execute",
+        "kind": 2,
+        "importPath": "features.operations.use_cases.idra_usage",
+        "description": "features.operations.use_cases.idra_usage",
+        "peekOfCode": "def execute(initial_date: str, final_date: str) -> Dict[str, Any]:\n    resolved_initial_date, resolved_final_date_exclusive = _resolve_date_range(initial_date, final_date)\n    sql, params = get_idra_usage_query(resolved_initial_date, resolved_final_date_exclusive)\n    try:\n        columns, rows = execute_pg_query(sql, params)\n    except Exception as exc:\n        raise RuntimeError(\"Failed to retrieve IDRA usage metrics from PostgreSQL\") from exc\n    dataset_reference = save_result_to_json(\n        columns,\n        rows,",
+        "detail": "features.operations.use_cases.idra_usage",
+        "documentation": {}
+    },
+    {
+        "label": "DATE_FORMAT",
+        "kind": 5,
+        "importPath": "features.operations.use_cases.idra_usage",
+        "description": "features.operations.use_cases.idra_usage",
+        "peekOfCode": "DATE_FORMAT = \"%Y-%m-%d\"\ndef _validate_date(date_value: str, field_name: str) -> datetime:\n    try:\n        return datetime.strptime(date_value, DATE_FORMAT)\n    except ValueError as exc:\n        raise ValueError(f\"Invalid {field_name} '{date_value}'. Expected YYYY-MM-DD\") from exc\ndef _resolve_date_range(initial_date: str, final_date: str) -> tuple[str, str]:\n    start_date = _validate_date(initial_date, \"initial_date\")\n    end_date = _validate_date(final_date, \"final_date\")\n    if start_date > end_date:",
+        "detail": "features.operations.use_cases.idra_usage",
         "documentation": {}
     },
     {
@@ -2923,6 +3146,15 @@
         "importPath": "features.operations.tools",
         "description": "features.operations.tools",
         "peekOfCode": "def get_walle_usage(\n    initial_date: Optional[str] = None,\n    final_date: Optional[str] = None,\n    po_name: Optional[str] = None,\n    limit: int = 100,\n) -> Dict[str, Any]:\n    \"\"\"Retrieve Walle usage metrics from PostgreSQL.\n    Use this tool when the user asks for Walle adoption, AI email processing,\n    action suggestion activity, or API usage metrics for a period or a specific PO.\n    Args:",
+        "detail": "features.operations.tools",
+        "documentation": {}
+    },
+    {
+        "label": "get_idra_usage",
+        "kind": 2,
+        "importPath": "features.operations.tools",
+        "description": "features.operations.tools",
+        "peekOfCode": "def get_idra_usage(initial_date: str, final_date: str) -> Dict[str, Any]:\n    \"\"\"Retrieve IDRA tool usage metrics from PostgreSQL.\n    Use this tool when the user asks for adoption, usage, latency, temporal\n    behavior, or error metrics for IDRA MCP tools in a given date range.\n    Args:\n        initial_date: Start date in YYYY-MM-DD format.\n        final_date: End date in YYYY-MM-DD format.\n    Returns:\n        Dict[str, Any]: MCP response envelope with IDRA usage KPIs and dataset\n        reference for the raw audit records.",
         "detail": "features.operations.tools",
         "documentation": {}
     },
@@ -3293,6 +3525,24 @@
         "description": "features.sales.tools",
         "peekOfCode": "def get_events_summary(start_date: Optional[str], final_date: Optional[str], customer_name: Optional[str], organizer: Optional[str], subject: Optional[str]) -> Dict[str, Any]:\n    \"\"\"Retrieve and summarize commercial events or call activity.\n    Use this tool when the user asks for event summaries, commercial calls,\n    customer conversation context, or relationship insights.\n    Args:\n        start_date: Start date in YYYY-MM-DD format; defaults to month start.\n        final_date: End date in YYYY-MM-DD format; defaults to today.\n        customer_name: Customer filter; optional.\n        organizer: Organizer filter; optional.\n        subject: Subject filter; optional.",
         "detail": "features.sales.tools",
+        "documentation": {}
+    },
+    {
+        "label": "TestIdraUsageDomain",
+        "kind": 6,
+        "importPath": "tests.test_idra_usage_domain",
+        "description": "tests.test_idra_usage_domain",
+        "peekOfCode": "class TestIdraUsageDomain(unittest.TestCase):\n    def test_classify_response_detects_error_text(self):\n        classified = classify_response(\"ERROR: Could not establish NetSuite connection\")\n        self.assertEqual(classified[\"response_kind\"], \"error_text\")\n        self.assertEqual(classified[\"execution_status\"], \"error\")\n        self.assertEqual(classified[\"error_message\"], \"Could not establish NetSuite connection\")\n    def test_classify_response_detects_python_dict_text(self):\n        classified = classify_response(\"{'meta': {'tool_name': 'get_quotes'}, 'kpi_metrics': {'overview': {}}}\")\n        self.assertEqual(classified[\"response_kind\"], \"python_dict_text\")\n        self.assertEqual(classified[\"execution_status\"], \"success\")",
+        "detail": "tests.test_idra_usage_domain",
+        "documentation": {}
+    },
+    {
+        "label": "TestIdraUsageUseCase",
+        "kind": 6,
+        "importPath": "tests.test_idra_usage_use_case",
+        "description": "tests.test_idra_usage_use_case",
+        "peekOfCode": "class TestIdraUsageUseCase(unittest.TestCase):\n    @patch(\"features.operations.use_cases.idra_usage.build_idra_usage_metrics\")\n    @patch(\"features.operations.use_cases.idra_usage.save_result_to_json\")\n    @patch(\"features.operations.use_cases.idra_usage.execute_pg_query\")\n    def test_execute_returns_envelope_and_dataset_reference(\n        self,\n        mock_execute_pg_query,\n        mock_save_result_to_json,\n        mock_build_idra_usage_metrics,\n    ):",
+        "detail": "tests.test_idra_usage_use_case",
         "documentation": {}
     },
     {

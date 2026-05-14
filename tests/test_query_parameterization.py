@@ -9,6 +9,7 @@ from features.operations.queries.walle_usage import (
     get_summarized_emails_query,
     get_walle_event_log_query,
 )
+from features.operations.queries.idra_usage import get_idra_usage_query
 from features.sales.queries.activity import get_calls_summary
 from features.sales.queries.quotes import get_quotes_by_inside
 
@@ -129,6 +130,15 @@ class TestQueryParameterization(unittest.TestCase):
         self.assertIn('el."createdAt"::date BETWEEN %s AND %s', sql)
         self.assertNotIn("LIMIT", sql.upper())
         self.assertEqual(params, ["2026-05-01", "2026-05-31"])
+
+    def test_idra_usage_query_uses_exclusive_upper_bound_placeholders(self):
+        sql, params = get_idra_usage_query("2026-05-01", "2026-05-11")
+
+        self.assertIn("created_at >= %s", sql)
+        self.assertIn("created_at < %s", sql)
+        self.assertIn("username <> 'Not Identified'", sql)
+        self.assertNotIn("LIMIT", sql.upper())
+        self.assertEqual(params, ["2026-05-01", "2026-05-11"])
 
 
 if __name__ == "__main__":
