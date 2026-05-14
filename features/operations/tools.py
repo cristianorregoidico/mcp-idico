@@ -1,6 +1,6 @@
 from typing import Any, Dict, List, Optional
 
-from features.operations.use_cases import guides, imports, otd, purchase_orders, walle_usage
+from features.operations.use_cases import guides, idra_usage, imports, otd, purchase_orders, walle_usage
 from utils.date import get_month_start_and_today
 
 
@@ -115,10 +115,28 @@ def get_walle_usage(
     return walle_usage.execute(initial_date, final_date, po_name, limit)
 
 
+def get_idra_usage(initial_date: str, final_date: str) -> Dict[str, Any]:
+    """Retrieve IDRA tool usage metrics from PostgreSQL.
+
+    Use this tool when the user asks for adoption, usage, latency, temporal
+    behavior, or error metrics for IDRA MCP tools in a given date range.
+
+    Args:
+        initial_date: Start date in YYYY-MM-DD format.
+        final_date: End date in YYYY-MM-DD format.
+
+    Returns:
+        Dict[str, Any]: MCP response envelope with IDRA usage KPIs and dataset
+        reference for the raw audit records.
+    """
+    return idra_usage.execute(initial_date, final_date)
+
+
 OPS_TOOLS: List = [
     get_helga_guides,
     get_otd_indicators,
     get_customer_imports,
     get_purchase_orders,
     get_walle_usage,
+    get_idra_usage,
 ]

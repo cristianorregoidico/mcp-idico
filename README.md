@@ -1,4 +1,14 @@
-# IDRA / IDICO MCP Server
+<div align="center">
+
+<img alt="Gentle-AI neon rose banner" src="docs/img/idra_repo_logo.png" />
+
+<h1>IDRA / IDICO MCP Server</h1>
+
+<p><strong>AI - NetSuite - Postgres - Azure - BI</strong></p>
+
+</div>
+
+---
 
 Servidor MCP construido con `FastMCP` para exponer consultas analíticas y operativas de IDICO a partir de NetSuite y PostgreSQL, con autenticación en Azure / Microsoft Entra ID y almacenamiento OAuth en Azure Redis.
 
@@ -15,6 +25,7 @@ Este servidor permite consultar información de negocio como:
 - vendors sugeridos para cotizar por cliente y marca
 - scorecards y performance de Inside Sales
 - OTD, guías Helga e importaciones por cliente
+- analítica de órdenes de compra, uso de Walle y uso de tools IDRA
 - resúmenes de eventos / llamadas comerciales
 - recuperación de datasets generados previamente
 
@@ -29,14 +40,22 @@ Además:
 
 ## Arquitectura actual
 
-### Flujo general
+### Diagrama de Contexto del Sistema
 
-1. `main.py` compone el servidor FastMCP.
-2. `auth/` encapsula autenticación, Redis y resolución de identidad.
-3. `middleware.py` registra todas las tools con un wrapper común de auth + auditoría.
-4. `features/` agrupa cada dominio con un patrón interno consistente: `tools.py` como adapter MCP, `use_cases/` para orquestación, `queries/` para extracción de datos por capability y `domain/` para lógica de negocio.
-5. `connections/` mantiene la infraestructura de conexión contra NetSuite y PostgreSQL.
-6. `utils/` construye envelopes, persiste datasets y resuelve helpers comunes (incluye transformaciones de datos).
+![System Context](/docs/img/system_context_diagram.png)
+
+### Diagrama de diseño del sistema
+
+![System Design](/docs/img/system_design.png)
+
+### Diagrama de secuencia de solicitud
+
+![Request Secuence Flow](/docs/img/request_secuence_flow.png)
+
+### Diagrama de patron interno de `feature`
+
+![Feature Internal Pattern](/docs/img/feature_internal_pattern.png)
+
 
 ### Módulos principales
 
@@ -52,9 +71,9 @@ Además:
 | `features/sales/queries/` | Query builders de Sales organizados por capability |
 | `features/sales/domain/` | KPIs y reglas de negocio comerciales por capability |
 | `features/operations/tools.py` | Entry points MCP del dominio operativo |
-| `features/operations/use_cases/` | Orquestación de guías, OTD e importaciones |
+| `features/operations/use_cases/` | Orquestación de guías, OTD, importaciones y analítica operativa |
 | `features/operations/queries/` | Query builders operativos organizados por capability |
-| `features/operations/domain/` | Lógica de negocio operativa reusable |
+| `features/operations/domain/` | Lógica de negocio operativa reusable y KPIs analíticos |
 | `features/performance/tools.py` | Entry points MCP del dominio de performance |
 | `features/performance/use_cases/` | Orquestación de reportes y scorecards |
 | `features/performance/queries/` | Query builders de performance organizados por capability |
@@ -177,6 +196,9 @@ Los dominios principales (`sales`, `operations`, `performance`) siguen ahora la 
 | `get_helga_guides` | `po`, `status`, `service` | Recupera guías Helga por PO, estado o servicio. Guarda dataset JSON. |
 | `get_otd_indicators` | `initial_date`, `final_date`, `so_number` | Calcula indicadores OTD por periodo y puede devolver detalle de una SO específica. Guarda dataset JSON. |
 | `get_customer_imports` | `customer_name` | Resume importaciones por cliente: montos, marcas, vendors y tendencias. |
+| `get_purchase_orders` | `initial_date`, `final_date`, `vendor`, `status`, `brand`, `topic` | Analiza órdenes de compra desde NetSuite por vendors o items, con KPIs operativos y financieros. Guarda dataset JSON. |
+| `get_walle_usage` | `initial_date`, `final_date`, `po_name`, `limit` | Resume actividad de Walle desde PostgreSQL: emails resumidos, análisis AI, acciones sugeridas y uso de endpoints. Guarda datasets JSON y manifiesto. |
+| `get_idra_usage` | `initial_date`, `final_date` | Analiza auditoría de tools IDRA desde PostgreSQL: adopción, top tools, top usuarios, latencia, uso por día/hora y errores. Guarda dataset JSON. |
 
 ### Performance
 
@@ -277,6 +299,9 @@ Esto aplica, por ejemplo, a:
 - `get_sold_items`
 - `get_opportunities`
 - `get_otd_indicators`
+- `get_purchase_orders`
+- `get_walle_usage`
+- `get_idra_usage`
 - `get_inside_sales_performance_report`
 - `get_events_summary`
 
@@ -308,6 +333,8 @@ Se usa para:
 - OTD
 - guías Helga
 - imports
+- uso de Walle
+- auditoría y uso de tools IDRA
 - vendors sugeridos
 - eventos / llamadas
 - auditoría de tools
