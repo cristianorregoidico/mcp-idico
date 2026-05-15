@@ -35,14 +35,14 @@ def summarize_receivable_aging(df: pd.DataFrame) -> Dict[str, Any]:
         end_date = None
 
     # -----------------------------
-    # 2) AGE_DAYS Y BUCKETS
+    # 2) AGE_DAYS Y termsS
     # -----------------------------
     if "duedate" in df.columns:
         df["age_days"] = (today - df["duedate"]).dt.days
     else:
         df["age_days"] = pd.NA
 
-    def bucket(d):
+    def terms(d):
         if pd.isna(d):
             return "no_duedate"
         if d <= 0:
@@ -55,7 +55,7 @@ def summarize_receivable_aging(df: pd.DataFrame) -> Dict[str, Any]:
             return "61-90"
         return "90+"
 
-    df["bucket"] = df["age_days"].apply(bucket)
+    df["terms"] = df["age_days"].apply(terms)
 
     if "open_balance" in df.columns:
         df_open = df[df["open_balance"].abs() > 0.01].copy()
@@ -133,29 +133,29 @@ def summarize_receivable_aging(df: pd.DataFrame) -> Dict[str, Any]:
         ]
 
     # -----------------------------
-    # 6) DISTRIBUCION POR BUCKET
+    # 6) DISTRIBUCION POR TERMS
     # -----------------------------
-    bucket_order = {
-        b: i
-        for i, b in enumerate(
+    terms_order = {
+        t: i
+        for i, t in enumerate(
             ["current", "0-30", "31-60", "61-90", "90+", "no_duedate"]
         )
     }
-    by_bucket = []
-    if {"bucket", "currency", "open_balance", "id"}.issubset(df_open.columns):
+    by_terms = []
+    if {"terms", "currency", "open_balance", "id"}.issubset(df_open.columns):
         grp = (
-            df_open.groupby(["bucket", "currency"], dropna=False)
+            df_open.groupby(["terms", "currency"], dropna=False)
             .agg(
                 open_balance=("open_balance", "sum"),
                 document_count=("id", "count"),
             )
             .reset_index()
         )
-        grp["__order"] = grp["bucket"].map(bucket_order).fillna(99)
+        grp["__order"] = grp["terms"].map(terms_order).fillna(99)
         grp = grp.sort_values(["__order", "currency"])
-        by_bucket = [
+        by_terms = [
             {
-                "bucket": str(r["bucket"]),
+                "terms": str(r["terms"]),
                 "currency": str(r["currency"])
                 if pd.notna(r["currency"])
                 else "Unknown",
@@ -302,7 +302,7 @@ def summarize_receivable_aging(df: pd.DataFrame) -> Dict[str, Any]:
         },
         "by_currency": by_currency,
         "by_subsidiary": by_subsidiary,
-        "by_bucket": by_bucket,
+        "by_terms": by_terms,
         "by_type": by_type,
         "top_entities": top_entities,
         "concentration": concentration,
@@ -344,14 +344,14 @@ def summarize_payable_aging(df: pd.DataFrame) -> Dict[str, Any]:
         end_date = None
 
     # -----------------------------
-    # 2) AGE_DAYS Y BUCKETS
+    # 2) AGE_DAYS Y termsS
     # -----------------------------
     if "duedate" in df.columns:
         df["age_days"] = (today - df["duedate"]).dt.days
     else:
         df["age_days"] = pd.NA
 
-    def bucket(d):
+    def terms(d):
         if pd.isna(d):
             return "no_duedate"
         if d <= 0:
@@ -364,7 +364,7 @@ def summarize_payable_aging(df: pd.DataFrame) -> Dict[str, Any]:
             return "61-90"
         return "90+"
 
-    df["bucket"] = df["age_days"].apply(bucket)
+    df["terms"] = df["age_days"].apply(terms)
 
     if "open_balance" in df.columns:
         df_open = df[df["open_balance"].abs() > 0.01].copy()
@@ -442,29 +442,29 @@ def summarize_payable_aging(df: pd.DataFrame) -> Dict[str, Any]:
         ]
 
     # -----------------------------
-    # 6) DISTRIBUCION POR BUCKET
+    # 6) DISTRIBUCION POR terms
     # -----------------------------
-    bucket_order = {
+    terms_order = {
         b: i
         for i, b in enumerate(
             ["current", "0-30", "31-60", "61-90", "90+", "no_duedate"]
         )
     }
-    by_bucket = []
-    if {"bucket", "currency", "open_balance", "id"}.issubset(df_open.columns):
+    by_terms = []
+    if {"terms", "currency", "open_balance", "id"}.issubset(df_open.columns):
         grp = (
-            df_open.groupby(["bucket", "currency"], dropna=False)
+            df_open.groupby(["terms", "currency"], dropna=False)
             .agg(
                 open_balance=("open_balance", "sum"),
                 document_count=("id", "count"),
             )
             .reset_index()
         )
-        grp["__order"] = grp["bucket"].map(bucket_order).fillna(99)
+        grp["__order"] = grp["terms"].map(terms_order).fillna(99)
         grp = grp.sort_values(["__order", "currency"])
-        by_bucket = [
+        by_terms = [
             {
-                "bucket": str(r["bucket"]),
+                "terms": str(r["terms"]),
                 "currency": str(r["currency"])
                 if pd.notna(r["currency"])
                 else "Unknown",
@@ -611,7 +611,7 @@ def summarize_payable_aging(df: pd.DataFrame) -> Dict[str, Any]:
         },
         "by_currency": by_currency,
         "by_subsidiary": by_subsidiary,
-        "by_bucket": by_bucket,
+        "by_terms": by_terms,
         "by_type": by_type,
         "top_entities": top_entities,
         "concentration": concentration,
