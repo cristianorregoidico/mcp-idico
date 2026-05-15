@@ -2275,6 +2275,30 @@
         "documentation": {}
     },
     {
+        "label": "get_vendors_country_brand",
+        "importPath": "features.sales.queries.vendor_recommendation",
+        "description": "features.sales.queries.vendor_recommendation",
+        "isExtraImport": true,
+        "detail": "features.sales.queries.vendor_recommendation",
+        "documentation": {}
+    },
+    {
+        "label": "get_vendors_customer_brand",
+        "importPath": "features.sales.queries.vendor_recommendation",
+        "description": "features.sales.queries.vendor_recommendation",
+        "isExtraImport": true,
+        "detail": "features.sales.queries.vendor_recommendation",
+        "documentation": {}
+    },
+    {
+        "label": "get_customer_country",
+        "importPath": "features.sales.queries.vendor_recommendation",
+        "description": "features.sales.queries.vendor_recommendation",
+        "isExtraImport": true,
+        "detail": "features.sales.queries.vendor_recommendation",
+        "documentation": {}
+    },
+    {
         "label": "get_vendors_customer_brand",
         "importPath": "features.sales.queries.vendor_recommendation",
         "description": "features.sales.queries.vendor_recommendation",
@@ -3325,7 +3349,7 @@
         "kind": 2,
         "importPath": "features.sales.queries.activity",
         "description": "features.sales.queries.activity",
-        "peekOfCode": "def get_calls_summary(start_date: str, final_date: str, customer_name: str = '', organizer: str = '', subject: str = '') -> tuple[str, list[str]]:\n    where_clauses = [\n        \"activity_date >= %s\",\n        \"activity_date < %s\",\n        \"description IS NOT NULL\",\n        \"LENGTH(TRIM(description)) >= 500\",\n    ]\n    params: list[str] = [start_date, final_date]\n    if customer_name:\n        where_clauses.append(\"UPPER(account) ILIKE '%' || UPPER(%s) || '%'\")",
+        "peekOfCode": "def get_calls_summary(start_date: str, final_date: str, customer_name: str = '', organizer: str = '', subject: str = '') -> tuple[str, list[str]]:\n    where_clauses = [\n        \"activity_date >= %s\",\n        \"activity_date < %s\",\n        \"description IS NOT NULL\",\n        \"LENGTH(TRIM(description)) >= 500\",\n    ]\n    params: list[str] = [start_date, final_date]\n    if customer_name:\n        where_clauses.append(\"account ILIKE %s\")",
         "detail": "features.sales.queries.activity",
         "documentation": {}
     },
@@ -3379,7 +3403,7 @@
         "kind": 2,
         "importPath": "features.sales.queries.vendor_recommendation",
         "description": "features.sales.queries.vendor_recommendation",
-        "peekOfCode": "def get_vendors_customer_brand(customer_name: str, brand: str) -> tuple[str, list[str]]:\n    return \"\"\"\n    SELECT * FROM ods.analytics.hr_cus_brand_consolidado\n    WHERE customer_name LIKE '%' || UPPER(%s) || '%'\n    AND brand LIKE '%' || UPPER(%s) || '%'\n    AND probabilidad > 0\n    ORDER BY\n    customer_name ASC,\n    brand ASC,\n    probabilidad DESC,",
+        "peekOfCode": "def get_vendors_customer_brand(customer_name: str, brand: str) -> tuple[str, list[str]]:\n    return \"\"\"\n    SELECT * FROM ods.analytics.hr_cus_brand_consolidado\n    WHERE customer_name ILIKE %s\n    AND brand ILIKE %s\n    AND probabilidad > 0\n    ORDER BY\n    customer_name ASC,\n    brand ASC,\n    probabilidad DESC,",
         "detail": "features.sales.queries.vendor_recommendation",
         "documentation": {}
     },
@@ -3388,7 +3412,7 @@
         "kind": 2,
         "importPath": "features.sales.queries.vendor_recommendation",
         "description": "features.sales.queries.vendor_recommendation",
-        "peekOfCode": "def get_vendors_country_brand(country: str, brand: str) -> tuple[str, list[str]]:\n    return \"\"\"\n    SELECT * FROM ods.analytics.hr_country_brand_consolidado\n    WHERE country LIKE '%' || UPPER(%s) || '%'\n    AND brand LIKE '%' || UPPER(%s) || '%'\n    ORDER BY\n        country ASC,\n        brand ASC,\n        probabilidad DESC,\n        count_so DESC;",
+        "peekOfCode": "def get_vendors_country_brand(country: str, brand: str) -> tuple[str, list[str]]:\n    return \"\"\"\n    SELECT * FROM ods.analytics.hr_country_brand_consolidado\n    WHERE country ILIKE %s\n    AND brand ILIKE %s\n    ORDER BY\n        country ASC,\n        brand ASC,\n        probabilidad DESC,\n        count_so DESC;",
         "detail": "features.sales.queries.vendor_recommendation",
         "documentation": {}
     },
@@ -3397,7 +3421,7 @@
         "kind": 2,
         "importPath": "features.sales.queries.vendor_recommendation",
         "description": "features.sales.queries.vendor_recommendation",
-        "peekOfCode": "def get_customer_country(customer_name: str) -> tuple[str, list[str]]:\n    return \"\"\"\n    SELECT country FROM ods.analytics.hr_cus_brand_consolidado\n    WHERE customer_name LIKE '%' || UPPER(%s) || '%'\n    LIMIT 1;\n    \"\"\", [customer_name]",
+        "peekOfCode": "def get_customer_country(customer_name: str) -> tuple[str, list[str]]:\n    return \"\"\"\n    SELECT country FROM ods.analytics.hr_cus_brand_consolidado\n    WHERE customer_name ILIKE %s\n    LIMIT 1;\n    \"\"\", [f\"%{customer_name}%\"]",
         "detail": "features.sales.queries.vendor_recommendation",
         "documentation": {}
     },
@@ -3694,7 +3718,7 @@
         "kind": 5,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "redis_client = create_redis_client()\nauth_provider = create_auth_provider(redis_client)\napp = FastMCP(\n    \"IDRA IDICO AI\",\n    auth=auth_provider,\n    instructions=\"Accede a datos en tiempo real y genera análisis claros para apoyar decisiones.\",\n    icons=[Icon(src=\"https://i.ibb.co/svxz9ZcR/idra-logo.png\", mimeType=\"image/png\", sizes=[\"48x48\"])],\n)\nregister_tools(app, SALES_TOOLS)\nregister_tools(app, FILES_TOOLS)",
+        "peekOfCode": "redis_client = create_redis_client()\nauth_provider = create_auth_provider(redis_client)\napp = FastMCP(\n    \"IDRA IDICO AI\",\n    #auth=auth_provider,\n    instructions=\"Accede a datos en tiempo real y genera análisis claros para apoyar decisiones.\",\n    icons=[Icon(src=\"https://i.ibb.co/svxz9ZcR/idra-logo.png\", mimeType=\"image/png\", sizes=[\"48x48\"])],\n)\nregister_tools(app, SALES_TOOLS)\nregister_tools(app, FILES_TOOLS)",
         "detail": "main",
         "documentation": {}
     },
@@ -3703,7 +3727,7 @@
         "kind": 5,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "auth_provider = create_auth_provider(redis_client)\napp = FastMCP(\n    \"IDRA IDICO AI\",\n    auth=auth_provider,\n    instructions=\"Accede a datos en tiempo real y genera análisis claros para apoyar decisiones.\",\n    icons=[Icon(src=\"https://i.ibb.co/svxz9ZcR/idra-logo.png\", mimeType=\"image/png\", sizes=[\"48x48\"])],\n)\nregister_tools(app, SALES_TOOLS)\nregister_tools(app, FILES_TOOLS)\nregister_tools(app, PERFORMANCE_TOOLS)",
+        "peekOfCode": "auth_provider = create_auth_provider(redis_client)\napp = FastMCP(\n    \"IDRA IDICO AI\",\n    #auth=auth_provider,\n    instructions=\"Accede a datos en tiempo real y genera análisis claros para apoyar decisiones.\",\n    icons=[Icon(src=\"https://i.ibb.co/svxz9ZcR/idra-logo.png\", mimeType=\"image/png\", sizes=[\"48x48\"])],\n)\nregister_tools(app, SALES_TOOLS)\nregister_tools(app, FILES_TOOLS)\nregister_tools(app, PERFORMANCE_TOOLS)",
         "detail": "main",
         "documentation": {}
     },
@@ -3712,7 +3736,7 @@
         "kind": 5,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "app = FastMCP(\n    \"IDRA IDICO AI\",\n    auth=auth_provider,\n    instructions=\"Accede a datos en tiempo real y genera análisis claros para apoyar decisiones.\",\n    icons=[Icon(src=\"https://i.ibb.co/svxz9ZcR/idra-logo.png\", mimeType=\"image/png\", sizes=[\"48x48\"])],\n)\nregister_tools(app, SALES_TOOLS)\nregister_tools(app, FILES_TOOLS)\nregister_tools(app, PERFORMANCE_TOOLS)\nregister_tools(app, OPS_TOOLS)",
+        "peekOfCode": "app = FastMCP(\n    \"IDRA IDICO AI\",\n    #auth=auth_provider,\n    instructions=\"Accede a datos en tiempo real y genera análisis claros para apoyar decisiones.\",\n    icons=[Icon(src=\"https://i.ibb.co/svxz9ZcR/idra-logo.png\", mimeType=\"image/png\", sizes=[\"48x48\"])],\n)\nregister_tools(app, SALES_TOOLS)\nregister_tools(app, FILES_TOOLS)\nregister_tools(app, PERFORMANCE_TOOLS)\nregister_tools(app, OPS_TOOLS)",
         "detail": "main",
         "documentation": {}
     },

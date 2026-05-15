@@ -12,6 +12,11 @@ from features.operations.queries.walle_usage import (
 from features.operations.queries.idra_usage import get_idra_usage_query
 from features.sales.queries.activity import get_calls_summary
 from features.sales.queries.quotes import get_quotes_by_inside
+from features.sales.queries.vendor_recommendation import (
+    get_customer_country,
+    get_vendors_country_brand,
+    get_vendors_customer_brand,
+)
 
 
 class TestQueryParameterization(unittest.TestCase):
@@ -39,10 +44,10 @@ class TestQueryParameterization(unittest.TestCase):
         )
 
         self.assertIn("activity_date >= %s", sql)
-        self.assertIn("UPPER(account) ILIKE '%' || UPPER(%s) || '%'", sql)
-        self.assertIn("UPPER(organizer) ILIKE '%' || UPPER(%s) || '%'", sql)
-        self.assertIn("UPPER(subject) ILIKE '%' || UPPER(%s) || '%'", sql)
-        self.assertEqual(params, ["2026-03-01", "2026-03-31", "ACME", "Juan", "Pricing"])
+        self.assertIn("account ILIKE %s", sql)
+        self.assertIn("organizer ILIKE %s", sql)
+        self.assertIn("subject ILIKE %s", sql)
+        self.assertEqual(params, ["2026-03-01", "2026-03-31", "%ACME%", "%Juan%", "%Pricing%"])
 
     def test_postgres_otd_uses_date_casted_placeholders(self):
         sql, params = get_on_time_delivery("2026-02-01", "2026-02-28")
@@ -139,6 +144,26 @@ class TestQueryParameterization(unittest.TestCase):
         self.assertIn("username <> 'Not Identified'", sql)
         self.assertNotIn("LIMIT", sql.upper())
         self.assertEqual(params, ["2026-05-01", "2026-05-11"])
+
+    def test_vendor_recommendation_customer_brand_uses_ilike_params(self):
+        sql, params = get_vendors_customer_brand("ACME", "3M")
+
+        self.assertIn("customer_name ILIKE %s", sql)
+        self.assertIn("brand ILIKE %s", sql)
+        self.assertEqual(params, ["%ACME%", "%3M%"])
+
+    def test_vendor_recommendation_country_brand_uses_ilike_params(self):
+        sql, params = get_vendors_country_brand("CO", "3M")
+
+        self.assertIn("country ILIKE %s", sql)
+        self.assertIn("brand ILIKE %s", sql)
+        self.assertEqual(params, ["%CO%", "%3M%"])
+
+    def test_vendor_recommendation_customer_country_uses_ilike_param(self):
+        sql, params = get_customer_country("ACME")
+
+        self.assertIn("customer_name ILIKE %s", sql)
+        self.assertEqual(params, ["%ACME%"])
 
 
 if __name__ == "__main__":
