@@ -65,7 +65,7 @@ class TestPurchaseOrdersAnalysis(unittest.TestCase):
         with self.assertRaises(ValueError):
             normalize_topic("not-valid")
 
-    def test_items_topic_analysis_includes_pending_and_received_pct(self):
+    def test_items_topic_analysis_uses_line_receipt_score_and_keeps_pending_quantity_secondary(self):
         df = pd.DataFrame(
             [
                 {
@@ -84,7 +84,55 @@ class TestPurchaseOrdersAnalysis(unittest.TestCase):
 
         self.assertEqual(result["topic"], "items")
         self.assertEqual(result["overview"]["total_pending_quantity"], 6.0)
-        self.assertEqual(result["receipt_analysis"]["global_received_pct"], 40.0)
+        self.assertEqual(result["receipt_analysis"]["avg_line_receipt_score"], 0.4)
+        self.assertEqual(result["receipt_analysis"]["avg_line_receipt_score_pct"], 40.0)
+        self.assertEqual(result["receipt_analysis"]["secondary_pending_quantity"], 6.0)
+
+    def test_items_topic_analysis_averages_receipt_score_by_line_not_by_quantity(self):
+        df = pd.DataFrame(
+            [
+                {
+                    "item": "Big line",
+                    "brand": "A",
+                    "product_group": "G1",
+                    "vendor": "V1",
+                    "customer": "C1",
+                    "quantity": 10000,
+                    "quantity_received": 0,
+                    "line_amount": 100,
+                },
+                {
+                    "item": "Partial line",
+                    "brand": "A",
+                    "product_group": "G1",
+                    "vendor": "V1",
+                    "customer": "C1",
+                    "quantity": 100,
+                    "quantity_received": 30,
+                    "line_amount": 50,
+                },
+                {
+                    "item": "Full line",
+                    "brand": "B",
+                    "product_group": "G2",
+                    "vendor": "V2",
+                    "customer": "C2",
+                    "quantity": 20,
+                    "quantity_received": 20,
+                    "line_amount": 75,
+                },
+            ]
+        )
+
+        result = build_items_analysis(df)
+
+        self.assertAlmostEqual(result["receipt_analysis"]["avg_line_receipt_score"], (0.0 + 0.3 + 1.0) / 3)
+        self.assertEqual(result["receipt_analysis"]["not_received_lines"], 1)
+        self.assertEqual(result["receipt_analysis"]["partially_received_lines"], 1)
+        self.assertEqual(result["receipt_analysis"]["fully_received_lines"], 1)
+        brand_a = next(row for row in result["brand_analysis"]["metrics"] if row["brand"] == "A")
+        self.assertAlmostEqual(brand_a["avg_line_receipt_score"], 0.15)
+        self.assertAlmostEqual(brand_a["avg_line_receipt_score_pct"], 15.0)
 
     def test_vendors_analysis_deduplicates_po_amount(self):
         df = pd.DataFrame(

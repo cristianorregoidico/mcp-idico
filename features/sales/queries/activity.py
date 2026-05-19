@@ -8,14 +8,14 @@ def get_calls_summary(start_date: str, final_date: str, customer_name: str = '',
     params: list[str] = [start_date, final_date]
 
     if customer_name:
-        where_clauses.append("UPPER(account) ILIKE '%' || UPPER(%s) || '%'")
-        params.append(customer_name)
+        where_clauses.append("account ILIKE %s")
+        params.append(f"%{customer_name}%")
     if organizer:
-        where_clauses.append("UPPER(organizer) ILIKE '%' || UPPER(%s) || '%'")
-        params.append(organizer)
+        where_clauses.append("organizer ILIKE %s")
+        params.append(f"%{organizer}%")
     if subject:
-        where_clauses.append("UPPER(subject) ILIKE '%' || UPPER(%s) || '%'")
-        params.append(subject)
+        where_clauses.append("subject ILIKE %s")
+        params.append(f"%{subject}%")
 
     sql = f"""
     SELECT
