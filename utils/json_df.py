@@ -1,6 +1,7 @@
 import json
 from typing import List, Tuple, Any, Optional
 import datetime
+from decimal import Decimal
 import pandas as pd
 
 
@@ -69,6 +70,8 @@ def save_result_to_json(
         def default(self, obj):
             if isinstance(obj, (datetime.date, datetime.datetime)):
                 return obj.isoformat()
+            if isinstance(obj, Decimal):
+                return float(obj)
             return json.JSONEncoder.default(self, obj)
 
     with open("data/"+filename, "w", encoding="utf-8") as f:
@@ -77,6 +80,24 @@ def save_result_to_json(
     dataset_preview["filename"] = filename
     # print("Dataset preview saved to JSON:", json.dumps(dataset_preview, cls=DateEncoder, indent=2, ensure_ascii=False))
     return dataset_preview
+
+
+def save_dataset_manifest(datasets: dict[str, Any], description: str, name: str = "dataset_manifest") -> dict[str, Any]:
+    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    filename = f"{timestamp}_{name}.json"
+    data = {
+        "data_set_description": description,
+        "datasets": datasets,
+    }
+
+    with open("data/" + filename, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+
+    return {
+        "description": description,
+        "data_preview": {"datasets": datasets},
+        "filename": filename,
+    }
 
 
 

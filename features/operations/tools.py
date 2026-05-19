@@ -1,6 +1,6 @@
 from typing import Any, Dict, List, Optional
 
-from features.operations.use_cases import guides, imports, otd
+from features.operations.use_cases import guides, idra_usage, imports, otd, purchase_orders, walle_usage
 from utils.date import get_month_start_and_today
 
 
@@ -56,8 +56,87 @@ def get_customer_imports(customer_name: str) -> Dict[str, Any]:
     return imports.execute(customer_name)
 
 
+def get_purchase_orders(
+    initial_date: Optional[str] = None,
+    final_date: Optional[str] = None,
+    vendor: Optional[str] = None,
+    status: Optional[str] = None,
+    brand: Optional[str] = None,
+    topic: str = "vendors",
+) -> Dict[str, Any]:
+    """Retrieve purchase-order analytics from NetSuite.
+
+    Use this tool when the user asks for purchase-order status, vendor activity,
+    overdue deliveries, rescheduling behavior, or item-level receipt and pending
+    analysis for a given period.
+
+    Args:
+        initial_date: Start date in YYYY-MM-DD format; defaults to month start
+            when either date is missing.
+        final_date: End date in YYYY-MM-DD format; defaults to today when either
+            date is missing.
+        vendor: Partial vendor-name filter; optional.
+        status: Purchase-order status filter; optional. Must be one of the
+            allowed NetSuite PO statuses handled by the use case ("Pending Supervisor Approval","Pending Receipt","Rejected by Supervisor","Partially Received","Pending Billing/Partially Received","Pending Bill","Fully Billed",).
+        brand: Partial item-brand filter; optional.
+        topic: Analysis perspective; `vendors` for PO-level operational and
+            financial metrics, or `items` for line-level receipt and pending
+            metrics. Defaults to `vendors`.
+
+    Returns:
+        Dict[str, Any]: MCP response envelope with summary KPIs, applied filters,
+        source metadata, and dataset reference for the queried purchase orders.
+    """
+    return purchase_orders.execute(initial_date, final_date, vendor, status, brand, topic)
+
+
+def get_walle_usage(
+    initial_date: Optional[str] = None,
+    final_date: Optional[str] = None,
+    po_name: Optional[str] = None,
+    limit: int = 100,
+) -> Dict[str, Any]:
+    """Retrieve Walle usage metrics from PostgreSQL.
+
+    Use this tool when the user asks for Walle adoption, AI email processing,
+    action suggestion activity, or API usage metrics for a period or a specific PO.
+
+    Args:
+        initial_date: Start date in YYYY-MM-DD format; defaults to month start
+            when needed.
+        final_date: End date in YYYY-MM-DD format; defaults to today when needed.
+        po_name: Exact PO filter; when present, PO-related queries ignore date range.
+        limit: Maximum sample size for detail payloads. Clamped to a safe maximum.
+
+    Returns:
+        Dict[str, Any]: MCP response envelope with Walle KPI metrics, raw dataset
+        references, and limited detail samples.
+    """
+    return walle_usage.execute(initial_date, final_date, po_name, limit)
+
+
+def get_idra_usage(initial_date: str, final_date: str) -> Dict[str, Any]:
+    """Retrieve IDRA tool usage metrics from PostgreSQL.
+
+    Use this tool when the user asks for adoption, usage, latency, temporal
+    behavior, or error metrics for IDRA MCP tools in a given date range.
+
+    Args:
+        initial_date: Start date in YYYY-MM-DD format.
+        final_date: End date in YYYY-MM-DD format.
+
+    Returns:
+        Dict[str, Any]: MCP response envelope with IDRA usage KPIs and dataset
+        reference for the raw audit records.
+    """
+    return idra_usage.execute(initial_date, final_date)
+
+
 OPS_TOOLS: List = [
     get_helga_guides,
     get_otd_indicators,
     get_customer_imports,
+    get_purchase_orders,
+    get_walle_usage,
+    get_idra_usage,
 ]
