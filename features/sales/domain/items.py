@@ -8,7 +8,8 @@ def summarize_sold_items(df: pd.DataFrame) -> Dict[str, Any]:
     ['customer', 'quote', 'status', 'date', 'inside_sales',
      'item', 'item_description', 'brand', 'product_group',
      'selected_vendor', 'qty', 'unit_price', 'unit_cost',
-     'gross_margin_pct']
+     'gross_margin_pct', 'inbound_freight_cost',
+     'outbound_freight_cost']
 
     Retorna un dict con el shape:
 
@@ -37,11 +38,24 @@ def summarize_sold_items(df: pd.DataFrame) -> Dict[str, Any]:
     if "date" in df.columns:
         df["date"] = pd.to_datetime(df["date"], errors="coerce")
 
+    numeric_defaults = {
+        "qty": 0.0,
+        "unit_price": 0.0,
+        "unit_cost": np.nan,
+        "gross_margin_pct": np.nan,
+        "inbound_freight_cost": 0.0,
+        "outbound_freight_cost": 0.0,
+    }
+    for col, default_value in numeric_defaults.items():
+        if col not in df.columns:
+            df[col] = default_value
+        df[col] = pd.to_numeric(df[col], errors="coerce")
+
     # Ventas de línea
     df["line_sales"] = df["qty"] * df["unit_price"]
 
     # Costo de línea: prioridad unit_cost, luego gross_margin_pct
-    has_unit_cost = df["unit_cost"].notna() if "unit_cost" in df.columns else False
+    has_unit_cost = df["unit_cost"].notna()
 
     df["line_cost_from_unit"] = np.where(
         has_unit_cost,
@@ -56,15 +70,26 @@ def summarize_sold_items(df: pd.DataFrame) -> Dict[str, Any]:
     )
 
     df["line_cost"] = df["line_cost_from_unit"].fillna(df["line_cost_from_margin_pct"])
-    df["line_gm"] = df["line_sales"] - df["line_cost"]
+    df["line_inbound_freight_cost"] = df["inbound_freight_cost"].fillna(0.0)
+    df["line_outbound_freight_cost"] = df["outbound_freight_cost"].fillna(0.0)
+    df["line_gm"] = (
+        df["line_sales"]
+        - df["line_cost"]
+        - df["line_inbound_freight_cost"]
+        - df["line_outbound_freight_cost"]
+    )
     df["line_gm"] = df["line_gm"].fillna(0.0)
     df["line_sales"] = df["line_sales"].fillna(0.0)
+    df["line_cost"] = df["line_cost"].fillna(0.0)
 
     # ---------------------------
     # 1) GENERAL SUMMARY
     # ---------------------------
     total_qty = float(df["qty"].sum())
     total_sales = float(df["line_sales"].sum())
+    total_cost = float(df["line_cost"].sum())
+    total_inbound_freight_cost = float(df["line_inbound_freight_cost"].sum())
+    total_outbound_freight_cost = float(df["line_outbound_freight_cost"].sum())
     total_gm = float(df["line_gm"].sum())
 
     if total_sales > 0:
@@ -78,6 +103,9 @@ def summarize_sold_items(df: pd.DataFrame) -> Dict[str, Any]:
     general_summary = {
         "total_quantity": round(total_qty, 4),
         "total_sales": round(total_sales, 4),
+        "total_cost": round(total_cost, 4),
+        "total_inbound_freight_cost": round(total_inbound_freight_cost, 4),
+        "total_outbound_freight_cost": round(total_outbound_freight_cost, 4),
         "total_gross_margin": round(total_gm, 4),
         "average_gross_margin_pct": round(avg_gm_pct, 6),
         "unique_customers": unique_customers,
@@ -91,6 +119,9 @@ def summarize_sold_items(df: pd.DataFrame) -> Dict[str, Any]:
     item_group = df.groupby(item_group_cols, dropna=False).agg(
         total_qty=("qty", "sum"),
         total_sales=("line_sales", "sum"),
+        total_cost=("line_cost", "sum"),
+        total_inbound_freight_cost=("line_inbound_freight_cost", "sum"),
+        total_outbound_freight_cost=("line_outbound_freight_cost", "sum"),
         total_gm=("line_gm", "sum"),
         avg_gm_pct_raw=("gross_margin_pct", "mean"),
         num_customers=("customer", "nunique"),
@@ -126,6 +157,9 @@ def summarize_sold_items(df: pd.DataFrame) -> Dict[str, Any]:
     round_item_map = {
         "total_qty": 4,
         "total_sales": 4,
+        "total_cost": 4,
+        "total_inbound_freight_cost": 4,
+        "total_outbound_freight_cost": 4,
         "total_gm": 4,
         "avg_gm_pct": 6
     }
@@ -198,14 +232,25 @@ def summarize_sold_items(df: pd.DataFrame) -> Dict[str, Any]:
             total_items=("item", "nunique"),
             total_lines=("item", "size"),
             total_sales=("line_sales", "sum"),
+            total_cost=("line_cost", "sum"),
+            total_inbound_freight_cost=("line_inbound_freight_cost", "sum"),
+            total_outbound_freight_cost=("line_outbound_freight_cost", "sum"),
             total_gm=("line_gm", "sum"),
-            avg_gm_pct=("gross_margin_pct", "mean")
         ).reset_index()
+
+        vendor_group["avg_gm_pct"] = np.where(
+            vendor_group["total_sales"] > 0,
+            vendor_group["total_gm"] / vendor_group["total_sales"],
+            0.0
+        )
 
         vendor_group = vendor_group.sort_values("total_gm", ascending=False)
 
         vendor_round_map = {
             "total_sales": 4,
+            "total_cost": 4,
+            "total_inbound_freight_cost": 4,
+            "total_outbound_freight_cost": 4,
             "total_gm": 4,
             "avg_gm_pct": 6
         }
@@ -223,6 +268,9 @@ def summarize_sold_items(df: pd.DataFrame) -> Dict[str, Any]:
 
     dist_round_map = {
         "total_sales": 4,
+        "total_cost": 4,
+        "total_inbound_freight_cost": 4,
+        "total_outbound_freight_cost": 4,
         "total_gm": 4,
         "avg_gm_pct": 6
     }
@@ -232,9 +280,17 @@ def summarize_sold_items(df: pd.DataFrame) -> Dict[str, Any]:
             total_items=("item", "nunique"),
             total_lines=("item", "size"),
             total_sales=("line_sales", "sum"),
+            total_cost=("line_cost", "sum"),
+            total_inbound_freight_cost=("line_inbound_freight_cost", "sum"),
+            total_outbound_freight_cost=("line_outbound_freight_cost", "sum"),
             total_gm=("line_gm", "sum"),
-            avg_gm_pct=("gross_margin_pct", "mean")
         ).reset_index()
+
+        brand_group["avg_gm_pct"] = np.where(
+            brand_group["total_sales"] > 0,
+            brand_group["total_gm"] / brand_group["total_sales"],
+            0.0
+        )
 
         brand_group = brand_group.sort_values("avg_gm_pct", ascending=False)
 
@@ -264,9 +320,17 @@ def summarize_sold_items(df: pd.DataFrame) -> Dict[str, Any]:
             total_items=("item", "nunique"),
             total_lines=("item", "size"),
             total_sales=("line_sales", "sum"),
+            total_cost=("line_cost", "sum"),
+            total_inbound_freight_cost=("line_inbound_freight_cost", "sum"),
+            total_outbound_freight_cost=("line_outbound_freight_cost", "sum"),
             total_gm=("line_gm", "sum"),
-            avg_gm_pct=("gross_margin_pct", "mean")
         ).reset_index()
+
+        pg_group["avg_gm_pct"] = np.where(
+            pg_group["total_sales"] > 0,
+            pg_group["total_gm"] / pg_group["total_sales"],
+            0.0
+        )
 
         pg_group = pg_group.sort_values("avg_gm_pct", ascending=False)
 
@@ -288,7 +352,7 @@ def summarize_sold_items(df: pd.DataFrame) -> Dict[str, Any]:
         },
         "top_brands_by_count": top_brands_by_count,
     }
-
+    print("Items summary generated successfully.", output)
     return output
 
 def summarize_items_quoted(df: pd.DataFrame) -> Dict[str, Any]:

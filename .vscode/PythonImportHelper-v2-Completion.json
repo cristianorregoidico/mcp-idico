@@ -375,6 +375,86 @@
         "documentation": {}
     },
     {
+        "label": "Tuple",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
         "label": "Optional",
         "importPath": "typing",
         "description": "typing",
@@ -1040,6 +1120,14 @@
     },
     {
         "label": "load_dataset_from_json",
+        "importPath": "utils.json_df",
+        "description": "utils.json_df",
+        "isExtraImport": true,
+        "detail": "utils.json_df",
+        "documentation": {}
+    },
+    {
+        "label": "save_result_to_json",
         "importPath": "utils.json_df",
         "description": "utils.json_df",
         "isExtraImport": true,
@@ -1287,6 +1375,14 @@
         "documentation": {}
     },
     {
+        "label": "build_tool_response",
+        "importPath": "utils.envelope",
+        "description": "utils.envelope",
+        "isExtraImport": true,
+        "detail": "utils.envelope",
+        "documentation": {}
+    },
+    {
         "label": "Path",
         "importPath": "pathlib",
         "description": "pathlib",
@@ -1300,6 +1396,287 @@
         "description": "fastmcp.utilities.types",
         "isExtraImport": true,
         "detail": "fastmcp.utilities.types",
+        "documentation": {}
+    },
+    {
+        "label": "pandas",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "pandas",
+        "description": "pandas",
+        "detail": "pandas",
+        "documentation": {}
+    },
+    {
+        "label": "NetSuiteConnection",
+        "importPath": "connections.netsuite.client",
+        "description": "connections.netsuite.client",
+        "isExtraImport": true,
+        "detail": "connections.netsuite.client",
+        "documentation": {}
+    },
+    {
+        "label": "NetSuiteConnection",
+        "importPath": "connections.netsuite.client",
+        "description": "connections.netsuite.client",
+        "isExtraImport": true,
+        "detail": "connections.netsuite.client",
+        "documentation": {}
+    },
+    {
+        "label": "NetSuiteConnection",
+        "importPath": "connections.netsuite.client",
+        "description": "connections.netsuite.client",
+        "isExtraImport": true,
+        "detail": "connections.netsuite.client",
+        "documentation": {}
+    },
+    {
+        "label": "NetSuiteConnection",
+        "importPath": "connections.netsuite.client",
+        "description": "connections.netsuite.client",
+        "isExtraImport": true,
+        "detail": "connections.netsuite.client",
+        "documentation": {}
+    },
+    {
+        "label": "NetSuiteConnection",
+        "importPath": "connections.netsuite.client",
+        "description": "connections.netsuite.client",
+        "isExtraImport": true,
+        "detail": "connections.netsuite.client",
+        "documentation": {}
+    },
+    {
+        "label": "NetSuiteConnection",
+        "importPath": "connections.netsuite.client",
+        "description": "connections.netsuite.client",
+        "isExtraImport": true,
+        "detail": "connections.netsuite.client",
+        "documentation": {}
+    },
+    {
+        "label": "NetSuiteConnection",
+        "importPath": "connections.netsuite.client",
+        "description": "connections.netsuite.client",
+        "isExtraImport": true,
+        "detail": "connections.netsuite.client",
+        "documentation": {}
+    },
+    {
+        "label": "NetSuiteConnection",
+        "importPath": "connections.netsuite.client",
+        "description": "connections.netsuite.client",
+        "isExtraImport": true,
+        "detail": "connections.netsuite.client",
+        "documentation": {}
+    },
+    {
+        "label": "summarize_payable_aging",
+        "importPath": "features.financial.domain.aging",
+        "description": "features.financial.domain.aging",
+        "isExtraImport": true,
+        "detail": "features.financial.domain.aging",
+        "documentation": {}
+    },
+    {
+        "label": "summarize_receivable_aging",
+        "importPath": "features.financial.domain.aging",
+        "description": "features.financial.domain.aging",
+        "isExtraImport": true,
+        "detail": "features.financial.domain.aging",
+        "documentation": {}
+    },
+    {
+        "label": "get_aging_data",
+        "importPath": "features.financial.queries.aging",
+        "description": "features.financial.queries.aging",
+        "isExtraImport": true,
+        "detail": "features.financial.queries.aging",
+        "documentation": {}
+    },
+    {
+        "label": "tuple_to_dataframe",
+        "importPath": "utils.transformations",
+        "description": "utils.transformations",
+        "isExtraImport": true,
+        "detail": "utils.transformations",
+        "documentation": {}
+    },
+    {
+        "label": "tuple_to_dataframe",
+        "importPath": "utils.transformations",
+        "description": "utils.transformations",
+        "isExtraImport": true,
+        "detail": "utils.transformations",
+        "documentation": {}
+    },
+    {
+        "label": "tuple_to_dataframe",
+        "importPath": "utils.transformations",
+        "description": "utils.transformations",
+        "isExtraImport": true,
+        "detail": "utils.transformations",
+        "documentation": {}
+    },
+    {
+        "label": "tuple_to_dataframe",
+        "importPath": "utils.transformations",
+        "description": "utils.transformations",
+        "isExtraImport": true,
+        "detail": "utils.transformations",
+        "documentation": {}
+    },
+    {
+        "label": "tuple_to_dataframe",
+        "importPath": "utils.transformations",
+        "description": "utils.transformations",
+        "isExtraImport": true,
+        "detail": "utils.transformations",
+        "documentation": {}
+    },
+    {
+        "label": "tuple_to_dataframe",
+        "importPath": "utils.transformations",
+        "description": "utils.transformations",
+        "isExtraImport": true,
+        "detail": "utils.transformations",
+        "documentation": {}
+    },
+    {
+        "label": "tuple_to_dataframe",
+        "importPath": "utils.transformations",
+        "description": "utils.transformations",
+        "isExtraImport": true,
+        "detail": "utils.transformations",
+        "documentation": {}
+    },
+    {
+        "label": "tuple_to_dataframe",
+        "importPath": "utils.transformations",
+        "description": "utils.transformations",
+        "isExtraImport": true,
+        "detail": "utils.transformations",
+        "documentation": {}
+    },
+    {
+        "label": "tuple_to_dataframe",
+        "importPath": "utils.transformations",
+        "description": "utils.transformations",
+        "isExtraImport": true,
+        "detail": "utils.transformations",
+        "documentation": {}
+    },
+    {
+        "label": "tuple_to_dataframe",
+        "importPath": "utils.transformations",
+        "description": "utils.transformations",
+        "isExtraImport": true,
+        "detail": "utils.transformations",
+        "documentation": {}
+    },
+    {
+        "label": "tuple_to_dataframe",
+        "importPath": "utils.transformations",
+        "description": "utils.transformations",
+        "isExtraImport": true,
+        "detail": "utils.transformations",
+        "documentation": {}
+    },
+    {
+        "label": "tuple_to_dataframe",
+        "importPath": "utils.transformations",
+        "description": "utils.transformations",
+        "isExtraImport": true,
+        "detail": "utils.transformations",
+        "documentation": {}
+    },
+    {
+        "label": "tuple_to_dataframe",
+        "importPath": "utils.transformations",
+        "description": "utils.transformations",
+        "isExtraImport": true,
+        "detail": "utils.transformations",
+        "documentation": {}
+    },
+    {
+        "label": "tuple_to_dataframe",
+        "importPath": "utils.transformations",
+        "description": "utils.transformations",
+        "isExtraImport": true,
+        "detail": "utils.transformations",
+        "documentation": {}
+    },
+    {
+        "label": "tuple_to_dataframe",
+        "importPath": "utils.transformations",
+        "description": "utils.transformations",
+        "isExtraImport": true,
+        "detail": "utils.transformations",
+        "documentation": {}
+    },
+    {
+        "label": "tuple_to_dataframe",
+        "importPath": "utils.transformations",
+        "description": "utils.transformations",
+        "isExtraImport": true,
+        "detail": "utils.transformations",
+        "documentation": {}
+    },
+    {
+        "label": "aging",
+        "importPath": "features.financial.use_cases",
+        "description": "features.financial.use_cases",
+        "isExtraImport": true,
+        "detail": "features.financial.use_cases",
+        "documentation": {}
+    },
+    {
+        "label": "get_month_start_and_today",
+        "importPath": "utils.date",
+        "description": "utils.date",
+        "isExtraImport": true,
+        "detail": "utils.date",
+        "documentation": {}
+    },
+    {
+        "label": "get_month_start_and_today",
+        "importPath": "utils.date",
+        "description": "utils.date",
+        "isExtraImport": true,
+        "detail": "utils.date",
+        "documentation": {}
+    },
+    {
+        "label": "get_month_start_and_today",
+        "importPath": "utils.date",
+        "description": "utils.date",
+        "isExtraImport": true,
+        "detail": "utils.date",
+        "documentation": {}
+    },
+    {
+        "label": "get_month_start_and_today",
+        "importPath": "utils.date",
+        "description": "utils.date",
+        "isExtraImport": true,
+        "detail": "utils.date",
+        "documentation": {}
+    },
+    {
+        "label": "get_month_start_and_today",
+        "importPath": "utils.date",
+        "description": "utils.date",
+        "isExtraImport": true,
+        "detail": "utils.date",
+        "documentation": {}
+    },
+    {
+        "label": "get_month_start_and_today",
+        "importPath": "utils.date",
+        "description": "utils.date",
+        "isExtraImport": true,
+        "detail": "utils.date",
         "documentation": {}
     },
     {
@@ -1341,15 +1718,6 @@
         "importPath": "ast",
         "description": "ast",
         "detail": "ast",
-        "documentation": {}
-    },
-    {
-        "label": "pandas",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "pandas",
-        "description": "pandas",
-        "detail": "pandas",
         "documentation": {}
     },
     {
@@ -1479,126 +1847,6 @@
         "description": "features.operations.queries.guides",
         "isExtraImport": true,
         "detail": "features.operations.queries.guides",
-        "documentation": {}
-    },
-    {
-        "label": "tuple_to_dataframe",
-        "importPath": "utils.transformations",
-        "description": "utils.transformations",
-        "isExtraImport": true,
-        "detail": "utils.transformations",
-        "documentation": {}
-    },
-    {
-        "label": "tuple_to_dataframe",
-        "importPath": "utils.transformations",
-        "description": "utils.transformations",
-        "isExtraImport": true,
-        "detail": "utils.transformations",
-        "documentation": {}
-    },
-    {
-        "label": "tuple_to_dataframe",
-        "importPath": "utils.transformations",
-        "description": "utils.transformations",
-        "isExtraImport": true,
-        "detail": "utils.transformations",
-        "documentation": {}
-    },
-    {
-        "label": "tuple_to_dataframe",
-        "importPath": "utils.transformations",
-        "description": "utils.transformations",
-        "isExtraImport": true,
-        "detail": "utils.transformations",
-        "documentation": {}
-    },
-    {
-        "label": "tuple_to_dataframe",
-        "importPath": "utils.transformations",
-        "description": "utils.transformations",
-        "isExtraImport": true,
-        "detail": "utils.transformations",
-        "documentation": {}
-    },
-    {
-        "label": "tuple_to_dataframe",
-        "importPath": "utils.transformations",
-        "description": "utils.transformations",
-        "isExtraImport": true,
-        "detail": "utils.transformations",
-        "documentation": {}
-    },
-    {
-        "label": "tuple_to_dataframe",
-        "importPath": "utils.transformations",
-        "description": "utils.transformations",
-        "isExtraImport": true,
-        "detail": "utils.transformations",
-        "documentation": {}
-    },
-    {
-        "label": "tuple_to_dataframe",
-        "importPath": "utils.transformations",
-        "description": "utils.transformations",
-        "isExtraImport": true,
-        "detail": "utils.transformations",
-        "documentation": {}
-    },
-    {
-        "label": "tuple_to_dataframe",
-        "importPath": "utils.transformations",
-        "description": "utils.transformations",
-        "isExtraImport": true,
-        "detail": "utils.transformations",
-        "documentation": {}
-    },
-    {
-        "label": "tuple_to_dataframe",
-        "importPath": "utils.transformations",
-        "description": "utils.transformations",
-        "isExtraImport": true,
-        "detail": "utils.transformations",
-        "documentation": {}
-    },
-    {
-        "label": "tuple_to_dataframe",
-        "importPath": "utils.transformations",
-        "description": "utils.transformations",
-        "isExtraImport": true,
-        "detail": "utils.transformations",
-        "documentation": {}
-    },
-    {
-        "label": "tuple_to_dataframe",
-        "importPath": "utils.transformations",
-        "description": "utils.transformations",
-        "isExtraImport": true,
-        "detail": "utils.transformations",
-        "documentation": {}
-    },
-    {
-        "label": "tuple_to_dataframe",
-        "importPath": "utils.transformations",
-        "description": "utils.transformations",
-        "isExtraImport": true,
-        "detail": "utils.transformations",
-        "documentation": {}
-    },
-    {
-        "label": "tuple_to_dataframe",
-        "importPath": "utils.transformations",
-        "description": "utils.transformations",
-        "isExtraImport": true,
-        "detail": "utils.transformations",
-        "documentation": {}
-    },
-    {
-        "label": "tuple_to_dataframe",
-        "importPath": "utils.transformations",
-        "description": "utils.transformations",
-        "isExtraImport": true,
-        "detail": "utils.transformations",
         "documentation": {}
     },
     {
@@ -1739,62 +1987,6 @@
         "documentation": {}
     },
     {
-        "label": "NetSuiteConnection",
-        "importPath": "connections.netsuite.client",
-        "description": "connections.netsuite.client",
-        "isExtraImport": true,
-        "detail": "connections.netsuite.client",
-        "documentation": {}
-    },
-    {
-        "label": "NetSuiteConnection",
-        "importPath": "connections.netsuite.client",
-        "description": "connections.netsuite.client",
-        "isExtraImport": true,
-        "detail": "connections.netsuite.client",
-        "documentation": {}
-    },
-    {
-        "label": "NetSuiteConnection",
-        "importPath": "connections.netsuite.client",
-        "description": "connections.netsuite.client",
-        "isExtraImport": true,
-        "detail": "connections.netsuite.client",
-        "documentation": {}
-    },
-    {
-        "label": "NetSuiteConnection",
-        "importPath": "connections.netsuite.client",
-        "description": "connections.netsuite.client",
-        "isExtraImport": true,
-        "detail": "connections.netsuite.client",
-        "documentation": {}
-    },
-    {
-        "label": "NetSuiteConnection",
-        "importPath": "connections.netsuite.client",
-        "description": "connections.netsuite.client",
-        "isExtraImport": true,
-        "detail": "connections.netsuite.client",
-        "documentation": {}
-    },
-    {
-        "label": "NetSuiteConnection",
-        "importPath": "connections.netsuite.client",
-        "description": "connections.netsuite.client",
-        "isExtraImport": true,
-        "detail": "connections.netsuite.client",
-        "documentation": {}
-    },
-    {
-        "label": "NetSuiteConnection",
-        "importPath": "connections.netsuite.client",
-        "description": "connections.netsuite.client",
-        "isExtraImport": true,
-        "detail": "connections.netsuite.client",
-        "documentation": {}
-    },
-    {
         "label": "build_items_analysis",
         "importPath": "features.operations.domain.purchase_orders",
         "description": "features.operations.domain.purchase_orders",
@@ -1856,46 +2048,6 @@
         "description": "features.operations.queries.purchase_orders",
         "isExtraImport": true,
         "detail": "features.operations.queries.purchase_orders",
-        "documentation": {}
-    },
-    {
-        "label": "get_month_start_and_today",
-        "importPath": "utils.date",
-        "description": "utils.date",
-        "isExtraImport": true,
-        "detail": "utils.date",
-        "documentation": {}
-    },
-    {
-        "label": "get_month_start_and_today",
-        "importPath": "utils.date",
-        "description": "utils.date",
-        "isExtraImport": true,
-        "detail": "utils.date",
-        "documentation": {}
-    },
-    {
-        "label": "get_month_start_and_today",
-        "importPath": "utils.date",
-        "description": "utils.date",
-        "isExtraImport": true,
-        "detail": "utils.date",
-        "documentation": {}
-    },
-    {
-        "label": "get_month_start_and_today",
-        "importPath": "utils.date",
-        "description": "utils.date",
-        "isExtraImport": true,
-        "detail": "utils.date",
-        "documentation": {}
-    },
-    {
-        "label": "get_month_start_and_today",
-        "importPath": "utils.date",
-        "description": "utils.date",
-        "isExtraImport": true,
-        "detail": "utils.date",
         "documentation": {}
     },
     {
@@ -2180,6 +2332,14 @@
     },
     {
         "label": "summarize_items_quoted",
+        "importPath": "features.sales.domain.items",
+        "description": "features.sales.domain.items",
+        "isExtraImport": true,
+        "detail": "features.sales.domain.items",
+        "documentation": {}
+    },
+    {
+        "label": "summarize_sold_items",
         "importPath": "features.sales.domain.items",
         "description": "features.sales.domain.items",
         "isExtraImport": true,
@@ -2484,38 +2644,6 @@
         "documentation": {}
     },
     {
-        "label": "FastMCP",
-        "importPath": "fastmcp",
-        "description": "fastmcp",
-        "isExtraImport": true,
-        "detail": "fastmcp",
-        "documentation": {}
-    },
-    {
-        "label": "FastMCP",
-        "importPath": "fastmcp",
-        "description": "fastmcp",
-        "isExtraImport": true,
-        "detail": "fastmcp",
-        "documentation": {}
-    },
-    {
-        "label": "Icon",
-        "importPath": "mcp.types",
-        "description": "mcp.types",
-        "isExtraImport": true,
-        "detail": "mcp.types",
-        "documentation": {}
-    },
-    {
-        "label": "Icon",
-        "importPath": "mcp.types",
-        "description": "mcp.types",
-        "isExtraImport": true,
-        "detail": "mcp.types",
-        "documentation": {}
-    },
-    {
         "label": "asyncio",
         "kind": 6,
         "isExtraImport": true,
@@ -2525,11 +2653,35 @@
         "documentation": {}
     },
     {
-        "label": "create_redis_client",
-        "importPath": "auth.redis_client",
-        "description": "auth.redis_client",
+        "label": "FastMCP",
+        "importPath": "fastmcp",
+        "description": "fastmcp",
         "isExtraImport": true,
-        "detail": "auth.redis_client",
+        "detail": "fastmcp",
+        "documentation": {}
+    },
+    {
+        "label": "FastMCP",
+        "importPath": "fastmcp",
+        "description": "fastmcp",
+        "isExtraImport": true,
+        "detail": "fastmcp",
+        "documentation": {}
+    },
+    {
+        "label": "Icon",
+        "importPath": "mcp.types",
+        "description": "mcp.types",
+        "isExtraImport": true,
+        "detail": "mcp.types",
+        "documentation": {}
+    },
+    {
+        "label": "Icon",
+        "importPath": "mcp.types",
+        "description": "mcp.types",
+        "isExtraImport": true,
+        "detail": "mcp.types",
         "documentation": {}
     },
     {
@@ -2541,11 +2693,75 @@
         "documentation": {}
     },
     {
-        "label": "register_tools",
-        "importPath": "middleware",
-        "description": "middleware",
+        "label": "create_redis_client",
+        "importPath": "auth.redis_client",
+        "description": "auth.redis_client",
         "isExtraImport": true,
-        "detail": "middleware",
+        "detail": "auth.redis_client",
+        "documentation": {}
+    },
+    {
+        "label": "FILES_TOOLS",
+        "importPath": "features.files.tools",
+        "description": "features.files.tools",
+        "isExtraImport": true,
+        "detail": "features.files.tools",
+        "documentation": {}
+    },
+    {
+        "label": "FILES_TOOLS",
+        "importPath": "features.files.tools",
+        "description": "features.files.tools",
+        "isExtraImport": true,
+        "detail": "features.files.tools",
+        "documentation": {}
+    },
+    {
+        "label": "FINANCIAL_TOOLS",
+        "importPath": "features.financial.tools",
+        "description": "features.financial.tools",
+        "isExtraImport": true,
+        "detail": "features.financial.tools",
+        "documentation": {}
+    },
+    {
+        "label": "NOTIFICATION_TOOLS",
+        "importPath": "features.notifications.tools",
+        "description": "features.notifications.tools",
+        "isExtraImport": true,
+        "detail": "features.notifications.tools",
+        "documentation": {}
+    },
+    {
+        "label": "OPS_TOOLS",
+        "importPath": "features.operations.tools",
+        "description": "features.operations.tools",
+        "isExtraImport": true,
+        "detail": "features.operations.tools",
+        "documentation": {}
+    },
+    {
+        "label": "OPS_TOOLS",
+        "importPath": "features.operations.tools",
+        "description": "features.operations.tools",
+        "isExtraImport": true,
+        "detail": "features.operations.tools",
+        "documentation": {}
+    },
+    {
+        "label": "PERFORMANCE_TOOLS",
+        "importPath": "features.performance.tools",
+        "description": "features.performance.tools",
+        "isExtraImport": true,
+        "detail": "features.performance.tools",
+        "documentation": {}
+    },
+    {
+        "label": "PERFORMANCE_TOOLS",
+        "importPath": "features.performance.tools",
+        "description": "features.performance.tools",
+        "isExtraImport": true,
+        "detail": "features.performance.tools",
         "documentation": {}
     },
     {
@@ -2573,59 +2789,11 @@
         "documentation": {}
     },
     {
-        "label": "FILES_TOOLS",
-        "importPath": "features.files.tools",
-        "description": "features.files.tools",
+        "label": "register_tools",
+        "importPath": "middleware",
+        "description": "middleware",
         "isExtraImport": true,
-        "detail": "features.files.tools",
-        "documentation": {}
-    },
-    {
-        "label": "FILES_TOOLS",
-        "importPath": "features.files.tools",
-        "description": "features.files.tools",
-        "isExtraImport": true,
-        "detail": "features.files.tools",
-        "documentation": {}
-    },
-    {
-        "label": "OPS_TOOLS",
-        "importPath": "features.operations.tools",
-        "description": "features.operations.tools",
-        "isExtraImport": true,
-        "detail": "features.operations.tools",
-        "documentation": {}
-    },
-    {
-        "label": "OPS_TOOLS",
-        "importPath": "features.operations.tools",
-        "description": "features.operations.tools",
-        "isExtraImport": true,
-        "detail": "features.operations.tools",
-        "documentation": {}
-    },
-    {
-        "label": "PERFORMANCE_TOOLS",
-        "importPath": "features.performance.tools",
-        "description": "features.performance.tools",
-        "isExtraImport": true,
-        "detail": "features.performance.tools",
-        "documentation": {}
-    },
-    {
-        "label": "PERFORMANCE_TOOLS",
-        "importPath": "features.performance.tools",
-        "description": "features.performance.tools",
-        "isExtraImport": true,
-        "detail": "features.performance.tools",
-        "documentation": {}
-    },
-    {
-        "label": "NOTIFICATION_TOOLS",
-        "importPath": "features.notifications.tools",
-        "description": "features.notifications.tools",
-        "isExtraImport": true,
-        "detail": "features.notifications.tools",
+        "detail": "middleware",
         "documentation": {}
     },
     {
@@ -2838,6 +3006,105 @@
         "description": "features.files.tools",
         "peekOfCode": "DATA_DIR = Path(\"data\").resolve()\ndef get_dataset(data_set_reference: str) -> Dict[str, Any]:\n    \"\"\"Retrieve a dataset previously saved from an user query.\n    Args:\n        data_set_reference: The filename or identifier of the saved dataset.\n    Returns:\n        Dict[str, Any]: The dataset loaded from JSON.\n    \"\"\"\n    dataset = load_dataset_from_json(data_set_reference)\n    return dataset",
         "detail": "features.files.tools",
+        "documentation": {}
+    },
+    {
+        "label": "summarize_receivable_aging",
+        "kind": 2,
+        "importPath": "features.financial.domain.aging",
+        "description": "features.financial.domain.aging",
+        "peekOfCode": "def summarize_receivable_aging(df: pd.DataFrame) -> Dict[str, Any]:\n    \"\"\"\n    df: DataFrame con columnas al menos:\n        ['id', 'document_number', 'type', 'trandate', 'duedate', 'terms',\n         'customer_oc', 'subsidiary', 'currency', 'entity_id',\n         'entity_name', 'open_balance']\n    \"\"\"\n    df = df.copy()\n    # Asegurar tipos\n    if \"trandate\" in df.columns:",
+        "detail": "features.financial.domain.aging",
+        "documentation": {}
+    },
+    {
+        "label": "summarize_payable_aging",
+        "kind": 2,
+        "importPath": "features.financial.domain.aging",
+        "description": "features.financial.domain.aging",
+        "peekOfCode": "def summarize_payable_aging(df: pd.DataFrame) -> Dict[str, Any]:\n    \"\"\"\n    df: DataFrame con columnas al menos:\n        ['id', 'document_number', 'type', 'trandate', 'duedate', 'terms',\n         'subsidiary', 'currency', 'entity_id', 'entity_name', 'open_balance']\n    \"\"\"\n    df = df.copy()\n    # Asegurar tipos\n    if \"trandate\" in df.columns:\n        df[\"trandate\"] = pd.to_datetime(df[\"trandate\"], errors=\"coerce\")",
+        "detail": "features.financial.domain.aging",
+        "documentation": {}
+    },
+    {
+        "label": "get_aging_data",
+        "kind": 2,
+        "importPath": "features.financial.queries.aging",
+        "description": "features.financial.queries.aging",
+        "peekOfCode": "def get_aging_data(\n    topic: str,\n    initial_date: str,\n    final_date: str,\n    entity_name: str = \"\",\n    subsidiary: str = \"\",\n) -> Tuple[str, List]:\n    topic = (topic or \"\").lower()\n    if topic not in (\"receivable\", \"payable\"):\n        raise ValueError(",
+        "detail": "features.financial.queries.aging",
+        "documentation": {}
+    },
+    {
+        "label": "_IDICO_ENTITY_IDS",
+        "kind": 5,
+        "importPath": "features.financial.queries.aging",
+        "description": "features.financial.queries.aging",
+        "peekOfCode": "_IDICO_ENTITY_IDS = (\n    37839,\n    3085,\n    213418,\n    2414,\n    355535,\n    1066,\n    401658,\n    101528,\n    144291,",
+        "detail": "features.financial.queries.aging",
+        "documentation": {}
+    },
+    {
+        "label": "_AR_TRANSACTION_TYPES",
+        "kind": 5,
+        "importPath": "features.financial.queries.aging",
+        "description": "features.financial.queries.aging",
+        "peekOfCode": "_AR_TRANSACTION_TYPES = (\"CustInvc\", \"CustCred\", \"CustPymt\")\n_AP_TRANSACTION_TYPES = (\"VendBill\", \"VendCred\", \"VendPymt\")\n_AR_ACCOUNT_IDS = (2368, 556, 2828, 2723)\n_AP_ACCOUNT_IDS = (2366, 2710, 1509, 2916)\ndef get_aging_data(\n    topic: str,\n    initial_date: str,\n    final_date: str,\n    entity_name: str = \"\",\n    subsidiary: str = \"\",",
+        "detail": "features.financial.queries.aging",
+        "documentation": {}
+    },
+    {
+        "label": "_AP_TRANSACTION_TYPES",
+        "kind": 5,
+        "importPath": "features.financial.queries.aging",
+        "description": "features.financial.queries.aging",
+        "peekOfCode": "_AP_TRANSACTION_TYPES = (\"VendBill\", \"VendCred\", \"VendPymt\")\n_AR_ACCOUNT_IDS = (2368, 556, 2828, 2723)\n_AP_ACCOUNT_IDS = (2366, 2710, 1509, 2916)\ndef get_aging_data(\n    topic: str,\n    initial_date: str,\n    final_date: str,\n    entity_name: str = \"\",\n    subsidiary: str = \"\",\n) -> Tuple[str, List]:",
+        "detail": "features.financial.queries.aging",
+        "documentation": {}
+    },
+    {
+        "label": "_AR_ACCOUNT_IDS",
+        "kind": 5,
+        "importPath": "features.financial.queries.aging",
+        "description": "features.financial.queries.aging",
+        "peekOfCode": "_AR_ACCOUNT_IDS = (2368, 556, 2828, 2723)\n_AP_ACCOUNT_IDS = (2366, 2710, 1509, 2916)\ndef get_aging_data(\n    topic: str,\n    initial_date: str,\n    final_date: str,\n    entity_name: str = \"\",\n    subsidiary: str = \"\",\n) -> Tuple[str, List]:\n    topic = (topic or \"\").lower()",
+        "detail": "features.financial.queries.aging",
+        "documentation": {}
+    },
+    {
+        "label": "_AP_ACCOUNT_IDS",
+        "kind": 5,
+        "importPath": "features.financial.queries.aging",
+        "description": "features.financial.queries.aging",
+        "peekOfCode": "_AP_ACCOUNT_IDS = (2366, 2710, 1509, 2916)\ndef get_aging_data(\n    topic: str,\n    initial_date: str,\n    final_date: str,\n    entity_name: str = \"\",\n    subsidiary: str = \"\",\n) -> Tuple[str, List]:\n    topic = (topic or \"\").lower()\n    if topic not in (\"receivable\", \"payable\"):",
+        "detail": "features.financial.queries.aging",
+        "documentation": {}
+    },
+    {
+        "label": "execute_receivable_aging",
+        "kind": 2,
+        "importPath": "features.financial.use_cases.aging",
+        "description": "features.financial.use_cases.aging",
+        "peekOfCode": "def execute_receivable_aging(\n    initial_date: str, final_date: str, entity_name: str, subsidiary: str\n) -> Dict[str, Any]:\n    sql, params = get_aging_data(\n        \"receivable\", initial_date, final_date, entity_name, subsidiary\n    )\n    conn = NetSuiteConnection()\n    with conn.managed() as ns:\n        columns, rows = ns.execute_query(sql, params)\n    dataset_reference = save_result_to_json(",
+        "detail": "features.financial.use_cases.aging",
+        "documentation": {}
+    },
+    {
+        "label": "execute_payable_aging",
+        "kind": 2,
+        "importPath": "features.financial.use_cases.aging",
+        "description": "features.financial.use_cases.aging",
+        "peekOfCode": "def execute_payable_aging(\n    initial_date: str, final_date: str, entity_name: str, subsidiary: str\n) -> Dict[str, Any]:\n    sql, params = get_aging_data(\n        \"payable\", initial_date, final_date, entity_name, subsidiary\n    )\n    conn = NetSuiteConnection()\n    with conn.managed() as ns:\n        columns, rows = ns.execute_query(sql, params)\n    dataset_reference = save_result_to_json(",
+        "detail": "features.financial.use_cases.aging",
+        "documentation": {}
+    },
+    {
+        "label": "get_aging",
+        "kind": 2,
+        "importPath": "features.financial.tools",
+        "description": "features.financial.tools",
+        "peekOfCode": "def get_aging(\n    topic: str,\n    initial_date: Optional[str] = None,\n    final_date: Optional[str] = None,\n    entity_name: Optional[str] = \"\",\n    subsidiary: Optional[str] = \"\",\n) -> Dict[str, Any]:\n    \"\"\"Retrieve accounts receivable or accounts payable aging KPIs for the selected period.\n    Use this tool when the user asks for accounts receivable aging,\n    accounts payable aging, cartera por cobrar, cuentas por pagar,",
+        "detail": "features.financial.tools",
         "documentation": {}
     },
     {
@@ -3277,7 +3544,7 @@
         "kind": 2,
         "importPath": "features.sales.domain.items",
         "description": "features.sales.domain.items",
-        "peekOfCode": "def summarize_sold_items(df: pd.DataFrame) -> Dict[str, Any]:\n    \"\"\"\n    Espera un DataFrame con al menos las columnas:\n    ['customer', 'quote', 'status', 'date', 'inside_sales',\n     'item', 'item_description', 'brand', 'product_group',\n     'selected_vendor', 'qty', 'unit_price', 'unit_cost',\n     'gross_margin_pct']\n    Retorna un dict con el shape:\n    {\n      \"general_summary\": {},",
+        "peekOfCode": "def summarize_sold_items(df: pd.DataFrame) -> Dict[str, Any]:\n    \"\"\"\n    Espera un DataFrame con al menos las columnas:\n    ['customer', 'quote', 'status', 'date', 'inside_sales',\n     'item', 'item_description', 'brand', 'product_group',\n     'selected_vendor', 'qty', 'unit_price', 'unit_cost',\n     'gross_margin_pct', 'inbound_freight_cost',\n     'outbound_freight_cost']\n    Retorna un dict con el shape:\n    {",
         "detail": "features.sales.domain.items",
         "documentation": {}
     },
@@ -3606,6 +3873,15 @@
         "documentation": {}
     },
     {
+        "label": "TestSoldItemsGrossMargin",
+        "kind": 6,
+        "importPath": "tests.test_sold_items_gm",
+        "description": "tests.test_sold_items_gm",
+        "peekOfCode": "class TestSoldItemsGrossMargin(unittest.TestCase):\n    def test_summarize_sold_items_subtracts_line_freight_from_gm(self):\n        df = pd.DataFrame(\n            [\n                {\n                    \"customer\": \"Customer A\",\n                    \"quote\": \"SO-1\",\n                    \"status\": \"Pending Fulfillment\",\n                    \"date\": \"2026-05-01\",\n                    \"inside_sales\": \"Sales Rep\",",
+        "detail": "tests.test_sold_items_gm",
+        "documentation": {}
+    },
+    {
         "label": "TestWalleUsageDomain",
         "kind": 6,
         "importPath": "tests.test_walle_usage_domain",
@@ -3718,7 +3994,7 @@
         "kind": 5,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "redis_client = create_redis_client()\nauth_provider = create_auth_provider(redis_client)\napp = FastMCP(\n    \"IDRA IDICO AI\",\n    auth=auth_provider,\n    instructions=\"Accede a datos en tiempo real y genera análisis claros para apoyar decisiones.\",\n    icons=[Icon(src=\"https://i.ibb.co/svxz9ZcR/idra-logo.png\", mimeType=\"image/png\", sizes=[\"48x48\"])],\n)\nregister_tools(app, SALES_TOOLS)\nregister_tools(app, FILES_TOOLS)",
+        "peekOfCode": "redis_client = create_redis_client()\nauth_provider = create_auth_provider(redis_client)\napp = FastMCP(\n    \"IDRA IDICO AI\",\n    auth=auth_provider,\n    instructions=\"Accede a datos en tiempo real y genera análisis claros para apoyar decisiones.\",\n    icons=[\n        Icon(\n            src=\"https://i.ibb.co/svxz9ZcR/idra-logo.png\",\n            mimeType=\"image/png\",",
         "detail": "main",
         "documentation": {}
     },
@@ -3727,7 +4003,7 @@
         "kind": 5,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "auth_provider = create_auth_provider(redis_client)\napp = FastMCP(\n    \"IDRA IDICO AI\",\n    auth=auth_provider,\n    instructions=\"Accede a datos en tiempo real y genera análisis claros para apoyar decisiones.\",\n    icons=[Icon(src=\"https://i.ibb.co/svxz9ZcR/idra-logo.png\", mimeType=\"image/png\", sizes=[\"48x48\"])],\n)\nregister_tools(app, SALES_TOOLS)\nregister_tools(app, FILES_TOOLS)\nregister_tools(app, PERFORMANCE_TOOLS)",
+        "peekOfCode": "auth_provider = create_auth_provider(redis_client)\napp = FastMCP(\n    \"IDRA IDICO AI\",\n    auth=auth_provider,\n    instructions=\"Accede a datos en tiempo real y genera análisis claros para apoyar decisiones.\",\n    icons=[\n        Icon(\n            src=\"https://i.ibb.co/svxz9ZcR/idra-logo.png\",\n            mimeType=\"image/png\",\n            sizes=[\"48x48\"],",
         "detail": "main",
         "documentation": {}
     },
@@ -3736,7 +4012,7 @@
         "kind": 5,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "app = FastMCP(\n    \"IDRA IDICO AI\",\n    auth=auth_provider,\n    instructions=\"Accede a datos en tiempo real y genera análisis claros para apoyar decisiones.\",\n    icons=[Icon(src=\"https://i.ibb.co/svxz9ZcR/idra-logo.png\", mimeType=\"image/png\", sizes=[\"48x48\"])],\n)\nregister_tools(app, SALES_TOOLS)\nregister_tools(app, FILES_TOOLS)\nregister_tools(app, PERFORMANCE_TOOLS)\nregister_tools(app, OPS_TOOLS)",
+        "peekOfCode": "app = FastMCP(\n    \"IDRA IDICO AI\",\n    auth=auth_provider,\n    instructions=\"Accede a datos en tiempo real y genera análisis claros para apoyar decisiones.\",\n    icons=[\n        Icon(\n            src=\"https://i.ibb.co/svxz9ZcR/idra-logo.png\",\n            mimeType=\"image/png\",\n            sizes=[\"48x48\"],\n        )",
         "detail": "main",
         "documentation": {}
     },

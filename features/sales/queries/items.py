@@ -79,7 +79,9 @@ SELECT
 	tl.rate AS unit_price,
 	tl.custcol_evol_vrq_cost * t.exchangerate AS unit_cost,
 	tl.costestimatebase AS estimated_line_cost,
-	tl.custcol_gm_percertange AS gross_margin_pct
+	tl.custcol_gm_percertange AS gross_margin_pct,
+    tl.custcol_inbound_freight_cost AS inbound_freight_cost,
+	tl.custcol_outbound_freight_cost AS outbound_freight_cost
 FROM transaction t
 INNER JOIN Customer c ON c.id = t.entity
 INNER JOIN transactionLine tl ON tl.transaction = t.id AND tl.itemtype = 'InvtPart'
