@@ -18,7 +18,7 @@ auth_provider = create_auth_provider(redis_client)
 
 app = FastMCP(
     "IDRA IDICO AI",
-    auth=auth_provider,
+    # auth=auth_provider,
     instructions="Accede a datos en tiempo real y genera análisis claros para apoyar decisiones.",
     icons=[
         Icon(

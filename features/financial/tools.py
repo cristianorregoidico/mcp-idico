@@ -1,6 +1,6 @@
 from typing import Any, Dict, List, Optional
 
-from features.financial.use_cases import aging
+from features.financial.use_cases import aging, prepayment
 from utils.date import get_month_start_and_today
 
 
@@ -52,6 +52,61 @@ def get_aging(
     )
 
 
+def get_prepayments(
+    topic: str,
+    initial_date: Optional[str] = None,
+    final_date: Optional[str] = None,
+    entity_name: Optional[str] = "",
+    subsidiary: Optional[str] = "",
+) -> Dict[str, Any]:
+    """Retrieve customer deposits or vendor prepayments and their applications.
+
+    Use this tool when the user asks about customer deposits, customer advances,
+    vendor prepayments, supplier advances, anticipos de clientes, anticipos de
+    proveedores, deposits, deposit applications, prepayments, or prepayment
+    applications.
+
+    The tool provides financial visibility over money received or paid before
+    the final document is fully consumed or applied. It focuses on entity,
+    amount, currency, subsidiary, status, movement type, and concentration.
+
+    This tool does not resolve full document-level traceability from each
+    prepayment to the exact invoice, bill, sales order, or purchase order.
+    For document-level drill-down, the user should review the transaction
+    directly in NetSuite.
+
+    Args:
+        topic: "customer" for customer deposits or "vendor" for vendor prepayments.
+        initial_date: Start date in YYYY-MM-DD format; defaults to month start.
+        final_date: End date in YYYY-MM-DD format; defaults to today.
+        entity_name: Customer or vendor name substring to filter; optional.
+        subsidiary: NetSuite subsidiary id ("3" Colombia, "4" Peru, "5" USA); optional.
+
+    Returns:
+        Dict[str, Any]: Prepayment or deposit summary by movement type, currency,
+        subsidiary, status, transaction type, top entities, concentration,
+        data quality notes, and dataset reference.
+    """
+    normalized_topic = (topic or "").lower().strip()
+    if normalized_topic not in ("customer", "vendor"):
+        raise ValueError(f"Invalid topic '{topic}'. Use 'customer' or 'vendor'.")
+
+    start_of_month, today_date = get_month_start_and_today()
+    start_q_date = initial_date or start_of_month
+    final_q_date = final_date or today_date
+    normalized_entity_name = entity_name.upper() if entity_name else ""
+    normalized_subsidiary = subsidiary.strip() if subsidiary else ""
+
+    return prepayment.execute_prepayment_analysis(
+        topic=normalized_topic,
+        initial_date=start_q_date,
+        final_date=final_q_date,
+        entity_name=normalized_entity_name,
+        subsidiary=normalized_subsidiary,
+    )
+
+
 FINANCIAL_TOOLS: List = [
     get_aging,
+    get_prepayments,
 ]
