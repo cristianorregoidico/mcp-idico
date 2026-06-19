@@ -1,6 +1,6 @@
 from typing import Any, Dict, List, Optional
 
-from features.financial.use_cases import aging, prepayment
+from features.financial.use_cases import aging, intercompany, prepayment
 from utils.date import get_month_start_and_today
 
 
@@ -106,7 +106,56 @@ def get_prepayments(
     )
 
 
+def get_intercompany_balances(
+    initial_date: Optional[str] = None,
+    final_date: Optional[str] = None,
+    entity_name: Optional[str] = "",
+    subsidiary: Optional[str] = "",
+) -> Dict[str, Any]:
+    """Retrieve intercompany balances and transaction movements between subsidiaries.
+
+    Use this tool when the user asks about intercompany balances, triangulation,
+    subsidiary-to-subsidiary transactions, related company balances, saldos entre
+    subsidiarias, transacciones intercompany, triangulacion, or who owes whom
+    between IDICO companies.
+
+    The tool provides visibility over two separate views:
+    open balances and transaction movement. Open balances are based on unpaid
+    or unused amounts. Transaction movement is based on accounting and foreign
+    amount activity between the accounting subsidiary and the intercompany entity.
+
+    This tool does not replace a formal intercompany reconciliation. It provides
+    analytical visibility into relationships, movements, open balances, transaction
+    types, accounts, and top open documents.
+
+    Args:
+        initial_date: Start date in YYYY-MM-DD format; defaults to month start.
+        final_date: End date in YYYY-MM-DD format; defaults to today.
+        entity_name: Intercompany entity name substring to filter; optional.
+        subsidiary: NetSuite subsidiary id ("3" Colombia, "4" Peru, "5" USA); optional.
+
+    Returns:
+        Dict[str, Any]: Intercompany open balance summary, movement summary,
+        transaction scope distribution, transaction type distribution, account
+        type distribution, compensation summary, top open balance documents,
+        data quality notes, and dataset reference.
+    """
+    start_of_month, today_date = get_month_start_and_today()
+    start_q_date = initial_date or start_of_month
+    final_q_date = final_date or today_date
+    normalized_entity_name = entity_name.upper() if entity_name else ""
+    normalized_subsidiary = subsidiary.strip() if subsidiary else ""
+
+    return intercompany.execute_intercompany_analysis(
+        initial_date=start_q_date,
+        final_date=final_q_date,
+        entity_name=normalized_entity_name,
+        subsidiary=normalized_subsidiary,
+    )
+
+
 FINANCIAL_TOOLS: List = [
     get_aging,
     get_prepayments,
+    get_intercompany_balances,
 ]
