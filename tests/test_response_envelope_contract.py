@@ -124,17 +124,17 @@ class TestMCPResponseEnvelopeContract(unittest.TestCase):
     @patch("features.operations.use_cases.purchase_orders.build_vendors_analysis")
     @patch("features.operations.use_cases.purchase_orders.tuple_to_dataframe")
     @patch("features.operations.use_cases.purchase_orders.save_result_to_json")
-    @patch("features.operations.use_cases.purchase_orders.NetSuiteConnection")
-    @patch("features.operations.use_cases.purchase_orders.get_purchase_orders_query")
+    @patch("features.operations.use_cases.purchase_orders.execute_pg_query")
+    @patch("features.operations.use_cases.purchase_orders.get_purchase_orders_query_pg")
     def test_operations_get_purchase_orders_envelope_contract(
         self,
-        mock_get_purchase_orders_query,
-        mock_netsuite_connection,
+        mock_get_purchase_orders_query_pg,
+        mock_execute_pg_query,
         mock_save_result_to_json,
         mock_tuple_to_dataframe,
         mock_build_vendors_analysis,
     ):
-        mock_get_purchase_orders_query.return_value = (
+        mock_get_purchase_orders_query_pg.return_value = (
             "SELECT po",
             ["2026-05-01", "2026-05-11", "Vendor A", "Pending Receipt", "Brand X"],
         )
@@ -142,12 +142,7 @@ class TestMCPResponseEnvelopeContract(unittest.TestCase):
 
         columns = ["po_id", "amount_usd"]
         rows = [(1, 100.0)]
-        ns_client = MagicMock()
-        ns_client.execute_query.return_value = (columns, rows)
-        managed_ctx = MagicMock()
-        managed_ctx.__enter__.return_value = ns_client
-        managed_ctx.__exit__.return_value = False
-        mock_netsuite_connection.return_value.managed.return_value = managed_ctx
+        mock_execute_pg_query.return_value = (columns, rows)
 
         mock_tuple_to_dataframe.return_value = pd.DataFrame(rows, columns=columns)
         mock_build_vendors_analysis.return_value = {
@@ -165,13 +160,13 @@ class TestMCPResponseEnvelopeContract(unittest.TestCase):
             topic="vendors",
         )
 
-        ns_client.execute_query.assert_called_once_with(
+        mock_execute_pg_query.assert_called_once_with(
             "SELECT po",
             ["2026-05-01", "2026-05-11", "Vendor A", "Pending Receipt", "Brand X"],
         )
         self.assertEqual(set(response.keys()), {"meta", "kpi_metrics", "artifacts"})
         self.assertEqual(response["meta"]["tool_name"], "get_purchase_orders")
-        self.assertEqual(response["meta"]["source_systems"], ["netsuite"])
+        self.assertEqual(response["meta"]["source_systems"], ["postgresql"])
         self.assertEqual(
             set(response["meta"]["filters"].keys()),
             {"initial_date", "final_date", "vendor", "status", "brand", "topic"},

@@ -1,8 +1,8 @@
 from typing import Any, Dict, Optional
 
-from connections.netsuite.client import NetSuiteConnection
+from connections.postgresql.client import execute_pg_query
 from features.operations.domain.purchase_orders import build_items_analysis, build_vendors_analysis, normalize_topic
-from features.operations.queries.purchase_orders import get_purchase_orders_query
+from features.operations.queries.purchase_orders import get_purchase_orders_query_pg
 from utils.date import get_month_start_and_today
 from utils.envelope import build_tool_response
 from utils.json_df import save_result_to_json
@@ -35,7 +35,7 @@ def execute(
     if status and status not in ALLOWED_STATUS:
         raise ValueError(f"Invalid status '{status}'. Allowed values: {sorted(ALLOWED_STATUS)}")
 
-    sql, params = get_purchase_orders_query(
+    sql, params = get_purchase_orders_query_pg(
         initial_date=initial_date,
         final_date=final_date,
         vendor=vendor,
@@ -43,9 +43,7 @@ def execute(
         brand=brand,
     )
 
-    conn = NetSuiteConnection()
-    with conn.managed() as ns:
-        columns, rows = ns.execute_query(sql, params)
+    columns, rows = execute_pg_query(sql, params)
 
     dataset_reference = save_result_to_json(
         columns,
@@ -73,7 +71,7 @@ def execute(
             "brand": brand,
             "topic": normalized_topic,
         },
-        source_systems=["netsuite"],
+        source_systems=["postgresql"],
         columns=columns,
         rows=rows,
         dataset_reference=dataset_reference,

@@ -1,5 +1,5 @@
 import unittest
-from unittest.mock import MagicMock, patch
+from unittest.mock import patch
 
 import pandas as pd
 
@@ -11,37 +11,32 @@ class TestPurchaseOrdersAnalysis(unittest.TestCase):
     @patch("features.operations.use_cases.purchase_orders.build_vendors_analysis")
     @patch("features.operations.use_cases.purchase_orders.tuple_to_dataframe")
     @patch("features.operations.use_cases.purchase_orders.save_result_to_json")
-    @patch("features.operations.use_cases.purchase_orders.NetSuiteConnection")
-    @patch("features.operations.use_cases.purchase_orders.get_purchase_orders_query")
+    @patch("features.operations.use_cases.purchase_orders.execute_pg_query")
+    @patch("features.operations.use_cases.purchase_orders.get_purchase_orders_query_pg")
     @patch("features.operations.use_cases.purchase_orders.get_month_start_and_today")
     def test_use_case_defaults_missing_dates_and_topic_defaults_to_vendors(
         self,
         mock_get_month_start_and_today,
-        mock_get_purchase_orders_query,
-        mock_netsuite_connection,
+        mock_get_purchase_orders_query_pg,
+        mock_execute_pg_query,
         mock_save_result_to_json,
         mock_tuple_to_dataframe,
         mock_build_vendors_analysis,
     ):
         mock_get_month_start_and_today.return_value = ("2026-05-01", "2026-05-11")
-        mock_get_purchase_orders_query.return_value = ("SELECT po", ["2026-05-01", "2026-05-11"])
+        mock_get_purchase_orders_query_pg.return_value = ("SELECT po", ["2026-05-01", "2026-05-11"])
         mock_save_result_to_json.return_value = {"filename": "purchase_orders_data.json", "path": "/tmp/purchase_orders_data.json"}
 
         columns = ["po_id"]
         rows = [(1,)]
-        ns_client = MagicMock()
-        ns_client.execute_query.return_value = (columns, rows)
-        managed_ctx = MagicMock()
-        managed_ctx.__enter__.return_value = ns_client
-        managed_ctx.__exit__.return_value = False
-        mock_netsuite_connection.return_value.managed.return_value = managed_ctx
+        mock_execute_pg_query.return_value = (columns, rows)
 
         mock_tuple_to_dataframe.return_value = pd.DataFrame(rows, columns=columns)
         mock_build_vendors_analysis.return_value = {"topic": "vendors", "overview": {"total_purchase_orders": 1}}
 
         response = purchase_orders.execute(initial_date=None, final_date="2026-05-20", topic="")
 
-        mock_get_purchase_orders_query.assert_called_once_with(
+        mock_get_purchase_orders_query_pg.assert_called_once_with(
             initial_date="2026-05-01",
             final_date="2026-05-11",
             vendor=None,
@@ -50,8 +45,8 @@ class TestPurchaseOrdersAnalysis(unittest.TestCase):
         )
         self.assertEqual(response["meta"]["filters"]["topic"], "vendors")
 
-    @patch("features.operations.use_cases.purchase_orders.get_purchase_orders_query")
-    def test_use_case_invalid_status_fails_before_query(self, mock_get_purchase_orders_query):
+    @patch("features.operations.use_cases.purchase_orders.get_purchase_orders_query_pg")
+    def test_use_case_invalid_status_fails_before_query(self, mock_get_purchase_orders_query_pg):
         with self.assertRaises(ValueError):
             purchase_orders.execute(
                 initial_date="2026-05-01",
@@ -59,7 +54,7 @@ class TestPurchaseOrdersAnalysis(unittest.TestCase):
                 status="Invalid",
             )
 
-        mock_get_purchase_orders_query.assert_not_called()
+        mock_get_purchase_orders_query_pg.assert_not_called()
 
     def test_invalid_topic_raises_controlled_error(self):
         with self.assertRaises(ValueError):

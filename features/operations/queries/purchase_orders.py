@@ -89,3 +89,76 @@ def get_purchase_orders_query(
     """
 
     return sql, params
+
+
+def get_purchase_orders_query_pg(
+    initial_date: str,
+    final_date: str,
+    vendor: Optional[str] = None,
+    status: Optional[str] = None,
+    brand: Optional[str] = None,
+) -> Tuple[str, List[Any]]:
+    where_clauses = [
+        "po.po_date BETWEEN %s::date AND %s::date",
+        "po.po_status NOT IN ('Undefined', 'Closed', 'Planned')",
+    ]
+    params: List[Any] = [initial_date, final_date]
+
+    if vendor:
+        where_clauses.append("po.vendor_name ILIKE '%' || %s || '%'")
+        params.append(vendor)
+
+    if status:
+        where_clauses.append("po.po_status ILIKE '%' || %s || '%'")
+        params.append(status)
+
+    if brand:
+        where_clauses.append("i.brand ILIKE '%' || %s || '%'")
+        params.append(brand)
+
+    sql = f"""
+    SELECT
+        po.po_id,
+        po.po_name AS po_number,
+        po.created_date::date,
+        po.po_date,
+        TO_CHAR(po.po_date, 'YYYY-MM') AS po_period,
+        po.receive_by,
+        po.new_receive_by,
+        po.last_est_delivery_date_informed,
+        CURRENT_DATE AS today,
+        po.po_status AS status,
+        po.approval_status,
+        po.expediting_status,
+        po.payment_status,
+        po.vendor_name AS vendor,
+        po.terms,
+        po.incoterms_2020 AS incoterms,
+        po.vendor_country,
+        po.subsidiary,
+        (SELECT poi.transaction_currency FROM ods.walle.purchaseorder_items poi
+         WHERE poi.po_id = po.po_id
+         LIMIT 1) AS currency,
+        po.amount_usd,
+        so.so_name AS so_number,
+        so.customer_name AS customer,
+        i.part_number AS item,
+        i.description AS item_description,
+        i.item_type,
+        i.qty AS quantity,
+        i.received AS quantity_received,
+        i.unit_price AS unit_rate,
+        i.line_amount,
+        i.brand,
+        i.product_group
+    FROM ods.walle.purchaseorder po
+    LEFT JOIN ods.walle.salesorder so ON so.so_id = po.created_from
+    JOIN ods.walle.purchaseorder_items i ON i.po_id = po.po_id
+    WHERE {' AND '.join(where_clauses)}
+    ORDER BY
+        po.po_date DESC,
+        po.po_name,
+        i.po_id
+    """
+
+    return sql, params
