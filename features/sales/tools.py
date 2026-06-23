@@ -28,7 +28,13 @@ def get_quotes(initial_date: Optional[str] = None, final_date: Optional[str] = N
     return quotes.execute(start_q_date, final_q_date, normalized_inside_sales, normalized_customer_name)
 
 
-def get_bookings(initial_date: Optional[str] = None, final_date: Optional[str] = None, customer_name: Optional[str] = "", inside_sales: Optional[str] = "") -> Dict[str, Any]:
+def get_bookings(
+    initial_date: Optional[str] = None,
+    final_date: Optional[str] = None,
+    customer_name: Optional[str] = "",
+    inside_sales: Optional[str] = "",
+    status: Optional[str] = None,
+) -> Dict[str, Any]:
     """Retrieve summarized KPIs for bookings for the provided period.
 
     Use this tool when the user asks for bookings, sales totals,
@@ -39,6 +45,10 @@ def get_bookings(initial_date: Optional[str] = None, final_date: Optional[str] =
         final_date: End date in YYYY-MM-DD format; defaults to today.
         customer_name: Customer filter; optional.
         inside_sales: Inside Sales filter; optional.
+        status: Booking status filter; optional. Must be one of the
+            allowed Sales Order statuses handled by the use case
+            ("Billed", "Pending Billing", "Pending Billing/Partially Fulfilled",
+            "Partially Fulfilled", "Pending Fulfillment").
 
     Returns:
         Dict[str, Any]: Booking totals, margins, top customers,
@@ -49,7 +59,8 @@ def get_bookings(initial_date: Optional[str] = None, final_date: Optional[str] =
     final_q_date = final_date or today_date
     normalized_customer_name = customer_name.upper() if customer_name else ""
     normalized_inside_sales = inside_sales.upper() if inside_sales else ""
-    return bookings.execute(start_q_date, final_q_date, normalized_customer_name, normalized_inside_sales)
+    normalized_status = status.strip() if status else None
+    return bookings.execute(start_q_date, final_q_date, normalized_customer_name, normalized_inside_sales, normalized_status)
 
 
 def get_quoted_items(initial_date: Optional[str] = None, final_date: Optional[str] = None, customer_name: Optional[str] = "", inside_sales: Optional[str] = "", topic: Optional[str] = "items") -> Dict[str, Any]:

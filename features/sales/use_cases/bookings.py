@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 from connections.netsuite.client import NetSuiteConnection
 from features.sales.queries.bookings import get_bookings_data
@@ -8,8 +8,26 @@ from utils.json_df import save_result_to_json
 from utils.transformations import tuple_to_dataframe
 
 
-def execute(initial_date: str, final_date: str, customer_name: str, inside_sales: str) -> Dict[str, Any]:
-    sql, params = get_bookings_data(initial_date, final_date, customer_name, inside_sales)
+ALLOWED_STATUS = {
+    "Billed",
+    "Pending Billing",
+    "Pending Billing/Partially Fulfilled",
+    "Partially Fulfilled",
+    "Pending Fulfillment",
+}
+
+
+def execute(
+    initial_date: str,
+    final_date: str,
+    customer_name: str,
+    inside_sales: str,
+    status: Optional[str] = None,
+) -> Dict[str, Any]:
+    if status and status not in ALLOWED_STATUS:
+        raise ValueError(f"Invalid status '{status}'. Allowed values: {sorted(ALLOWED_STATUS)}")
+
+    sql, params = get_bookings_data(initial_date, final_date, customer_name, inside_sales, status)
     conn = NetSuiteConnection()
     with conn.managed() as ns:
         columns, rows = ns.execute_query(sql, params)
@@ -27,6 +45,7 @@ def execute(initial_date: str, final_date: str, customer_name: str, inside_sales
             "final_date": final_date,
             "customer_name": customer_name or None,
             "inside_sales": inside_sales or None,
+            "status": status or None,
         },
         source_systems=["netsuite"],
         columns=columns,

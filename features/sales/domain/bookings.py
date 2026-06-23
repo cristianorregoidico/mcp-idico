@@ -130,6 +130,27 @@ def finance_summary(df: pd.DataFrame) -> dict:
     # -----------------------------
     # 5) TOP CLIENTES & CONCENTRACIÓN
     # -----------------------------
+    status_counts = {}
+    status_pct = {}
+    bookings_by_status = {}
+    if "status" in df.columns:
+        df_status = df.copy()
+        df_status["status_clean"] = df_status["status"].fillna("None")
+
+        status_counts = df_status["status_clean"].value_counts(dropna=False).to_dict()
+        status_counts = {k: int(v) for k, v in status_counts.items()}
+
+        if order_count > 0:
+            status_pct = {
+                status_name: round((count / order_count) * 100, 2)
+                for status_name, count in status_counts.items()
+            }
+
+        bookings_by_status = (
+            df_status.groupby("status_clean")["net_usd"].sum().to_dict()
+        )
+        bookings_by_status = {k: float(v) for k, v in bookings_by_status.items()}
+
     top_n = 10
     top_clients_series = (
         df.groupby("customer")["net_usd"]
@@ -268,6 +289,11 @@ def finance_summary(df: pd.DataFrame) -> dict:
             "distribution_count": terms_counts,
             "distribution_pct": terms_pct,
             "bookings_by_terms": bookings_by_terms
+        },
+        "status": {
+            "distribution_count": status_counts,
+            "distribution_pct": status_pct,
+            "bookings_by_status": bookings_by_status,
         },
         "top_clients": top_clients,
         "concentration": {

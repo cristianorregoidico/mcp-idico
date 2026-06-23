@@ -22,7 +22,10 @@ class TestMCPResponseEnvelopeContract(unittest.TestCase):
         mock_tuple_to_dataframe,
         mock_finance_summary,
     ):
-        mock_get_bookings_data.return_value = ("SELECT bookings", ["2026-01-01", "2026-01-31", "%ACME%", "%JUAN%"])
+        mock_get_bookings_data.return_value = (
+            "SELECT bookings",
+            ["2026-01-01", "2026-01-31", "%ACME%", "%JUAN%", "Pending Fulfillment"],
+        )
         mock_save_result_to_json.return_value = {"filename": "bookings_data.json", "path": "/tmp/bookings_data.json"}
 
         columns = ["quote_id", "amount", "inside_sales"]
@@ -47,21 +50,23 @@ class TestMCPResponseEnvelopeContract(unittest.TestCase):
             final_date="2026-01-31",
             customer_name="acme",
             inside_sales="juan",
+            status="Pending Fulfillment",
         )
 
         ns_client.execute_query.assert_called_once_with(
             "SELECT bookings",
-            ["2026-01-01", "2026-01-31", "%ACME%", "%JUAN%"],
+            ["2026-01-01", "2026-01-31", "%ACME%", "%JUAN%", "Pending Fulfillment"],
         )
 
         self.assertEqual(set(response.keys()), {"meta", "kpi_metrics", "artifacts"})
         self.assertEqual(response["meta"]["tool_name"], "get_bookings")
         self.assertEqual(
             set(response["meta"]["filters"].keys()),
-            {"initial_date", "final_date", "customer_name", "inside_sales"},
+            {"initial_date", "final_date", "customer_name", "inside_sales", "status"},
         )
         self.assertEqual(response["meta"]["filters"]["customer_name"], "ACME")
         self.assertEqual(response["meta"]["filters"]["inside_sales"], "JUAN")
+        self.assertEqual(response["meta"]["filters"]["status"], "Pending Fulfillment")
 
         self.assertIn("dataset", response["artifacts"])
         self.assertEqual(response["artifacts"]["dataset"]["filename"], "bookings_data.json")
@@ -69,6 +74,10 @@ class TestMCPResponseEnvelopeContract(unittest.TestCase):
         self.assertIn("bookings_total", response["kpi_metrics"])
         self.assertIn("quotes_count", response["kpi_metrics"])
         self.assertNotIn("full_data_reference", response["kpi_metrics"])
+
+    def test_sales_get_bookings_rejects_invalid_status(self):
+        with self.assertRaisesRegex(ValueError, "Invalid status 'Closed'"):
+            sales_tools.get_bookings(status="Closed")
 
     @patch("features.operations.use_cases.otd.on_time_delivery_summary")
     @patch("features.operations.use_cases.otd.tuple_to_dataframe")

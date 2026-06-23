@@ -1,4 +1,13 @@
-def get_bookings_data(initial_date: str, final_date: str, customer_name: str, inside_sales: str) -> tuple[str, list[str]]:
+from typing import Optional
+
+
+def get_bookings_data(
+    initial_date: str,
+    final_date: str,
+    customer_name: str,
+    inside_sales: str,
+    status: Optional[str] = None,
+) -> tuple[str, list[str]]:
     where_clauses = [
         "TO_CHAR(t.trandate, 'YYYY-MM-DD') BETWEEN ? AND ?",
         "csr.subsidiary IN (5, 4, 3)",
@@ -16,6 +25,10 @@ def get_bookings_data(initial_date: str, final_date: str, customer_name: str, in
     if inside_sales:
         where_clauses.append("e.firstname || ' ' || e.lastname LIKE ?")
         params.append(f"%{inside_sales}%")
+
+    if status:
+        where_clauses.append("ts.name = ?")
+        params.append(status)
 
     sql = f"""
     SELECT
