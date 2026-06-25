@@ -183,6 +183,52 @@ class TestMCPResponseEnvelopeContract(unittest.TestCase):
         self.assertEqual(response["meta"]["filters"]["topic"], "vendors")
         self.assertNotIn("full_data_reference", response["kpi_metrics"])
 
+    @patch("features.operations.use_cases.purchase_orders.build_walle_analysis")
+    @patch("features.operations.use_cases.purchase_orders.tuple_to_dataframe")
+    @patch("features.operations.use_cases.purchase_orders.save_result_to_json")
+    @patch("features.operations.use_cases.purchase_orders.execute_pg_query")
+    @patch("features.operations.use_cases.purchase_orders.get_purchase_orders_walle_query_pg")
+    def test_operations_get_purchase_orders_walle_envelope_contract(
+        self,
+        mock_get_purchase_orders_walle_query_pg,
+        mock_execute_pg_query,
+        mock_save_result_to_json,
+        mock_tuple_to_dataframe,
+        mock_build_walle_analysis,
+    ):
+        mock_get_purchase_orders_walle_query_pg.return_value = (
+            "SELECT po_walle",
+            ["2026-05-01", "2026-05-11", "%Vendor A%"],
+        )
+        mock_save_result_to_json.return_value = {"filename": "purchase_orders_data.json", "path": "/tmp/purchase_orders_data.json"}
+
+        columns = ["po_id", "email_count"]
+        rows = [(1, 3)]
+        mock_execute_pg_query.return_value = (columns, rows)
+        mock_tuple_to_dataframe.return_value = pd.DataFrame(rows, columns=columns)
+        mock_build_walle_analysis.return_value = {
+            "topic": "walle",
+            "overview": {"total_purchase_orders": 1},
+            "full_data_reference": "internal-only",
+        }
+
+        response = operations_tools.get_purchase_orders(
+            initial_date="2026-05-01",
+            final_date="2026-05-11",
+            vendor="Vendor A",
+            topic="walle",
+        )
+
+        mock_execute_pg_query.assert_called_once_with(
+            "SELECT po_walle",
+            ["2026-05-01", "2026-05-11", "%Vendor A%"],
+        )
+        self.assertEqual(set(response.keys()), {"meta", "kpi_metrics", "artifacts"})
+        self.assertEqual(response["meta"]["tool_name"], "get_purchase_orders")
+        self.assertEqual(response["meta"]["source_systems"], ["postgresql"])
+        self.assertEqual(response["meta"]["filters"]["topic"], "walle")
+        self.assertNotIn("full_data_reference", response["kpi_metrics"])
+
     @patch("features.operations.use_cases.walle_usage.build_walle_usage_metrics")
     @patch("features.operations.use_cases.walle_usage.save_dataset_manifest")
     @patch("features.operations.use_cases.walle_usage.save_result_to_json")

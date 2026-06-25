@@ -10,8 +10,8 @@ def normalize_topic(topic: Optional[str]) -> str:
     normalized = (topic or "vendors").strip().lower()
     if not normalized:
         return "vendors"
-    if normalized not in {"vendors", "items"}:
-        raise ValueError("Invalid topic. Allowed values: vendors, items")
+    if normalized not in {"vendors", "items", "walle"}:
+        raise ValueError("Invalid topic. Allowed values: vendors, items, walle")
     return normalized
 
 
@@ -27,6 +27,10 @@ def _series_count(series: pd.Series, key: str, value_name: str = "count") -> lis
 
 def _safe_pct(num: float, den: float) -> float:
     return float((num / den) * 100.0) if den else 0.0
+
+
+def _safe_ratio(num: float, den: float) -> float:
+    return float(num / den) if den else 0.0
 
 
 def _build_line_receipt_score(quantity: pd.Series, quantity_received: pd.Series) -> pd.Series:
@@ -345,4 +349,233 @@ def build_items_analysis(df: pd.DataFrame) -> Dict[str, Any]:
         "brand_vendor_analysis": brand_vendor_analysis,
         "brand_customer_analysis": brand_customer_analysis,
         "pending_analysis": pending_analysis,
+    }
+
+
+def _prepare_walle_dates(df: pd.DataFrame) -> pd.DataFrame:
+    data = df.copy()
+    for col in [
+        "po_date",
+        "today",
+        "first_email_date",
+        "last_email_date",
+        "first_suggestion_at",
+        "last_suggestion_at",
+        "first_finance_created_at",
+        "last_finance_updated_at",
+    ]:
+        if col in data.columns:
+            data[col] = pd.to_datetime(data[col], errors="coerce", utc=True).dt.tz_localize(None)
+    return data
+
+
+def _workflow_stage(row: pd.Series) -> str:
+    if row.get("finance_pending_count", 0) > 0:
+        return "finance_pending"
+    if row.get("finance_rejection_event_count", 0) > 0 or row.get("finance_anulation_event_count", 0) > 0:
+        return "finance_exception"
+    if row.get("finance_completed_count", 0) > 0 or row.get("finance_executed_count", 0) > 0:
+        return "finance_completed"
+    if row.get("processed_suggestion_count", 0) > 0:
+        return "suggestions_processed"
+    if row.get("unprocessed_suggestion_count", 0) > 0:
+        return "suggestions_pending_review"
+    if row.get("ai_processed_email_count", 0) > 0:
+        return "ai_email_processed"
+    if row.get("email_count", 0) > 0:
+        return "email_activity_only"
+    return "no_activity"
+
+
+def build_walle_analysis(df: pd.DataFrame) -> Dict[str, Any]:
+    if df.empty:
+        return {
+            "topic": "walle",
+            "overview": {},
+            "coverage": {},
+            "email_metrics": {},
+            "suggestion_metrics": {},
+            "finance_metrics": {},
+            "workflow_stage_breakdown": [],
+            "top_purchase_orders_by_email_volume": [],
+            "top_purchase_orders_by_suggestion_volume": [],
+            "top_purchase_orders_with_pending_finance": [],
+            "top_purchase_orders_with_finance_exceptions": [],
+            "purchase_orders_without_operational_activity": [],
+        }
+
+    data = _prepare_walle_dates(df)
+    numeric_columns = [
+        "amount_usd",
+        "email_count",
+        "inbound_email_count",
+        "outbound_email_count",
+        "ai_processed_email_count",
+        "suggestion_row_count",
+        "processed_suggestion_count",
+        "unprocessed_suggestion_count",
+        "suggestion_true_count",
+        "suggestion_false_count",
+        "total_actions_suggested",
+        "avg_actions_per_suggestion",
+        "finance_request_count",
+        "finance_pending_count",
+        "finance_completed_count",
+        "finance_cancelled_count",
+        "finance_executed_count",
+        "finance_with_support_files_count",
+        "finance_rejection_event_count",
+        "finance_anulation_event_count",
+        "anticipo_count",
+        "gasto_importacion_count",
+    ]
+    for col in numeric_columns:
+        data[col] = pd.to_numeric(data.get(col), errors="coerce").fillna(0.0)
+
+    data["has_email_activity"] = data["email_count"] > 0
+    data["has_ai_email_processing"] = data["ai_processed_email_count"] > 0
+    data["has_suggestions"] = data["suggestion_row_count"] > 0
+    data["has_processed_suggestions"] = data["processed_suggestion_count"] > 0
+    data["has_unprocessed_suggestions"] = data["unprocessed_suggestion_count"] > 0
+    data["has_finance_activity"] = data["finance_request_count"] > 0
+    data["has_pending_finance"] = data["finance_pending_count"] > 0
+    data["has_finance_exception"] = (
+        (data["finance_rejection_event_count"] > 0) | (data["finance_anulation_event_count"] > 0)
+    )
+    data["has_finance_executed"] = data["finance_executed_count"] > 0
+    data["operational_touchpoints"] = (
+        data["email_count"] + data["suggestion_row_count"] + data["finance_request_count"]
+    )
+    data["ai_processed_email_ratio"] = data.apply(
+        lambda row: _safe_ratio(float(row["ai_processed_email_count"]), float(row["email_count"])), axis=1
+    )
+    data["suggestion_processing_rate"] = data.apply(
+        lambda row: _safe_ratio(float(row["processed_suggestion_count"]), float(row["suggestion_row_count"])), axis=1
+    )
+    data["finance_execution_rate"] = data.apply(
+        lambda row: _safe_ratio(float(row["finance_executed_count"]), float(row["finance_request_count"])), axis=1
+    )
+
+    data["days_since_last_email"] = (data["today"] - data["last_email_date"]).dt.days
+    data["days_since_last_suggestion"] = (data["today"] - data["last_suggestion_at"]).dt.days
+    data["days_since_last_finance_update"] = (data["today"] - data["last_finance_updated_at"]).dt.days
+    data["workflow_stage"] = data.apply(_workflow_stage, axis=1)
+
+    workflow_stage_breakdown = (
+        data.groupby("workflow_stage", dropna=False)["po_id"]
+        .nunique()
+        .reset_index(name="po_count")
+        .sort_values(["po_count", "workflow_stage"], ascending=[False, True])
+    )
+
+    total_pos = int(data["po_id"].nunique())
+    overview = {
+        "total_purchase_orders": total_pos,
+        "purchase_orders_with_email_activity": int(data["has_email_activity"].sum()),
+        "purchase_orders_with_ai_processed_emails": int(data["has_ai_email_processing"].sum()),
+        "purchase_orders_with_suggestions": int(data["has_suggestions"].sum()),
+        "purchase_orders_with_processed_suggestions": int(data["has_processed_suggestions"].sum()),
+        "purchase_orders_with_finance_requests": int(data["has_finance_activity"].sum()),
+        "purchase_orders_with_pending_finance": int(data["has_pending_finance"].sum()),
+        "purchase_orders_with_finance_executed": int(data["has_finance_executed"].sum()),
+        "avg_emails_per_po": float(data["email_count"].mean() or 0.0),
+        "avg_suggestions_per_po": float(data["suggestion_row_count"].mean() or 0.0),
+        "avg_finance_requests_per_po": float(data["finance_request_count"].mean() or 0.0),
+    }
+
+    coverage = {
+        "email_activity_coverage_pct": _safe_pct(float(data["has_email_activity"].sum()), float(total_pos)),
+        "ai_email_processing_coverage_pct": _safe_pct(float(data["has_ai_email_processing"].sum()), float(total_pos)),
+        "suggestion_coverage_pct": _safe_pct(float(data["has_suggestions"].sum()), float(total_pos)),
+        "processed_suggestion_coverage_pct": _safe_pct(float(data["has_processed_suggestions"].sum()), float(total_pos)),
+        "finance_activity_coverage_pct": _safe_pct(float(data["has_finance_activity"].sum()), float(total_pos)),
+    }
+
+    email_metrics = {
+        "total_emails": int(data["email_count"].sum()),
+        "total_inbound_emails": int(data["inbound_email_count"].sum()),
+        "total_outbound_emails": int(data["outbound_email_count"].sum()),
+        "total_ai_processed_emails": int(data["ai_processed_email_count"].sum()),
+        "ai_processed_email_ratio": _safe_ratio(
+            float(data["ai_processed_email_count"].sum()),
+            float(data["email_count"].sum()),
+        ),
+        "avg_days_since_last_email": float(data["days_since_last_email"].dropna().mean() or 0.0),
+    }
+
+    suggestion_metrics = {
+        "total_suggestion_rows": int(data["suggestion_row_count"].sum()),
+        "processed_suggestion_count": int(data["processed_suggestion_count"].sum()),
+        "unprocessed_suggestion_count": int(data["unprocessed_suggestion_count"].sum()),
+        "suggestion_true_count": int(data["suggestion_true_count"].sum()),
+        "suggestion_false_count": int(data["suggestion_false_count"].sum()),
+        "total_actions_suggested": int(data["total_actions_suggested"].sum()),
+        "avg_actions_per_suggestion": float(data["avg_actions_per_suggestion"].replace({pd.NA: 0}).mean() or 0.0),
+        "suggestion_processing_rate": _safe_ratio(
+            float(data["processed_suggestion_count"].sum()),
+            float(data["suggestion_row_count"].sum()),
+        ),
+    }
+
+    finance_metrics = {
+        "total_finance_requests": int(data["finance_request_count"].sum()),
+        "finance_pending_count": int(data["finance_pending_count"].sum()),
+        "finance_completed_count": int(data["finance_completed_count"].sum()),
+        "finance_cancelled_count": int(data["finance_cancelled_count"].sum()),
+        "finance_executed_count": int(data["finance_executed_count"].sum()),
+        "finance_rejection_event_count": int(data["finance_rejection_event_count"].sum()),
+        "finance_anulation_event_count": int(data["finance_anulation_event_count"].sum()),
+        "anticipo_count": int(data["anticipo_count"].sum()),
+        "gasto_importacion_count": int(data["gasto_importacion_count"].sum()),
+        "finance_execution_rate": _safe_ratio(
+            float(data["finance_executed_count"].sum()),
+            float(data["finance_request_count"].sum()),
+        ),
+    }
+
+    detail_columns = [
+        "po_number",
+        "vendor",
+        "status",
+        "amount_usd",
+        "email_count",
+        "ai_processed_email_count",
+        "suggestion_row_count",
+        "processed_suggestion_count",
+        "finance_request_count",
+        "finance_pending_count",
+        "finance_executed_count",
+        "workflow_stage",
+        "operational_touchpoints",
+    ]
+
+    no_activity = data[data["operational_touchpoints"] <= 0]
+
+    return {
+        "topic": "walle",
+        "overview": overview,
+        "coverage": coverage,
+        "email_metrics": email_metrics,
+        "suggestion_metrics": suggestion_metrics,
+        "finance_metrics": finance_metrics,
+        "workflow_stage_breakdown": _to_records(workflow_stage_breakdown),
+        "top_purchase_orders_by_email_volume": _to_records(
+            data.sort_values(["email_count", "po_number"], ascending=[False, True])[detail_columns].head(10)
+        ),
+        "top_purchase_orders_by_suggestion_volume": _to_records(
+            data.sort_values(["suggestion_row_count", "po_number"], ascending=[False, True])[detail_columns].head(10)
+        ),
+        "top_purchase_orders_with_pending_finance": _to_records(
+            data[data["finance_pending_count"] > 0]
+            .sort_values(["finance_pending_count", "po_number"], ascending=[False, True])[detail_columns]
+            .head(10)
+        ),
+        "top_purchase_orders_with_finance_exceptions": _to_records(
+            data[data["has_finance_exception"]]
+            .sort_values(["finance_rejection_event_count", "finance_anulation_event_count", "po_number"], ascending=[False, False, True])[detail_columns]
+            .head(10)
+        ),
+        "purchase_orders_without_operational_activity": _to_records(
+            no_activity.sort_values(["po_date", "po_number"], ascending=[False, True])[detail_columns].head(10)
+        ),
     }

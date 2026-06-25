@@ -80,8 +80,9 @@ def get_purchase_orders(
             allowed NetSuite PO statuses handled by the use case ("Pending Supervisor Approval","Pending Receipt","Rejected by Supervisor","Partially Received","Pending Billing/Partially Received","Pending Bill","Fully Billed",).
         brand: Partial item-brand filter; optional.
         topic: Analysis perspective; `vendors` for PO-level operational and
-            financial metrics, or `items` for line-level receipt and pending
-            metrics. Defaults to `vendors`.
+            financial metrics, `items` for line-level receipt and pending
+            metrics, or `walle` for PO operational workflow metrics sourced
+            from Walle PostgreSQL tables. Defaults to `vendors`.
 
     Returns:
         Dict[str, Any]: MCP response envelope with summary KPIs, applied filters,

@@ -2,7 +2,11 @@ import unittest
 
 from features.operations.queries.guides import get_helga_guides_query
 from features.operations.queries.otd import get_on_time_delivery
-from features.operations.queries.purchase_orders import get_purchase_orders_query, get_purchase_orders_query_pg
+from features.operations.queries.purchase_orders import (
+    get_purchase_orders_query,
+    get_purchase_orders_query_pg,
+    get_purchase_orders_walle_query_pg,
+)
 from features.operations.queries.walle_usage import (
     get_action_suggestions_query,
     get_analyzed_emails_query,
@@ -95,11 +99,45 @@ class TestQueryParameterization(unittest.TestCase):
         brand = "Brand-X"
         sql, params = get_purchase_orders_query_pg("2026-04-01", "2026-04-30", vendor=vendor, status=status, brand=brand)
 
-        self.assertIn("po.vendor_name ILIKE '%' || %s || '%'", sql)
-        self.assertIn("po.po_status ILIKE '%' || %s || '%'", sql)
-        self.assertIn("i.brand ILIKE '%' || %s || '%'", sql)
-        self.assertEqual(params, ["2026-04-01", "2026-04-30", vendor, status, brand])
+        self.assertIn("po.vendor_name ILIKE %s", sql)
+        self.assertIn("po.po_status = %s", sql)
+        self.assertIn("i.brand ILIKE %s", sql)
+        self.assertEqual(params, ["2026-04-01", "2026-04-30", "%ACME Vendor%", status, "%Brand-X%"])
 
+        self.assertNotIn(vendor, sql)
+        self.assertNotIn(status, sql)
+        self.assertNotIn(brand, sql)
+
+    def test_purchase_orders_walle_query_only_required_filters(self):
+        sql, params = get_purchase_orders_walle_query_pg("2026-04-01", "2026-04-30")
+
+        self.assertIn("WITH po_base AS", sql)
+        self.assertIn("po.po_date BETWEEN %s::date AND %s::date", sql)
+        self.assertIn("po.po_status NOT IN ('Undefined', 'Closed', 'Planned')", sql)
+        self.assertIn("processed_suggestion_count", sql)
+        self.assertNotIn("po.vendor_name ILIKE %s", sql)
+        self.assertNotIn("po.po_status = %s", sql)
+        self.assertNotIn("poi.brand ILIKE %s", sql)
+        self.assertEqual(params, ["2026-04-01", "2026-04-30"])
+
+    def test_purchase_orders_walle_query_dynamic_filters_and_non_interpolated_values(self):
+        vendor = "ACME Vendor"
+        status = "Pending Receipt"
+        brand = "Brand-X"
+
+        sql, params = get_purchase_orders_walle_query_pg(
+            "2026-04-01",
+            "2026-04-30",
+            vendor=vendor,
+            status=status,
+            brand=brand,
+        )
+
+        self.assertIn("po.vendor_name ILIKE %s", sql)
+        self.assertIn("po.po_status = %s", sql)
+        self.assertIn("EXISTS (SELECT 1 FROM ods.walle.purchaseorder_items poi", sql)
+        self.assertIn("poi.brand ILIKE %s", sql)
+        self.assertEqual(params, ["2026-04-01", "2026-04-30", "%ACME Vendor%", status, "%Brand-X%"])
         self.assertNotIn(vendor, sql)
         self.assertNotIn(status, sql)
         self.assertNotIn(brand, sql)
