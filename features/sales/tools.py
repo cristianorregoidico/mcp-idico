@@ -4,7 +4,20 @@ from features.sales.use_cases import activity, bookings, items, opportunities, q
 from utils.date import get_month_start_and_today
 
 
-def get_quotes(initial_date: Optional[str] = None, final_date: Optional[str] = None, inside_sales: Optional[str] = None, customer_name: Optional[str] = "") -> Dict[str, Any]:
+ALLOWED_APPROVAL_STATES = {
+    "unapproved": "Unapproved",
+    "not required": "Not required",
+    "approved": "Approved",
+}
+
+
+def get_quotes(
+    initial_date: Optional[str] = None,
+    final_date: Optional[str] = None,
+    inside_sales: Optional[str] = None,
+    customer_name: Optional[str] = "",
+    approval_state: Optional[str] = None,
+) -> Dict[str, Any]:
     """Retrieve summarized KPIs for quotes for the provided period.
 
     Use this tool when the user asks for quotes, quotes by customer,
@@ -15,6 +28,8 @@ def get_quotes(initial_date: Optional[str] = None, final_date: Optional[str] = N
         final_date: End date in YYYY-MM-DD format; defaults to today.
         inside_sales: Inside Sales rep to filter; optional.
         customer_name: Customer name to filter; optional.
+        approval_state: Approval status filter; optional. Allowed values only:
+            Unapproved, Not required, Approved.
 
     Returns:
         Dict[str, Any]: KPIs per Inside Sales, status mix, win rate,
@@ -25,7 +40,22 @@ def get_quotes(initial_date: Optional[str] = None, final_date: Optional[str] = N
     final_q_date = final_date or today_date
     normalized_inside_sales = "" if not inside_sales else inside_sales.upper()
     normalized_customer_name = customer_name.upper() if customer_name else ""
-    return quotes.execute(start_q_date, final_q_date, normalized_inside_sales, normalized_customer_name)
+    normalized_approval_state = ""
+    if approval_state:
+        approval_state_key = approval_state.strip().lower()
+        normalized_approval_state = ALLOWED_APPROVAL_STATES.get(approval_state_key, "")
+        if not normalized_approval_state:
+            raise ValueError(
+                "Invalid approval_state "
+                f"'{approval_state}'. Allowed values: {list(ALLOWED_APPROVAL_STATES.values())}"
+            )
+    return quotes.execute(
+        start_q_date,
+        final_q_date,
+        normalized_inside_sales,
+        normalized_customer_name,
+        normalized_approval_state,
+    )
 
 
 def get_bookings(

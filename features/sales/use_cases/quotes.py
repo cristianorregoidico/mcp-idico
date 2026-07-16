@@ -8,8 +8,20 @@ from utils.json_df import save_result_to_json
 from utils.transformations import tuple_to_dataframe
 
 
-def execute(initial_date: str, final_date: str, inside_sales: str, customer_name: str) -> Dict[str, Any]:
-    sql, params = get_quotes_by_inside(initial_date, final_date, inside_sales, customer_name)
+def execute(
+    initial_date: str,
+    final_date: str,
+    inside_sales: str,
+    customer_name: str,
+    approval_state: str,
+) -> Dict[str, Any]:
+    sql, params = get_quotes_by_inside(
+        initial_date,
+        final_date,
+        inside_sales,
+        customer_name,
+        approval_state,
+    )
     conn = NetSuiteConnection()
     with conn.managed() as ns:
         columns, rows = ns.execute_query(sql, params)
@@ -33,6 +45,7 @@ def execute(initial_date: str, final_date: str, inside_sales: str, customer_name
             "final_date": final_date,
             "inside_sales": inside_sales or None,
             "customer_name": customer_name or None,
+            "approval_state": approval_state or None,
         },
         source_systems=["netsuite"],
         columns=columns,

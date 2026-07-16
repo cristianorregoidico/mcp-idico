@@ -25,12 +25,28 @@ from features.sales.queries.vendor_recommendation import (
 
 class TestQueryParameterization(unittest.TestCase):
     def test_netsuite_quotes_without_optional_filters(self):
-        sql, params = get_quotes_by_inside("2026-01-01", "2026-01-31", "", "")
+        sql, params = get_quotes_by_inside("2026-01-01", "2026-01-31", "", "", "")
 
         self.assertIn("BETWEEN ? AND ?", sql)
+        self.assertIn("b.custbody_evol_only_budget AS only_budget", sql)
+        self.assertIn("BUILTIN.DF(b.custbody_approval_state) AS approval_state", sql)
+        self.assertIn("BUILTIN.DF(b.custbody130) AS idico_vendor", sql)
         self.assertNotIn("customer_name", sql)
         self.assertNotIn("inside_sales", sql)
+        self.assertNotIn("custbody_approval_state) = ?", sql)
         self.assertEqual(params, ["2026-01-01", "2026-01-31"])
+
+    def test_netsuite_quotes_with_approval_state_filter(self):
+        sql, params = get_quotes_by_inside(
+            "2026-01-01",
+            "2026-01-31",
+            "",
+            "",
+            "Approved",
+        )
+
+        self.assertIn("BUILTIN.DF(b.custbody_approval_state) = ?", sql)
+        self.assertEqual(params, ["2026-01-01", "2026-01-31", "Approved"])
 
     def test_postgres_guides_default_status_behavior_preserved(self):
         sql, params = get_helga_guides_query(po=None, status=None, service=None)

@@ -4,13 +4,42 @@ import numpy as np
 
 def general_summary_is_q_so(df: pd.DataFrame) -> Dict[str, Any]:
     """Generate a general summary from IS quotes or sales orders DataFrame."""
+    df = df.copy()
     df["CreateDate"] = pd.to_datetime(df["CreateDate"])
+    if "only_budget" in df.columns:
+        df["only_budget"] = df["only_budget"].map({"T": True, "F": False})
+        df["only_budget"] = df["only_budget"].fillna(False).astype(bool)
+    if "approval_state" in df.columns:
+        df["approval_state"] = df["approval_state"].fillna("Unknown").astype(str)
+    if "idico_vendor" in df.columns:
+        df["idico_vendor"] = df["idico_vendor"].fillna("Unknown").astype(str)
+
+    transaction_column = "QuoteNumber" if "QuoteNumber" in df.columns else "SO"
+    total_transactions = int(df[transaction_column].nunique())
+
+    only_budget_quotes_count = 0
+    only_budget_quotes_share = 0.0
+    only_budget_amount = 0.0
+
+    if "only_budget" in df.columns and transaction_column == "QuoteNumber":
+        only_budget_df = df[df["only_budget"]].copy()
+        only_budget_quotes_count = int(only_budget_df["QuoteNumber"].nunique())
+        only_budget_quotes_share = (
+            only_budget_quotes_count / total_transactions
+            if total_transactions > 0
+            else 0.0
+        )
+        only_budget_amount = float(only_budget_df["Amount"].sum())
+
     general_total = {
         "total_amount": float(df["Amount"].sum()),
-        "total_transactions": int(df["QuoteNumber"].nunique() if "QuoteNumber" in df else df["SO"].nunique()),
+        "total_transactions": total_transactions,
         "total_customers": int(df["Customer"].nunique()),
         "start_date": str(df["CreateDate"].min().date()),
         "end_date": str(df["CreateDate"].max().date()),
+        "only_budget_quotes_count": only_budget_quotes_count,
+        "only_budget_quotes_share": only_budget_quotes_share,
+        "only_budget_amount": only_budget_amount,
     }
     
     df["period"] = df["CreateDate"].dt.to_period("M").astype(str)
@@ -19,7 +48,7 @@ def general_summary_is_q_so(df: pd.DataFrame) -> Dict[str, Any]:
         df.groupby("period", as_index=False)
         .agg(
             total_amount=("Amount", "sum"),
-            total_transactions=("QuoteNumber", "nunique") if "QuoteNumber" in df else ("SO", "nunique"),
+            total_transactions=(transaction_column, "nunique"),
             total_customers=("Customer", "nunique"),
         )
     )
@@ -43,7 +72,7 @@ def general_summary_is_q_so(df: pd.DataFrame) -> Dict[str, Any]:
         df.groupby("CreateDate", as_index=False)
         .agg(
             total_amount=("Amount", "sum"),
-            total_transactions=("QuoteNumber", "nunique") if "QuoteNumber" in df else ("SO", "nunique")
+            total_transactions=(transaction_column, "nunique")
         )
     )
 
@@ -69,6 +98,10 @@ def summarize_is_quotes(df: pd.DataFrame) -> Dict[str, Any]:
         df["GrossMargin"] = pd.to_numeric(df["GrossMargin"], errors="coerce")
     if "GrossMarginPct" in df.columns:
         df["GrossMarginPct"] = pd.to_numeric(df["GrossMarginPct"], errors="coerce")
+    if "approval_state" in df.columns:
+        df["approval_state"] = df["approval_state"].fillna("Unknown").astype(str)
+    if "idico_vendor" in df.columns:
+        df["idico_vendor"] = df["idico_vendor"].fillna("Unknown").astype(str)
 
     # 01. KPI by Inside Sale
     kpi_by_inside = (
@@ -260,8 +293,58 @@ def summarize_is_quotes(df: pd.DataFrame) -> Dict[str, Any]:
                 "inside_sale_distribution": inside_distribution,
             })
 
+    approval_state_distribution = []
+    if {"approval_state", "QuoteNumber", "Amount"}.issubset(df.columns):
+        approval_state_base = (
+            df.groupby("approval_state", as_index=False)
+            .agg(
+                quotes_count=("QuoteNumber", "nunique"),
+                total_amount=("Amount", "sum"),
+            )
+            .sort_values(["quotes_count", "total_amount"], ascending=[False, False])
+        )
+
+        total_quotes = int(df["QuoteNumber"].nunique())
+        approval_state_distribution = [
+            {
+                "approval_state": row["approval_state"],
+                "quotes_count": int(row["quotes_count"]),
+                "quotes_share": (
+                    float(row["quotes_count"]) / total_quotes if total_quotes > 0 else 0.0
+                ),
+                "total_amount": float(row["total_amount"]),
+            }
+            for _, row in approval_state_base.iterrows()
+        ]
+
+    idico_vendor_distribution = []
+    if {"idico_vendor", "QuoteNumber", "Amount"}.issubset(df.columns):
+        idico_vendor_base = (
+            df.groupby("idico_vendor", as_index=False)
+            .agg(
+                quotes_count=("QuoteNumber", "nunique"),
+                total_amount=("Amount", "sum"),
+            )
+            .sort_values(["quotes_count", "total_amount"], ascending=[False, False])
+        )
+
+        total_quotes = int(df["QuoteNumber"].nunique())
+        idico_vendor_distribution = [
+            {
+                "idico_vendor": row["idico_vendor"],
+                "quotes_count": int(row["quotes_count"]),
+                "quotes_share": (
+                    float(row["quotes_count"]) / total_quotes if total_quotes > 0 else 0.0
+                ),
+                "total_amount": float(row["total_amount"]),
+            }
+            for _, row in idico_vendor_base.iterrows()
+        ]
+
     # General summary (tu función existente)
     general_summary = general_summary_is_q_so(df)
+    general_summary["approval_state_distribution"] = approval_state_distribution
+    general_summary["idico_vendor_distribution"] = idico_vendor_distribution
 
     return {
         "overview": general_summary,
